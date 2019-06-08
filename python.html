@@ -1,0 +1,532 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Python API &mdash; EOS 0.2.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> EOS
+          
+
+          
+            
+            <img src="_static/eos-logo-160x90.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use-cases.html">Use Cases</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">EOS</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Python API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="python-api">
+<h1>Python API<a class="headerlink" href="#python-api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-eos">
+<h2>Module <code class="docutils literal notranslate"><span class="pre">eos</span></code><a class="headerlink" href="#module-eos" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="eos.Analysis">
+<em class="property">class </em><code class="sig-prename descclassname">eos.</code><code class="sig-name descname">Analysis</code><span class="sig-paren">(</span><em class="sig-param">priors</em>, <em class="sig-param">likelihood</em>, <em class="sig-param">global_options=None</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a statistical analysis.</p>
+<p>Describes a Bayesian analysis in terms of a set of parameters, a log(likelihood),
+and a set containing one or more log(prior)s.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>global_options</strong> (<em>dict</em><em>, </em><em>optional</em>) – The options as (key, value) pairs that shall be forwarded to all theory predictions.</p></li>
+<li><p><strong>priors</strong> (<em>iterable</em>) – The priors for this analysis as a list of prior descriptions. See :ref priors: for what consitutes a valid prior description.</p></li>
+<li><p><strong>likelihood</strong> (<em>iterable</em>) – The likelihood as a list of individual constraints from the internal data base of experimental and theoretical constraints. See :ref constraints: for a complete list of constraints.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="eos.Analysis.goodness_of_fit">
+<code class="sig-name descname">goodness_of_fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.goodness_of_fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a goodness-of-fit summary for the current parameter point.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="eos.Analysis.log_pdf">
+<code class="sig-name descname">log_pdf</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">*args</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.log_pdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adapter for use with external optimization software (e.g. pypmc) to aid when optimizing the log(posterior).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>iterable</em>) – Parameter point, with the elements in the same order as in eos.Analysis.varied_parameters.</p></li>
+<li><p><strong>args</strong> (<em>optional</em>) – Dummy parameter (ignored)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="eos.Analysis.negative_log_pdf">
+<code class="sig-name descname">negative_log_pdf</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">*args</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.negative_log_pdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adapter for use with external optimization software (e.g. scipy.optimize.minimize) to aid when optimizing the log(posterior).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>iterable</em>) – Parameter point, with the elements in the same order as in eos.Analysis.varied_parameters.</p></li>
+<li><p><strong>args</strong> (<em>optional</em>) – Dummy parameter (ignored)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="eos.Analysis.optimize">
+<code class="sig-name descname">optimize</code><span class="sig-paren">(</span><em class="sig-param">start_point=None</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.optimize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optimize the log(posterior) and returns a best-fit-point summary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start_point</strong> – Parameter point from which to start the optimization, with the elements in the same order as in eos.Analysis.varied_parameters. If not specified, optimization starts at the current parameter point.</p></li>
+<li><p><strong>start_point</strong> – iterable, optional</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="eos.BestFitPoint">
+<em class="property">class </em><code class="sig-prename descclassname">eos.</code><code class="sig-name descname">BestFitPoint</code><span class="sig-paren">(</span><em class="sig-param">analysis</em>, <em class="sig-param">point</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.BestFitPoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents the best-fit point of a Bayesian analysis undertaken with the eos.Analysis class.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="eos.GoodnessOfFit">
+<em class="property">class </em><code class="sig-prename descclassname">eos.</code><code class="sig-name descname">GoodnessOfFit</code><a class="headerlink" href="#eos.GoodnessOfFit" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="eos.GoodnessOfFit.total_chi_square">
+<code class="sig-name descname">total_chi_square</code><span class="sig-paren">(</span><em class="sig-param">(GoodnessOfFit)arg1</em><span class="sig-paren">)</span> &#x2192; float :<a class="headerlink" href="#eos.GoodnessOfFit.total_chi_square" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>C++ signature :</dt><dd><p>double total_chi_square(eos::GoodnessOfFit {lvalue})</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="eos.GoodnessOfFit.total_degrees_of_freedom">
+<code class="sig-name descname">total_degrees_of_freedom</code><span class="sig-paren">(</span><em class="sig-param">(GoodnessOfFit)arg1</em><span class="sig-paren">)</span> &#x2192; int :<a class="headerlink" href="#eos.GoodnessOfFit.total_degrees_of_freedom" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>C++ signature :</dt><dd><p>int total_degrees_of_freedom(eos::GoodnessOfFit {lvalue})</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="eos.Observable">
+<em class="property">class </em><code class="sig-prename descclassname">eos.</code><code class="sig-name descname">Observable</code><a class="headerlink" href="#eos.Observable" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="eos.Observable.evaluate">
+<code class="sig-name descname">evaluate</code><span class="sig-paren">(</span><em class="sig-param">(Observable)arg1</em><span class="sig-paren">)</span> &#x2192; float :<a class="headerlink" href="#eos.Observable.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>C++ signature :</dt><dd><p>double evaluate(eos::Observable {lvalue})</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="eos.Observable.make">
+<em class="property">static </em><code class="sig-name descname">make</code><span class="sig-paren">(</span><em class="sig-param">(QualifiedName)arg1</em>, <em class="sig-param">(_Parameters)arg2</em>, <em class="sig-param">(Kinematics)arg3</em>, <em class="sig-param">(Options)arg4</em><span class="sig-paren">)</span> &#x2192; Observable :<a class="headerlink" href="#eos.Observable.make" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>C++ signature :</dt><dd><p>std::shared_ptr&lt;eos::Observable&gt; make(eos::QualifiedName,eos::Parameters,eos::Kinematics,eos::Options)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="eos.Observable.name">
+<code class="sig-name descname">name</code><span class="sig-paren">(</span><em class="sig-param">(Observable)arg1</em><span class="sig-paren">)</span> &#x2192; QualifiedName :<a class="headerlink" href="#eos.Observable.name" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>C++ signature :</dt><dd><p>eos::QualifiedName name(eos::Observable {lvalue})</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="eos.Observable.options">
+<code class="sig-name descname">options</code><span class="sig-paren">(</span><em class="sig-param">(Observable)arg1</em><span class="sig-paren">)</span> &#x2192; Options :<a class="headerlink" href="#eos.Observable.options" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>C++ signature :</dt><dd><p>eos::Options options(eos::Observable {lvalue})</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="eos.Observables">
+<em class="property">class </em><code class="sig-prename descclassname">eos.</code><code class="sig-name descname">Observables</code><span class="sig-paren">(</span><em class="sig-param">prefix=None</em>, <em class="sig-param">name=None</em>, <em class="sig-param">suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Observables" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="eos.QualifiedName">
+<em class="property">class </em><code class="sig-prename descclassname">eos.</code><code class="sig-name descname">QualifiedName</code><a class="headerlink" href="#eos.QualifiedName" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="eos.QualifiedName.name_part">
+<code class="sig-name descname">name_part</code><span class="sig-paren">(</span><em class="sig-param">(QualifiedName)arg1</em><span class="sig-paren">)</span> &#x2192; qnpName :<a class="headerlink" href="#eos.QualifiedName.name_part" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>C++ signature :</dt><dd><p>eos::qnp::Name name_part(eos::QualifiedName {lvalue})</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="eos.QualifiedName.prefix_part">
+<code class="sig-name descname">prefix_part</code><span class="sig-paren">(</span><em class="sig-param">(QualifiedName)arg1</em><span class="sig-paren">)</span> &#x2192; qnpPrefix :<a class="headerlink" href="#eos.QualifiedName.prefix_part" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>C++ signature :</dt><dd><p>eos::qnp::Prefix prefix_part(eos::QualifiedName {lvalue})</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="eos.QualifiedName.suffix_part">
+<code class="sig-name descname">suffix_part</code><span class="sig-paren">(</span><em class="sig-param">(QualifiedName)arg1</em><span class="sig-paren">)</span> &#x2192; qnpSuffix :<a class="headerlink" href="#eos.QualifiedName.suffix_part" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>C++ signature :</dt><dd><p>eos::qnp::Suffix suffix_part(eos::QualifiedName {lvalue})</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-eos-plot">
+<h2>Module <code class="docutils literal notranslate"><span class="pre">eos.plot</span></code><a class="headerlink" href="#module-eos-plot" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="eos.plot.Plotter">
+<em class="property">class </em><code class="sig-prename descclassname">eos.plot.</code><code class="sig-name descname">Plotter</code><span class="sig-paren">(</span><em class="sig-param">instructions</em>, <em class="sig-param">output=None</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="class">
+<dt id="eos.plot.Plotter.BasePlot">
+<em class="property">class </em><code class="sig-name descname">BasePlot</code><span class="sig-paren">(</span><em class="sig-param">plotter</em>, <em class="sig-param">item</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.BasePlot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="eos.plot.Plotter.Constraint">
+<em class="property">class </em><code class="sig-name descname">Constraint</code><span class="sig-paren">(</span><em class="sig-param">plotter</em>, <em class="sig-param">item</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Constraint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">eos.plot.plotter.BasePlot</span></code></p>
+<dl class="method">
+<dt id="eos.plot.Plotter.Constraint.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Constraint.plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="eos.plot.Plotter.Contours2D">
+<em class="property">class </em><code class="sig-name descname">Contours2D</code><span class="sig-paren">(</span><em class="sig-param">plotter</em>, <em class="sig-param">item</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Contours2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">eos.plot.plotter.BasePlot</span></code></p>
+<dl class="method">
+<dt id="eos.plot.Plotter.Contours2D.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Contours2D.plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="eos.plot.Plotter.Expression">
+<em class="property">class </em><code class="sig-name descname">Expression</code><span class="sig-paren">(</span><em class="sig-param">plotter</em>, <em class="sig-param">item</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Expression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">eos.plot.plotter.BasePlot</span></code></p>
+<dl class="method">
+<dt id="eos.plot.Plotter.Expression.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Expression.plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="eos.plot.Plotter.Histogram1D">
+<em class="property">class </em><code class="sig-name descname">Histogram1D</code><span class="sig-paren">(</span><em class="sig-param">plotter</em>, <em class="sig-param">item</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Histogram1D" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">eos.plot.plotter.BasePlot</span></code></p>
+<dl class="method">
+<dt id="eos.plot.Plotter.Histogram1D.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Histogram1D.plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="eos.plot.Plotter.Histogram2D">
+<em class="property">class </em><code class="sig-name descname">Histogram2D</code><span class="sig-paren">(</span><em class="sig-param">plotter</em>, <em class="sig-param">item</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Histogram2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">eos.plot.plotter.BasePlot</span></code></p>
+<dl class="method">
+<dt id="eos.plot.Plotter.Histogram2D.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Histogram2D.plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="eos.plot.Plotter.KernelDensityEstimate1D">
+<em class="property">class </em><code class="sig-name descname">KernelDensityEstimate1D</code><span class="sig-paren">(</span><em class="sig-param">plotter</em>, <em class="sig-param">item</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.KernelDensityEstimate1D" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">eos.plot.plotter.BasePlot</span></code></p>
+<dl class="method">
+<dt id="eos.plot.Plotter.KernelDensityEstimate1D.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.KernelDensityEstimate1D.plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="eos.plot.Plotter.KernelDensityEstimate2D">
+<em class="property">class </em><code class="sig-name descname">KernelDensityEstimate2D</code><span class="sig-paren">(</span><em class="sig-param">plotter</em>, <em class="sig-param">item</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.KernelDensityEstimate2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">eos.plot.plotter.BasePlot</span></code></p>
+<dl class="method">
+<dt id="eos.plot.Plotter.KernelDensityEstimate2D.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.KernelDensityEstimate2D.plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="eos.plot.Plotter.Observable">
+<em class="property">class </em><code class="sig-name descname">Observable</code><span class="sig-paren">(</span><em class="sig-param">plotter</em>, <em class="sig-param">item</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Observable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">eos.plot.plotter.BasePlot</span></code></p>
+<dl class="method">
+<dt id="eos.plot.Plotter.Observable.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Observable.plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="eos.plot.Plotter.Uncertainty">
+<em class="property">class </em><code class="sig-name descname">Uncertainty</code><span class="sig-paren">(</span><em class="sig-param">plotter</em>, <em class="sig-param">item</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Uncertainty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">eos.plot.plotter.BasePlot</span></code></p>
+<dl class="method">
+<dt id="eos.plot.Plotter.Uncertainty.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Uncertainty.plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="eos.plot.Plotter.UncertaintyBinned">
+<em class="property">class </em><code class="sig-name descname">UncertaintyBinned</code><span class="sig-paren">(</span><em class="sig-param">plotter</em>, <em class="sig-param">item</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.UncertaintyBinned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">eos.plot.plotter.BasePlot</span></code></p>
+<dl class="method">
+<dt id="eos.plot.Plotter.UncertaintyBinned.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.UncertaintyBinned.plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="eos.plot.Plotter.Watermark">
+<em class="property">class </em><code class="sig-name descname">Watermark</code><span class="sig-paren">(</span><em class="sig-param">plotter</em>, <em class="sig-param">item</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Watermark" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">eos.plot.plotter.BasePlot</span></code></p>
+<dl class="method">
+<dt id="eos.plot.Plotter.Watermark.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Watermark.plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="method">
+<dt id="eos.plot.Plotter.next_color">
+<em class="property">property </em><code class="sig-name descname">next_color</code><a class="headerlink" href="#eos.plot.Plotter.next_color" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="eos.plot.Plotter.next_z_order">
+<em class="property">property </em><code class="sig-name descname">next_z_order</code><a class="headerlink" href="#eos.plot.Plotter.next_z_order" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="eos.plot.Plotter.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="eos.plot.Plotter.plot_contents">
+<code class="sig-name descname">plot_contents</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.plot_contents" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="eos.plot.Plotter.setup_plot">
+<code class="sig-name descname">setup_plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.setup_plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Danny van Dyk and others
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

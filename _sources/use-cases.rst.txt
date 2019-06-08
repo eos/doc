@@ -1,0 +1,199 @@
+#########
+Use Cases
+#########
+
+
+******************************************
+Theory Predictions and their Uncertainties
+******************************************
+
+EOS can produce theory predictions for any of its built-in observables.
+
+
+Listing the built-in Observables
+================================
+
+The full list of built-in observables for your installed version of EOS can be readily obtained.
+In a Jupyter notebook, run
+
+.. code-block::
+
+  import eos
+  display(eos.Observables())
+
+Searching for a specific observable is possible filtering by the observable name's `prefix`, `name`, or `suffix`, e.g.:
+
+.. code-block::
+
+  display(eos.Observables(name='A_FB'))
+  display(eos.Observables(prefix='B->pi'))
+  display(eos.Observables(suffix='Untagged'))
+
+The full list of built-in observables for the current EOS release is available online `here <https://eos.github.io/doc/observables>`_.
+
+
+Constructing and Evaluating an Observable
+=========================================
+
+In order to create any observable, EOS requires its full name, its parameters, its kinematics, and its options.
+As an example, we will use the integrated branching ratio of :math:`\bar{B}\to D\ell^-\bar\nu`,
+which is represented by the :class:`QualifiedName <eos.QualifiedName>` ``B->Dlnu::BR``.
+Additional information about any given observable can be obtained by displaying the full database entry,
+which also contains information about the kinematic variables required:
+
+.. code-block::
+
+  display(eos.Observables()['B->pilnu::BR'])
+
+which outputs the following table:
+
+.. list-table::
+   :widths: 25, 25
+
+   * - Qualified Name
+     - ``B->Dlnu::BR``
+   * - Description
+     - :math:`\mathcal{B}(\bar{B}\to D\ell^-\bar\nu)`
+   * - Kinematic Variable
+     - ``q2_min``, ``q2_max``
+
+From this we understand that ``B->Dlnu::BR`` expects two kinematic variables,
+corresponding here to the lower and upper integration boundaries of the dilepton invariant mass :math:`q^2`.
+
+To create an :class:`Obervable <eos.Observable>` object with the default set of parameters and options through:
+.. code-block::
+
+  params = eos.Parameters.Defaults()
+  kinematics = eos.Kinematics(q2_min=0.02, q2_max=10)
+  obs = eos.Observable.make('B->Dlnu::BR', params, kinematics, eos.Options())
+  display(obs)
+
+The default options select a spectator :math:`\ell=\mu` yielding a value of :math:`2.3\%`,
+which is compatible with the current world average for the :math:`\bar{B}^-\to D^0\mu^-\bar\nu` branching ratio.
+
+.. code-block::
+
+  parameters = eos.Parameters.Defaults()
+  kinematics = eos.Kinematics(q2_min=3.17, q2_max=11.60)
+  obs = eos.Observable.make('B->Dlnu::BR', parameters, kinematics, eos.Options(l='tau'))
+  display(obs)
+
+By setting the ``l`` option to the value ``'tau'``, we have create a different observable representing the :math:`\bar{B}^-\to D^0\tau^-\bar\nu` branching ratio.
+The new observable yields a value of :math:`0.69\%`,
+which is compatible with the current world average for the :math:`\bar{B}^-\to D^0\mu^-\bar\nu` branching ratio.
+
+So far we evaluated the integrated branching ratio. EOS also provides the corresponding differential branching ratio as a function of :math:`q^2`.
+It is accessible through the name ``B->Dlnu::dBR/dq2``. To illustrate it, we use EOS's plot functions:
+
+.. code-block::
+
+  plot_args = {
+      'plot': {
+          'x': { 'label': r'$q^2$', 'unit': r'$\textnormal{GeV}^2$', 'range': [0.0, 11.60] },
+          'y': { 'label': r'$\mathcal{B}$',                          'range': [0.0,  5e-3] },
+          'legend': { 'location': 'upper center' }
+      },
+      'contents': [
+          {
+              'label': r'$\ell=\mu$',
+              'type': 'observable',
+              'observable': 'B->Dlnu::dBR/dq2;l=mu',
+              'kinematic': 'q2',
+              'range': [0.02, 11.60],
+          },
+          {
+              'label': r'$\ell=\tau$',
+              'type': 'observable',
+              'observable': 'B->Dlnu::dBR/dq2;l=tau',
+              'kinematic': 'q2',
+              'range': [3.17, 11.60],
+          }
+      ]
+  }
+  eos.plot.Plotter(plot_args).plot()
+
+which yields:
+
+.. image:: /images/use-cases_plot-example.png
+   :width: 600
+
+
+Estimating Theoretical Uncertainties
+====================================
+
+.. code-block::
+
+  analysis_args = {
+      'global_options': None,
+      'priors': [
+          { 'parameter': 'B->D::alpha^f+_0@BSZ2015', 'min':  0.0, 'max':  1.0, 'type': 'uniform' },
+          { 'parameter': 'B->D::alpha^f+_1@BSZ2015', 'min': -5.0, 'max': +5.0, 'type': 'uniform' },
+          { 'parameter': 'B->D::alpha^f+_2@BSZ2015', 'min': -5.0, 'max': +5.0, 'type': 'uniform' },
+          { 'parameter': 'B->D::alpha^f0_1@BSZ2015', 'min': -5.0, 'max': +5.0, 'type': 'uniform' },
+          { 'parameter': 'B->D::alpha^f0_2@BSZ2015', 'min': -5.0, 'max': +5.0, 'type': 'uniform' }
+      ],
+      'likelihood': [
+          'B->D::f_++f_0@HPQCD2015A'
+      ]
+  }
+  analysis = eos.Analysis(**analysis_args)
+  obs_mu  = eos.Observable.make(
+      'B->Dlnu::BR',
+      analysis.parameters,
+      eos.Kinematics(q2_min=0.02, q2_max=11.60),
+      eos.Options(**{'l':'mu', 'form-factors':'BSZ2015'})
+  )
+  obs_tau = eos.Observable.make(
+      'B->Dlnu::BR',
+      analysis.parameters,
+      eos.Kinematics(q2_min=3.17, q2_max=11.60),
+      eos.Options(**{'l':'tau','form-factors':'BSZ2015'})
+  )
+  obs_R_D = eos.Observable.make(
+      'B->Dlnu::R_D',
+      analysis.parameters,
+      eos.Kinematics(q2_min_mu=0.02, q2_min_tau=3.17, q2_max_mu=11.60, q2_max_tau=11.60),
+      eos.Options(**{'form-factors':'BSZ2015'})
+  )
+  observables=(obs_mu, obs_tau, obs_R_D)
+
+.. image:: /images/use-cases_hist-b-to-d-l-nu.png
+   :width: 600
+
+.. code-block::
+
+  import matplotlib.pyplot as plt
+  _, _, plot = plt.hist([o[1] / o[0] for o in observable_samples[:]], weights=weights, bins=20, color='C2')
+  _, _, plot = plt.hist(observable_samples[:,2], histtype='step',     weights=weights, bins=20, color='C3', lw=3)
+  plt.show()
+  print('{obs}: {mean:.4f} +/- {std:.4f}'.format(
+      obs='R_D (manually)',
+      mean=np.average([o[1] / o[0] for o in observable_samples[:]], weights=weights),
+      std=np.sqrt(np.var([o[1] / o[0] for o in observable_samples[:]]))
+  ))
+  print('{obs}: {mean:.4f} +/- {std:.4f}'.format(
+      obs=obs_R_D.name(),
+      mean=np.average(observable_samples[:,2], weights=weights),
+      std=np.sqrt(np.var(observable_samples[:, 2]))
+  ))
+
+.. image:: /images/use-cases_hist-r-d.png
+   :width: 600
+
+
+*******************
+Parameter Inference
+*******************
+
+.. todo::
+
+  Write section on parameter inference
+
+
+**************************
+Production of Peudo Events
+**************************
+
+.. todo::
+
+  Write section on production of pseudo events

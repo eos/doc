@@ -1,0 +1,388 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Use Cases &mdash; EOS 0.2.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Python API" href="api/python.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> EOS
+          
+
+          
+            
+            <img src="_static/eos-logo-160x90.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Use Cases</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#theory-predictions-and-their-uncertainties">Theory Predictions and their Uncertainties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#listing-the-built-in-observables">Listing the built-in Observables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#constructing-and-evaluating-an-observable">Constructing and Evaluating an Observable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#estimating-theoretical-uncertainties">Estimating Theoretical Uncertainties</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#parameter-inference">Parameter Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#production-of-peudo-events">Production of Peudo Events</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/python.html">Python API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">EOS</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Use Cases</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="use-cases">
+<h1>Use Cases<a class="headerlink" href="#use-cases" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="theory-predictions-and-their-uncertainties">
+<h2>Theory Predictions and their Uncertainties<a class="headerlink" href="#theory-predictions-and-their-uncertainties" title="Permalink to this headline">¶</a></h2>
+<p>EOS can produce theory predictions for any of its built-in observables.</p>
+<div class="section" id="listing-the-built-in-observables">
+<h3>Listing the built-in Observables<a class="headerlink" href="#listing-the-built-in-observables" title="Permalink to this headline">¶</a></h3>
+<p>The full list of built-in observables for your installed version of EOS can be readily obtained.
+In a Jupyter notebook, run</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">eos</span>
+<span class="n">display</span><span class="p">(</span><span class="n">eos</span><span class="o">.</span><span class="n">Observables</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Searching for a specific observable is possible filtering by the observable name’s <cite>prefix</cite>, <cite>name</cite>, or <cite>suffix</cite>, e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">eos</span><span class="o">.</span><span class="n">Observables</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;A_FB&#39;</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">eos</span><span class="o">.</span><span class="n">Observables</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;B-&gt;pi&#39;</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">eos</span><span class="o">.</span><span class="n">Observables</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;Untagged&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The full list of built-in observables for the current EOS release is available online <a class="reference external" href="https://eos.github.io/doc/observables">here</a>.</p>
+</div>
+<div class="section" id="constructing-and-evaluating-an-observable">
+<h3>Constructing and Evaluating an Observable<a class="headerlink" href="#constructing-and-evaluating-an-observable" title="Permalink to this headline">¶</a></h3>
+<p>In order to create any observable, EOS requires its full name, its parameters, its kinematics, and its options.
+As an example, we will use the integrated branching ratio of <span class="math notranslate nohighlight">\(\bar{B}\to D\ell^-\bar\nu\)</span>,
+which is represented by the <a class="reference internal" href="api/python.html#eos.QualifiedName" title="eos.QualifiedName"><code class="xref py py-class docutils literal notranslate"><span class="pre">QualifiedName</span></code></a> <code class="docutils literal notranslate"><span class="pre">B-&gt;Dlnu::BR</span></code>.
+Additional information about any given observable can be obtained by displaying the full database entry,
+which also contains information about the kinematic variables required:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">eos</span><span class="o">.</span><span class="n">Observables</span><span class="p">()[</span><span class="s1">&#39;B-&gt;pilnu::BR&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>which outputs the following table:</p>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Qualified Name</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">B-&gt;Dlnu::BR</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Description</p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathcal{B}(\bar{B}\to D\ell^-\bar\nu)\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Kinematic Variable</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">q2_min</span></code>, <code class="docutils literal notranslate"><span class="pre">q2_max</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>From this we understand that <code class="docutils literal notranslate"><span class="pre">B-&gt;Dlnu::BR</span></code> expects two kinematic variables,
+corresponding here to the lower and upper integration boundaries of the dilepton invariant mass <span class="math notranslate nohighlight">\(q^2\)</span>.</p>
+<p>To create an <a class="reference internal" href="api/python.html#eos.Observable" title="eos.Observable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Obervable</span></code></a> object with the default set of parameters and options through:
+.. code-block:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">Defaults</span><span class="p">()</span>
+<span class="n">kinematics</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2_min</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">q2_max</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">obs</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;B-&gt;Dlnu::BR&#39;</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">kinematics</span><span class="p">,</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">())</span>
+<span class="n">display</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The default options select a spectator <span class="math notranslate nohighlight">\(\ell=\mu\)</span> yielding a value of <span class="math notranslate nohighlight">\(2.3\%\)</span>,
+which is compatible with the current world average for the <span class="math notranslate nohighlight">\(\bar{B}^-\to D^0\mu^-\bar\nu\)</span> branching ratio.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">Defaults</span><span class="p">()</span>
+<span class="n">kinematics</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2_min</span><span class="o">=</span><span class="mf">3.17</span><span class="p">,</span> <span class="n">q2_max</span><span class="o">=</span><span class="mf">11.60</span><span class="p">)</span>
+<span class="n">obs</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;B-&gt;Dlnu::BR&#39;</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">kinematics</span><span class="p">,</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="s1">&#39;tau&#39;</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>By setting the <code class="docutils literal notranslate"><span class="pre">l</span></code> option to the value <code class="docutils literal notranslate"><span class="pre">'tau'</span></code>, we have create a different observable representing the <span class="math notranslate nohighlight">\(\bar{B}^-\to D^0\tau^-\bar\nu\)</span> branching ratio.
+The new observable yields a value of <span class="math notranslate nohighlight">\(0.69\%\)</span>,
+which is compatible with the current world average for the <span class="math notranslate nohighlight">\(\bar{B}^-\to D^0\mu^-\bar\nu\)</span> branching ratio.</p>
+<p>So far we evaluated the integrated branching ratio. EOS also provides the corresponding differential branching ratio as a function of <span class="math notranslate nohighlight">\(q^2\)</span>.
+It is accessible through the name <code class="docutils literal notranslate"><span class="pre">B-&gt;Dlnu::dBR/dq2</span></code>. To illustrate it, we use EOS’s plot functions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$q^2$&#39;</span><span class="p">,</span> <span class="s1">&#39;unit&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$\textnormal</span><span class="si">{GeV}</span><span class="s1">^2$&#39;</span><span class="p">,</span> <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">11.60</span><span class="p">]</span> <span class="p">},</span>
+        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$\mathcal</span><span class="si">{B}</span><span class="s1">$&#39;</span><span class="p">,</span>                          <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span>  <span class="mf">5e-3</span><span class="p">]</span> <span class="p">},</span>
+        <span class="s1">&#39;legend&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="s1">&#39;upper center&#39;</span> <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$\ell=\mu$&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;observable&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;observable&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;Dlnu::dBR/dq2;l=mu&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;kinematic&#39;</span><span class="p">:</span> <span class="s1">&#39;q2&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">11.60</span><span class="p">],</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$\ell=\tau$&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;observable&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;observable&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;Dlnu::dBR/dq2;l=tau&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;kinematic&#39;</span><span class="p">:</span> <span class="s1">&#39;q2&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">3.17</span><span class="p">,</span> <span class="mf">11.60</span><span class="p">],</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="n">eos</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">plot_args</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>which yields:</p>
+<a class="reference internal image-reference" href="_images/use-cases_plot-example.png"><img alt="_images/use-cases_plot-example.png" src="_images/use-cases_plot-example.png" style="width: 600px;" /></a>
+</div>
+<div class="section" id="estimating-theoretical-uncertainties">
+<h3>Estimating Theoretical Uncertainties<a class="headerlink" href="#estimating-theoretical-uncertainties" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">analysis_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;global_options&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">&#39;priors&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span> <span class="s1">&#39;parameter&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;D::alpha^f+_0@BSZ2015&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">:</span>  <span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">:</span>  <span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uniform&#39;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="s1">&#39;parameter&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;D::alpha^f+_1@BSZ2015&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">5.0</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="o">+</span><span class="mf">5.0</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uniform&#39;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="s1">&#39;parameter&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;D::alpha^f+_2@BSZ2015&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">5.0</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="o">+</span><span class="mf">5.0</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uniform&#39;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="s1">&#39;parameter&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;D::alpha^f0_1@BSZ2015&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">5.0</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="o">+</span><span class="mf">5.0</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uniform&#39;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="s1">&#39;parameter&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;D::alpha^f0_2@BSZ2015&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">5.0</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="o">+</span><span class="mf">5.0</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uniform&#39;</span> <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s1">&#39;likelihood&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s1">&#39;B-&gt;D::f_++f_0@HPQCD2015A&#39;</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="n">analysis</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Analysis</span><span class="p">(</span><span class="o">**</span><span class="n">analysis_args</span><span class="p">)</span>
+<span class="n">obs_mu</span>  <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span>
+    <span class="s1">&#39;B-&gt;Dlnu::BR&#39;</span><span class="p">,</span>
+    <span class="n">analysis</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span>
+    <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2_min</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">q2_max</span><span class="o">=</span><span class="mf">11.60</span><span class="p">),</span>
+    <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;l&#39;</span><span class="p">:</span><span class="s1">&#39;mu&#39;</span><span class="p">,</span> <span class="s1">&#39;form-factors&#39;</span><span class="p">:</span><span class="s1">&#39;BSZ2015&#39;</span><span class="p">})</span>
+<span class="p">)</span>
+<span class="n">obs_tau</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span>
+    <span class="s1">&#39;B-&gt;Dlnu::BR&#39;</span><span class="p">,</span>
+    <span class="n">analysis</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span>
+    <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2_min</span><span class="o">=</span><span class="mf">3.17</span><span class="p">,</span> <span class="n">q2_max</span><span class="o">=</span><span class="mf">11.60</span><span class="p">),</span>
+    <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;l&#39;</span><span class="p">:</span><span class="s1">&#39;tau&#39;</span><span class="p">,</span><span class="s1">&#39;form-factors&#39;</span><span class="p">:</span><span class="s1">&#39;BSZ2015&#39;</span><span class="p">})</span>
+<span class="p">)</span>
+<span class="n">obs_R_D</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span>
+    <span class="s1">&#39;B-&gt;Dlnu::R_D&#39;</span><span class="p">,</span>
+    <span class="n">analysis</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span>
+    <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2_min_mu</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">q2_min_tau</span><span class="o">=</span><span class="mf">3.17</span><span class="p">,</span> <span class="n">q2_max_mu</span><span class="o">=</span><span class="mf">11.60</span><span class="p">,</span> <span class="n">q2_max_tau</span><span class="o">=</span><span class="mf">11.60</span><span class="p">),</span>
+    <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;form-factors&#39;</span><span class="p">:</span><span class="s1">&#39;BSZ2015&#39;</span><span class="p">})</span>
+<span class="p">)</span>
+<span class="n">observables</span><span class="o">=</span><span class="p">(</span><span class="n">obs_mu</span><span class="p">,</span> <span class="n">obs_tau</span><span class="p">,</span> <span class="n">obs_R_D</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/use-cases_hist-b-to-d-l-nu.png"><img alt="_images/use-cases_hist-b-to-d-l-nu.png" src="_images/use-cases_hist-b-to-d-l-nu.png" style="width: 600px;" /></a>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">plot</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">([</span><span class="n">o</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">o</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">observable_samples</span><span class="p">[:]],</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C2&#39;</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">plot</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">observable_samples</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">histtype</span><span class="o">=</span><span class="s1">&#39;step&#39;</span><span class="p">,</span>     <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{obs}</span><span class="s1">: </span><span class="si">{mean:.4f}</span><span class="s1"> +/- </span><span class="si">{std:.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+    <span class="n">obs</span><span class="o">=</span><span class="s1">&#39;R_D (manually)&#39;</span><span class="p">,</span>
+    <span class="n">mean</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">([</span><span class="n">o</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">o</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">observable_samples</span><span class="p">[:]],</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">),</span>
+    <span class="n">std</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">([</span><span class="n">o</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">o</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">observable_samples</span><span class="p">[:]]))</span>
+<span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{obs}</span><span class="s1">: </span><span class="si">{mean:.4f}</span><span class="s1"> +/- </span><span class="si">{std:.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+    <span class="n">obs</span><span class="o">=</span><span class="n">obs_R_D</span><span class="o">.</span><span class="n">name</span><span class="p">(),</span>
+    <span class="n">mean</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">observable_samples</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">),</span>
+    <span class="n">std</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">observable_samples</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]))</span>
+<span class="p">))</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/use-cases_hist-r-d.png"><img alt="_images/use-cases_hist-r-d.png" src="_images/use-cases_hist-r-d.png" style="width: 600px;" /></a>
+</div>
+</div>
+<div class="section" id="parameter-inference">
+<h2>Parameter Inference<a class="headerlink" href="#parameter-inference" title="Permalink to this headline">¶</a></h2>
+<div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<p>Write section on parameter inference</p>
+</div>
+</div>
+<div class="section" id="production-of-peudo-events">
+<h2>Production of Peudo Events<a class="headerlink" href="#production-of-peudo-events" title="Permalink to this headline">¶</a></h2>
+<div class="admonition-todo admonition" id="id2">
+<p class="admonition-title">Todo</p>
+<p>Write section on production of pseudo events</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="api/python.html" class="btn btn-neutral float-right" title="Python API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Danny van Dyk and others
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
