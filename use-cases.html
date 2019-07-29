@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Use Cases &mdash; EOS 0.2.4 documentation</title>
+  <title>Use Cases &mdash; EOS 0.2.5 documentation</title>
   
 
   
@@ -276,7 +276,7 @@ It is accessible through the name <code class="docutils literal notranslate"><sp
 </pre></div>
 </div>
 <p>which yields:</p>
-<a class="reference internal image-reference" href="_images/use-cases_plot-example.png"><img alt="_images/use-cases_plot-example.png" src="_images/use-cases_plot-example.png" style="width: 600px;" /></a>
+<a class="reference internal image-reference" href="_images/use-cases_prediction_plot-example.png"><img alt="_images/use-cases_prediction_plot-example.png" src="_images/use-cases_prediction_plot-example.png" style="width: 600px;" /></a>
 </div>
 <div class="section" id="estimating-theoretical-uncertainties">
 <h3>Estimating Theoretical Uncertainties<a class="headerlink" href="#estimating-theoretical-uncertainties" title="Permalink to this headline">¶</a></h3>
@@ -346,10 +346,10 @@ By using <code class="code docutils literal notranslate"><span class="pre">analy
         <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$\ell=\tau$&#39;</span><span class="p">,</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;histogram&#39;</span><span class="p">,</span> <span class="s1">&#39;bins&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">observable_samples</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;log_weights&#39;</span><span class="p">:</span> <span class="n">log_weights</span> <span class="p">}},</span>
     <span class="p">]</span>
 <span class="p">}</span>
-<span class="n">eos</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">plot_args</span><span class="p">,</span> <span class="s1">&#39;/home/dvandyk/Repositories/eos/master/doc/images/use-cases_hist-b-to-d-l-nu.png&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">eos</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">plot_args</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/use-cases_hist-b-to-d-l-nu.png"><img alt="_images/use-cases_hist-b-to-d-l-nu.png" src="_images/use-cases_hist-b-to-d-l-nu.png" style="width: 600px;" /></a>
+<a class="reference internal image-reference" href="_images/use-cases_prediction_hist-b-to-d-l-nu.png"><img alt="_images/use-cases_prediction_hist-b-to-d-l-nu.png" src="_images/use-cases_prediction_hist-b-to-d-l-nu.png" style="width: 600px;" /></a>
 <p>and</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
@@ -365,8 +365,9 @@ By using <code class="code docutils literal notranslate"><span class="pre">analy
 <span class="n">eos</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">plot_args</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/use-cases_hist-r-d.png"><img alt="_images/use-cases_hist-r-d.png" src="_images/use-cases_hist-r-d.png" style="width: 600px;" /></a>
-<p>Numerically, we obtain:</p>
+<a class="reference internal image-reference" href="_images/use-cases_prediction_hist-r-d.png"><img alt="_images/use-cases_prediction_hist-r-d.png" src="_images/use-cases_prediction_hist-r-d.png" style="width: 600px;" /></a>
+<p>Using the Numpy routines <code class="code docutils literal notranslate"><span class="pre">numpy.average</span></code> and <code class="code docutils literal notranslate"><span class="pre">numpy.var</span></code> we can produce numerical estimates
+of the weighted mean and its standard deviation:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{obs}</span><span class="s1">;</span><span class="si">{opt}</span><span class="s1">  = </span><span class="si">{mean:.4f}</span><span class="s1"> +/- </span><span class="si">{std:.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
     <span class="n">obs</span><span class="o">=</span><span class="n">obs_mu</span><span class="o">.</span><span class="n">name</span><span class="p">(),</span> <span class="n">opt</span><span class="o">=</span><span class="n">obs_mu</span><span class="o">.</span><span class="n">options</span><span class="p">(),</span>
@@ -385,8 +386,16 @@ By using <code class="code docutils literal notranslate"><span class="pre">analy
 <span class="p">))</span>
 </pre></div>
 </div>
-<p>To obtain uncertainty bands for a plot of the differential branching ratios, we can now run:</p>
-<p>We can plot these samples with EOS’ plotting framework by running:</p>
+<p>From the above we obtain:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">B</span><span class="o">-&gt;</span><span class="n">Dlnu</span><span class="p">::</span><span class="n">BR</span><span class="p">;</span><span class="n">form</span><span class="o">-</span><span class="n">factors</span><span class="o">=</span><span class="n">BSZ2015</span><span class="p">,</span><span class="n">l</span><span class="o">=</span><span class="n">mu</span>  <span class="o">=</span> <span class="mf">0.0231</span> <span class="o">+/-</span> <span class="mf">0.0007</span>
+<span class="n">B</span><span class="o">-&gt;</span><span class="n">Dlnu</span><span class="p">::</span><span class="n">BR</span><span class="p">;</span><span class="n">form</span><span class="o">-</span><span class="n">factors</span><span class="o">=</span><span class="n">BSZ2015</span><span class="p">,</span><span class="n">l</span><span class="o">=</span><span class="n">tau</span> <span class="o">=</span> <span class="mf">0.0070</span> <span class="o">+/-</span> <span class="mf">0.0001</span>
+<span class="n">B</span><span class="o">-&gt;</span><span class="n">Dlnu</span><span class="p">::</span><span class="n">R_D</span><span class="p">;</span><span class="n">form</span><span class="o">-</span><span class="n">factors</span><span class="o">=</span><span class="n">BSZ2015</span>      <span class="o">=</span> <span class="mf">0.3020</span> <span class="o">+/-</span> <span class="mf">0.0001</span>
+</pre></div>
+</div>
+<p>To obtain uncertainty bands for a plot of the differential branching ratios, we can now produce a
+sequence of observables at different points in phase space. We then pass these observables on to
+<a href="#id1"><span class="problematic" id="id2">:method:`analysis.sample &lt;eos.Analysis.sample&gt;`</span></a>, to obtain posterior-predictive samples:</p>
+<p>We can plot the so-obtained posterior-predictive samples with EOS’ plotting framework by running:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$q^2$&#39;</span><span class="p">,</span> <span class="s1">&#39;unit&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$\textnormal</span><span class="si">{GeV}</span><span class="s1">^2$&#39;</span><span class="p">,</span> <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">11.60</span><span class="p">]</span> <span class="p">},</span>
@@ -407,7 +416,7 @@ By using <code class="code docutils literal notranslate"><span class="pre">analy
 <span class="n">eos</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">plot_args</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/use-cases_plot-uncertainty.png"><img alt="_images/use-cases_plot-uncertainty.png" src="_images/use-cases_plot-uncertainty.png" style="width: 600px;" /></a>
+<a class="reference internal image-reference" href="_images/use-cases_prediction_plot-uncertainty.png"><img alt="_images/use-cases_prediction_plot-uncertainty.png" src="_images/use-cases_prediction_plot-uncertainty.png" style="width: 600px;" /></a>
 </div>
 </div>
 <div class="section" id="parameter-inference">
@@ -484,7 +493,7 @@ using the following code:</p>
 <p>To define our statistical analysis for the inference of <span class="math notranslate nohighlight">\(|V_{cb}|\)</span> from <span class="math notranslate nohighlight">\(\bar{B}\to D\ell^-\bar\nu\)</span> branching ratios,
 some decisions are needed.
 First, we must decide how to parametrize the hadronic form factors that emerge in semileptonic <span class="math notranslate nohighlight">\(\bar{B}\to D\)</span> transitions.
-For what follows we will use the <span id="id4">[BSZ2015]</span> parametrization.
+For what follows we will use the <span id="id6">[BSZ2015]</span> parametrization.
 Next, we must decide the theory input for the form factors. For what follows we will combine the correlated lattice QCD results published by the Fermilab/MILC and HPQCD collaborations in 2015.</p>
 <p>We then create an <a class="reference internal" href="api/python.html#eos.Analysis" title="eos.Analysis"><code class="xref py py-class docutils literal notranslate"><span class="pre">Analysis</span></code></a> object as follows:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">analysis_args</span> <span class="o">=</span> <span class="p">{</span>
@@ -701,11 +710,12 @@ The posterior-preditive samples for the observables are stored in <code class="c
 </div>
 <p>The result looks like this:</p>
 <a class="reference internal image-reference" href="_images/use-cases_inference_plot-a-posteriori.png"><img alt="_images/use-cases_inference_plot-a-posteriori.png" src="_images/use-cases_inference_plot-a-posteriori.png" style="width: 600px;" /></a>
+<a class="reference internal image-reference" href="_images/use-cases_inference_hist-Vcb-f_+-zero.png"><img alt="_images/use-cases_inference_hist-Vcb-f_+-zero.png" src="_images/use-cases_inference_hist-Vcb-f_+-zero.png" style="width: 600px;" /></a>
 </div>
 </div>
 <div class="section" id="production-of-peudo-events">
 <h2>Production of Peudo Events<a class="headerlink" href="#production-of-peudo-events" title="Permalink to this headline">¶</a></h2>
-<div class="admonition-todo admonition" id="id5">
+<div class="admonition-todo admonition" id="id7">
 <p class="admonition-title">Todo</p>
 <p>Write section on production of pseudo events</p>
 </div>
