@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Python API &mdash; EOS 0.0.0 documentation</title>
+  <title>Python API &mdash; EOS 0.3.2 documentation</title>
   
 
   
@@ -91,6 +91,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../use-cases.html">Use Cases</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Python API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-eos">Module <code class="docutils literal notranslate"><span class="pre">eos</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-eos-data">Module <code class="docutils literal notranslate"><span class="pre">eos.data</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-eos-plot">Module <code class="docutils literal notranslate"><span class="pre">eos.plot</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#plot-description-format">Plot description format</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#plot-layouting">Plot layouting</a></li>
@@ -106,6 +107,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../constraints.html">List of Constraints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../observables.html">List of Observables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../parameters.html">List of Parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">List of References</a></li>
 </ul>
 
             
@@ -259,7 +261,7 @@ distance to the lower and upper end of the 68% probability interval.</p></li>
 
 <dl class="method">
 <dt id="eos.Analysis.sample">
-<code class="sig-name descname">sample</code><span class="sig-paren">(</span><em class="sig-param">N=1000</em>, <em class="sig-param">stride=5</em>, <em class="sig-param">pre_N=150</em>, <em class="sig-param">preruns=3</em>, <em class="sig-param">cov_scale=0.1</em>, <em class="sig-param">observables=None</em>, <em class="sig-param">start_point=None</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.sample" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">sample</code><span class="sig-paren">(</span><em class="sig-param">N=1000</em>, <em class="sig-param">stride=5</em>, <em class="sig-param">pre_N=150</em>, <em class="sig-param">preruns=3</em>, <em class="sig-param">cov_scale=0.1</em>, <em class="sig-param">observables=None</em>, <em class="sig-param">start_point=None</em>, <em class="sig-param">rng=&lt;module 'numpy.random.mtrand' from '/usr/local/lib/python3.6/dist-packages/numpy/random/mtrand.cpython-36m-x86_64-linux-gnu.so'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.sample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return samples of the parameters, log(weights), and optionally posterior-predictive samples for a sequence of observables.</p>
 <p>Obtains random samples of the log(posterior) using an adaptive Markov Chain Monte Carlo with PyPMC.
 A prerun with adaptations is carried out first and its samples are discarded.</p>
@@ -272,6 +274,8 @@ A prerun with adaptations is carried out first and its samples are discarded.</p
 <li><p><strong>preruns</strong> – Number of preruns.</p></li>
 <li><p><strong>cov_scale</strong> – Scale factor for the initial guess of the covariance matrix.</p></li>
 <li><p><strong>observables</strong> (<em>list-like</em><em>, </em><em>optional</em>) – Observables for which posterior-predictive samples shall be obtained.</p></li>
+<li><p><strong>start_point</strong> (<em>list-like</em><em>, </em><em>optional</em>) – Optional starting point for the chain</p></li>
+<li><p><strong>rng</strong> – Optional random number generator (must be compatible with the requirements of pypmc.sampler.markov_chain.MarkovChain)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -281,6 +285,32 @@ A prerun with adaptations is carried out first and its samples are discarded.</p
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This method requiries the PyPMC python module, which can be installed from PyPI.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="eos.Analysis.sample_pmc">
+<code class="sig-name descname">sample_pmc</code><span class="sig-paren">(</span><em class="sig-param">log_proposal</em>, <em class="sig-param">step_N=1000</em>, <em class="sig-param">steps=10</em>, <em class="sig-param">final_N=5000</em>, <em class="sig-param">rng=&lt;module 'numpy.random.mtrand' from '/usr/local/lib/python3.6/dist-packages/numpy/random/mtrand.cpython-36m-x86_64-linux-gnu.so'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.sample_pmc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return samples of the parameters and log(weights)</p>
+<p>Obtains random samples of the log(posterior) using adaptive importance sampling following
+the Popoulation Monte Carlo approach with PyPMC.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>step_N</strong> – Number of samples that shall be drawn in each adaptation step.</p></li>
+<li><p><strong>steps</strong> – Number of adaptation steps.</p></li>
+<li><p><strong>final_N</strong> – Number of samples that shall be drawn after all adaptation steps.</p></li>
+<li><p><strong>rng</strong> – Optional random number generator (must be compatible with the requirements of pypmc.sampler.importance_sampler.ImportancSampler)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tuple of the parameters as array of length N = pre_N * steps + final_N, the (linear) weights as array of length N, and the
+final proposal function as pypmc.density.mixture.MixtureDensity.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method requires the PyPMC python module, which can be installed from PyPI.</p>
 </div>
 </dd></dl>
 
@@ -451,6 +481,12 @@ See also <a class="reference external" href="../observables.html">the complete l
 </dd></dl>
 
 <dl class="method">
+<dt id="eos.Observable.kinematics">
+<code class="sig-name descname">kinematics</code><span class="sig-paren">(</span><em class="sig-param">(Observable)arg1</em><span class="sig-paren">)</span> &#x2192; Kinematics :<a class="headerlink" href="#eos.Observable.kinematics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the set of kinematic variables used within this observable.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="eos.Observable.make">
 <em class="property">static </em><code class="sig-name descname">make</code><span class="sig-paren">(</span><em class="sig-param">(QualifiedName)name</em>, <em class="sig-param">(_Parameters)parameters</em>, <em class="sig-param">(Kinematics)kinematics</em>, <em class="sig-param">(Options)options</em><span class="sig-paren">)</span> &#x2192; Observable :<a class="headerlink" href="#eos.Observable.make" title="Permalink to this definition">¶</a></dt>
 <dd><p>Makes a new <a class="reference internal" href="#eos.Observable" title="eos.Observable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Observable</span></code></a> object.</p>
@@ -558,6 +594,77 @@ optional ‘&#64;’.</p>
 <dt id="eos.QualifiedName.suffix_part">
 <code class="sig-name descname">suffix_part</code><span class="sig-paren">(</span><em class="sig-param">(QualifiedName)arg1</em><span class="sig-paren">)</span> &#x2192; qnpSuffix :<a class="headerlink" href="#eos.QualifiedName.suffix_part" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the optional suffix part of the name, i.e., the part following the optional ‘&#64;’.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-eos-data">
+<h2>Module <code class="docutils literal notranslate"><span class="pre">eos.data</span></code><a class="headerlink" href="#module-eos-data" title="Permalink to this headline">¶</a></h2>
+<p>EOS provides access to save and load the various (intermediate) results of analyses via the <code class="docutils literal notranslate"><span class="pre">eos.data</span></code> module.</p>
+<dl class="class">
+<dt id="eos.data.MarkovChain">
+<em class="property">class </em><code class="sig-prename descclassname">eos.data.</code><code class="sig-name descname">MarkovChain</code><span class="sig-paren">(</span><em class="sig-param">path</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.MarkovChain" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="eos.data.MarkovChain.create">
+<em class="property">static </em><code class="sig-name descname">create</code><span class="sig-paren">(</span><em class="sig-param">path</em>, <em class="sig-param">parameters</em>, <em class="sig-param">samples</em>, <em class="sig-param">weights=None</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.MarkovChain.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a new MarkovChain object to disk.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – Path to the storage location, which will be created as a directory.</p></li>
+<li><p><strong>parameters</strong> (<em>list</em><em> or </em><em>iterable of eos.Parameter</em>) – Parameter descriptions as a 1D array of shape (N, ).</p></li>
+<li><p><strong>samples</strong> (<em>2D numpy array</em>) – Samples as a 2D array of shape (N, P).</p></li>
+<li><p><strong>weights</strong> (<em>2D numpy array</em><em>, </em><em>optional</em>) – Weights on a linear scale as a 2D array of shape (N, 1).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="eos.data.MixtureDensity">
+<em class="property">class </em><code class="sig-prename descclassname">eos.data.</code><code class="sig-name descname">MixtureDensity</code><span class="sig-paren">(</span><em class="sig-param">path</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.MixtureDensity" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="eos.data.MixtureDensity.create">
+<em class="property">static </em><code class="sig-name descname">create</code><span class="sig-paren">(</span><em class="sig-param">path</em>, <em class="sig-param">density</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.MixtureDensity.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a new MixtureDensity object to disk.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – Path to the storage location, which will be created as a directory.</p></li>
+<li><p><strong>density</strong> (<em>pypmc.density.MixtureDensity</em>) – Mixture density.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="eos.data.MixtureDensity.density">
+<code class="sig-name descname">density</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.MixtureDensity.density" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a pypmc.density.MixtureDensity.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="eos.data.PMCSampler">
+<em class="property">class </em><code class="sig-prename descclassname">eos.data.</code><code class="sig-name descname">PMCSampler</code><span class="sig-paren">(</span><em class="sig-param">path</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.PMCSampler" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="eos.data.PMCSampler.create">
+<em class="property">static </em><code class="sig-name descname">create</code><span class="sig-paren">(</span><em class="sig-param">path</em>, <em class="sig-param">parameters</em>, <em class="sig-param">samples</em>, <em class="sig-param">weights</em>, <em class="sig-param">proposal</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.PMCSampler.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a new PMCSampler object to disk.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – Path to the storage location, which will be created as a directory.</p></li>
+<li><p><strong>parameters</strong> (<em>list</em><em> or </em><em>iterable of eos.Parameter</em>) – Parameter descriptions as a 1D array of shape (N, ).</p></li>
+<li><p><strong>samples</strong> (<em>2D numpy array</em>) – Samples as a 2D array of shape (N, P).</p></li>
+<li><p><strong>weights</strong> (<em>1D numpy array</em><em>, </em><em>optional</em>) – Weights on a linear scale as a 2D array of shape (N, 1).</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
