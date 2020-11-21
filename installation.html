@@ -88,12 +88,26 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#installation-with-a-package-manager">Installation with a Package Manager</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installing-with-a-package-manager">Installing with a Package Manager</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#ubuntu-linux">Ubuntu Linux</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#macos-x">MacOS X</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#installation-from-source">Installation from Source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-with-the-python-package-index-pypi">Installing with the Python Package Index (PyPI)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#linux">Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">MacOS X</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-from-source">Installing from Source</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#installing-the-dependencies-on-linux">Installing the dependencies on Linux</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#installing-minuit2-via-apt">Installing Minuit2 via APT</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#installing-minuit2-from-source">Installing Minuit2 from Source</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#installing-the-dependencies-with-homebrew-and-pypi">Installing the Dependencies with Homebrew and PyPi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installing-eos">Installing EOS</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="use-cases.html">Use Cases</a></li>
@@ -166,11 +180,14 @@
             
   <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="installation-with-a-package-manager">
-<h2>Installation with a Package Manager<a class="headerlink" href="#installation-with-a-package-manager" title="Permalink to this headline">¶</a></h2>
+<p>If you intend to use EOS without any modifications, then you should follow the steps outlined in <a class="reference internal" href="#installing-with-a-package-manager">Installing with a Package Manager</a>
+or <a class="reference internal" href="#installing-with-the-python-package-index-pypi">Installing with the Python Package Index (PyPI)</a>.
+If you intend to modify EOS for your personal purpose, then you must follow the steps outlined in <a class="reference internal" href="#installing-from-source">Installing from Source</a>.</p>
+<div class="section" id="installing-with-a-package-manager">
+<h2>Installing with a Package Manager<a class="headerlink" href="#installing-with-a-package-manager" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="ubuntu-linux">
 <h3>Ubuntu Linux<a class="headerlink" href="#ubuntu-linux" title="Permalink to this headline">¶</a></h3>
-<p>Pre-built binary package of the most recent release of EOS for Ubuntu Linux LTS releases 16.04 and 18.04, as well as the current release 19.04, are available through the Packagecloud web service.
+<p>Pre-built binary packages of the most recent release of EOS for Ubuntu Linux LTS release 18.04, are available through the Packagecloud web service.
 They can be installed through the following steps:</p>
 <ol class="arabic simple">
 <li><p>Create the file <code class="docutils literal notranslate"><span class="pre">/etc/apt/sources.list.d/eos.list</span></code> by running the following command in a shell</p></li>
@@ -186,9 +203,12 @@ echo deb https://packagecloud.io/eos/eos/ubuntu/ $DIST main \
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">L</span> <span class="s2">&quot;https://packagecloud.io/eos/eos/gpgkey&quot;</span> <span class="mi">2</span><span class="o">&gt;</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">null</span> <span class="o">|</span> <span class="n">apt</span><span class="o">-</span><span class="n">key</span> <span class="n">add</span> <span class="o">-</span> <span class="o">&amp;&gt;/</span><span class="n">dev</span><span class="o">/</span><span class="n">null</span>
 </pre></div>
 </div>
-<p>You might need to install the <code class="docutils literal notranslate"><span class="pre">curl</span></code> program first, if not already installed.</p>
+<p>You might need to install the <code class="docutils literal notranslate"><span class="pre">curl</span></code> program first, if not already installed. This can be done by running the following command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">curl</span>
+</pre></div>
+</div>
 <ol class="arabic simple" start="3">
-<li><p>Install the pre-built binary packages and its dependencies by running:</p></li>
+<li><p>Install the pre-built binary packages and its dependencies by running the following commands</p></li>
 </ol>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span>
 <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">eos</span>
@@ -215,11 +235,244 @@ We recommend to install the most up-to-date Python package with from the Python 
 </div>
 </div>
 </div>
-<div class="section" id="installation-from-source">
-<h2>Installation from Source<a class="headerlink" href="#installation-from-source" title="Permalink to this headline">¶</a></h2>
-<div class="admonition-todo admonition" id="id1">
-<p class="admonition-title">Todo</p>
-<p>Write section on installation from source</p>
+<div class="section" id="installing-with-the-python-package-index-pypi">
+<h2>Installing with the Python Package Index (PyPI)<a class="headerlink" href="#installing-with-the-python-package-index-pypi" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="linux">
+<h3>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h3>
+<p>Pre-built binary packages of the most recent release of EOS are available through the <a class="reference external" href="https://pypi.org/">Python Package Index</a>.
+We are presently building these binary packages, also known as wheels, for the <code class="docutils literal notranslate"><span class="pre">manylinux2014</span></code> platform.
+We assume that you have access to the <code class="docutils literal notranslate"><span class="pre">pip3</span></code> command.
+If not, you need to install <code class="docutils literal notranslate"><span class="pre">pip3</span></code> through via your package manager, or ask your system administrator to install it.</p>
+<p>EOS can be installed by running the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip3</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="n">eoshep</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id1">
+<h3>MacOS X<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>We are presently not building Python wheels for the MacOS platform.</p>
+</div>
+</div>
+<div class="section" id="installing-from-source">
+<h2>Installing from Source<a class="headerlink" href="#installing-from-source" title="Permalink to this headline">¶</a></h2>
+<p>The following instructions explain how to install EOS from source on a Linux-based operating system,
+such as Debian or Ubuntu, or MacOS X.
+Other flavors of Linux or UNIX-like operating systems will likely work as well.
+However, note that we will exclusively use Debian/Ubuntu-specific package names when listing
+the neccessary softwares that EOS depends upon.</p>
+<div class="section" id="installing-the-dependencies-on-linux">
+<h3>Installing the dependencies on Linux<a class="headerlink" href="#installing-the-dependencies-on-linux" title="Permalink to this headline">¶</a></h3>
+<p>The dependencies can be roughly categorized as either system software, Python-related software, or scientific software.
+EOS requires the following system software:</p>
+<dl class="simple">
+<dt>g++</dt><dd><p>the GNU C++ compiler, in version 4.8.1 or higher;</p>
+</dd>
+<dt>autoconf</dt><dd><p>the GNU tool for creating configure scripts, in version 2.69 or higher;</p>
+</dd>
+<dt>automake</dt><dd><p>the GNU tool for creating makefiles, in version 1.14.1 or higher;</p>
+</dd>
+<dt>libtool</dt><dd><p>the GNU tool for generic library support, in version 2.4.2 or higher;</p>
+</dd>
+<dt>pkg-config</dt><dd><p>the freedesktop.org library helper, in version 0.28 or higher;</p>
+</dd>
+<dt>BOOST</dt><dd><p>the BOOST C++ libraries (sub-libraries <code class="docutils literal notranslate"><span class="pre">boost-filesystem</span></code> and <code class="docutils literal notranslate"><span class="pre">boost-system</span></code>);</p>
+</dd>
+<dt>yaml-cpp</dt><dd><p>a C++ YAML parser and interpreter library.</p>
+</dd>
+</dl>
+<p>The Python interface to EOS requires the additional software:</p>
+<dl class="simple">
+<dt>python3</dt><dd><p>the Python interpreter in version 3.5 or higher, and required header files;</p>
+</dd>
+<dt>BOOST</dt><dd><p>the BOOST C++ library <code class="docutils literal notranslate"><span class="pre">boost-python</span></code> for interfacing Python and C++;</p>
+</dd>
+<dt>h5py</dt><dd><p>the Python interface to HDF5;</p>
+</dd>
+<dt>matplotlib</dt><dd><p>the Python plotting library in version 2.0 or higher;</p>
+</dd>
+<dt>scipy</dt><dd><p>the Python scientific library;</p>
+</dd>
+<dt>PyYAML</dt><dd><p>the Python YAML parser and emitter library.</p>
+</dd>
+</dl>
+<p>We recommend you install the above packages via your system’s software management system.</p>
+<p>EOS requires the following scientific software:</p>
+<dl class="simple">
+<dt>GSL</dt><dd><p>the GNU Scientific Library cite{GSL}, in version 1.16 or higher;</p>
+</dd>
+<dt>HDF5</dt><dd><p>the gls{HDF5} cite{HDF5}, in version 1.8.11 or higher;</p>
+</dd>
+<dt>FFTW3</dt><dd><p>the C subroutine library for computing the discrete Fourier transform;</p>
+</dd>
+<dt>Minuit2</dt><dd><p>the physics analysis tool for function minimization, in version 5.28.00 or higher.</p>
+</dd>
+</dl>
+<p>If you have administrator access to the computers on which you use EOS,
+we recommend you install the above packages via your system’s software management system.
+The <code class="docutils literal notranslate"><span class="pre">Minuit2</span></code> is excempted from this recommendation, since its Debian/Ubuntu packages are affected by an unresolved bug.
+Installing a prebuilt version of <code class="docutils literal notranslate"><span class="pre">Minuit2</span></code> is discussed in <a class="reference internal" href="#installing-minuit2-via-apt">Installing Minuit2 via APT</a>.
+Installing <code class="docutils literal notranslate"><span class="pre">Minuit2</span></code> from source is discussed in <a class="reference internal" href="#installing-minuit2-from-source">Installing Minuit2 from Source</a>.</p>
+<p>On a Debian/Ubuntu based operating system you can install the prerequisite software with the <code class="docutils literal notranslate"><span class="pre">APT</span></code> package management system,
+by running the following commands</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># for the &#39;System Software&#39;</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">g</span><span class="o">++</span> <span class="n">autoconf</span> <span class="n">automake</span> <span class="n">libtool</span> <span class="n">pkg</span><span class="o">-</span><span class="n">config</span> <span class="n">libboost</span><span class="o">-</span><span class="n">filesystem</span><span class="o">-</span><span class="n">dev</span> <span class="n">libboost</span><span class="o">-</span><span class="n">system</span><span class="o">-</span><span class="n">dev</span> <span class="n">libyaml</span><span class="o">-</span><span class="n">cpp</span><span class="o">-</span><span class="n">dev</span>
+<span class="c1"># for the &#39;Python Software&#39;</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">python3</span><span class="o">-</span><span class="n">dev</span> <span class="n">libboost</span><span class="o">-</span><span class="n">python</span><span class="o">-</span><span class="n">dev</span> <span class="n">python3</span><span class="o">-</span><span class="n">h5py</span> <span class="n">python3</span><span class="o">-</span><span class="n">matplotlib</span> <span class="n">python3</span><span class="o">-</span><span class="n">scipy</span> <span class="n">python3</span><span class="o">-</span><span class="n">yaml</span>
+<span class="c1"># for the &#39;Scientific Software&#39;</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">libgsl0</span><span class="o">-</span><span class="n">dev</span> <span class="n">libhdf5</span><span class="o">-</span><span class="n">serial</span><span class="o">-</span><span class="n">dev</span> <span class="n">libfftw3</span><span class="o">-</span><span class="n">dev</span>
+</pre></div>
+</div>
+<p>Do not install the <code class="docutils literal notranslate"><span class="pre">Minuit2</span></code> software via <code class="docutils literal notranslate"><span class="pre">APT</span></code>, since there is presently a bug in the Debian/Ubuntu packages,
+which prevents EOS linking against the needed libraries.
+We recommend that you upgrade <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> to the latest available version by running the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># for the &#39;pip3&#39; command</span>
+<span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">python3</span><span class="o">-</span><span class="n">pip</span>
+<span class="n">pip3</span> <span class="n">install</span> <span class="n">matplotlib</span> <span class="o">--</span><span class="n">user</span> <span class="o">--</span><span class="n">upgrade</span>
+</pre></div>
+</div>
+<div class="section" id="installing-minuit2-via-apt">
+<h4>Installing Minuit2 via APT<a class="headerlink" href="#installing-minuit2-via-apt" title="Permalink to this headline">¶</a></h4>
+<p>There are pre-built binary package files for the <code class="docutils literal notranslate"><span class="pre">Minuit2</span></code> software available for the Ubuntu long-term-support releases 16.04 and 18.04 via the Packagecloud web service.
+To use the EOS third-party repository, create a new file <code class="docutils literal notranslate"><span class="pre">eos.list</span></code> within the directory <code class="docutils literal notranslate"><span class="pre">/etc/apt/sources.list.d</span></code> with the following contents:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">deb</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">packagecloud</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">eos</span><span class="o">/</span><span class="n">eos</span><span class="o">/</span><span class="n">ubuntu</span><span class="o">/</span> <span class="n">DIST</span> <span class="n">main</span>
+<span class="n">deb</span><span class="o">-</span><span class="n">src</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">packagecloud</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">eos</span><span class="o">/</span><span class="n">eos</span><span class="o">/</span><span class="n">ubuntu</span><span class="o">/</span> <span class="n">DIST</span> <span class="n">main</span>
+</pre></div>
+</div>
+<p>where you must replace the metavariable <code class="docutils literal notranslate"><span class="pre">DIST</span></code> with either <code class="docutils literal notranslate"><span class="pre">xenial</span></code> or <code class="docutils literal notranslate"><span class="pre">bionic</span></code>, depending on your version of Ubuntu.
+Add our repository’s GPG key by making sure that the <code class="docutils literal notranslate"><span class="pre">curl</span></code> command line utility is installed, and</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">L</span> <span class="s2">&quot;https://packagecloud.io/eos/eos/gpgkey&quot;</span> <span class="mi">2</span><span class="o">&gt;</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">null</span> <span class="o">|</span> <span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">key</span> <span class="n">add</span> <span class="o">-</span>
+</pre></div>
+</div>
+<p>You can then install the binary package through</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span>
+<span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">minuit2</span>
+</pre></div>
+</div>
+<p>You can then proceed with the EOS installation from source in <a class="reference internal" href="#installing-eos">Installing EOS</a>.</p>
+</div>
+<div class="section" id="installing-minuit2-from-source">
+<h4>Installing Minuit2 from Source<a class="headerlink" href="#installing-minuit2-from-source" title="Permalink to this headline">¶</a></h4>
+<p>We recommend to Minuit2 to be installed below <code class="docutils literal notranslate"><span class="pre">/usr/local</span></code>, if you have administrator access to your computer.
+In preparation for the installation, run the following command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">PREFIX</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span>
+</pre></div>
+</div>
+<p>Instead, if you do not have administrator access to your computer, we recommend to <code class="docutils literal notranslate"><span class="pre">Minuit2</span></code> to be installed below <code class="docutils literal notranslate"><span class="pre">$HOME/.local</span></code>.
+In preparation for the installation, run the following command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>export PREFIX=${HOME}/.local
+</pre></div>
+</div>
+<p>When installing <code class="docutils literal notranslate"><span class="pre">Minuit2</span></code> from source, you need to disable the automatic support for parallelization with the OpenMP framework.
+To this end, run the following commands</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>mkdir /tmp/Minuit2
+pushd /tmp/Minuit2
+wget http://www.cern.ch/mathlibs/sw/5_28_00/Minuit2/Minuit2-5.28.00.tar.gz
+tar zxf Minuit2-5.28.00.tar.gz
+pushd Minuit2-5.28.00
+./configure --prefix=$PREFIX --disable-openmp
+make all
+make install # Use &#39;sudo make install&#39; if you install e.g. to &#39;PREFIX=/usr/local&#39;
+             # or a similarly privileged directory
+popd
+popd
+rm -R /tmp/Minuit2
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="installing-the-dependencies-with-homebrew-and-pypi">
+<h3>Installing the Dependencies with Homebrew and PyPi<a class="headerlink" href="#installing-the-dependencies-with-homebrew-and-pypi" title="Permalink to this headline">¶</a></h3>
+<p>You can install most of the prerequisite software via <code class="docutils literal notranslate"><span class="pre">Homebrew</span></code>.
+You will need to make <code class="docutils literal notranslate"><span class="pre">Homebrew</span></code> aware of the EOS third-party repository by running the following command in a shell</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">brew</span> <span class="n">tap</span> <span class="n">eos</span><span class="o">/</span><span class="n">eos</span>
+</pre></div>
+</div>
+<p>To install the packages, run the following commands in a shell:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># for the &#39;System Software&#39;</span>
+<span class="n">brew</span> <span class="n">install</span> <span class="n">autoconf</span> <span class="n">automake</span> <span class="n">libtool</span> <span class="n">pkg</span><span class="o">-</span><span class="n">config</span> <span class="n">boost</span> <span class="n">yaml</span><span class="o">-</span><span class="n">cpp</span>
+<span class="c1"># for the &#39;Python Software&#39;</span>
+<span class="n">brew</span> <span class="n">install</span> <span class="n">python3</span> <span class="n">boost</span><span class="o">-</span><span class="n">python3</span>
+<span class="c1"># for the &#39;Scientific Software&#39;</span>
+<span class="n">brew</span> <span class="n">install</span> <span class="n">gsl</span> <span class="n">hdf5</span> <span class="n">minuit2</span>
+</pre></div>
+</div>
+<p>You can now use the <code class="docutils literal notranslate"><span class="pre">pip3</span></code> command to install the remaining packages from the package{PyPi} package index.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Due to problems with the Python 3 installation provided by Mac OS X, we strongly recommend to use instead the <code class="docutils literal notranslate"><span class="pre">pip3</span></code> programm
+provided by Homebrew, which should be available as <code class="docutils literal notranslate"><span class="pre">/usr/local/bin/pip3</span></code>.</p>
+</div>
+<p>To install the remaining packages, run the following command in a shell</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip3</span> <span class="n">install</span> <span class="n">h5py</span> <span class="n">matplotlib</span> <span class="n">scipy</span> <span class="n">PyYAML</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="installing-eos">
+<h3>Installing EOS<a class="headerlink" href="#installing-eos" title="Permalink to this headline">¶</a></h3>
+<p>You can obtain the EOS source code from the public Github repository.
+To download it for the first time, clone the repository by running the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="o">-</span><span class="n">o</span> <span class="n">eos</span> <span class="o">-</span><span class="n">b</span> <span class="n">master</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">eos</span><span class="o">/</span><span class="n">eos</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+<p>To install from the source code repository, you must first create all the necessary build scripts by running the following commands:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">eos</span>
+<span class="o">./</span><span class="n">autogen</span><span class="o">.</span><span class="n">bash</span>
+</pre></div>
+</div>
+<p>You must now decide where EOS will be installed.
+To proceed we require you to set the environment variable <code class="docutils literal notranslate"><span class="pre">PREFIX</span></code>.
+We recommend to install to your home directory.
+To do this, run the following command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>export PREFIX=${HOME}/.local
+</pre></div>
+</div>
+<p>Next, you must configure the EOS build using the <code class="docutils literal notranslate"><span class="pre">configure</span></code> script.
+The fo</p>
+<ol class="arabic simple">
+<li><p>To use the EOS Python interface you must pass <code class="docutils literal notranslate"><span class="pre">--enable-python</span></code> to the call <code class="docutils literal notranslate"><span class="pre">configure</span></code>.
+The default is cli{–disable-python}.</p></li>
+<li><p>To use the ROOT software’s internal copy of Minuit2 you must pass <code class="docutils literal notranslate"><span class="pre">--with-minuit2=root</span></code> to the call to <code class="docutils literal notranslate"><span class="pre">configure</span></code>.</p></li>
+<li><p>Otherwise, if you have installed <code class="docutils literal notranslate"><span class="pre">Minuit2</span></code> from source to a non-standard location you must specify its installation
+prefix by passing on <code class="docutils literal notranslate"><span class="pre">--with-minuit2=MINUIT2-INSTALLATION-PREFIX</span></code>.
+If you followed the instructions in this manual, then the metavariable <code class="docutils literal notranslate"><span class="pre">MINUIT2-INSTALLATION-PREFIX</span></code>
+corresponds to either <code class="docutils literal notranslate"><span class="pre">/usr/local</span></code> or <code class="docutils literal notranslate"><span class="pre">$HOME/.local</span></code>.</p></li>
+</ol>
+<p>The recommended configuration is achieved by running the following command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>./configure \
+    --prefix=$PREFIX \
+    --enable-python \
+    --enable-pmc
+</pre></div>
+</div>
+<p>If the <code class="docutils literal notranslate"><span class="pre">configure</span></code> script finds any problems with your system, it will complain loudly.</p>
+<p>After successful configuration, build EOS by running the following command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="o">-</span><span class="n">j</span> <span class="nb">all</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">-j</span></code> option instructs the <code class="docutils literal notranslate"><span class="pre">make</span></code> programm to use all available processors to parallelize the build process.
+#We strongly recommend testing the build by running the command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="o">-</span><span class="n">j</span> <span class="n">check</span> <span class="n">VERBOSE</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>#within the build directory.
+Please contact the authors if any test fails by opening an issue in the official <a class="reference external" href="https://github.com/eos/eos">EOS Github repository</a>.
+If all tests pass, install EOS by running the command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">install</span> <span class="c1"># Use &#39;sudo make install&#39; if you install e.g. to &#39;PREFIX=/usr/local&#39;</span>
+             <span class="c1"># or a similarly privileged directory</span>
+</pre></div>
+</div>
+<p>If you installd EOS to a non-standard location (i.e. not <cite>/usr/local`</cite>),
+to use it from the command line you must set up some environment variable.
+For <code class="docutils literal notranslate"><span class="pre">BASH</span></code>, which is the default Debian/Ubuntu shell, add the following lines to <code class="docutils literal notranslate"><span class="pre">\$HOME/.bash_profile</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">PATH</span><span class="o">+=</span><span class="s2">&quot;:$PREFIX/bin&quot;</span>
+<span class="n">export</span> <span class="n">PYTHONPATH</span><span class="o">+=</span><span class="s2">&quot;:$PREFIX/lib/python3.6/site-packages&quot;</span>
+</pre></div>
+</div>
+<p>Note that in the above <code class="docutils literal notranslate"><span class="pre">python3.6</span></code> piece must be replaced by the appropriate Python version with which EOS was built.
+You can determine the correct value by running the following command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">-</span><span class="n">c</span> <span class="s2">&quot;import sys; print(&#39;python</span><span class="si">{0}</span><span class="s2">.</span><span class="si">{1}</span><span class="s2">&#39;.format(sys.version_info[0], sys.version_info[1]))&quot;</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
