@@ -38,7 +38,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="List of Constraints" href="../constraints.html" />
-    <link rel="prev" title="Use Cases" href="../use-cases.html" /> 
+    <link rel="prev" title="Frequently Asked Questions" href="../faq.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -89,6 +89,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../use-cases.html">Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Python API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-eos">Module <code class="docutils literal notranslate"><span class="pre">eos</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-eos-data">Module <code class="docutils literal notranslate"><span class="pre">eos.data</span></code></a></li>
@@ -98,6 +99,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#plot-contents">Plot contents</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#plotting-observables">Plotting observables</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#plotting-constraints">Plotting constraints</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plotting-points">Plotting points</a></li>
 </ul>
 </li>
 </ul>
@@ -712,9 +714,10 @@ The <code class="docutils literal notranslate"><span class="pre">contents</span>
 expressed in terms of independent plot items.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plot_desc</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="o">...</span> <span class="p">},</span> <span class="c1"># description of the x axis</span>
-        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="o">...</span> <span class="p">},</span> <span class="c1"># description of the y axis</span>
-        <span class="s1">&#39;legend&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span> <span class="c1"># description of the legend</span>
+        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="o">...</span> <span class="p">},</span>       <span class="c1"># description of the x axis</span>
+        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="o">...</span> <span class="p">},</span>       <span class="c1"># description of the y axis</span>
+        <span class="s1">&#39;legend&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="o">...</span> <span class="p">},</span>  <span class="c1"># description of the legend</span>
+        <span class="o">...</span>                 <span class="c1"># further layouting options</span>
     <span class="p">},</span>
     <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
         <span class="p">{</span> <span class="o">...</span> <span class="p">},</span> <span class="c1"># first plot item</span>
@@ -728,13 +731,32 @@ expressed in terms of independent plot items.</p>
 The format is automatically determined based on the file name extension.</p>
 <div class="section" id="plot-layouting">
 <h4>Plot layouting<a class="headerlink" href="#plot-layouting" title="Permalink to this headline">¶</a></h4>
-<p>By default plots lack any axis labels and units, and legend.</p>
-<p>Axis descriptions can be provided through the following key/value pairs, which apply equally to the x and y axis:</p>
+<p>By default plots lack any axis labels and units, and any legend.</p>
+<p>An axis’ description is provided through the following key/value pairs, which can apply equally to the x and y axis:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">label</span></code> (<em>str</em>, may contain LaTeX commands) – The axis’ label.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">format</span></code> (<em>str</em>, Pyton 3 format string) – The axis’ tick label format. Due to a Matplotlib peculiarity, the format string
+must always format the variable <code class="docutils literal notranslate"><span class="pre">x</span></code>. See Matplotlib format strings for details.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">unit</span></code>  (<em>str</em>, may contain LaTeX commands) – The axis’ unit, which will be appended to the axis’ label in square brackets.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">range</span></code> (<em>list</em> or <em>tuple</em> of two <em>float</em>) – The tuple of [minimal, maximal] values, which will be displayed along the axis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scale</span></code> (<em>number</em>) – The axis’ scale by which all tick coordinate will be divided. The scale will <em>not</em> be appended to
+the axis’ label automatically.</p></li>
+</ul>
+</div></blockquote>
+<p>The legend description presently only includes options for its location:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">location</span></code> (<em>str</em>, valid Matplotlib legend location) – The legend’s location within the plot.</p></li>
+</ul>
+</div></blockquote>
+<p>Further layouting options are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">title</span></code> (<em>str</em>) – The plot’s title.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">size</span></code> (<em>tuple of two numbers</em>) – The plot’s size in x and y directions provided in centimeters.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">axes</span></code> (<em>str</em>, <code class="docutils literal notranslate"><span class="pre">equal</span></code>) – Enforces equal scaling of the plot’s x and y axes, if set.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">grid</span></code> (<em>str</em>, either <code class="docutils literal notranslate"><span class="pre">major</span></code>, <code class="docutils literal notranslate"><span class="pre">minor</span></code>, or <code class="docutils literal notranslate"><span class="pre">both</span></code>) – Enables the plot’s gridline, if set.</p></li>
 </ul>
 </div></blockquote>
 <p>An example illustrating plot layouting follows:</p>
@@ -742,7 +764,8 @@ The format is automatically determined based on the file name extension.</p>
     <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$q^2$&#39;</span><span class="p">,</span> <span class="s1">&#39;unit&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$\textnormal</span><span class="si">{GeV}</span><span class="s1">^2$&#39;</span><span class="p">,</span> <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">11.60</span><span class="p">]</span> <span class="p">},</span>
         <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$d\mathcal</span><span class="si">{B}</span><span class="s1">/dq^2$&#39;</span><span class="p">,</span>                    <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span>  <span class="mf">5e-3</span><span class="p">]</span> <span class="p">},</span>
-        <span class="s1">&#39;legend&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="s1">&#39;upper center&#39;</span> <span class="p">}</span>
+        <span class="s1">&#39;legend&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="s1">&#39;upper center&#39;</span> <span class="p">},</span>
+        <span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
     <span class="p">},</span>
     <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
         <span class="o">...</span>
@@ -762,7 +785,8 @@ warnings or errors.</p>
 <blockquote>
 <div><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">observable</span></code> – See <a class="reference internal" href="#plotting-observables">Plotting observables</a> for the description of this type of plot item.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">constraints</span></code> – See <a class="reference internal" href="#plotting-constraints">Plotting constraints</a>. for the description of this type of plot item.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">constraints</span></code> – See <a class="reference internal" href="#plotting-constraints">Plotting constraints</a> for the description of this type of plot item.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">point</span></code> – See <a class="reference internal" href="#plotting-points">Plotting points</a> for the description of this type of plot item.</p></li>
 </ul>
 </div></blockquote>
 </li>
@@ -855,6 +879,42 @@ This is only mandatory in multivariate constraints, since these can constrain mo
 </pre></div>
 </div>
 </div>
+<div class="section" id="plotting-points">
+<h4>Plotting points<a class="headerlink" href="#plotting-points" title="Permalink to this headline">¶</a></h4>
+<p>Content items of type <code class="docutils literal notranslate"><span class="pre">point</span></code> are used to display a single data point manually.
+The following keys are mandatory:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">x</span></code> (<em>number</em>) – The point’s x coordinate.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">y</span></code> (<em>number</em>) – The point’s y coordinate.</p></li>
+</ul>
+</div></blockquote>
+<p>Beside the common set of optional keys, this item type recognizes the following optional
+keys:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">marker</span></code> (<em>str</em>, a valid Matplotlib marker style) – The point’s marker style.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">markersize</span></code> (<em>number</em>, a valid Matplotlib marker size) – The point’s marker size in pts.</p></li>
+</ul>
+</div></blockquote>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="o">...</span> <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;LCSR (Bharucha 2012)&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;point&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;C0&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mf">0.261</span><span class="p">,</span>
+            <span class="s1">&#39;marker&#39;</span><span class="p">:</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;markersize&#39;</span><span class="p">:</span> <span class="mi">12</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -870,7 +930,7 @@ This is only mandatory in multivariate constraints, since these can constrain mo
         <a href="../constraints.html" class="btn btn-neutral float-right" title="List of Constraints" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../use-cases.html" class="btn btn-neutral float-left" title="Use Cases" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../faq.html" class="btn btn-neutral float-left" title="Frequently Asked Questions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
