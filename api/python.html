@@ -601,6 +601,72 @@ optional ‘&#64;’.</p>
 
 </dd></dl>
 
+<dl class="class">
+<dt id="eos.SignalPDF">
+<em class="property">class </em><code class="sig-prename descclassname">eos.</code><code class="sig-name descname">SignalPDF</code><a class="headerlink" href="#eos.SignalPDF" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="eos.SignalPDF.log_pdf">
+<code class="sig-name descname">log_pdf</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.SignalPDF.log_pdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adapter for use with external optimization software (e.g. pypmc) to aid when sampling from the log(PDF).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>iterable of float</em>) – Phase space point, with the elements corresponding to the sorted list of variables in lexicographical order; inspect <cite>self.variables</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="eos.SignalPDF.make">
+<em class="property">static </em><code class="sig-name descname">make</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">parameters</em>, <em class="sig-param">kinematics</em>, <em class="sig-param">options</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.SignalPDF.make" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a new <a class="reference internal" href="#eos.SignalPDF" title="eos.SignalPDF"><code class="xref py py-class docutils literal notranslate"><span class="pre">SignalPDF</span></code></a> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference internal" href="#eos.QualifiedName" title="eos.QualifiedName"><em>eos.QualifiedName</em></a>) – The name of the probability density function (PDF). See <a class="reference external" href="../signal-pdfs.html">the complete list of PDFs</a>.</p></li>
+<li><p><strong>parameters</strong> (<a class="reference internal" href="#eos.Parameters" title="eos.Parameters"><em>eos.Parameters</em></a>) – The set of parameters to which this PDF is bound.</p></li>
+<li><p><strong>kinematics</strong> (<a class="reference internal" href="#eos.Kinematics" title="eos.Kinematics"><em>eos.Kinematics</em></a>) – The set of kinematic variables to which this PDF is bound.</p></li>
+<li><p><strong>options</strong> (<a class="reference internal" href="#eos.Options" title="eos.Options"><em>eos.Options</em></a>) – The set of options relevant to this PDF.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The new PDF object.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#eos.SignalPDF" title="eos.SignalPDF">eos.SignalPDF</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="eos.SignalPDF.sample_mcmc">
+<code class="sig-name descname">sample_mcmc</code><span class="sig-paren">(</span><em class="sig-param">N</em>, <em class="sig-param">stride</em>, <em class="sig-param">pre_N</em>, <em class="sig-param">preruns</em>, <em class="sig-param">cov_scale=0.1</em>, <em class="sig-param">start_point=None</em>, <em class="sig-param">rng=&lt;module 'numpy.random.mtrand' from '/usr/local/lib/python3.6/dist-packages/numpy/random/mtrand.cpython-36m-x86_64-linux-gnu.so'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#eos.SignalPDF.sample_mcmc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return samples of the kinematic variables and the log(PDF).</p>
+<p>Obtains random samples of the log(PDF) using an adaptive Markov Chain Monte Carlo with PyPMC.
+A prerun with adaptations is carried out first and its samples are discarded.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>N</strong> – Number of samples that shall be returned</p></li>
+<li><p><strong>stride</strong> – Stride, i.e., the number by which the actual amount of samples shall be thinned to return N samples.</p></li>
+<li><p><strong>pre_N</strong> – Number of samples in each prerun.</p></li>
+<li><p><strong>preruns</strong> – Number of preruns.</p></li>
+<li><p><strong>cov_scale</strong> – Scale factor for the initial guess of the covariance matrix.</p></li>
+<li><p><strong>start_point</strong> (<em>list-like</em><em>, </em><em>optional</em>) – Optional starting point for the chain</p></li>
+<li><p><strong>rng</strong> – Optional random number generator (must be compatible with the requirements of pypmc.sampler.markov_chain.MarkovChain)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tuple of the kinematic variables as array of size N and the log(PDF) as array of size N.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method requires the PyPMC python module, which can be installed from PyPI.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-eos-data">
 <h2>Module <code class="docutils literal notranslate"><span class="pre">eos.data</span></code><a class="headerlink" href="#module-eos-data" title="Permalink to this headline">¶</a></h2>
