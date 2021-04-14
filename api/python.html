@@ -418,7 +418,7 @@ set of values can be provided through keyword arguments, e.g. using</p>
 <em class="property">class </em><code class="sig-prename descclassname">eos.</code><code class="sig-name descname">LogPrior</code><a class="headerlink" href="#eos.LogPrior" title="Permalink to this definition">¶</a></dt>
 <dd><p>Represents a Bayesian prior on the log scale.</p>
 <p>New LogPrior objects can only be created using the capitalized static methods:
-<a class="reference internal" href="#eos.LogPrior.Uniform" title="eos.LogPrior.Uniform"><code class="xref py py-meth docutils literal notranslate"><span class="pre">LogPrior.Uniform()</span></code></a> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">LogPrior.Gaussian()</span></code>.</p>
+<a class="reference internal" href="#eos.LogPrior.Uniform" title="eos.LogPrior.Uniform"><code class="xref py py-meth docutils literal notranslate"><span class="pre">LogPrior.Uniform()</span></code></a>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">LogPrior.Gaussian()</span></code>, and <a class="reference internal" href="#eos.LogPrior.Scale" title="eos.LogPrior.Scale"><code class="xref py py-meth docutils literal notranslate"><span class="pre">LogPrior.Scale()</span></code></a>.</p>
 <dl class="method">
 <dt id="eos.LogPrior.Flat">
 <em class="property">static </em><code class="sig-name descname">Flat</code><span class="sig-paren">(</span><em class="sig-param">(_Parameters)parameters</em>, <em class="sig-param">(str)name</em>, <em class="sig-param">(ParameterRange)range</em><span class="sig-paren">)</span> &#x2192; LogPrior :<a class="headerlink" href="#eos.LogPrior.Flat" title="Permalink to this definition">¶</a></dt>
@@ -447,6 +447,28 @@ by the parameter <cite>central</cite>.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="eos.LogPrior.Scale">
+<em class="property">static </em><code class="sig-name descname">Scale</code><span class="sig-paren">(</span><em class="sig-param">(_Parameters)parameters</em>, <em class="sig-param">(str)name</em>, <em class="sig-param">(ParameterRange)range</em>, <em class="sig-param">(float)mu_0</em>, <em class="sig-param">(float)scale</em><span class="sig-paren">)</span> &#x2192; LogPrior :<a class="headerlink" href="#eos.LogPrior.Scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new Scale prior as a LogPrior.</p>
+<p>The prior’s support is provided by the <cite>range</cite> parameter, which should
+coincide with [<cite>mu_0 / lambda</cite>, <cite>mu_0 * lambda</cite>]. The PDF is chosen
+such that a renormalization scale is varied in this range and with
+central value <cite>mu_0</cite> such that <span class="math notranslate nohighlight">\(\ln x / \mu_0\)</span> is uniformly
+distributed in the interval <span class="math notranslate nohighlight">\([-\ln \lambda, +\ln \lambda]\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameters</strong> (<a class="reference internal" href="#eos.Parameters" title="eos.Parameters"><em>eos.Parameters</em></a>) – The parameters to which this LogPrior is bound.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – The name of the parameter for which the LogPrior is defined.</p></li>
+<li><p><strong>range</strong> (<em>tuple of two floating point numbers</em>) – The range [min, max] for the values that the parameter is allowed to take.</p></li>
+<li><p><strong>mu_0</strong> (<em>float</em><em>, </em><em>strictly positive</em>) – The central value of the parameter.</p></li>
+<li><p><strong>lambda</strong> (<em>float</em><em>, </em><em>strictly positive</em>) – The scale factor.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="eos.LogPrior.Uniform">
 <em class="property">static </em><code class="sig-name descname">Uniform</code><span class="sig-paren">(</span><em class="sig-param">(_Parameters)parameters</em>, <em class="sig-param">(str)name</em>, <em class="sig-param">(ParameterRange)range</em><span class="sig-paren">)</span> &#x2192; LogPrior :<a class="headerlink" href="#eos.LogPrior.Uniform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a new uniform prior as a LogPrior.</p>
@@ -458,6 +480,17 @@ by the parameter <cite>central</cite>.</p>
 <li><p><strong>name</strong> (<em>str</em>) – The name of the parameter for which the LogPrior is defined.</p></li>
 <li><p><strong>range</strong> (<em>tuple of two floating point numbers</em>) – The range [min, max] for the values that the parameter is allowed to take.</p></li>
 </ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="eos.LogPrior.inverse_cdf">
+<code class="sig-name descname">inverse_cdf</code><span class="sig-paren">(</span><em class="sig-param">(LogPrior)arg1</em>, <em class="sig-param">(float)p</em><span class="sig-paren">)</span> &#x2192; float :<a class="headerlink" href="#eos.LogPrior.inverse_cdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the parameter value corresponding to the cumulative propability <span class="math notranslate nohighlight">\(p\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>p</strong> (<em>float</em><em>, </em><em>[</em><em>0.0</em><em>, </em><em>1.0</em><em>]</em>) – The cumulative propability.</p>
 </dd>
 </dl>
 </dd></dl>
