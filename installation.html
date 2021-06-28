@@ -92,17 +92,16 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#installing-with-a-package-manager">Installing with a Package Manager</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#ubuntu-linux">Ubuntu Linux</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#macos">macOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#linux">Linux</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#installation-with-pip3">Installation with <cite>pip3</cite></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installation-with-apt-ubuntu-debian-and-siblings">Installation with <cite>apt</cite> (Ubuntu, Debian and Siblings)</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#installing-with-the-python-package-index-pypi">Installing with the Python Package Index (PyPI)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#linux">Linux</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#macos-x">MacOS X</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#macos">macOS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#installation-with-brew">Installation with <cite>brew</cite></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#installing-from-source">Installing from Source</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#build-and-install-from-source">Build and Install from Source</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#installing-the-dependencies-on-linux">Installing the dependencies on Linux</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#installing-the-dependencies-on-macos-with-homebrew-and-pypi">Installing the dependencies on macOS with Homebrew and PyPi</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#installing-eos">Installing EOS</a></li>
@@ -184,15 +183,22 @@
             
   <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<p>If you intend to use EOS without any modifications, then you should follow the steps outlined in <a class="reference internal" href="#installing-with-a-package-manager">Installing with a Package Manager</a>
-or <a class="reference internal" href="#installing-with-the-python-package-index-pypi">Installing with the Python Package Index (PyPI)</a>.
-If you intend to modify EOS for your personal purpose, then you must follow the steps outlined in <a class="reference internal" href="#installing-from-source">Installing from Source</a>.</p>
-<div class="section" id="installing-with-a-package-manager">
-<h2>Installing with a Package Manager<a class="headerlink" href="#installing-with-a-package-manager" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="ubuntu-linux">
-<h3>Ubuntu Linux<a class="headerlink" href="#ubuntu-linux" title="Permalink to this headline">¶</a></h3>
-<p>Pre-built binary packages of the most recent release of EOS for Ubuntu Linux LTS release 18.04, are available through the Packagecloud web service.
-They can be installed through the following steps:</p>
+<p>We distribute EOS as packaged software for end-users and also as source code for developers.</p>
+<div class="section" id="linux">
+<h2>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="installation-with-pip3">
+<h3>Installation with <cite>pip3</cite><a class="headerlink" href="#installation-with-pip3" title="Permalink to this headline">¶</a></h3>
+<p>This is the recommended installation method using the ‘package installer for Python’ <cite>pip3</cite>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip3</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="n">eoshep</span>
+</pre></div>
+</div>
+<p>You can now use the EOS Python module via <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">eos</span></code>. In addition, some command line scripts have become available.
+To update EOS, run <code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span> <span class="pre">--user</span> <span class="pre">--upgrade</span> <span class="pre">eoshep</span></code>.</p>
+</div>
+<div class="section" id="installation-with-apt-ubuntu-debian-and-siblings">
+<h3>Installation with <cite>apt</cite> (Ubuntu, Debian and Siblings)<a class="headerlink" href="#installation-with-apt-ubuntu-debian-and-siblings" title="Permalink to this headline">¶</a></h3>
+<p>EOS is available through the Packagecloud web service.
+The installation requires several steps:</p>
 <ol class="arabic simple">
 <li><p>Create the file <code class="docutils literal notranslate"><span class="pre">/etc/apt/sources.list.d/eos.list</span></code> by running the following command in a shell</p></li>
 </ol>
@@ -207,67 +213,52 @@ echo deb https://packagecloud.io/eos/eos/ubuntu/ $DIST main \
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">L</span> <span class="s2">&quot;https://packagecloud.io/eos/eos/gpgkey&quot;</span> <span class="mi">2</span><span class="o">&gt;</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">null</span> <span class="o">|</span> <span class="n">apt</span><span class="o">-</span><span class="n">key</span> <span class="n">add</span> <span class="o">-</span> <span class="o">&amp;&gt;/</span><span class="n">dev</span><span class="o">/</span><span class="n">null</span>
 </pre></div>
 </div>
-<p>You might need to install the <code class="docutils literal notranslate"><span class="pre">curl</span></code> program first, if not already installed. This can be done by running the following command</p>
+<p>You might need to install the <code class="docutils literal notranslate"><span class="pre">curl</span></code> program first, if not already installed. This can be done by running the following command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">curl</span>
 </pre></div>
 </div>
 <ol class="arabic simple" start="3">
-<li><p>Install the pre-built binary packages and its dependencies by running the following commands</p></li>
+<li><p>Install the pre-built binary package and its dependencies by running the following commands:</p></li>
 </ol>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span>
 <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">eos</span>
 </pre></div>
 </div>
 <ol class="arabic simple" start="4">
-<li><p>On older version of Ubuntu, you might need to update your installation of the Matplotlib Python package.
-We recommend to install the most up-to-date Python package with from the Python Package Index, using</p></li>
+<li><p>On older versions of Ubuntu, you might need to update your installation of the Matplotlib Python package.
+We recommend installing the most up-to-date Python package from the Python Package Index, using</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip3</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="n">h5py</span> <span class="n">matplotlib</span> <span class="n">numpy</span> <span class="n">pypmc</span> <span class="n">pyyaml</span> <span class="n">scipy</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip3</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">h5py</span> <span class="n">matplotlib</span> <span class="n">numpy</span> <span class="n">pypmc</span> <span class="n">pyyaml</span> <span class="n">scipy</span>
 </pre></div>
 </div>
 </div>
+</div>
 <div class="section" id="macos">
-<h3>macOS<a class="headerlink" href="#macos" title="Permalink to this headline">¶</a></h3>
-<p>The most recent development version of EOS (and all of its dependencies) can be installed automatically using <a class="reference external" href="https://brew.sh/">Homebrew</a>:</p>
+<h2>macOS<a class="headerlink" href="#macos" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="installation-with-brew">
+<h3>Installation with <cite>brew</cite><a class="headerlink" href="#installation-with-brew" title="Permalink to this headline">¶</a></h3>
+<p>EOS (and all of its dependencies) can be installed automatically using <a class="reference external" href="https://brew.sh/">Homebrew</a>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">brew</span> <span class="n">tap</span> <span class="n">eos</span><span class="o">/</span><span class="n">eos</span>
 <span class="n">brew</span> <span class="n">install</span> <span class="o">--</span><span class="n">HEAD</span> <span class="n">eos</span>
 </pre></div>
 </div>
-<p>We recommend to install the most up-to-date Python package with from the Python Package Index, using</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip3</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="n">h5py</span> <span class="n">matplotlib</span> <span class="n">numpy</span> <span class="n">pypmc</span> <span class="n">pyyaml</span> <span class="n">scipy</span>
+<p>We recommend installing the most up-to-date Python package from the Python Package Index, using</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip3</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">h5py</span> <span class="n">matplotlib</span> <span class="n">numpy</span> <span class="n">pypmc</span> <span class="n">pyyaml</span> <span class="n">scipy</span>
 </pre></div>
 </div>
 </div>
 </div>
-<div class="section" id="installing-with-the-python-package-index-pypi">
-<h2>Installing with the Python Package Index (PyPI)<a class="headerlink" href="#installing-with-the-python-package-index-pypi" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="linux">
-<h3>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h3>
-<p>Pre-built binary packages of the most recent release of EOS are available through the <a class="reference external" href="https://pypi.org/">Python Package Index</a>.
-We are presently building these binary packages, also known as wheels, for the <code class="docutils literal notranslate"><span class="pre">manylinux2014</span></code> platform.
-We assume that you have access to the <code class="docutils literal notranslate"><span class="pre">pip3</span></code> command.
-If not, you need to install <code class="docutils literal notranslate"><span class="pre">pip3</span></code> through via your package manager, or ask your system administrator to install it.</p>
-<p>EOS can be installed by running the following command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip3</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span> <span class="n">eoshep</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="macos-x">
-<h3>MacOS X<a class="headerlink" href="#macos-x" title="Permalink to this headline">¶</a></h3>
-<p>We are presently not building Python wheels for the MacOS platform.</p>
-</div>
-</div>
-<div class="section" id="installing-from-source">
-<h2>Installing from Source<a class="headerlink" href="#installing-from-source" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="build-and-install-from-source">
+<h2>Build and Install from Source<a class="headerlink" href="#build-and-install-from-source" title="Permalink to this headline">¶</a></h2>
 <p>The following instructions explain how to install EOS from source on a Linux-based operating system,
-such as Debian or Ubuntu, or MacOS X.
-Other flavors of Linux or UNIX-like operating systems will likely work as well.
+such as Debian or Ubuntu, and macOS.
+Other flavours of Linux or UNIX-like operating systems will likely work as well.
 However, note that we will exclusively use Debian/Ubuntu-specific package names when listing
-the neccessary softwares that EOS depends upon.</p>
+software dependencies.</p>
 <div class="section" id="installing-the-dependencies-on-linux">
 <h3>Installing the dependencies on Linux<a class="headerlink" href="#installing-the-dependencies-on-linux" title="Permalink to this headline">¶</a></h3>
-<p>The dependencies can be roughly categorized as either system software, Python-related software, or scientific software.
-EOS requires the following system software:</p>
+<p>The dependencies can be roughly categorized as either system software, Python-related software, or scientific software.</p>
+<p>EOS requires the following system software:</p>
 <dl class="simple">
 <dt>g++</dt><dd><p>the GNU C++ compiler, in version 4.8.1 or higher;</p>
 </dd>
@@ -311,8 +302,8 @@ EOS requires the following system software:</p>
 </dl>
 <p>If you have administrator access to the computers on which you use EOS,
 we recommend you install the above packages via your system’s software management system.</p>
-<p>On a Debian/Ubuntu based operating system you can install the prerequisite software with the <code class="docutils literal notranslate"><span class="pre">APT</span></code> package management system,
-by running the following commands</p>
+<p>On a Debian/Ubuntu-based operating system you can install the prerequisite software with the <code class="docutils literal notranslate"><span class="pre">apt</span></code> package management system,
+by running the following commands:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># for the &#39;System Software&#39;</span>
 <span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">g</span><span class="o">++</span> <span class="n">autoconf</span> <span class="n">automake</span> <span class="n">libtool</span> <span class="n">pkg</span><span class="o">-</span><span class="n">config</span> <span class="n">libboost</span><span class="o">-</span><span class="n">filesystem</span><span class="o">-</span><span class="n">dev</span> <span class="n">libboost</span><span class="o">-</span><span class="n">system</span><span class="o">-</span><span class="n">dev</span> <span class="n">libyaml</span><span class="o">-</span><span class="n">cpp</span><span class="o">-</span><span class="n">dev</span>
 <span class="c1"># for the &#39;Python Software&#39;</span>
@@ -347,7 +338,7 @@ You will need to make <code class="docutils literal notranslate"><span class="pr
 <p>You can now use the <code class="docutils literal notranslate"><span class="pre">pip3</span></code> command to install the remaining packages from the package{PyPi} package index.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Due to problems with the Python 3 installation provided by Mac OS X, we strongly recommend to use instead the <code class="docutils literal notranslate"><span class="pre">pip3</span></code> programm
+<p>Due to problems with the Python 3 installation provided by macOS, we strongly recommend using instead the <code class="docutils literal notranslate"><span class="pre">pip3</span></code> program
 provided by Homebrew, which should be available as <code class="docutils literal notranslate"><span class="pre">/usr/local/bin/pip3</span></code>.</p>
 </div>
 <p>To install the remaining packages, run the following command in a shell</p>
@@ -369,15 +360,15 @@ To download it for the first time, clone the repository by running the following
 </div>
 <p>You must now decide where EOS will be installed.
 To proceed we require you to set the environment variable <code class="docutils literal notranslate"><span class="pre">PREFIX</span></code>.
-We recommend to install to your home directory.
-To do this, run the following command</p>
+We recommend installing to your home directory.
+To do this, run the following command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>export PREFIX=${HOME}/.local
 </pre></div>
 </div>
 <p>Next, you must configure the EOS build using the <code class="docutils literal notranslate"><span class="pre">configure</span></code> script.
 To use the EOS Python interface you must pass <code class="docutils literal notranslate"><span class="pre">--enable-python</span></code> to the call <code class="docutils literal notranslate"><span class="pre">configure</span></code>.
-The default is cli{–disable-python}.</p>
-<p>The recommended configuration is achieved by running the following command</p>
+The default is <code class="docutils literal notranslate"><span class="pre">--disable-python</span></code>.</p>
+<p>The recommended configuration is achieved by running the following command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>./configure \
     --prefix=$PREFIX \
     --enable-python \
@@ -385,11 +376,17 @@ The default is cli{–disable-python}.</p>
 </pre></div>
 </div>
 <p>If the <code class="docutils literal notranslate"><span class="pre">configure</span></code> script finds any problems with your system, it will complain loudly.</p>
-<p>After successful configuration, build EOS by running the following command</p>
+<p>The flag <code class="docutils literal notranslate"><span class="pre">with-boost-python-suffix</span></code> might be necessary, depending on the installation of Python and BOOST.
+For example, when <cite>boost-python3</cite> is installed on macOS via <cite>brew</cite>, you can find the suffix by inspecting the installed libraries:
+<code class="docutils literal notranslate"><span class="pre">ls</span> <span class="pre">/usr/local/lib/libboost_python*</span></code>
+might yield
+<code class="docutils literal notranslate"><span class="pre">/usr/local/lib/libboost_python39.a</span></code>.
+Here, the flag <code class="docutils literal notranslate"><span class="pre">--with-boost-python-suffix=39</span></code> is required.</p>
+<p>After successful configuration, build EOS by running the following command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="o">-</span><span class="n">j</span> <span class="nb">all</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">-j</span></code> option instructs the <code class="docutils literal notranslate"><span class="pre">make</span></code> programm to use all available processors to parallelize the build process.
+<p>The <code class="docutils literal notranslate"><span class="pre">-j</span></code> option instructs the <code class="docutils literal notranslate"><span class="pre">make</span></code> program to use all available processors to parallelize the build process.
 #We strongly recommend testing the build by running the command</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="o">-</span><span class="n">j</span> <span class="n">check</span> <span class="n">VERBOSE</span><span class="o">=</span><span class="mi">1</span>
 </pre></div>
@@ -401,15 +398,15 @@ If all tests pass, install EOS by running the command</p>
              <span class="c1"># or a similarly privileged directory</span>
 </pre></div>
 </div>
-<p>If you installd EOS to a non-standard location (i.e. not <cite>/usr/local`</cite>),
+<p>If you installed EOS to a non-standard location (i.e. not <code class="docutils literal notranslate"><span class="pre">/usr/local</span></code>),
 to use it from the command line you must set up some environment variable.
 For <code class="docutils literal notranslate"><span class="pre">BASH</span></code>, which is the default Debian/Ubuntu shell, add the following lines to <code class="docutils literal notranslate"><span class="pre">\$HOME/.bash_profile</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">PATH</span><span class="o">+=</span><span class="s2">&quot;:$PREFIX/bin&quot;</span>
 <span class="n">export</span> <span class="n">PYTHONPATH</span><span class="o">+=</span><span class="s2">&quot;:$PREFIX/lib/python3.6/site-packages&quot;</span>
 </pre></div>
 </div>
-<p>Note that in the above <code class="docutils literal notranslate"><span class="pre">python3.6</span></code> piece must be replaced by the appropriate Python version with which EOS was built.
-You can determine the correct value by running the following command</p>
+<p>Note that in the above the <code class="docutils literal notranslate"><span class="pre">python3.6</span></code> piece must be replaced by the appropriate Python version with which EOS was built.
+You can determine the correct value by running the following command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">-</span><span class="n">c</span> <span class="s2">&quot;import sys; print(&#39;python</span><span class="si">{0}</span><span class="s2">.</span><span class="si">{1}</span><span class="s2">&#39;.format(sys.version_info[0], sys.version_info[1]))&quot;</span>
 </pre></div>
 </div>
