@@ -48,6 +48,15 @@
 <li class="toctree-l1"><a class="reference internal" href="basics.html">Basics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="use-cases.html">Use Cases</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Advanced Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-expression-parser">The Expression Parser</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-construction-of-expressions">The Construction of Expressions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#the-rules">The Rules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aliasing">Aliasing</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#the-insert-method">The Insert Method</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#the-eos-command-line-interface">The EOS Command-Line Interface</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#the-analysis-description-format">The Analysis Description Format</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#describing-priors">Describing Priors</a></li>
@@ -98,6 +107,71 @@
              
   <section id="advanced-usage">
 <h1>Advanced Usage<a class="headerlink" href="#advanced-usage" title="Permalink to this headline"></a></h1>
+<section id="the-expression-parser">
+<h2>The Expression Parser<a class="headerlink" href="#the-expression-parser" title="Permalink to this headline"></a></h2>
+<p>A user can define new observables for their analyses.
+These new observables must be arithmetic expressions of already defined observables and/or parameters.
+Observables defined in this way benefit from the same optimizations as all built-in observables, including multi-threaded evaluation and caching.
+This paragraph describes and exemplifies the syntax of the expression parser that interprets user defined python strings as new EOS observables.</p>
+<section id="the-construction-of-expressions">
+<h3>The Construction of Expressions<a class="headerlink" href="#the-construction-of-expressions" title="Permalink to this headline"></a></h3>
+<section id="the-rules">
+<h4>The Rules<a class="headerlink" href="#the-rules" title="Permalink to this headline"></a></h4>
+<p>Basic rules are used to parse the input string</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Spaces are ignored and can be added arbitrarily for readability.</p></li>
+<li><p>The parser supports usual arithmetic operations <code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">-</span></code>, <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">/</span></code> and <code class="docutils literal notranslate"><span class="pre">^</span></code> and parenthesized expressions; usual precedence rules of arithmetics apply.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;&lt;...&gt;&gt;</span></code> encapsulates the name of an EOS object, which must either be the name of parameter or an observables.
+Any such must therefore adhere to the restrictions of <code class="docutils literal notranslate"><span class="pre">eos.QualifiedName</span></code>, for example <code class="docutils literal notranslate"><span class="pre">&lt;&lt;mass::mu&gt;&gt;</span></code> or <code class="docutils literal notranslate"><span class="pre">&lt;&lt;B_u-&gt;lnu::BR&gt;&gt;</span></code>.</p></li>
+</ul>
+</div></blockquote>
+<p>The following strings are valid observable expressions</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;(&lt;&lt;mass::B_d&gt;&gt;^2</span> <span class="pre">-</span> <span class="pre">4</span> <span class="pre">*</span> <span class="pre">&lt;&lt;mass::mu&gt;&gt;^2)</span> <span class="pre">^</span> <span class="pre">0.5&quot;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;1.0</span> <span class="pre">/</span> <span class="pre">&lt;&lt;B_u-&gt;lnu::BR&#64;l=mu&gt;&gt;&quot;</span></code></p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="aliasing">
+<h4>Aliasing<a class="headerlink" href="#aliasing" title="Permalink to this headline"></a></h4>
+<p>By default, the kinematic arguments of the observables are transferred to the expression.
+For example, the expression <code class="docutils literal notranslate"><span class="pre">1.0</span> <span class="pre">/</span> <span class="pre">&lt;&lt;B-&gt;pilnu::dBR/dq2&gt;&gt;</span></code> will expect a kinematic specification for <code class="docutils literal notranslate"><span class="pre">q2</span></code>
+(either through an <code class="docutils literal notranslate"><span class="pre">eos.Kinematic</span></code> object or indirectly in a plotting routine).
+When more than one observable appears in the expression, it is useful to rename the kinematic variables.
+This can be done via an alias specification <code class="docutils literal notranslate"><span class="pre">&lt;&lt;...&gt;&gt;[...]</span></code>.
+Two types of specification are supported</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>the <code class="docutils literal notranslate"><span class="pre">=</span></code> operator fixes a kinematic variable to a given value. E.g. <code class="docutils literal notranslate"><span class="pre">&lt;&lt;B-&gt;pilnu::BR&gt;&gt;[q2_min=0.1]</span></code> only expects a specification for <code class="docutils literal notranslate"><span class="pre">q2_max</span></code>.</p></li>
+<li><p>the <code class="docutils literal notranslate"><span class="pre">=&gt;</span></code> operator renames the kinematic variable on its left-hand side to the name on the right-hand side.
+E.g. <code class="docutils literal notranslate"><span class="pre">&lt;&lt;B_u-&gt;lnu::BR&#64;l=mu&gt;&gt;[q2=&gt;q2_mu]</span> <span class="pre">/</span> <span class="pre">&lt;&lt;B_u-&gt;lnu::BR&#64;l=e&gt;&gt;[q2=&gt;q2_e]</span></code> requires two kinematic specifications, <code class="docutils literal notranslate"><span class="pre">q2_mu</span></code> and <code class="docutils literal notranslate"><span class="pre">q2_e</span></code>.</p></li>
+</ul>
+</div></blockquote>
+<p>Note that these specifications can be combined in comma-separated list, for example <code class="docutils literal notranslate"><span class="pre">[q2_min=1.0,</span> <span class="pre">q2_max=&gt;q2_mu]</span></code>.</p>
+</section>
+</section>
+<section id="the-insert-method">
+<h3>The Insert Method<a class="headerlink" href="#the-insert-method" title="Permalink to this headline"></a></h3>
+<p>Once a new observable is defined via its expression string, it can be added to the list of observables via the <code class="docutils literal notranslate"><span class="pre">insert</span></code> method</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>eos.Observables().insert(name, latex, unit, options, expression)
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">latex</span></code> and <code class="docutils literal notranslate"><span class="pre">unit</span></code> are the (Qualified)name, the latex representation and the unit of the new observable;
+<code class="docutils literal notranslate"><span class="pre">options</span></code> takes an <code class="docutils literal notranslate"><span class="pre">eos.Options</span></code> object and allows to specify <cite>global</cite> options (i.e. applied to all observables in the expression);
+and <code class="docutils literal notranslate"><span class="pre">expression</span></code> is the expression string to be parsed.</p>
+<p>We conclude with a concrete example</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>eos.Observables().insert(&#39;B-&gt;Kll::R_K_example&#39;, R&#39;(R_K)&#39;, eos.Unit.Unity(), eos.Options(),
+                         &#39;( &lt;&lt;B-&gt;Kll::BR;l=mu&gt;&gt;[q2_max=6, q2_min=&gt;q2_mu_min] / &lt;&lt;B-&gt;Kll::BR;l=e&gt;&gt;[q2_max=6,q2_min=&gt;q2_e_min] )&#39;)
+
+R_K = eos.Observable.make(&#39;B-&gt;Kll::R_K_example&#39;, eos.Parameters.Defaults(), eos.Kinematics(q2_e_min=1.1, q2_mu_min=1.1), eos.Options(**{&#39;tag&#39;:&#39;BFS2004&#39;}))
+
+R_K.evaluate()   # should be ~1
+</pre></div>
+</div>
+</section>
+</section>
 <section id="the-eos-command-line-interface">
 <h2>The EOS Command-Line Interface<a class="headerlink" href="#the-eos-command-line-interface" title="Permalink to this headline"></a></h2>
 <p>Although using EOS within an interactive Jupyter notebook on your personal computer or laptop
