@@ -280,7 +280,7 @@ likelihoods are considered for this result.</p>
 <p>Initialize a new set of kinematic variables. The inital set of variables and their initial
 set of values can be provided through keyword arguments, e.g. using</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">k</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">k2</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>                      <span class="c1"># default keyword arguments</span>
-<span class="n">k</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;q2&#39;</span><span class="p">:</span> <span class="mf">0.4</span><span class="p">,</span> <span class="s1">&#39;cos(theta_l)&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">})</span> <span class="c1"># use a dictionary if variable names are not</span>
+<span class="n">k</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">({</span><span class="s1">&#39;q2&#39;</span><span class="p">:</span> <span class="mf">0.4</span><span class="p">,</span> <span class="s1">&#39;cos(theta_l)&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">})</span>   <span class="c1"># use a dictionary if variable names are not</span>
                                                         <span class="c1"># valid python identifiers</span>
 </pre></div>
 </div>
@@ -524,8 +524,8 @@ overview. Filters can be applied through keyword arguments to the initialization
 <p>Options are pairs of (key, value) pairs. The list of valid keys and their
 respective valid options are specific to each observable. The initialization
 accepts keyword arguments, e.g.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">o</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s1">&#39;WilsonScan&#39;</span><span class="p">)</span>            <span class="c1"># default keyword arguments</span>
-<span class="n">o</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;form-factors&#39;</span><span class="p">:</span> <span class="s1">&#39;BSZ2015&#39;</span><span class="p">})</span> <span class="c1"># use a dictionary if option keys are not</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">o</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s1">&#39;WET&#39;</span><span class="p">)</span>                   <span class="c1"># default keyword arguments</span>
+<span class="n">o</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">({</span><span class="s1">&#39;form-factors&#39;</span><span class="p">:</span> <span class="s1">&#39;BSZ2015&#39;</span><span class="p">})</span>   <span class="c1"># use a dictionary if option keys are not</span>
                                                <span class="c1"># valid python identifiers</span>
 </pre></div>
 </div>
@@ -540,8 +540,19 @@ accepts keyword arguments, e.g.:</p>
 <dt class="sig sig-object py" id="eos.Parameters">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">Parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Parameters" title="Permalink to this definition"></a></dt>
 <dd><p>Represents the set of parameters known to EOS.</p>
-<p>An independent instance of the default parameters can be obtained from the <code class="xref py py-meth docutils literal notranslate"><span class="pre">Defaults</span></code> method.
-See also <a class="reference external" href="../parameters.html">the complete list of parameters</a>.</p>
+<p>Objects of this class are visualized as tables in Jupyter notebooks for easy
+overview. Filters can be applied through keyword arguments to the initialization.
+An independent instance of the default parameters is obtained by each call to the constructor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prefix</strong> (<em>str</em>) – Only show parameters whose qualified names contain the provided <code class="docutils literal notranslate"><span class="pre">prefix</span></code> in their prefix part.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – Only show parameters whose qualified names contain the provided <code class="docutils literal notranslate"><span class="pre">name</span></code> in their name part.</p></li>
+<li><p><strong>suffix</strong> (<em>str</em>) – Only show parameters whose qualified names contain the provided <code class="docutils literal notranslate"><span class="pre">suffix</span></code> in their suffix part.</p></li>
+</ul>
+</dd>
+</dl>
+<p>See also <a class="reference external" href="../parameters.html">the complete list of parameters</a>.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.Parameters.FromWCxf">
 <em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">FromWCxf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">w</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Parameters.FromWCxf" title="Permalink to this definition"></a></dt>
@@ -549,6 +560,31 @@ See also <a class="reference external" href="../parameters.html">the complete li
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>w</strong> (<em>wilson.Wilson</em>) – WET Wilson coefficients in the EOS basis.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Parameters.dump">
+<span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Parameters.dump" title="Permalink to this definition"></a></dt>
+<dd><p>Dumps an eos.Parameters object to a YAML file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> (<em>str</em>) – Name of the file to which the parameters shall be written.</p></li>
+<li><p><strong>names</strong> (<em>iterable of str</em><em> (</em><em>optional</em><em>)</em>) – Names of the parameters that shall be converted.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Parameters.to_yaml">
+<span class="sig-name descname"><span class="pre">to_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Parameters.to_yaml" title="Permalink to this definition"></a></dt>
+<dd><p>Converts an eos.Parameters object to a YAML representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>names</strong> – Names of the parameters that shall be converted.</p>
 </dd>
 </dl>
 </dd></dl>
