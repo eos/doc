@@ -155,19 +155,19 @@ E.g. <code class="docutils literal notranslate"><span class="pre">&lt;&lt;B_u-&g
 <section id="the-insert-method">
 <h3>The Insert Method<a class="headerlink" href="#the-insert-method" title="Permalink to this headline"></a></h3>
 <p>Once a new observable is defined via its expression string, it can be added to the list of observables via the <code class="docutils literal notranslate"><span class="pre">insert</span></code> method</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>eos.Observables().insert(name, latex, unit, options, expression)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">Observables</span><span class="p">()</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">latex</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">expression</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">latex</span></code> and <code class="docutils literal notranslate"><span class="pre">unit</span></code> are the (Qualified)name, the latex representation and the unit of the new observable;
 <code class="docutils literal notranslate"><span class="pre">options</span></code> takes an <code class="docutils literal notranslate"><span class="pre">eos.Options</span></code> object and allows to specify <cite>global</cite> options (i.e. applied to all observables in the expression);
 and <code class="docutils literal notranslate"><span class="pre">expression</span></code> is the expression string to be parsed.</p>
 <p>We conclude with a concrete example</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>eos.Observables().insert(&#39;B-&gt;Kll::R_K_example&#39;, R&#39;(R_K)&#39;, eos.Unit.Unity(), eos.Options(),
-                         &#39;( &lt;&lt;B-&gt;Kll::BR;l=mu&gt;&gt;[q2_max=6, q2_min=&gt;q2_mu_min] / &lt;&lt;B-&gt;Kll::BR;l=e&gt;&gt;[q2_max=6,q2_min=&gt;q2_e_min] )&#39;)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">Observables</span><span class="p">()</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">&#39;B-&gt;Kll::R_K_example&#39;</span><span class="p">,</span> <span class="sa">R</span><span class="s1">&#39;(R_K)&#39;</span><span class="p">,</span> <span class="n">eos</span><span class="o">.</span><span class="n">Unit</span><span class="o">.</span><span class="n">Unity</span><span class="p">(),</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(),</span>
+                         <span class="s1">&#39;( &lt;&lt;B-&gt;Kll::BR;l=mu&gt;&gt;[q2_max=6, q2_min=&gt;q2_mu_min] / &lt;&lt;B-&gt;Kll::BR;l=e&gt;&gt;[q2_max=6,q2_min=&gt;q2_e_min] )&#39;</span><span class="p">)</span>
 
-R_K = eos.Observable.make(&#39;B-&gt;Kll::R_K_example&#39;, eos.Parameters.Defaults(), eos.Kinematics(q2_e_min=1.1, q2_mu_min=1.1), eos.Options(**{&#39;tag&#39;:&#39;BFS2004&#39;}))
+<span class="n">R_K</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;B-&gt;Kll::R_K_example&#39;</span><span class="p">,</span> <span class="n">eos</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">Defaults</span><span class="p">(),</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2_e_min</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">q2_mu_min</span><span class="o">=</span><span class="mf">1.1</span><span class="p">),</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;tag&#39;</span><span class="p">:</span><span class="s1">&#39;BFS2004&#39;</span><span class="p">}))</span>
 
-R_K.evaluate()   # should be ~1
+<span class="n">R_K</span><span class="o">.</span><span class="n">evaluate</span><span class="p">()</span>   <span class="c1"># should be ~1</span>
 </pre></div>
 </div>
 </section>

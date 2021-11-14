@@ -97,7 +97,7 @@
 <h2>Importing the module<a class="headerlink" href="#importing-the-module" title="Permalink to this headline"></a></h2>
 <p>Before you can begin using EOS, you need to load it into your Python
 interpreter. You achieve this with the <code class="docutils literal notranslate"><span class="pre">import</span></code> keyword.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import eos
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">eos</span>
 </pre></div>
 </div>
 <p>The import statement should go through without any error messages. If
@@ -115,14 +115,14 @@ large set of parameters. You cannot create an object of type
 <code class="docutils literal notranslate"><span class="pre">eos.Parameters</span></code> yourself. Instead, you can create a new set of
 parameters, from which your favourite parameter can be extracted and
 looked at.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>parameters = eos.Parameters()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Parameters</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>The variable <code class="docutils literal notranslate"><span class="pre">parameters</span></code> now contains all of your parameters. You can
 use <code class="docutils literal notranslate"><span class="pre">display(parameters)</span></code> to see the full list, which is rather
 lengthy. Let’s have a look at something more manageable: the parameter
 for the muon mass:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>parameters[&#39;mass::mu&#39;]
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;mass::mu&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <table class="colwidths-given docutils align-default">
@@ -152,9 +152,9 @@ for the muon mass:</p>
 <p>Let’s do just that: we can modify the value of the muon mass. This is
 unlikely to be necessary, since it has been measured to such a high
 precision, but useful to illustrate how to work with parameters.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>m_mu = parameters[&#39;mass::mu&#39;]
-m_mu.set(1.779)  # we just made the muon as heavy as the tauon!
-display(m_mu)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m_mu</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;mass::mu&#39;</span><span class="p">]</span>
+<span class="n">m_mu</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mf">1.779</span><span class="p">)</span>  <span class="c1"># we just made the muon as heavy as the tauon!</span>
+<span class="n">display</span><span class="p">(</span><span class="n">m_mu</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="colwidths-given docutils align-default">
@@ -179,7 +179,7 @@ display(m_mu)
 (<code class="docutils literal notranslate"><span class="pre">parameters</span></code>). Accessing the muon mass through parameters again will
 therefore show the same information as <code class="docutils literal notranslate"><span class="pre">m_mu</span></code>, but this time the
 modified mass value will be included as “current value” .</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>parameters[&#39;mass::mu&#39;]
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;mass::mu&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <table class="colwidths-given docutils align-default">
@@ -202,8 +202,8 @@ modified mass value will be included as “current value” .</p>
 <p>Brilliant! But what about if we want or need to have two independent
 sets of parameters? This could be needed, for example, to compare theory
 predictions for two different choices of parameters.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>more_parameters = eos.Parameters()
-more_parameters[&#39;mass::mu&#39;]
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">more_parameters</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Parameters</span><span class="p">()</span>
+<span class="n">more_parameters</span><span class="p">[</span><span class="s1">&#39;mass::mu&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <table class="colwidths-given docutils align-default">
@@ -231,9 +231,9 @@ documentation</a>.</p>
 <p>You can access a parameter’s name and LaTeX representation using the
 <code class="docutils literal notranslate"><span class="pre">name</span></code> or <code class="docutils literal notranslate"><span class="pre">latex</span></code> method seen below. The value is obtained using the
 <code class="docutils literal notranslate"><span class="pre">evaluate</span></code> method.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>display(m_mu.name())
-display(m_mu.latex())
-display(m_mu.evaluate())
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">m_mu</span><span class="o">.</span><span class="n">name</span><span class="p">())</span>
+<span class="n">display</span><span class="p">(</span><span class="n">m_mu</span><span class="o">.</span><span class="n">latex</span><span class="p">())</span>
+<span class="n">display</span><span class="p">(</span><span class="n">m_mu</span><span class="o">.</span><span class="n">evaluate</span><span class="p">())</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;mass::mu&#39;</span>
@@ -245,10 +245,10 @@ display(m_mu.evaluate())
 </div>
 <p>You can also treat a Parameter object just like any other Python object.
 It can be part of a <code class="docutils literal notranslate"><span class="pre">list</span></code>, a <code class="docutils literal notranslate"><span class="pre">dict</span></code>, or a <code class="docutils literal notranslate"><span class="pre">tuple</span></code>:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>lepton_masses = [parameters[&#39;mass::&#39; + l] for l in [&#39;e&#39;, &#39;mu&#39;, &#39;tau&#39;]]
-[display(p) for p in lepton_masses]
-translation = { p.name(): p.latex() for p in lepton_masses}
-display(translation)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lepton_masses</span> <span class="o">=</span> <span class="p">[</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;mass::&#39;</span> <span class="o">+</span> <span class="n">l</span><span class="p">]</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;mu&#39;</span><span class="p">,</span> <span class="s1">&#39;tau&#39;</span><span class="p">]]</span>
+<span class="p">[</span><span class="n">display</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">lepton_masses</span><span class="p">]</span>
+<span class="n">translation</span> <span class="o">=</span> <span class="p">{</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">():</span> <span class="n">p</span><span class="o">.</span><span class="n">latex</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">lepton_masses</span><span class="p">}</span>
+<span class="n">display</span><span class="p">(</span><span class="n">translation</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="colwidths-given docutils align-default">
@@ -320,7 +320,7 @@ pertain to a single process. Consequently, naming of kinematic variables
 does not require a distinction by any sort of <code class="docutils literal notranslate"><span class="pre">prefix</span></code>. We will see
 what kinematic variables a process requires in a later section. You can
 create an empty set of kinematic variables as follows:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>kinematics = eos.Kinematics()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kinematics</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>We can populate this object with a choice of kinematic variables:</p>
@@ -328,12 +328,12 @@ create an empty set of kinematic variables as follows:</p>
 <li><p>We generally use <code class="docutils literal notranslate"><span class="pre">q2</span></code> or <code class="docutils literal notranslate"><span class="pre">p2</span></code> to denote the square of four momentum <code class="docutils literal notranslate"><span class="pre">q</span></code> or <code class="docutils literal notranslate"><span class="pre">p</span></code>. - We generally use <code class="docutils literal notranslate"><span class="pre">E_pi</span></code> or <code class="docutils literal notranslate"><span class="pre">E_gamma</span></code> for the energy of a final state in the rest frame of the respective initial state.</p></li>
 <li><p>We usually parametrize helicity angles via their cosines, e.g., <code class="docutils literal notranslate"><span class="pre">cos(theta_l)</span></code> or <code class="docutils literal notranslate"><span class="pre">cos(theta_pi)</span></code>. As for parameters, we use powers of GeV as units.</p></li>
 </ul>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>k1 = kinematics.declare(&#39;q2&#39;,             1.0)   # 1 GeV^2
-k2 = kinematics.declare(&#39;E_pi&#39;,           0.139) # 139 MeV, a pion at rest!
-k3 = kinematics.declare(&#39;cos(theta_pi)&#39;, -1.0)   # negative values are OK!
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">k1</span> <span class="o">=</span> <span class="n">kinematics</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;q2&#39;</span><span class="p">,</span>             <span class="mf">1.0</span><span class="p">)</span>   <span class="c1"># 1 GeV^2</span>
+<span class="n">k2</span> <span class="o">=</span> <span class="n">kinematics</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;E_pi&#39;</span><span class="p">,</span>           <span class="mf">0.139</span><span class="p">)</span> <span class="c1"># 139 MeV, a pion at rest!</span>
+<span class="n">k3</span> <span class="o">=</span> <span class="n">kinematics</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;cos(theta_pi)&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>   <span class="c1"># negative values are OK!</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>display(kinematics)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">kinematics</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="colwidths-given docutils align-default">
@@ -357,8 +357,8 @@ k3 = kinematics.declare(&#39;cos(theta_pi)&#39;, -1.0)   # negative values are O
 populated with the variables you need. The first way works if all your
 kinematic variables names are also valid Python identifiers. (In the
 above example, <code class="docutils literal notranslate"><span class="pre">cos(...)</span></code> is <strong>not</strong> a valid identifier.)</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>kinematics = eos.Kinematics(q2=1.0, E_pi=0.139)
-display(kinematics)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kinematics</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">E_pi</span><span class="o">=</span><span class="mf">0.139</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">kinematics</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="colwidths-given docutils align-default">
@@ -377,10 +377,10 @@ display(kinematics)
 </table>
 <p>The second way works also for variable names that are not valid
 identifiers. It uses Python <em>keyword arguments</em>:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>kinematics = eos.Kinematics(**{
-    &#39;q2&#39;: 1.0, &#39;E_pi&#39;: 0.139, &#39;cos(theta_l)&#39;: -1.0
-})
-display(kinematics)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kinematics</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="o">**</span><span class="p">{</span>
+    <span class="s1">&#39;q2&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;E_pi&#39;</span><span class="p">:</span> <span class="mf">0.139</span><span class="p">,</span> <span class="s1">&#39;cos(theta_l)&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.0</span>
+<span class="p">})</span>
+<span class="n">display</span><span class="p">(</span><span class="n">kinematics</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="colwidths-given docutils align-default">
@@ -402,8 +402,8 @@ display(kinematics)
 </table>
 <p>We can extract a kinematic variable from the set using the <code class="docutils literal notranslate"><span class="pre">[...]</span></code>
 operator:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>k1 = kinematics[&#39;q2&#39;]
-display(k1)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">k1</span> <span class="o">=</span> <span class="n">kinematics</span><span class="p">[</span><span class="s1">&#39;q2&#39;</span><span class="p">]</span>
+<span class="n">display</span><span class="p">(</span><span class="n">k1</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="colwidths-given docutils align-default">
@@ -422,8 +422,8 @@ display(k1)
 </table>
 <p>We can also modify the set by setting the value of an individual
 kinematic variable:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>k1.set(16.0)
-display(kinematics)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">k1</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mf">16.0</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">kinematics</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="colwidths-given docutils align-default">
@@ -467,7 +467,7 @@ clear: if you change an <code class="docutils literal notranslate"><span class="
 (in, e.g. an observable), none of your modifications to the options will
 have any effect on the user (again, e.g. an observable)</p>
 <p>You can create a new and empty set of options as follows:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>options = eos.Options()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">options</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>We can now populate this object with individual options. Options are
@@ -491,13 +491,13 @@ take values <code class="docutils literal notranslate"><span class="pre">u</span
 all option keys that a process understands, or to see their possible
 values. We are working on that!</p>
 <p>Adding options to the set can be achieved by the following:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>options.declare(&#39;model&#39;, &#39;CKMScan&#39;)
-options.declare(&#39;form-factors&#39;, &#39;BSZ2015&#39;)
-options.declare(&#39;l&#39;, &#39;mu&#39;)                 # Since we are all so &quot;cautiously excited&quot;!
-options.declare(&#39;q&#39;, &#39;s&#39;)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="s1">&#39;CKMScan&#39;</span><span class="p">)</span>
+<span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;form-factors&#39;</span><span class="p">,</span> <span class="s1">&#39;BSZ2015&#39;</span><span class="p">)</span>
+<span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;l&#39;</span><span class="p">,</span> <span class="s1">&#39;mu&#39;</span><span class="p">)</span>                 <span class="c1"># Since we are all so &quot;cautiously excited&quot;!</span>
+<span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>options
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">options</span>
 </pre></div>
 </div>
 <table class="colwidths-given docutils align-default">
@@ -524,8 +524,8 @@ options.declare(&#39;q&#39;, &#39;s&#39;)
 populated with the options you need. The first way works if all your
 option keys are also valid Python identifiers. (In the above example
 <code class="docutils literal notranslate"><span class="pre">form-factors</span></code> is not a valid identifier.)</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>options = eos.Options(l=&#39;mu&#39;, q=&#39;s&#39;, model=&#39;CKMScan&#39;)
-display(options)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">options</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="s1">&#39;mu&#39;</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;CKMScan&#39;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="colwidths-given docutils align-default">
@@ -547,13 +547,13 @@ display(options)
 </table>
 <p>The second way works also for option keys that are not valid
 identifiers. It uses Python “keyword arguments”:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>options = eos.Options(**{
-    &#39;form-factors&#39;: &#39;BSZ2015&#39;,
-    &#39;model&#39;: &#39;WilsonScan&#39;,
-    &#39;l&#39;: &#39;tau&#39;,
-    &#39;q&#39;: &#39;s&#39;
-})
-display(options)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">options</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(</span><span class="o">**</span><span class="p">{</span>
+    <span class="s1">&#39;form-factors&#39;</span><span class="p">:</span> <span class="s1">&#39;BSZ2015&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="s1">&#39;WilsonScan&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;tau&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;q&#39;</span><span class="p">:</span> <span class="s1">&#39;s&#39;</span>
+<span class="p">})</span>
+<span class="n">display</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="colwidths-given docutils align-default">
@@ -583,7 +583,7 @@ display(options)
 a variety of processes and their associated observables. A list of all
 observables known to EOS is available online in the documentation, or
 via:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>eos.Observables()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">Observables</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>To create an observable, we require:</p>
@@ -593,19 +593,19 @@ via:</p>
 <li><p>a set of kinematic variables that it will be bound to,</p></li>
 <li><p>a set of options.</p></li>
 </ul>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>observable1 = eos.Observable.make(&#39;B_q-&gt;ll::BR@Untagged&#39;,
-        eos.Parameters(),
-        eos.Kinematics(),
-        eos.Options(model=&#39;WilsonScan&#39;, q=&#39;s&#39;, l=&#39;mu&#39;)
-)
-display(observable1)
-print(&#39;----&#39;)
-observable2 = eos.Observable.make(&#39;B-&gt;D^*lnu::A_FB&#39;,
-        eos.Parameters(),
-        eos.Kinematics(q2_min=0.02, q2_max=10.67),
-        eos.Options(l=&#39;mu&#39;)
-)
-display(observable2)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">observable1</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;B_q-&gt;ll::BR@Untagged&#39;</span><span class="p">,</span>
+        <span class="n">eos</span><span class="o">.</span><span class="n">Parameters</span><span class="p">(),</span>
+        <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(),</span>
+        <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s1">&#39;WilsonScan&#39;</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="s1">&#39;mu&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">observable1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;----&#39;</span><span class="p">)</span>
+<span class="n">observable2</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;B-&gt;D^*lnu::A_FB&#39;</span><span class="p">,</span>
+        <span class="n">eos</span><span class="o">.</span><span class="n">Parameters</span><span class="p">(),</span>
+        <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2_min</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">q2_max</span><span class="o">=</span><span class="mf">10.67</span><span class="p">),</span>
+        <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="s1">&#39;mu&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">observable2</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="colwidths-given docutils align-default">
@@ -675,7 +675,7 @@ display(observable2)
 </table>
 <p>You can access an observable’s set of parameters through the
 <code class="docutils literal notranslate"><span class="pre">parameters</span></code> method:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>observable1.parameters() == observable2.parameters()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">observable1</span><span class="o">.</span><span class="n">parameters</span><span class="p">()</span> <span class="o">==</span> <span class="n">observable2</span><span class="o">.</span><span class="n">parameters</span><span class="p">()</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kc">False</span>
@@ -687,7 +687,7 @@ Changes to the parameters of <code class="docutils literal notranslate"><span cl
 <code class="docutils literal notranslate"><span class="pre">observable2</span></code>.</p>
 <p>You can also access the set of kinematic variables through the
 <code class="docutils literal notranslate"><span class="pre">kinematics</span></code> method:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>observable2.kinematics()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">observable2</span><span class="o">.</span><span class="n">kinematics</span><span class="p">()</span>
 </pre></div>
 </div>
 <table class="colwidths-given docutils align-default">
@@ -706,7 +706,7 @@ Changes to the parameters of <code class="docutils literal notranslate"><span cl
 </table>
 <p>Finally, you can access the set of options with which an
 <code class="docutils literal notranslate"><span class="pre">eos.Observable</span></code> has been constructed through the <code class="docutils literal notranslate"><span class="pre">options</span></code> method:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>observable1.options()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">observable1</span><span class="o">.</span><span class="n">options</span><span class="p">()</span>
 </pre></div>
 </div>
 <table class="colwidths-given docutils align-default">
@@ -730,16 +730,16 @@ Changes to the parameters of <code class="docutils literal notranslate"><span cl
 example, we can readily create a list of observables that differ only by
 one of their kinematic variables, e.g. to plot an observables as a
 function of the kinematic variable.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
 
-parameters  = eos.Parameters()
-observables = [
-    eos.Observable.make(&#39;B-&gt;D^*lnu::A_FB(q2)&#39;, parameters, eos.Kinematics(q2=q2), eos.Options())
-    for q2 in numpy.linspace(1.00, 10.67, 10)
-]
+<span class="n">parameters</span>  <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Parameters</span><span class="p">()</span>
+<span class="n">observables</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;B-&gt;D^*lnu::A_FB(q2)&#39;</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2</span><span class="o">=</span><span class="n">q2</span><span class="p">),</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">q2</span> <span class="ow">in</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1.00</span><span class="p">,</span> <span class="mf">10.67</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="p">]</span>
 
-values = [o.evaluate() for o in observables]
-display(values)
+<span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">evaluate</span><span class="p">()</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">observables</span><span class="p">]</span>
+<span class="n">display</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mf">0.07568167619600394</span><span class="p">,</span>
