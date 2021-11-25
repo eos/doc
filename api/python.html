@@ -55,11 +55,14 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-eos-data">Module <code class="docutils literal notranslate"><span class="pre">eos.data</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-eos-plot">Module <code class="docutils literal notranslate"><span class="pre">eos.plot</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#plot-description-format">Plot description format</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#plot-layouting">Plot layouting</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#plot-contents">Plot contents</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#plotting-observables">Plotting observables</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#plotting-constraints">Plotting constraints</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#plotting-points">Plotting points</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plot-layouting">Plot Layouting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plot-contents">Plot Contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plotting-constraints">Plotting Constraints</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plotting-histograms">Plotting Histograms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plotting-kernel-density-estimates">Plotting Kernel Density Estimates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plotting-observables">Plotting Observables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plotting-points">Plotting Points</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plotting-uncertainty-bands">Plotting Uncertainty Bands</a></li>
 </ul>
 </li>
 </ul>
@@ -776,6 +779,12 @@ A prerun with adaptations is carried out first and its samples are discarded.</p
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.data.PMCSampler.density">
+<span class="sig-name descname"><span class="pre">density</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.PMCSampler.density" title="Permalink to this definition"></a></dt>
+<dd><p>Return a pypmc.density.MixtureDensity.</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -903,7 +912,7 @@ See <a class="reference internal" href="#plot-description-format">Plot descripti
 <dt class="sig sig-object py" id="eos.plot.Plotter.Uncertainty">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Uncertainty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plotter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Uncertainty" title="Permalink to this definition"></a></dt>
 <dd><p>Plots an uncertainty band as a function of one kinematic variable</p>
-<p>This routine expects the uncertainty propagation to have produces an HDF5 file</p>
+<p>This routine expects the uncertainty propagation to have produced an HDF5 file</p>
 </dd></dl>
 
 <dl class="py class">
@@ -983,7 +992,7 @@ expressed in terms of independent plot items.</p>
 <p>In the above, <code class="docutils literal notranslate"><span class="pre">FILENAME</span></code> is an optional argument naming the file into which the plot shall be placed.
 The format is automatically determined based on the file name extension.</p>
 <section id="plot-layouting">
-<h4>Plot layouting<a class="headerlink" href="#plot-layouting" title="Permalink to this headline"></a></h4>
+<h4>Plot Layouting<a class="headerlink" href="#plot-layouting" title="Permalink to this headline"></a></h4>
 <p>By default plots lack any axis labels and units, and any legend.</p>
 <p>An axis’ description is provided through the following key/value pairs, which can apply equally to the x and y axis:</p>
 <blockquote>
@@ -1031,7 +1040,7 @@ details.</p></li>
 </div>
 </section>
 <section id="plot-contents">
-<h4>Plot contents<a class="headerlink" href="#plot-contents" title="Permalink to this headline"></a></h4>
+<h4>Plot Contents<a class="headerlink" href="#plot-contents" title="Permalink to this headline"></a></h4>
 <p>Each item in a plot’s contents is represented by a dictionary.
 Each features the mandatory <code class="docutils literal notranslate"><span class="pre">type</span></code> key and more type-specific (mandatory or optional) keys.</p>
 <blockquote>
@@ -1100,31 +1109,141 @@ Each features the mandatory <code class="docutils literal notranslate"><span cla
 </tr>
 </tbody>
 </table>
-<p>You can find examples for the following types:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">observable</span></code> – See <a class="reference internal" href="#plotting-observables">Plotting observables</a></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">constraints</span></code> – See <a class="reference internal" href="#plotting-constraints">Plotting constraints</a></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">point</span></code> – See <a class="reference internal" href="#plotting-points">Plotting points</a></p></li>
-</ul>
-</div></blockquote>
 </li>
-<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (<em>str</em>, optional) – The name of the plot item, for convenience when reporting warnings and errors.</p></li>
 </ul>
 </div></blockquote>
 <p>All item types recognize the following optional keys:</p>
 <blockquote>
 <div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (<em>str</em>, optional) – The name of the plot item, for convenience when reporting warnings and errors.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">alpha</span></code> (<em>float</em>, between 0.0 and 1.0) – The opacity of the plot item expressed as an alpha value. 0.0 means completely transparent,
 1.0 means completely opaque.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">color</span></code> (<em>str</em>, containing any valid Matplotlib color specification) – The color of the plot item.
 Defaults to one of the colors in the Matplotlib default color cycler.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">label</span></code> (<em>str</em>, may contain LaTeX commands) – The label that appears in the plot’s legend for this plot item.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">style</span></code> (<em>str</em>, containing any valid Matplotlib styale specification) – The style of the plot item.</p></li>
 </ul>
 </div></blockquote>
 </section>
+<section id="plotting-constraints">
+<span id="constraint"></span><h4>Plotting Constraints<a class="headerlink" href="#plotting-constraints" title="Permalink to this headline"></a></h4>
+<p>Contents items of type <code class="docutils literal notranslate"><span class="pre">constraints</span></code> are used to display one of the built-in <a class="reference external" href="../constraints.html">experimental or theoretical constraints</a>.
+The following keys are mandatory:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">constraints</span></code> (<a class="reference internal" href="#eos.QualifiedName" title="eos.QualifiedName"><code class="xref py py-class docutils literal notranslate"><span class="pre">QualifiedName</span></code></a> or iterable thereof) – The name or the list of names of the constraints
+that will be plotted. Must identify at least one of the constraints known to EOS; see <a class="reference external" href="../constraints.html">the complete list of constraints</a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">variable</span></code> (<em>str</em>) – The name of the kinematic variable to which the x axis will be mapped.</p></li>
+</ul>
+</div></blockquote>
+<p>When plotting multivariate constraints, the following key is also mandatory:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">observable</span></code> (<a class="reference internal" href="#eos.QualifiedName" title="eos.QualifiedName"><code class="xref py py-class docutils literal notranslate"><span class="pre">QualifiedName</span></code></a>) – The name of the observable whose constraints will be plotted.
+Must identify one of the observables known to EOS; see <a class="reference external" href="../observables.html">the complete list of observables</a>.
+This is only mandatory in multivariate constraints, since these can constrain more than one observable simultaneously.</p></li>
+</ul>
+</div></blockquote>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="o">...</span> <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;Belle 2015 $\ell=e,\, q=d$&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;constraint&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;C0&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;constraints&#39;</span><span class="p">:</span> <span class="s1">&#39;B^0-&gt;D^+e^-nu::BRs@Belle:2015A&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;observable&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;Dlnu::BR&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;variable&#39;</span><span class="p">:</span> <span class="s1">&#39;q2&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;rescale-by-width&#39;</span><span class="p">:</span> <span class="kc">False</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="plotting-histograms">
+<span id="histogram"></span><h4>Plotting Histograms<a class="headerlink" href="#plotting-histograms" title="Permalink to this headline"></a></h4>
+<p>Contents items of type <code class="docutils literal notranslate"><span class="pre">histogram</span></code> are used to display samples of a probability density, be it a prior, a posterior, or a signal PDF.
+The following key is mandatory:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code> (<em>dict</em>, see below) – The data on probability density that will be histogramed.</p></li>
+</ul>
+</div></blockquote>
+<p>Within the data object, the following keys are understood.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">samples</span></code> (<em>list</em> of <em>float</em>) – The samples that will be histogramed. Mandatory.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">weights</span></code> or <code class="docutils literal notranslate"><span class="pre">log_weights</span></code> (<em>list</em> of <em>float</em>, optional) – The weights of the samples, on a linear or logarithmic scale.
+Defaults to uniform weights.</p></li>
+</ul>
+</div></blockquote>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># eos.Analysis object as discussed in the example notebook `inference.ipynb`</span>
+<span class="n">parameter_samples</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">pre_N</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$|V_</span><span class="si">{cb}</span><span class="s1">|$&#39;</span> <span class="p">},</span>
+        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$d\mathcal</span><span class="si">{B}</span><span class="s1">/dq^2$&#39;</span> <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;histogram&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">parameter_samples</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="p">},</span>
+        <span class="p">},</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="plotting-kernel-density-estimates">
+<span id="kde"></span><h4>Plotting Kernel Density Estimates<a class="headerlink" href="#plotting-kernel-density-estimates" title="Permalink to this headline"></a></h4>
+<p>Contents items of type <code class="docutils literal notranslate"><span class="pre">kde</span></code> are used to display a kernel density estimate (a smooth histogram) of samples of a probability density,
+be it a prior, a posterior, or a signal PDF.</p>
+<p>The following key is mandatory:</p>
+<blockquote>
+<div><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code> (<em>dict</em>, see below) – The data on the probability density that will be histogramed.</p>
+<p>Within the data object, the following keys are understood.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">samples</span></code> (<em>list</em> of <em>float</em>) – The samples that will be histogramed. Mandatory.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">weights</span></code> or <code class="docutils literal notranslate"><span class="pre">log_weights</span></code> (<em>list</em> of <em>float</em>, optional) – The weights of the samples, on a linear or logarithmic scale.
+Defaults to uniform weights.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<p>The following keys are optional:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">bandwidth</span></code> (<em>float</em>) – The factor by which the automatically determined kernel bandwidth is scaled. See the SciPy documentation
+for <code class="docutils literal notranslate"><span class="pre">gaussian_kde</span></code>, <code class="docutils literal notranslate"><span class="pre">bw_method='silverman'</span></code>. Defaults to 1.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">range</span></code> (<em>tuple</em> of two <em>float</em>) – The minimum and maximum value of the x coordinate for which the smooth histogram is plotted.</p></li>
+</ul>
+</div></blockquote>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># eos.Analysis object as discussed in the example notebook `inference.ipynb`</span>
+<span class="n">parameter_samples</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">pre_N</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$|V_</span><span class="si">{cb}</span><span class="s1">|$&#39;</span><span class="p">,</span> <span class="s1">&#39;range&#39;</span><span class="p">:[</span><span class="mf">38e-3</span><span class="p">,</span> <span class="mf">45e-3</span><span class="p">]</span> <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;kde&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="n">C0</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;posterior&#39;</span><span class="p">,</span> <span class="s1">&#39;bandwidth&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">40e-3</span><span class="p">,</span> <span class="mf">45e-3</span><span class="p">],</span>
+            <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">parameter_samples</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
 <section id="plotting-observables">
-<h4>Plotting observables<a class="headerlink" href="#plotting-observables" title="Permalink to this headline"></a></h4>
+<span id="observable"></span><h4>Plotting Observables<a class="headerlink" href="#plotting-observables" title="Permalink to this headline"></a></h4>
 <p>Contents items of type <code class="docutils literal notranslate"><span class="pre">observable</span></code> are used to display one of the built-in <a class="reference external" href="../observables.html">observables</a>.
 The following keys are mandatory:</p>
 <blockquote>
@@ -1161,45 +1280,8 @@ see <a class="reference external" href="../parameters.html">the complete list of
 </pre></div>
 </div>
 </section>
-<section id="plotting-constraints">
-<h4>Plotting constraints<a class="headerlink" href="#plotting-constraints" title="Permalink to this headline"></a></h4>
-<p>Contents items of type <code class="docutils literal notranslate"><span class="pre">constraints</span></code> are used to display one of the built-in <a class="reference external" href="../constraints.html">experimental or theoretical constraints</a>.
-The following keys are mandatory:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">constraints</span></code> (<a class="reference internal" href="#eos.QualifiedName" title="eos.QualifiedName"><code class="xref py py-class docutils literal notranslate"><span class="pre">QualifiedName</span></code></a> or iterable thereof) – The name or the list of names of the constraints
-that will be plotted. Must identify at least one of the constraints known to EOS; see <a class="reference external" href="../constraints.html">the complete list of constraints</a>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">variable</span></code> (<em>str</em>) – The name of the kinematic variable to which the x axis will be mapped.</p></li>
-</ul>
-</div></blockquote>
-<p>When plotting multivariate constraints, the following key is also mandatory:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">observable</span></code> (<a class="reference internal" href="#eos.QualifiedName" title="eos.QualifiedName"><code class="xref py py-class docutils literal notranslate"><span class="pre">QualifiedName</span></code></a>) – The name of the observable whose constraints will be plotted.
-Must identify one of the observables known to EOS; see <a class="reference external" href="../observables.html">the complete list of observables</a>.
-This is only mandatory in multivariate constraints, since these can constrain more than one observable simultaneously.</p></li>
-</ul>
-</div></blockquote>
-<p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="o">...</span> <span class="p">},</span>
-    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span>
-            <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;Belle 2015 $\ell=e,\, q=d$&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;constraint&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;C0&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;constraints&#39;</span><span class="p">:</span> <span class="s1">&#39;B^0-&gt;D^+e^-nu::BRs@Belle-2015A&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;observable&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;Dlnu::BR&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;variable&#39;</span><span class="p">:</span> <span class="s1">&#39;q2&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;rescale-by-width&#39;</span><span class="p">:</span> <span class="kc">False</span>
-        <span class="p">}</span>
-    <span class="p">]</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</section>
 <section id="plotting-points">
-<h4>Plotting points<a class="headerlink" href="#plotting-points" title="Permalink to this headline"></a></h4>
+<span id="point"></span><h4>Plotting Points<a class="headerlink" href="#plotting-points" title="Permalink to this headline"></a></h4>
 <p>Content items of type <code class="docutils literal notranslate"><span class="pre">point</span></code> are used to display a single data point manually.
 The following keys are mandatory:</p>
 <blockquote>
@@ -1229,6 +1311,52 @@ keys:</p>
             <span class="s1">&#39;marker&#39;</span><span class="p">:</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span>
             <span class="s1">&#39;markersize&#39;</span><span class="p">:</span> <span class="mi">12</span>
         <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="plotting-uncertainty-bands">
+<span id="uncertainty"></span><h4>Plotting Uncertainty Bands<a class="headerlink" href="#plotting-uncertainty-bands" title="Permalink to this headline"></a></h4>
+<p>Contents items of type <code class="docutils literal notranslate"><span class="pre">uncertainty</span></code> are used to display uncertainty bands at 68% probability
+for one of the built-in <a class="reference external" href="../observables.html">observables</a>. This item type requires that either
+a predictive distribution of the observables has been previously produced.</p>
+<p>Exactly one of the following keys is mandatory:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code> (<em>dict</em>, see below) – The data on predictive distribution of the observable whose uncertainty band will be plotted.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data-file</span></code> (<em>str</em>, path to an existing data file of type <em>eos.data.Prediction</em>) – The path to
+a data file that was generated with the <code class="docutils literal notranslate"><span class="pre">eos-analysis</span></code> command-line client.</p></li>
+</ul>
+</div></blockquote>
+<p>For <code class="docutils literal notranslate"><span class="pre">data</span></code> object, the following keys are mandatory:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">xvalues</span></code> (<em>tuple</em> of <em>float</em>) – The values on the x axis at which the observable has been evaluated.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">samples</span></code> (<em>list</em> of tuples of <em>float</em>) – The list of samples of the predictive distribution. Each tuple of samples
+corresponds to an evaluation of the observables at the kinematic configuration corresponding to the <code class="docutils literal notranslate"><span class="pre">xvalues</span></code>
+entry with the same index.</p></li>
+</ul>
+</div></blockquote>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># eos.Analysis object as discussed in the example notebook `predictions.ipynb`</span>
+<span class="n">mu_q2values</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.02</span><span class="p">,</span><span class="mf">1.00</span><span class="p">,</span><span class="mi">20</span><span class="p">),</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1.00</span><span class="p">,</span><span class="mf">11.60</span><span class="p">,</span><span class="mi">20</span><span class="p">))))</span>
+<span class="n">mu_obs</span>      <span class="o">=</span> <span class="p">[</span><span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;B-&gt;Dlnu::dBR/dq2&#39;</span><span class="p">,</span> <span class="n">prior</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span>
+                                   <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2</span><span class="o">=</span><span class="n">q2</span><span class="p">),</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">({</span><span class="s1">&#39;form-factors&#39;</span><span class="p">:</span><span class="s1">&#39;BSZ2015&#39;</span><span class="p">,</span><span class="s1">&#39;l&#39;</span><span class="p">:</span><span class="s1">&#39;mu&#39;</span><span class="p">}))</span>
+               <span class="k">for</span> <span class="n">q2</span> <span class="ow">in</span> <span class="n">mu_q2values</span><span class="p">]</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">mu_samples</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">pre_N</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">observables</span><span class="o">=</span><span class="n">mu_obs</span><span class="p">)</span>
+<span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$q^2$&#39;</span> <span class="p">},</span>
+        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$d\mathcal</span><span class="si">{B}</span><span class="s1">/dq^2$&#39;</span> <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$\ell=\mu$&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uncertainty&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">mu_samples</span><span class="p">,</span> <span class="s1">&#39;xvalues&#39;</span><span class="p">:</span> <span class="n">mu_q2values</span> <span class="p">},</span>
+            <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">11.60</span><span class="p">],</span>
+        <span class="p">},</span>
     <span class="p">]</span>
 <span class="p">}</span>
 </pre></div>
