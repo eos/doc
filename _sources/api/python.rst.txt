@@ -315,6 +315,53 @@ Example:
        ]
    }
 
+.. _histogram2D:
+
+Plotting 2D Histograms
+----------------------
+
+Contents items of type ``histogram2D`` are used to display samples of a two-dimension probability density,
+be it a prior, a posterior, or a signal PDF.
+The following key is mandatory:
+
+ * ``data`` (*dict*, see below) -- The data on probability density that will be histogramed.
+
+Within the data object, the following keys are understood.
+
+ * ``samples`` (*list* of *float* with shape (N, 2)) -- The samples that will be histogramed. Mandatory.
+ * ``weights`` or ``log_weights`` (*list* of *float* with length N, optional) -- The weights of the samples,
+   on a linear or logarithmic scale, respectively. Defaults to uniform weights.
+
+Additional optional keys are:
+
+ * ``bins`` (*int*, optional) -- The number of bins in each dimension. Defaults to 100.
+
+Example:
+
+.. code-block::
+
+   analysis = ... # eos.Analysis object as discussed in the example notebook `inference.ipynb`
+   dstarlnu_kinematics = ... # create kineamtics and SignalPDF as discussed in the example notebook `simulation.ipynb`
+   dstarlnu_pdf        = ...
+   dstarlnu_samples, _ = dstarlnu_pdf.sample_mcmc(N=50000, stride=5, pre_N=1000, preruns=3, rng=rng)
+   plot_args = {
+       'plot': {
+           'x': { 'label': r'$q^2$', 'unit': r'$        extnormal{GeV}^2$', 'range': [ 0.0, 10.50] },
+           'y': { 'label': r'$cos(      heta_\ell)$',                     'range': [-1.0,  +1.0] },
+       },
+       'contents': [
+           {
+               'label': r'samples ($\ell=\mu$)',
+               'type': 'histogram2D',
+               'data': {
+                   'samples': dstarlnu_samples[:, (0, 1)]
+               },
+               'bins': 40
+           },
+       ]
+   }
+   eos.plot.Plotter(plot_args).plot()
+
 .. _kde:
 
 Plotting Kernel Density Estimates
@@ -358,6 +405,57 @@ Example:
            }
        ]
    }
+
+.. _kde2D:
+
+Plotting 2D Kernel Density Estimates
+------------------------------------
+
+Contents items of type ``kde2D`` are used to display contours of a two-dimensional
+kernel density estimate (a 2D smooth histogram) of samples of a probability density,
+be it a prior, a posterior, or a signal PDF.
+
+The following key is mandatory:
+
+ * ``data`` (*dict*, see below) -- The data on the probability density that will be histogramed.
+
+   Within the data object, the following keys are understood.
+
+    * ``samples`` (*list* of *float* with shape (N, 2)) -- The samples that will be histogramed. Mandatory.
+    * ``weights`` or ``log_weights`` (*list* of *float*, optional) -- The weights of the samples, on a linear or logarithmic scale.
+      Defaults to uniform weights.
+
+
+The following keys are optional:
+
+ * ``bandwidth`` (*float*) -- The factor by which the automatically determined kernel bandwidth is scaled. See the SciPy documentation
+   for ``gaussian_kde``, ``bw_method='silverman'``. Defaults to 1.
+ * ``contours`` (a *list* containing ``'lines'``, ``'areas'``, or both) -- The setting for the illustration of the contours.
+   If ``'lines'`` is provided, the contour lines are drawn.
+   If ``'areas'`` is provided, the contour areas are filled.
+   Defaults to ``['lines']``.
+ * ``levels`` (*list* of *float*) -- The probability levels of the contours. Defaults to ``[0.68, 0.95, 0.99]``.
+
+Example:
+
+.. code-block::
+
+   analysis = ... # eos.Analysis object as discussed in the example notebook `inference.ipynb`
+   parameter_samples, _, = analysis.sample(N=5000, pre_N=1000)
+   plot_args = {
+       'plot': {
+           'x': { 'label': r'$|V_{cb}|$', 'range': [38e-3, 47e-3] },
+           'y': { 'label': r'$f_+(0)$',   'range': [0.6, 0.75] },
+       },
+       'contents': [
+           {
+               'type': 'kde2D', 'color': 'C1', 'label': 'posterior',
+               'levels': [68, 95], 'contours': ['lines','areas'], 'bandwidth':3,
+               'data': { 'samples': parameter_samples[:, (0,1)] }
+           }
+       ]
+   }
+   eos.plot.Plotter(plot_args).plot()
 
 .. _observable:
 

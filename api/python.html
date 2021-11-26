@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Python API &mdash; EOS 0.3.3 documentation</title>
+  <title>Python API &mdash; EOS 1.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/contentui.css" type="text/css" />
@@ -59,7 +59,9 @@
 <li class="toctree-l4"><a class="reference internal" href="#plot-contents">Plot Contents</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#plotting-constraints">Plotting Constraints</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#plotting-histograms">Plotting Histograms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plotting-2d-histograms">Plotting 2D Histograms</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#plotting-kernel-density-estimates">Plotting Kernel Density Estimates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plotting-2d-kernel-density-estimates">Plotting 2D Kernel Density Estimates</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#plotting-observables">Plotting Observables</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#plotting-points">Plotting Points</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#plotting-uncertainty-bands">Plotting Uncertainty Bands</a></li>
@@ -1197,6 +1199,55 @@ Defaults to uniform weights.</p></li>
 </pre></div>
 </div>
 </section>
+<section id="plotting-2d-histograms">
+<span id="histogram2d"></span><h4>Plotting 2D Histograms<a class="headerlink" href="#plotting-2d-histograms" title="Permalink to this headline"></a></h4>
+<p>Contents items of type <code class="docutils literal notranslate"><span class="pre">histogram2D</span></code> are used to display samples of a two-dimension probability density,
+be it a prior, a posterior, or a signal PDF.
+The following key is mandatory:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code> (<em>dict</em>, see below) – The data on probability density that will be histogramed.</p></li>
+</ul>
+</div></blockquote>
+<p>Within the data object, the following keys are understood.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">samples</span></code> (<em>list</em> of <em>float</em> with shape (N, 2)) – The samples that will be histogramed. Mandatory.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">weights</span></code> or <code class="docutils literal notranslate"><span class="pre">log_weights</span></code> (<em>list</em> of <em>float</em> with length N, optional) – The weights of the samples,
+on a linear or logarithmic scale, respectively. Defaults to uniform weights.</p></li>
+</ul>
+</div></blockquote>
+<p>Additional optional keys are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">bins</span></code> (<em>int</em>, optional) – The number of bins in each dimension. Defaults to 100.</p></li>
+</ul>
+</div></blockquote>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># eos.Analysis object as discussed in the example notebook `inference.ipynb`</span>
+<span class="n">dstarlnu_kinematics</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># create kineamtics and SignalPDF as discussed in the example notebook `simulation.ipynb`</span>
+<span class="n">dstarlnu_pdf</span>        <span class="o">=</span> <span class="o">...</span>
+<span class="n">dstarlnu_samples</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">dstarlnu_pdf</span><span class="o">.</span><span class="n">sample_mcmc</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">50000</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pre_N</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">preruns</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+<span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$q^2$&#39;</span><span class="p">,</span> <span class="s1">&#39;unit&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$        extnormal</span><span class="si">{GeV}</span><span class="s1">^2$&#39;</span><span class="p">,</span> <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">10.50</span><span class="p">]</span> <span class="p">},</span>
+        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$cos(      heta_\ell)$&#39;</span><span class="p">,</span>                     <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span>  <span class="o">+</span><span class="mf">1.0</span><span class="p">]</span> <span class="p">},</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;samples ($\ell=\mu$)&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;histogram2D&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">dstarlnu_samples</span><span class="p">[:,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;bins&#39;</span><span class="p">:</span> <span class="mi">40</span>
+        <span class="p">},</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="n">eos</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">plot_args</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
 <section id="plotting-kernel-density-estimates">
 <span id="kde"></span><h4>Plotting Kernel Density Estimates<a class="headerlink" href="#plotting-kernel-density-estimates" title="Permalink to this headline"></a></h4>
 <p>Contents items of type <code class="docutils literal notranslate"><span class="pre">kde</span></code> are used to display a kernel density estimate (a smooth histogram) of samples of a probability density,
@@ -1239,6 +1290,58 @@ for <code class="docutils literal notranslate"><span class="pre">gaussian_kde</s
         <span class="p">}</span>
     <span class="p">]</span>
 <span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="plotting-2d-kernel-density-estimates">
+<span id="kde2d"></span><h4>Plotting 2D Kernel Density Estimates<a class="headerlink" href="#plotting-2d-kernel-density-estimates" title="Permalink to this headline"></a></h4>
+<p>Contents items of type <code class="docutils literal notranslate"><span class="pre">kde2D</span></code> are used to display contours of a two-dimensional
+kernel density estimate (a 2D smooth histogram) of samples of a probability density,
+be it a prior, a posterior, or a signal PDF.</p>
+<p>The following key is mandatory:</p>
+<blockquote>
+<div><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code> (<em>dict</em>, see below) – The data on the probability density that will be histogramed.</p>
+<p>Within the data object, the following keys are understood.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">samples</span></code> (<em>list</em> of <em>float</em> with shape (N, 2)) – The samples that will be histogramed. Mandatory.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">weights</span></code> or <code class="docutils literal notranslate"><span class="pre">log_weights</span></code> (<em>list</em> of <em>float</em>, optional) – The weights of the samples, on a linear or logarithmic scale.
+Defaults to uniform weights.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<p>The following keys are optional:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">bandwidth</span></code> (<em>float</em>) – The factor by which the automatically determined kernel bandwidth is scaled. See the SciPy documentation
+for <code class="docutils literal notranslate"><span class="pre">gaussian_kde</span></code>, <code class="docutils literal notranslate"><span class="pre">bw_method='silverman'</span></code>. Defaults to 1.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">contours</span></code> (a <em>list</em> containing <code class="docutils literal notranslate"><span class="pre">'lines'</span></code>, <code class="docutils literal notranslate"><span class="pre">'areas'</span></code>, or both) – The setting for the illustration of the contours.
+If <code class="docutils literal notranslate"><span class="pre">'lines'</span></code> is provided, the contour lines are drawn.
+If <code class="docutils literal notranslate"><span class="pre">'areas'</span></code> is provided, the contour areas are filled.
+Defaults to <code class="docutils literal notranslate"><span class="pre">['lines']</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">levels</span></code> (<em>list</em> of <em>float</em>) – The probability levels of the contours. Defaults to <code class="docutils literal notranslate"><span class="pre">[0.68,</span> <span class="pre">0.95,</span> <span class="pre">0.99]</span></code>.</p></li>
+</ul>
+</div></blockquote>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># eos.Analysis object as discussed in the example notebook `inference.ipynb`</span>
+<span class="n">parameter_samples</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">pre_N</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$|V_</span><span class="si">{cb}</span><span class="s1">|$&#39;</span><span class="p">,</span> <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">38e-3</span><span class="p">,</span> <span class="mf">47e-3</span><span class="p">]</span> <span class="p">},</span>
+        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$f_+(0)$&#39;</span><span class="p">,</span>   <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">]</span> <span class="p">},</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;kde2D&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;posterior&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;levels&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">68</span><span class="p">,</span> <span class="mi">95</span><span class="p">],</span> <span class="s1">&#39;contours&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span><span class="s1">&#39;areas&#39;</span><span class="p">],</span> <span class="s1">&#39;bandwidth&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span>
+            <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">parameter_samples</span><span class="p">[:,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span> <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="n">eos</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">plot_args</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>
