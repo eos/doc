@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced Usage &mdash; EOS 1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/contentui.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+    <link rel="canonical" href="https://eos.github.io/doc/advanced.html" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/contentui.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Frequently Asked Questions" href="faq.html" />
+    <link rel="prev" title="Use Cases" href="use-cases.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> EOS
+            <img src="_static/github-eos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basics.html">Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use-cases.html">Use Cases</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Advanced Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-expression-parser">The Expression Parser</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-construction-of-expressions">The Construction of Expressions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#the-rules">The Rules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aliasing">Aliasing</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#the-insert-method">The Insert Method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#the-eos-command-line-interface">The EOS Command-Line Interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-analysis-description-format">The Analysis Description Format</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#describing-priors">Describing Priors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#describing-likelihoods">Describing Likelihoods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#describing-posteriors">Describing Posteriors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#the-command-line-interface">The Command-Line Interface</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Named Arguments">Named Arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Sub-commands:">Sub-commands:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/python.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="constraints.html">List of Constraints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="observables.html">List of Observables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parameters.html">List of Parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">List of References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">EOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Advanced Usage</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="advanced-usage">
+<h1>Advanced Usage<a class="headerlink" href="#advanced-usage" title="Permalink to this headline"></a></h1>
+<section id="the-expression-parser">
+<h2>The Expression Parser<a class="headerlink" href="#the-expression-parser" title="Permalink to this headline"></a></h2>
+<p>A user can define new observables for their analyses.
+These new observables must be arithmetic expressions of already defined observables and/or parameters.
+Observables defined in this way benefit from the same optimizations as all built-in observables, including multi-threaded evaluation and caching.
+This paragraph describes and exemplifies the syntax of the expression parser that interprets user defined python strings as new EOS observables.</p>
+<section id="the-construction-of-expressions">
+<h3>The Construction of Expressions<a class="headerlink" href="#the-construction-of-expressions" title="Permalink to this headline"></a></h3>
+<section id="the-rules">
+<h4>The Rules<a class="headerlink" href="#the-rules" title="Permalink to this headline"></a></h4>
+<p>Basic rules are used to parse the input string</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Spaces are ignored and can be added arbitrarily for readability.</p></li>
+<li><p>The parser supports usual arithmetic operations <code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">-</span></code>, <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">/</span></code> and <code class="docutils literal notranslate"><span class="pre">^</span></code> and parenthesized expressions; usual precedence rules of arithmetics apply.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;&lt;...&gt;&gt;</span></code> encapsulates the name of an EOS object, which must either be the name of parameter or an observables.
+Any such must therefore adhere to the restrictions of <code class="docutils literal notranslate"><span class="pre">eos.QualifiedName</span></code>, for example <code class="docutils literal notranslate"><span class="pre">&lt;&lt;mass::mu&gt;&gt;</span></code> or <code class="docutils literal notranslate"><span class="pre">&lt;&lt;B_u-&gt;lnu::BR&gt;&gt;</span></code>.</p></li>
+</ul>
+</div></blockquote>
+<p>The following strings are valid observable expressions</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;(&lt;&lt;mass::B_d&gt;&gt;^2</span> <span class="pre">-</span> <span class="pre">4</span> <span class="pre">*</span> <span class="pre">&lt;&lt;mass::mu&gt;&gt;^2)</span> <span class="pre">^</span> <span class="pre">0.5&quot;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;1.0</span> <span class="pre">/</span> <span class="pre">&lt;&lt;B_u-&gt;lnu::BR&#64;l=mu&gt;&gt;&quot;</span></code></p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="aliasing">
+<h4>Aliasing<a class="headerlink" href="#aliasing" title="Permalink to this headline"></a></h4>
+<p>By default, the kinematic arguments of the observables are transferred to the expression.
+For example, the expression <code class="docutils literal notranslate"><span class="pre">1.0</span> <span class="pre">/</span> <span class="pre">&lt;&lt;B-&gt;pilnu::dBR/dq2&gt;&gt;</span></code> will expect a kinematic specification for <code class="docutils literal notranslate"><span class="pre">q2</span></code>
+(either through an <code class="docutils literal notranslate"><span class="pre">eos.Kinematic</span></code> object or indirectly in a plotting routine).
+When more than one observable appears in the expression, it is useful to rename the kinematic variables.
+This can be done via an alias specification <code class="docutils literal notranslate"><span class="pre">&lt;&lt;...&gt;&gt;[...]</span></code>.
+Two types of specification are supported</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>the <code class="docutils literal notranslate"><span class="pre">=</span></code> operator fixes a kinematic variable to a given value. E.g. <code class="docutils literal notranslate"><span class="pre">&lt;&lt;B-&gt;pilnu::BR&gt;&gt;[q2_min=0.1]</span></code> only expects a specification for <code class="docutils literal notranslate"><span class="pre">q2_max</span></code>.</p></li>
+<li><p>the <code class="docutils literal notranslate"><span class="pre">=&gt;</span></code> operator renames the kinematic variable on its left-hand side to the name on the right-hand side.
+E.g. <code class="docutils literal notranslate"><span class="pre">&lt;&lt;B_u-&gt;lnu::BR&#64;l=mu&gt;&gt;[q2=&gt;q2_mu]</span> <span class="pre">/</span> <span class="pre">&lt;&lt;B_u-&gt;lnu::BR&#64;l=e&gt;&gt;[q2=&gt;q2_e]</span></code> requires two kinematic specifications, <code class="docutils literal notranslate"><span class="pre">q2_mu</span></code> and <code class="docutils literal notranslate"><span class="pre">q2_e</span></code>.</p></li>
+</ul>
+</div></blockquote>
+<p>Note that these specifications can be combined in comma-separated list, for example <code class="docutils literal notranslate"><span class="pre">[q2_min=1.0,</span> <span class="pre">q2_max=&gt;q2_mu]</span></code>.</p>
+</section>
+</section>
+<section id="the-insert-method">
+<h3>The Insert Method<a class="headerlink" href="#the-insert-method" title="Permalink to this headline"></a></h3>
+<p>Once a new observable is defined via its expression string, it can be added to the list of observables via the <code class="docutils literal notranslate"><span class="pre">insert</span></code> method</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">Observables</span><span class="p">()</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">latex</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">expression</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">latex</span></code> and <code class="docutils literal notranslate"><span class="pre">unit</span></code> are the (Qualified)name, the latex representation and the unit of the new observable;
+<code class="docutils literal notranslate"><span class="pre">options</span></code> takes an <code class="docutils literal notranslate"><span class="pre">eos.Options</span></code> object and allows to specify <cite>global</cite> options (i.e. applied to all observables in the expression);
+and <code class="docutils literal notranslate"><span class="pre">expression</span></code> is the expression string to be parsed.</p>
+<p>We conclude with a concrete example</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">Observables</span><span class="p">()</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">&#39;B-&gt;Kll::R_K_example&#39;</span><span class="p">,</span> <span class="sa">R</span><span class="s1">&#39;(R_K)&#39;</span><span class="p">,</span> <span class="n">eos</span><span class="o">.</span><span class="n">Unit</span><span class="o">.</span><span class="n">Unity</span><span class="p">(),</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(),</span>
+                         <span class="s1">&#39;( &lt;&lt;B-&gt;Kll::BR;l=mu&gt;&gt;[q2_max=6, q2_min=&gt;q2_mu_min] / &lt;&lt;B-&gt;Kll::BR;l=e&gt;&gt;[q2_max=6,q2_min=&gt;q2_e_min] )&#39;</span><span class="p">)</span>
+
+<span class="n">R_K</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;B-&gt;Kll::R_K_example&#39;</span><span class="p">,</span> <span class="n">eos</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">Defaults</span><span class="p">(),</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2_e_min</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">q2_mu_min</span><span class="o">=</span><span class="mf">1.1</span><span class="p">),</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;tag&#39;</span><span class="p">:</span><span class="s1">&#39;BFS2004&#39;</span><span class="p">}))</span>
+
+<span class="n">R_K</span><span class="o">.</span><span class="n">evaluate</span><span class="p">()</span>   <span class="c1"># should be ~1</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="the-eos-command-line-interface">
+<h2>The EOS Command-Line Interface<a class="headerlink" href="#the-eos-command-line-interface" title="Permalink to this headline"></a></h2>
+<p>Although using EOS within an interactive Jupyter notebook on your personal computer or laptop
+is useful to prototype an analysis, this approach sometimes suffers from limited computing power.
+To circumvent this problem, you can alternatively</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>use EOS in Jupyter interactively on a remote workstation computer via an SSH tunnel (see the <a class="reference external" href="faq">FAQ</a>);</p></li>
+<li><p>use EOS on remote workstations or compute clusters via the command-line interface.</p></li>
+</ul>
+</div></blockquote>
+<p>In the following we document the command-line interface and the file format used in conjunction with it.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The EOS command-line interface is completely optional and does not provide any means beyond the
+interactive Python interface.</p>
+</div>
+<section id="the-analysis-description-format">
+<h3>The Analysis Description Format<a class="headerlink" href="#the-analysis-description-format" title="Permalink to this headline"></a></h3>
+<p>EOS uses a YAML file to describe the individual steps of one or more statistical analyses.
+At the top level, the format includes the following YAML keys:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">priors</span></code> (<strong>mandatory</strong>) — The list of priors within the analysis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">likelihoods</span></code> (<strong>mandatory</strong>) — The list of likelihoods within the analysis..</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">posteriors</span></code> (<strong>mandatory</strong>) — The list of posteriors within the analysis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">predictions</span></code> (<strong>optional</strong>) — The list of theory predictions within the analysis.</p></li>
+</ul>
+</div></blockquote>
+<section id="describing-priors">
+<h4>Describing Priors<a class="headerlink" href="#describing-priors" title="Permalink to this headline"></a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">priors</span></code> key contains a list of <em>named</em> priors. Each prior has two mandatory keys:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (<strong>mandatory</strong>) — The unique name of this prior.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">parameters</span></code> (<strong>mandatory</strong>) — The ordered list of parameters described by this prior.</p></li>
+</ul>
+</div></blockquote>
+<p>The description of each individual parameter follows the prior description used in the
+<a class="reference internal" href="api/python.html#eos.Analysis" title="eos.Analysis"><code class="xref py py-class docutils literal notranslate"><span class="pre">Analysis</span></code></a> constructor.</p>
+</section>
+<section id="describing-likelihoods">
+<h4>Describing Likelihoods<a class="headerlink" href="#describing-likelihoods" title="Permalink to this headline"></a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">likelihoods</span></code> key contains a list of <em>named</em> likelihoods. Each likelihood has two mandatory keys:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (<strong>mandatory</strong>) — The unique name of this likelihood.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">constraints</span></code> (<strong>mandatory</strong>) — The ordered list of EOS constraint names that comprise this likelihood.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="describing-posteriors">
+<h4>Describing Posteriors<a class="headerlink" href="#describing-posteriors" title="Permalink to this headline"></a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">posteriors</span></code> key contains a list of <em>named</em> posteriors. Each posterior can contain several keys:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (<strong>mandatory</strong>) — The unique name of this posterior.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">global_options</span></code> (<strong>optional</strong>) — A key/value map providing global options, i.e., options that apply to all observables used by this posterior.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prior</span></code> (<strong>mandatory</strong>) — The ordered list of named priors that are used as part of this posterior.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">likelihood</span></code> (<strong>optional</strong>) — The ordered list of named likelihoods that are used as part of this posterior.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fixed_parameter</span></code> (<strong>optional</strong>) — A key/value map providing values for parameters that deviate from the default values.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="example">
+<h4>Example<a class="headerlink" href="#example" title="Permalink to this headline"></a></h4>
+<div class="toggle-header docutils container">
+<p>Example <a class="reference external" href="https://github.com/eos/eos/tree/master/examples/cli/btopilnu.analysis">examples/cli/btopilnu.analysis</a></p>
+</div>
+<div class="toggle-content docutils container">
+<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">priors</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">CKM</span>
+    <span class="nt">parameters</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">parameter</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">CKM::abs(V_ub)</span>
+        <span class="nt">min</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2.0e-3</span>
+        <span class="nt">max</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5.0e-3</span>
+        <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">uniform</span>
+
+  <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">FF-BCL2008</span>
+    <span class="nt">parameters</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">parameter</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">B-&gt;pi::f_+(0)@BCL2008</span>
+        <span class="nt">min</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.2</span>
+        <span class="nt">max</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.4</span>
+        <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">uniform</span>
+      <span class="p p-Indicator">-</span> <span class="nt">parameter</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">B-&gt;pi::b_+^1@BCL2008</span>
+        <span class="nt">min</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">-20.0</span>
+        <span class="nt">max</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">+20.0</span>
+        <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">uniform</span>
+      <span class="p p-Indicator">-</span> <span class="nt">parameter</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">B-&gt;pi::b_+^2@BCL2008</span>
+        <span class="nt">min</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">-20.0</span>
+        <span class="nt">max</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">+20.0</span>
+        <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">uniform</span>
+
+<span class="nt">likelihoods</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">theory</span>
+    <span class="nt">constraints</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">B-&gt;pi::f_+@IKMvD:2014A</span>
+
+  <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">BaBar</span>
+    <span class="nt">constraints</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">B^0-&gt;pi^+lnu::BR@BaBar:2010B</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">B^0-&gt;pi^+lnu::BR@BaBar:2012D</span>
+
+  <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Belle</span>
+    <span class="nt">constraints</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">B^0-&gt;pi^+lnu::BR@Belle:2010A</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">B^0-&gt;pi^+lnu::BR@Belle:2013A</span>
+
+<span class="nt">posteriors</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">th+exp</span>
+    <span class="nt">global_options</span><span class="p">:</span>
+      <span class="nt">model</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">CKM</span>
+      <span class="nt">form-factors</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">BCL2008</span>
+    <span class="nt">prior</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">CKM</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">FF-BCL2008</span>
+    <span class="nt">likelihood</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">theory</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">BaBar</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">Belle</span>
+
+<span class="nt">predictions</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">differential</span>
+    <span class="nt">global_options</span><span class="p">:</span>
+      <span class="nt">model</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">CKM</span>
+      <span class="nt">form-factors</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">BCL2008</span>
+      <span class="nt">l</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">e</span>
+    <span class="nt">observables</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+        <span class="nt">kinematics</span><span class="p">:</span> <span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span>  <span class="nv">0.05</span> <span class="p p-Indicator">}</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+        <span class="nt">kinematics</span><span class="p">:</span> <span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span>  <span class="nv">0.10</span> <span class="p p-Indicator">}</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+        <span class="nt">kinematics</span><span class="p">:</span> <span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span>  <span class="nv">0.25</span> <span class="p p-Indicator">}</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+        <span class="nt">kinematics</span><span class="p">:</span> <span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span>  <span class="nv">0.50</span> <span class="p p-Indicator">}</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+        <span class="nt">kinematics</span><span class="p">:</span> <span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span>  <span class="nv">0.75</span> <span class="p p-Indicator">}</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+        <span class="nt">kinematics</span><span class="p">:</span> <span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span>  <span class="nv">1.00</span> <span class="p p-Indicator">}</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+        <span class="nt">kinematics</span><span class="p">:</span> <span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span>  <span class="nv">1.50</span> <span class="p p-Indicator">}</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+        <span class="nt">kinematics</span><span class="p">:</span> <span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span>  <span class="nv">2.00</span> <span class="p p-Indicator">}</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+        <span class="nt">kinematics</span><span class="p">:</span> <span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span>  <span class="nv">2.50</span> <span class="p p-Indicator">}</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+        <span class="nt">kinematics</span><span class="p">:</span> <span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span>  <span class="nv">3.00</span> <span class="p p-Indicator">}</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+        <span class="nt">kinematics</span><span class="p">:</span> <span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span>  <span class="nv">3.50</span> <span class="p p-Indicator">}</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+        <span class="nt">kinematics</span><span class="p">:</span> <span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span>  <span class="nv">4.00</span> <span class="p p-Indicator">}</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+        <span class="nt">kinematics</span><span class="p">:</span> <span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span>  <span class="nv">6.00</span> <span class="p p-Indicator">}</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+        <span class="nt">kinematics</span><span class="p">:</span> <span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span>  <span class="nv">8.00</span> <span class="p p-Indicator">}</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+        <span class="nt">kinematics</span><span class="p">:</span> <span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span> <span class="nv">10.00</span> <span class="p p-Indicator">}</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+        <span class="nt">kinematics</span><span class="p">:</span> <span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span> <span class="nv">12.00</span> <span class="p p-Indicator">}</span>
+</pre></div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+</section>
+<section id="the-command-line-interface">
+<h3>The Command-Line Interface<a class="headerlink" href="#the-command-line-interface" title="Permalink to this headline"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">eos-analysis</span></code> script provides several subcommands that</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>inspect the analysis file;</p></li>
+<li><p>sample from a posterior density with Monte Carlo methods;</p></li>
+<li><p>perform auxiliary tasks on intermediate results.</p></li>
+</ul>
+</div></blockquote>
+<p>The output of these commands are stored on disk as directories filled with YAML files
+(for descriptions and small numerical datasets) and Numpy datafiles (for samples).
+The datafiles can be access with the classes documented as part of the <code class="xref py py-obj docutils literal notranslate"><span class="pre">eos.data</span></code> module.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span>
+                    <span class="p">{</span><span class="nb">list</span><span class="o">-</span><span class="n">priors</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">likelihoods</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">posteriors</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">predictions</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">mcmc</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">pmc</span><span class="p">,</span><span class="n">plot</span><span class="o">-</span><span class="n">samples</span><span class="p">,</span><span class="n">find</span><span class="o">-</span><span class="n">mode</span><span class="p">,</span><span class="n">find</span><span class="o">-</span><span class="n">clusters</span><span class="p">,</span><span class="n">predict</span><span class="o">-</span><span class="n">observables</span><span class="p">,</span><span class="n">run</span><span class="p">}</span>
+                    <span class="o">...</span>
+</pre></div>
+</div>
+<section id="Named Arguments">
+<h4>Named Arguments<a class="headerlink" href="#Named Arguments" title="Permalink to this headline"></a></h4>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘.analysis.yaml’.</p>
+</dd>
+</dl>
+</section>
+<section id="Sub-commands:">
+<h4>Sub-commands:<a class="headerlink" href="#Sub-commands:" title="Permalink to this headline"></a></h4>
+<section id="list-priors">
+<h5>list-priors<a class="headerlink" href="#list-priors" title="Permalink to this headline"></a></h5>
+<p>Lists the named prior PDFs defined within the scope of this analysis file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="nb">list</span><span class="o">-</span><span class="n">priors</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="list-likelihoods">
+<h5>list-likelihoods<a class="headerlink" href="#list-likelihoods" title="Permalink to this headline"></a></h5>
+<p>Lists the named likelihoods defined within the scope of this analysis file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="nb">list</span><span class="o">-</span><span class="n">likelihoods</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="p">]</span>
+</pre></div>
+</div>
+<section id="Named Arguments_repeat1">
+<h6>Named Arguments<a class="headerlink" href="#Named Arguments_repeat1" title="Permalink to this headline"></a></h6>
+<dl class="option-list">
+<dt><kbd>-d, --display-details</kbd></dt>
+<dd><p>Whether to display further details for each likelihood.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="list-posteriors">
+<h5>list-posteriors<a class="headerlink" href="#list-posteriors" title="Permalink to this headline"></a></h5>
+<p>Lists the named posterior PDFs defined within the scope of this analysis file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="nb">list</span><span class="o">-</span><span class="n">posteriors</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="list-predictions">
+<h5>list-predictions<a class="headerlink" href="#list-predictions" title="Permalink to this headline"></a></h5>
+<p>Lists the named prediction sets defined within the scope of this analysis file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="nb">list</span><span class="o">-</span><span class="n">predictions</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="sample-mcmc">
+<h5>sample-mcmc<a class="headerlink" href="#sample-mcmc" title="Permalink to this headline"></a></h5>
+<p>Samples from a named posterior PDF using Markov Chain Monte Carlo (MCMC) methods.</p>
+<p>The output file will be stored in EOS_BASE_DIRECTORY/POSTERIOR/mcmc-IDX.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">sample</span><span class="o">-</span><span class="n">mcmc</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">N</span> <span class="n">N</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">S</span> <span class="n">STRIDE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="n">PRERUNS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">n</span> <span class="n">PRE_N</span><span class="p">]</span>
+                         <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+                         <span class="n">POSTERIOR</span> <span class="n">CHAIN</span><span class="o">-</span><span class="n">IDX</span>
+</pre></div>
+</div>
+<section id="Positional Arguments">
+<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments" title="Permalink to this headline"></a></h6>
+<dl class="option-list">
+<dt><kbd>POSTERIOR</kbd></dt>
+<dd><p>The name of the posterior PDF from which to draw the samples.</p>
+</dd>
+<dt><kbd>CHAIN-IDX</kbd></dt>
+<dd><p>The index assigned to the Markov chain. This value is used to seed the RNG for a reproducable analysis.</p>
+</dd>
+</dl>
+</section>
+<section id="Named Arguments_repeat2">
+<h6>Named Arguments<a class="headerlink" href="#Named Arguments_repeat2" title="Permalink to this headline"></a></h6>
+<dl class="option-list">
+<dt><kbd>-N, --number-of-samples</kbd></dt>
+<dd><p>The number of samples to be stored in the output file.</p>
+</dd>
+<dt><kbd>-S, --stride</kbd></dt>
+<dd><p>The ratio of samples drawn over samples stored. For every S samples, S - 1 will be discarded.</p>
+</dd>
+<dt><kbd>-p, --number-of-preruns</kbd></dt>
+<dd><p>The number of prerun steps, which ared used to adapt the MCMC proposal to the posterior.</p>
+</dd>
+<dt><kbd>-n, --number-of-prerun-samples</kbd></dt>
+<dd><p>The number of samples to be used for an adaptation in each prerun steps. These samples will be discarded.</p>
+</dd>
+<dt><kbd>-b, --base-directory</kbd></dt>
+<dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="sample-pmc">
+<h5>sample-pmc<a class="headerlink" href="#sample-pmc" title="Permalink to this headline"></a></h5>
+<p>Samples from a named posterior using the Population Monte Carlo (PMC) methods.</p>
+<p>The results of the find-cluster command are expected in EOS_BASE_DIRECTORY/POSTERIOR/clusters.
+The output file will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pmc.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">sample</span><span class="o">-</span><span class="n">pmc</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">n</span> <span class="n">STEP_N</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">s</span> <span class="n">STEPS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">t</span> <span class="n">PERPLEXITY_THRESHOLD</span><span class="p">]</span>
+                        <span class="p">[</span><span class="o">-</span><span class="n">N</span> <span class="n">FINAL_N</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+                        <span class="n">POSTERIOR</span>
+</pre></div>
+</div>
+<section id="Positional Arguments_repeat1">
+<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments_repeat1" title="Permalink to this headline"></a></h6>
+<dl class="option-list">
+<dt><kbd>POSTERIOR</kbd></dt>
+<dd><p>The name of the posterior PDF from which to draw the samples.</p>
+</dd>
+</dl>
+</section>
+<section id="Named Arguments_repeat3">
+<h6>Named Arguments<a class="headerlink" href="#Named Arguments_repeat3" title="Permalink to this headline"></a></h6>
+<dl class="option-list">
+<dt><kbd>-n, --number-of-adaptation-samples</kbd></dt>
+<dd><p>The number of samples to be used in each adaptation step. These samples will be discarded.</p>
+</dd>
+<dt><kbd>-s, --number-of-adaptation-steps</kbd></dt>
+<dd><p>The number of adaptation steps, which ared used to adapt the PMC proposal to the posterior.</p>
+</dd>
+<dt><kbd>-t, --perplexity-threshold</kbd></dt>
+<dd><p>The threshold for the perplexity in the last step after which further adaptation steps are to be skipped.</p>
+</dd>
+<dt><kbd>-N, --number-of-final-samples</kbd></dt>
+<dd><p>The number of samples to be stored in the output file.</p>
+</dd>
+<dt><kbd>-c, --continue-sampling</kbd></dt>
+<dd><p>Whether to continue sampling from the previous <cite>sample-pmc</cite> results, or start fresh from the proposal obtained using <cite>find-clusters</cite>.</p>
+</dd>
+<dt><kbd>-b, --base-directory</kbd></dt>
+<dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="plot-samples">
+<h5>plot-samples<a class="headerlink" href="#plot-samples" title="Permalink to this headline"></a></h5>
+<p>Plots all samples obtained for a named posterior.</p>
+<p>The results of either the sample-mcmc or the sample-pmc command are expected in
+EOS_BASE_DIRECTORY/POSTERIOR/mcmc-* or EOS_BASE_DIRECTORY/POSTERIOR/pmc, respectively.
+The plots will be stored as PDF files within the respective sample inputs.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">plot</span><span class="o">-</span><span class="n">samples</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">B</span> <span class="n">BINS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span> <span class="n">POSTERIOR</span>
+</pre></div>
+</div>
+<section id="Positional Arguments_repeat2">
+<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments_repeat2" title="Permalink to this headline"></a></h6>
+<dl class="option-list">
+<dt><kbd>POSTERIOR</kbd></dt>
+<dd><p>The name of the posterior PDF from which to draw the samples.</p>
+</dd>
+</dl>
+</section>
+<section id="Named Arguments_repeat4">
+<h6>Named Arguments<a class="headerlink" href="#Named Arguments_repeat4" title="Permalink to this headline"></a></h6>
+<dl class="option-list">
+<dt><kbd>-B, --bins</kbd></dt>
+<dd><p>The number of bins per histogram.</p>
+</dd>
+<dt><kbd>-b, --base-directory</kbd></dt>
+<dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="find-mode">
+<h5>find-mode<a class="headerlink" href="#find-mode" title="Permalink to this headline"></a></h5>
+<p>Finds the mode of the named posterior.</p>
+<p>The optimization process can be initialized either with a provided
+parameter point, or by extracting the point with the largest posterior
+from among previously obtained MCMC samples. The output will be stored
+in EOS_BASE_DIRECTORY/posterior/mode.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">find</span><span class="o">-</span><span class="n">mode</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="n">POINTS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="n">INIT_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">from</span><span class="o">-</span><span class="n">point</span> <span class="n">POINT</span><span class="p">]</span>
+                       <span class="p">[</span><span class="o">--</span><span class="n">use</span><span class="o">-</span><span class="n">random</span><span class="o">-</span><span class="n">seed</span> <span class="n">SEED</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+                       <span class="n">POSTERIOR</span>
+</pre></div>
+</div>
+<section id="Positional Arguments_repeat3">
+<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments_repeat3" title="Permalink to this headline"></a></h6>
+<dl class="option-list">
+<dt><kbd>POSTERIOR</kbd></dt>
+<dd><p>The name of the posterior PDF that will be maximized.</p>
+</dd>
+</dl>
+</section>
+<section id="Named Arguments_repeat5">
+<h6>Named Arguments<a class="headerlink" href="#Named Arguments_repeat5" title="Permalink to this headline"></a></h6>
+<dl class="option-list">
+<dt><kbd>-p, --starting-points</kbd></dt>
+<dd><p>The number of parameter points from which maximization is started.</p>
+</dd>
+<dt><kbd>-i, --init-from-file</kbd></dt>
+<dd><p>The name of an MCMC data file from which the maximization is started.</p>
+</dd>
+<dt><kbd>--from-point</kbd></dt>
+<dd><p>The point from which the minization is started.</p>
+</dd>
+<dt><kbd>--use-random-seed</kbd></dt>
+<dd><p>The seed used to generate the random starting point of the minimization.</p>
+</dd>
+<dt><kbd>-b, --base-directory</kbd></dt>
+<dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="find-clusters">
+<h5>find-clusters<a class="headerlink" href="#find-clusters" title="Permalink to this headline"></a></h5>
+<p>Finds clusters among posterior MCMC samples, grouped by Gelman-Rubin R value, and creates a Gaussian mixture density.</p>
+<p>Finding clusters and creating a Gaussian mixture density is a neccessary intermediate step before using the sample-pmc subcommand.
+The input files are expected in EOS_BASE_DIRECTORY/POSTERIOR/mcmc-<a href="#id1"><span class="problematic" id="id2">*</span></a>. All MCMC input files present will be used in the clustering.
+The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/clusters.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">find</span><span class="o">-</span><span class="n">clusters</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">t</span> <span class="n">THRESHOLD</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span> <span class="n">K_G</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+                           <span class="n">POSTERIOR</span>
+</pre></div>
+</div>
+<section id="Positional Arguments_repeat4">
+<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments_repeat4" title="Permalink to this headline"></a></h6>
+<dl class="option-list">
+<dt><kbd>POSTERIOR</kbd></dt>
+<dd><p>The name of the posterior PDF from which MCMC samples have previously been drawn.</p>
+</dd>
+</dl>
+</section>
+<section id="Named Arguments_repeat6">
+<h6>Named Arguments<a class="headerlink" href="#Named Arguments_repeat6" title="Permalink to this headline"></a></h6>
+<dl class="option-list">
+<dt><kbd>-t, --threshold</kbd></dt>
+<dd><p>The R value threshold. If two sample subsets have an R value larger than this threshold, they will be treated as two distinct clusters. (default: 2.0)</p>
+</dd>
+<dt><kbd>-c, --clusters-per-group</kbd></dt>
+<dd><p>The number of mixture components per cluster. (default: 1)</p>
+</dd>
+<dt><kbd>-b, --base-directory</kbd></dt>
+<dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="predict-observables">
+<h5>predict-observables<a class="headerlink" href="#predict-observables" title="Permalink to this headline"></a></h5>
+<p>Predicts a set of observables based on previously obtained PMC samples.</p>
+<p>The input files are expected in EOS_BASE_DIRECTORY/POSTERIOR/pmc.
+The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pred-PREDICTION.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">predict</span><span class="o">-</span><span class="n">observables</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">B</span> <span class="n">BEGIN</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">E</span> <span class="n">END</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+                                 <span class="n">POSTERIOR</span> <span class="n">PREDICTION</span>
+</pre></div>
+</div>
+<section id="Positional Arguments_repeat5">
+<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments_repeat5" title="Permalink to this headline"></a></h6>
+<dl class="option-list">
+<dt><kbd>POSTERIOR</kbd></dt>
+<dd><p>The name of the posterior PDF from which to draw the samples.</p>
+</dd>
+<dt><kbd>PREDICTION</kbd></dt>
+<dd><p>The name of the set of observables to predict.</p>
+</dd>
+</dl>
+</section>
+<section id="Named Arguments_repeat7">
+<h6>Named Arguments<a class="headerlink" href="#Named Arguments_repeat7" title="Permalink to this headline"></a></h6>
+<dl class="option-list">
+<dt><kbd>-B, --begin-index</kbd></dt>
+<dd><p>The index of the first sample to use for the predictions.</p>
+</dd>
+<dt><kbd>-E, --end-index</kbd></dt>
+<dd><p>The index beyond the last sample to use for the predictions.</p>
+</dd>
+<dt><kbd>-b, --base-directory</kbd></dt>
+<dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="run">
+<h5>run<a class="headerlink" href="#run" title="Permalink to this headline"></a></h5>
+<p>Runs a list of subcommands.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">run</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+</pre></div>
+</div>
+<section id="Named Arguments_repeat8">
+<h6>Named Arguments<a class="headerlink" href="#Named Arguments_repeat8" title="Permalink to this headline"></a></h6>
+<dl class="option-list">
+<dt><kbd>-b, --base-directory</kbd></dt>
+<dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
+</dd>
+</dl>
+</section>
+</section>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="use-cases.html" class="btn btn-neutral float-left" title="Use Cases" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="faq.html" class="btn btn-neutral float-right" title="Frequently Asked Questions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2021, Danny van Dyk and others.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
