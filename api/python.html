@@ -224,10 +224,10 @@ A prerun with adaptations is carried out first and its samples are discarded.</p
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.Analysis.sample_pmc">
-<span class="sig-name descname"><span class="pre">sample_pmc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_proposal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_N=1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps=10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_N=5000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng=&lt;module</span> <span class="pre">'numpy.random.mtrand'</span> <span class="pre">from</span> <span class="pre">'/opt/venv/lib/python3.6/site-packages/numpy/random/mtrand.cpython-36m-x86_64-linux-gnu.so'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_final_only=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_perplexity_threshold=1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.sample_pmc" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">sample_pmc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_proposal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_N=1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps=10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_N=5000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng=&lt;module</span> <span class="pre">'numpy.random.mtrand'</span> <span class="pre">from</span> <span class="pre">'/opt/venv/lib/python3.6/site-packages/numpy/random/mtrand.cpython-36m-x86_64-linux-gnu.so'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_final_only=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_perplexity_threshold=1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_threshold=1e-10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.sample_pmc" title="Permalink to this definition"></a></dt>
 <dd><p>Return samples of the parameters and log(weights), and a mixture density adapted to the posterior.</p>
 <p>Obtains random samples of the log(posterior) using adaptive importance sampling following
-the Popoulation Monte Carlo approach with PyPMC.</p>
+the Population Monte Carlo approach with PyPMC.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -235,9 +235,10 @@ the Popoulation Monte Carlo approach with PyPMC.</p>
 <li><p><strong>step_N</strong> (<em>int</em>) – Number of samples that shall be drawn in each adaptation step.</p></li>
 <li><p><strong>steps</strong> (<em>int</em>) – Number of adaptation steps.</p></li>
 <li><p><strong>final_N</strong> (<em>int</em>) – Number of samples that shall be drawn after all adaptation steps.</p></li>
-<li><p><strong>rng</strong> – Optional random number generator (must be compatible with the requirements of pypmc.sampler.importance_sampler.ImportancSampler)</p></li>
+<li><p><strong>rng</strong> – Optional random number generator (must be compatible with the requirements of pypmc.sampler.importance_sampler.ImportanceSampler)</p></li>
 <li><p><strong>return_final_only</strong> – If set to True, only returns the samples and weights of the final sampling step, after all adaptations have finished.</p></li>
-<li><p><strong>final_perplexity_threshold</strong> – Adaptations are stopped if the perpexlity of the last adaptation step is above this threshold value.</p></li>
+<li><p><strong>final_perplexity_threshold</strong> – Adaptations are stopped if the perplexity of the last adaptation step is above this threshold value.</p></li>
+<li><p><strong>weight_threshold</strong> – Mixture components with a weight smaller than this threshold are pruned.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -764,7 +765,7 @@ A prerun with adaptations is carried out first and its samples are discarded.</p
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.data.</span></span><span class="sig-name descname"><span class="pre">PMCSampler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.PMCSampler" title="Permalink to this definition"></a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="eos.data.PMCSampler.create">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proposal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compute_test_stat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([0.5,</span> <span class="pre">1.0,</span> <span class="pre">1.5,</span> <span class="pre">2.0,</span> <span class="pre">2.5,</span> <span class="pre">3.0,</span> <span class="pre">3.5,</span> <span class="pre">4.0,</span> <span class="pre">4.5,</span> <span class="pre">5.0])</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.PMCSampler.create" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proposal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_test_stat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.PMCSampler.create" title="Permalink to this definition"></a></dt>
 <dd><p>Write a new PMCSampler object to disk.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -773,8 +774,7 @@ A prerun with adaptations is carried out first and its samples are discarded.</p
 <li><p><strong>parameters</strong> (<em>list</em><em> or </em><em>iterable of eos.Parameter</em>) – Parameter descriptions as a 1D array of shape (N, ).</p></li>
 <li><p><strong>samples</strong> (<em>2D numpy array</em>) – Samples as a 2D array of shape (N, P).</p></li>
 <li><p><strong>weights</strong> (<em>1D numpy array</em><em>, </em><em>optional</em>) – Weights on a linear scale as a 2D array of shape (N, 1).</p></li>
-<li><p><strong>compute_test_stat</strong> (<em>bool</em>) – (optional) If true, the weighted samples will be used to numerically estimate the inverse CDF of -2 * log(PDF) of the mixture.</p></li>
-<li><p><strong>sigma_test</strong> (<em>list</em><em> or </em><em>iterable</em>) – (optional) If compute_test_stat is true, the inverse CDF of -2*log(PDF) will be evaluated for the significance values contained in sigma_test.</p></li>
+<li><p><strong>sigma_test_stat</strong> (<em>list</em><em> or </em><em>iterable</em>) – (optional) If provided, the inverse CDF of -2*log(PDF) will be evaluated, using the provided values as the respective significance.</p></li>
 </ul>
 </dd>
 </dl>

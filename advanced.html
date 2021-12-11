@@ -471,7 +471,7 @@ The datafiles can be access with the classes documented as part of the <code cla
 <dd><p>The ratio of samples drawn over samples stored. For every S samples, S - 1 will be discarded.</p>
 </dd>
 <dt><kbd>-p, --number-of-preruns</kbd></dt>
-<dd><p>The number of prerun steps, which ared used to adapt the MCMC proposal to the posterior.</p>
+<dd><p>The number of prerun steps, which are used to adapt the MCMC proposal to the posterior.</p>
 </dd>
 <dt><kbd>-n, --number-of-prerun-samples</kbd></dt>
 <dd><p>The number of samples to be used for an adaptation in each prerun steps. These samples will be discarded.</p>
@@ -495,7 +495,7 @@ The datafiles can be access with the classes documented as part of the <code cla
 The output file will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pmc.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">sample</span><span class="o">-</span><span class="n">pmc</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">n</span> <span class="n">STEP_N</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">s</span> <span class="n">STEPS</span><span class="p">]</span>
                         <span class="p">[</span><span class="o">-</span><span class="n">t</span> <span class="n">PERPLEXITY_THRESHOLD</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">N</span> <span class="n">FINAL_N</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span><span class="p">]</span>
-                        <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+                        <span class="p">[</span><span class="o">-</span><span class="n">S</span> <span class="n">SIGMA_TEST_STAT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
                         <span class="n">POSTERIOR</span>
 </pre></div>
 </div>
@@ -520,7 +520,7 @@ The output file will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pmc.</p>
 <dd><p>The number of samples to be used in each adaptation step. These samples will be discarded.</p>
 </dd>
 <dt><kbd>-s, --number-of-adaptation-steps</kbd></dt>
-<dd><p>The number of adaptation steps, which ared used to adapt the PMC proposal to the posterior.</p>
+<dd><p>The number of adaptation steps, which are used to adapt the PMC proposal to the posterior.</p>
 </dd>
 <dt><kbd>-t, --perplexity-threshold</kbd></dt>
 <dd><p>The threshold for the perplexity in the last step after which further adaptation steps are to be skipped.</p>
@@ -530,6 +530,9 @@ The output file will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pmc.</p>
 </dd>
 <dt><kbd>-c, --continue-sampling</kbd></dt>
 <dd><p>Whether to continue sampling from the previous <cite>sample-pmc</cite> results, or start fresh from the proposal obtained using <cite>find-clusters</cite>.</p>
+</dd>
+<dt><kbd>-S, --sigma-test-stat</kbd></dt>
+<dd><p>If provided, the inverse CDF of -2*log(PDF) will be evaluated, using the provided values as the respective significance.</p>
 </dd>
 <dt><kbd>-b, --base-directory</kbd></dt>
 <dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
@@ -611,7 +614,7 @@ in EOS_BASE_DIRECTORY/posterior/mode.</p>
 <dd><p>The name of an MCMC data file from which the maximization is started.</p>
 </dd>
 <dt><kbd>--from-point</kbd></dt>
-<dd><p>The point from which the minization is started.</p>
+<dd><p>The point from which the minimization is started.</p>
 </dd>
 <dt><kbd>--use-random-seed</kbd></dt>
 <dd><p>The seed used to generate the random starting point of the minimization.</p>
@@ -625,7 +628,7 @@ in EOS_BASE_DIRECTORY/posterior/mode.</p>
 <section id="find-clusters">
 <h5>find-clusters<a class="headerlink" href="#find-clusters" title="Permalink to this headline"></a></h5>
 <p>Finds clusters among posterior MCMC samples, grouped by Gelman-Rubin R value, and creates a Gaussian mixture density.</p>
-<p>Finding clusters and creating a Gaussian mixture density is a neccessary intermediate step before using the sample-pmc subcommand.
+<p>Finding clusters and creating a Gaussian mixture density is a necessary intermediate step before using the sample-pmc subcommand.
 The input files are expected in EOS_BASE_DIRECTORY/POSTERIOR/mcmc-<a href="#id1"><span class="problematic" id="id2">*</span></a>. All MCMC input files present will be used in the clustering.
 The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/clusters.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">find</span><span class="o">-</span><span class="n">clusters</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">t</span> <span class="n">THRESHOLD</span><span class="p">]</span>
