@@ -353,7 +353,7 @@ At the top level, the format includes the following YAML keys:</p>
 (for descriptions and small numerical datasets) and Numpy datafiles (for samples).
 The datafiles can be access with the classes documented as part of the <code class="xref py py-obj docutils literal notranslate"><span class="pre">eos.data</span></code> module.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span>
-                    <span class="p">{</span><span class="nb">list</span><span class="o">-</span><span class="n">priors</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">likelihoods</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">posteriors</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">predictions</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">mcmc</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">pmc</span><span class="p">,</span><span class="n">plot</span><span class="o">-</span><span class="n">samples</span><span class="p">,</span><span class="n">find</span><span class="o">-</span><span class="n">mode</span><span class="p">,</span><span class="n">find</span><span class="o">-</span><span class="n">clusters</span><span class="p">,</span><span class="n">predict</span><span class="o">-</span><span class="n">observables</span><span class="p">,</span><span class="n">run</span><span class="p">}</span>
+                    <span class="p">{</span><span class="nb">list</span><span class="o">-</span><span class="n">priors</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">likelihoods</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">posteriors</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">predictions</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">mcmc</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">pmc</span><span class="p">,</span><span class="n">plot</span><span class="o">-</span><span class="n">samples</span><span class="p">,</span><span class="n">find</span><span class="o">-</span><span class="n">mode</span><span class="p">,</span><span class="n">mixture</span><span class="o">-</span><span class="n">product</span><span class="p">,</span><span class="n">find</span><span class="o">-</span><span class="n">clusters</span><span class="p">,</span><span class="n">predict</span><span class="o">-</span><span class="n">observables</span><span class="p">,</span><span class="n">run</span><span class="p">}</span>
                     <span class="o">...</span>
 </pre></div>
 </div>
@@ -495,8 +495,8 @@ The datafiles can be access with the classes documented as part of the <code cla
 The output file will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pmc.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">sample</span><span class="o">-</span><span class="n">pmc</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">n</span> <span class="n">STEP_N</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">s</span> <span class="n">STEPS</span><span class="p">]</span>
                         <span class="p">[</span><span class="o">-</span><span class="n">t</span> <span class="n">PERPLEXITY_THRESHOLD</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">w</span> <span class="n">WEIGHT_THRESHOLD</span><span class="p">]</span>
-                        <span class="p">[</span><span class="o">-</span><span class="n">N</span> <span class="n">FINAL_N</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">S</span> <span class="n">SIGMA_TEST_STAT</span><span class="p">]</span>
-                        <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+                        <span class="p">[</span><span class="o">-</span><span class="n">N</span> <span class="n">FINAL_N</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="n">INITIAL_PROPOSAL</span><span class="p">]</span>
+                        <span class="p">[</span><span class="o">-</span><span class="n">S</span> <span class="n">SIGMA_TEST_STAT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
                         <span class="n">POSTERIOR</span>
 </pre></div>
 </div>
@@ -532,8 +532,11 @@ The output file will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pmc.</p>
 <dt><kbd>-N, --number-of-final-samples</kbd></dt>
 <dd><p>The number of samples to be stored in the output file.</p>
 </dd>
-<dt><kbd>-c, --continue-sampling</kbd></dt>
-<dd><p>Whether to continue sampling from the previous <cite>sample-pmc</cite> results, or start fresh from the proposal obtained using <cite>find-clusters</cite>.</p>
+<dt><kbd>-p, --initial-proposal</kbd></dt>
+<dd><dl class="simple">
+<dt>Specify where the initial proposal should be taken from; ‘clusters’ (default): use the proposal obtained using <cite>find-clusters</cite>;</dt><dd><p>‘product’: use the proposal obtained from <cite>mixture_product</cite>; ‘pmc’: continue sampling from the previous <cite>sample-pmc</cite> results.</p>
+</dd>
+</dl>
 </dd>
 <dt><kbd>-S, --sigma-test-stat</kbd></dt>
 <dd><p>If provided, the inverse CDF of -2*log(PDF) will be evaluated, using the provided values as the respective significance.</p>
@@ -629,6 +632,43 @@ in EOS_BASE_DIRECTORY/posterior/mode.</p>
 </dl>
 </section>
 </section>
+<section id="mixture-product">
+<h5>mixture-product<a class="headerlink" href="#mixture-product" title="Permalink to this headline"></a></h5>
+<blockquote>
+<div><p>Compute the cartesian product of the densities listed in posteriors. Note that this product is not commutative.</p>
+<p>The input densities are read from EOS_BASE_DIRECTORY/POSTERIOR_i/pmc, where POSTERIOR_i is listed in posteriors.
+The output density will be stored in EOS_BASE_DIRECTORY/POSTERIOR/product.</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">mixture</span><span class="o">-</span><span class="n">product</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+                             <span class="n">POSTERIOR</span> <span class="n">POSTERIORS</span>
+</pre></div>
+</div>
+<section id="Positional Arguments_repeat4">
+<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments_repeat4" title="Permalink to this headline"></a></h6>
+<dl class="option-list">
+<dt><kbd>POSTERIOR</kbd></dt>
+<dd><p>The name of the posterior PDF for which the product is computed</p>
+</dd>
+<dt><kbd>POSTERIORS</kbd></dt>
+<dd><p>The list of name of the posteriors PDF that will be concatenated.</p>
+</dd>
+</dl>
+</section>
+<section id="Named Arguments_repeat8">
+<h6>Named Arguments<a class="headerlink" href="#Named Arguments_repeat8" title="Permalink to this headline"></a></h6>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘.analysis.yaml’.</p>
+</dd>
+<dt><kbd>-b, --base-directory</kbd></dt>
+<dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
+</dd>
+</dl>
+</section>
+</section>
 <section id="find-clusters">
 <h5>find-clusters<a class="headerlink" href="#find-clusters" title="Permalink to this headline"></a></h5>
 <p>Finds clusters among posterior MCMC samples, grouped by Gelman-Rubin R value, and creates a Gaussian mixture density.</p>
@@ -640,16 +680,16 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/clusters.</p>
                            <span class="n">POSTERIOR</span>
 </pre></div>
 </div>
-<section id="Positional Arguments_repeat4">
-<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments_repeat4" title="Permalink to this headline"></a></h6>
+<section id="Positional Arguments_repeat5">
+<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments_repeat5" title="Permalink to this headline"></a></h6>
 <dl class="option-list">
 <dt><kbd>POSTERIOR</kbd></dt>
 <dd><p>The name of the posterior PDF from which MCMC samples have previously been drawn.</p>
 </dd>
 </dl>
 </section>
-<section id="Named Arguments_repeat8">
-<h6>Named Arguments<a class="headerlink" href="#Named Arguments_repeat8" title="Permalink to this headline"></a></h6>
+<section id="Named Arguments_repeat9">
+<h6>Named Arguments<a class="headerlink" href="#Named Arguments_repeat9" title="Permalink to this headline"></a></h6>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script</p>
@@ -679,8 +719,8 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pred-PREDICTION.
                                  <span class="n">POSTERIOR</span> <span class="n">PREDICTION</span>
 </pre></div>
 </div>
-<section id="Positional Arguments_repeat5">
-<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments_repeat5" title="Permalink to this headline"></a></h6>
+<section id="Positional Arguments_repeat6">
+<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments_repeat6" title="Permalink to this headline"></a></h6>
 <dl class="option-list">
 <dt><kbd>POSTERIOR</kbd></dt>
 <dd><p>The name of the posterior PDF from which to draw the samples.</p>
@@ -690,8 +730,8 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pred-PREDICTION.
 </dd>
 </dl>
 </section>
-<section id="Named Arguments_repeat9">
-<h6>Named Arguments<a class="headerlink" href="#Named Arguments_repeat9" title="Permalink to this headline"></a></h6>
+<section id="Named Arguments_repeat10">
+<h6>Named Arguments<a class="headerlink" href="#Named Arguments_repeat10" title="Permalink to this headline"></a></h6>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script</p>
@@ -717,8 +757,8 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pred-PREDICTION.
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">run</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
 </pre></div>
 </div>
-<section id="Named Arguments_repeat10">
-<h6>Named Arguments<a class="headerlink" href="#Named Arguments_repeat10" title="Permalink to this headline"></a></h6>
+<section id="Named Arguments_repeat11">
+<h6>Named Arguments<a class="headerlink" href="#Named Arguments_repeat11" title="Permalink to this headline"></a></h6>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script</p>
