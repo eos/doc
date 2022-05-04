@@ -787,17 +787,16 @@ in the output density. Only Gaussian mixtures are supported.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.data.</span></span><span class="sig-name descname"><span class="pre">PMCSampler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.PMCSampler" title="Permalink to this definition"></a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="eos.data.PMCSampler.create">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proposal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_test_stat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.PMCSampler.create" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proposal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_test_stat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.PMCSampler.create" title="Permalink to this definition"></a></dt>
 <dd><p>Write a new PMCSampler object to disk.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>path</strong> (<em>str</em>) – Path to the storage location, which will be created as a directory.</p></li>
-<li><p><strong>parameters</strong> (<em>list</em><em> or </em><em>iterable of eos.Parameter</em>) – Parameter descriptions as a 1D array of shape (N, ).</p></li>
-<li><p><strong>samples</strong> (<em>2D numpy array</em>) – Samples as a 2D array of shape (N, P).</p></li>
-<li><p><strong>weights</strong> (<em>1D numpy array</em>) – Weights on a linear scale as a 2D array of shape (N, 1).</p></li>
-<li><p><strong>proposal</strong> (<em>pypmc.density.mixture.MixtureDensity</em>) – Mixture density that describes the PMC sampler’s proposal.</p></li>
+<li><p><strong>parameters</strong> (<em>list</em><em> or </em><em>iterable of eos.Parameter</em>) – Parameter descriptions as a 1D array of shape (P, ).</p></li>
 <li><p><strong>sigma_test_stat</strong> (<em>list</em><em> or </em><em>iterable</em>) – (optional) If provided, the inverse CDF of -2*log(PDF) will be evaluated, using the provided values as the respective significance.</p></li>
+<li><p><strong>samples</strong> (<em>2D numpy array</em><em>, </em><em>optional</em>) – Samples as a 2D array of shape (N, P). Needed to generate the test statistic.</p></li>
+<li><p><strong>weights</strong> (<em>1D numpy array</em><em>, </em><em>optional</em>) – Weights on a linear scale as a 2D array of shape (N, 1). Needed to generate the test statistic.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1464,6 +1463,16 @@ a data file that was generated with the <code class="docutils literal notranslat
 corresponds to an evaluation of the observables at the kinematic configuration corresponding to the <code class="docutils literal notranslate"><span class="pre">xvalues</span></code>
 entry with the same index.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">weights</span></code> (array-like of <em>float</em>, optional) – The weights of the samples, on a linear scale. Defaults to uniform weights.</p></li>
+</ul>
+</div></blockquote>
+<p>The following keys are optional:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">band</span></code> (a <em>list</em> containing <code class="docutils literal notranslate"><span class="pre">'lines'</span></code>, <code class="docutils literal notranslate"><span class="pre">'areas'</span></code>, or both) – The setting for the illustration of the band.
+If <code class="docutils literal notranslate"><span class="pre">'outer'</span></code> is provided, the band’s outer lines are drawn.
+If <code class="docutils literal notranslate"><span class="pre">'median'</span></code> is provided, the band’s median line is drawn.
+If <code class="docutils literal notranslate"><span class="pre">'area'</span></code> is provided, the band’s areas are filled.
+Defaults to <code class="docutils literal notranslate"><span class="pre">['area',</span> <span class="pre">'outer',</span> <span class="pre">'median']</span></code>.</p></li>
 </ul>
 </div></blockquote>
 <p>Example:</p>
