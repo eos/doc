@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python API &mdash; EOS 1.0.2 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/contentui.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="canonical" href="https://eos.github.io/doc/api/python.html" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/contentui.js"></script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="List of Constraints" href="../constraints.html" />
+    <link rel="prev" title="Frequently Asked Questions" href="../faq.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> EOS
+            <img src="../_static/github-eos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../basics.html">Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../use-cases.html">Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Python API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-eos">Module <code class="docutils literal notranslate"><span class="pre">eos</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-eos-data">Module <code class="docutils literal notranslate"><span class="pre">eos.data</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-eos-plot">Module <code class="docutils literal notranslate"><span class="pre">eos.plot</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#plot-description-format">Plot description format</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#plot-layouting">Plot Layouting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plot-contents">Plot Contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plotting-constraints">Plotting Constraints</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plotting-histograms">Plotting Histograms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plotting-2d-histograms">Plotting 2D Histograms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plotting-kernel-density-estimates">Plotting Kernel Density Estimates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plotting-2d-kernel-density-estimates">Plotting 2D Kernel Density Estimates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plotting-observables">Plotting Observables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plotting-points">Plotting Points</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plotting-uncertainty-bands">Plotting Uncertainty Bands</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../constraints.html">List of Constraints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../observables.html">List of Observables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parameters.html">List of Parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">List of References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">EOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Python API</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="python-api">
+<h1>Python API<a class="headerlink" href="#python-api" title="Permalink to this headline"></a></h1>
+<section id="module-eos">
+<h2>Module <code class="docutils literal notranslate"><span class="pre">eos</span></code><a class="headerlink" href="#module-eos" title="Permalink to this headline"></a></h2>
+<p>EOS provides its basic functionality via the main <code class="docutils literal notranslate"><span class="pre">eos</span></code> module.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.Analysis">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">Analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">priors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">likelihood</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">manual_constraints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis" title="Permalink to this definition"></a></dt>
+<dd><p>Represents a statistical analysis.</p>
+<p>Describes a Bayesian analysis in terms of a set of parameters, a log(likelihood),
+and a set containing one or more log(prior)s.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>global_options</strong> (<em>dict</em><em>, </em><em>optional</em>) – The options as (key, value) pairs that shall be forwarded to all theory predictions.</p></li>
+<li><p><strong>priors</strong> (<em>iterable</em>) – The priors for this analysis as a list of prior descriptions. See <a class="reference internal" href="#eos-analysis-prior-descriptions"><span class="std std-ref">below</span></a> for what consitutes a valid prior description.</p></li>
+<li><p><strong>likelihood</strong> (<em>iterable</em>) – The likelihood as a list of individual constraints from the internal data base of experimental and theoretical constraints; cf. <a class="reference external" href="../constraints.html">the complete list of constraints</a>.</p></li>
+<li><p><strong>manual_constraints</strong> (<em>dict</em><em>, </em><em>optional</em>) – Additional manually-specified constraints that shall be added to the log(likelihood).</p></li>
+<li><p><strong>fixed_parameters</strong> (<em>dict</em><em>, </em><em>optional</em>) – Values of parameters that are set when the analysis is defined.</p></li>
+<li><p><strong>parameters</strong> (<a class="reference internal" href="#eos.Parameters" title="eos.Parameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">eos.Parameters</span></code></a> or None, optional) – The optional set of parameters that shall be used for this analysis. Defaults to <cite>None</cite> which means that a new instance of <a class="reference internal" href="#eos.Parameters" title="eos.Parameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">eos.Parameters</span></code></a> is created.</p></li>
+</ul>
+</dd>
+</dl>
+<p id="eos-analysis-prior-descriptions">Each prior description is a dictionary with the following mandatory elements:</p>
+<ul class="simple">
+<li><p><strong>type</strong> (<em>str</em>) – The type specification of the prior. Must be one of <code class="docutils literal notranslate"><span class="pre">uniform</span></code>, <code class="docutils literal notranslate"><span class="pre">flat</span></code>, or <code class="docutils literal notranslate"><span class="pre">gaussian</span></code>.</p></li>
+<li><p><strong>parameter</strong> (<em>str</em>) – The name of the parameter for which the prior shall apply.</p></li>
+<li><p><strong>min</strong> (<em>float</em>) – The lower boundary of the prior’s support.</p></li>
+<li><p><strong>max</strong> (<em>float</em>) – The upper boundary of the prior’s support.</p></li>
+</ul>
+<p>A <code class="docutils literal notranslate"><span class="pre">uniform</span></code> or <code class="docutils literal notranslate"><span class="pre">flat</span></code> prior does not require any further description. A <code class="docutils literal notranslate"><span class="pre">gaussian</span></code> prior requires in addition
+providing the following two elements:</p>
+<ul class="simple">
+<li><p><strong>central</strong> (<em>float</em>) – The median value of the parameter.</p></li>
+<li><p><strong>sigma</strong> (<em>float</em>, or <em>list</em>, <em>tuple</em> of <em>float</em>) – The width of the 68% probability interval. If a list or tuple
+of two numbers is provided, the prior will by a asymmetric but continuous. The two values are then taken to be the
+distance to the lower and upper end of the 68% probability interval.</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Analysis.clone">
+<span class="sig-name descname"><span class="pre">clone</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.clone" title="Permalink to this definition"></a></dt>
+<dd><p>Returns an independent instance of eos.Analysis.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Analysis.goodness_of_fit">
+<span class="sig-name descname"><span class="pre">goodness_of_fit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.goodness_of_fit" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a goodness-of-fit summary for the current parameter point.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Analysis.log_pdf">
+<span class="sig-name descname"><span class="pre">log_pdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.log_pdf" title="Permalink to this definition"></a></dt>
+<dd><p>Adapter for use with external optimization software (e.g. pypmc) to aid when optimizing the log(posterior).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>iterable</em>) – Parameter point, with the elements in the same order as in eos.Analysis.varied_parameters, rescaled so that every element is in the interval [-1, +1].</p></li>
+<li><p><strong>args</strong> (<em>optional</em>) – Dummy parameter (ignored)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Analysis.negative_log_pdf">
+<span class="sig-name descname"><span class="pre">negative_log_pdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.negative_log_pdf" title="Permalink to this definition"></a></dt>
+<dd><p>Adapter for use with external optimization software (e.g. scipy.optimize.minimize) to aid when optimizing the log(posterior).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>iterable</em>) – Parameter point, with the elements in the same order as in eos.Analysis.varied_parameters, rescaled so that every element is in the interval [-1, +1].</p></li>
+<li><p><strong>args</strong> (<em>optional</em>) – Dummy parameter (ignored)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Analysis.optimize">
+<span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_point=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng=&lt;module</span> <span class="pre">'numpy.random.mtrand'</span> <span class="pre">from</span> <span class="pre">'/opt/venv/lib/python3.6/site-packages/numpy/random/mtrand.cpython-36m-x86_64-linux-gnu.so'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.optimize" title="Permalink to this definition"></a></dt>
+<dd><p>Optimize the log(posterior) and returns a best-fit-point summary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start_point</strong> (<em>iterable</em><em>, </em><em>optional</em>) – Parameter point from which to start the optimization, with the elements in the same order as in eos.Analysis.varied_parameters.
+If set to “random”, optimization starts at the random point in the space of the priors.
+If not specified, optimization starts at the current parameter point.</p></li>
+<li><p><strong>rng</strong> – Optional random number generator</p></li>
+<li><p><strong>**kwargs</strong> – Are passed to <cite>scipy.optimize.minimize</cite></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Analysis.sample">
+<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N=1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stride=5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_N=150</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preruns=3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cov_scale=0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observables=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_point=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng=&lt;module</span> <span class="pre">'numpy.random.mtrand'</span> <span class="pre">from</span> <span class="pre">'/opt/venv/lib/python3.6/site-packages/numpy/random/mtrand.cpython-36m-x86_64-linux-gnu.so'&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.sample" title="Permalink to this definition"></a></dt>
+<dd><p>Return samples of the parameters, log(weights), and optionally posterior-predictive samples for a sequence of observables.</p>
+<p>Obtains random samples of the log(posterior) using an adaptive Markov Chain Monte Carlo with PyPMC.
+A prerun with adaptations is carried out first and its samples are discarded.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>N</strong> – Number of samples that shall be returned</p></li>
+<li><p><strong>stride</strong> – Stride, i.e., the number by which the actual amount of samples shall be thinned to return N samples.</p></li>
+<li><p><strong>pre_N</strong> – Number of samples in each prerun.</p></li>
+<li><p><strong>preruns</strong> – Number of preruns.</p></li>
+<li><p><strong>cov_scale</strong> – Scale factor for the initial guess of the covariance matrix.</p></li>
+<li><p><strong>observables</strong> (<em>list-like</em><em>, </em><em>optional</em>) – Observables for which posterior-predictive samples shall be obtained.</p></li>
+<li><p><strong>start_point</strong> (<em>list-like</em><em>, </em><em>optional</em>) – Optional starting point for the chain</p></li>
+<li><p><strong>rng</strong> – Optional random number generator (must be compatible with the requirements of pypmc.sampler.markov_chain.MarkovChain)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tuple of the parameters as array of size N, the logarithmic weights as array of size N, and optionally the posterior-predictive samples of the observables as array of size N x len(observables).</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method requiries the PyPMC python module, which can be installed from PyPI.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Analysis.sample_pmc">
+<span class="sig-name descname"><span class="pre">sample_pmc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_proposal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_N=1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps=10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_N=5000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng=&lt;module</span> <span class="pre">'numpy.random.mtrand'</span> <span class="pre">from</span> <span class="pre">'/opt/venv/lib/python3.6/site-packages/numpy/random/mtrand.cpython-36m-x86_64-linux-gnu.so'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_final_only=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_perplexity_threshold=1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_threshold=1e-10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pmc_iterations=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pmc_rel_tol=1e-10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pmc_abs_tol=1e-05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pmc_lookback=1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.sample_pmc" title="Permalink to this definition"></a></dt>
+<dd><p>Return samples of the parameters and log(weights), and a mixture density adapted to the posterior.</p>
+<p>Obtains random samples of the log(posterior) using adaptive importance sampling following
+the Population Monte Carlo approach with PyPMC.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>log_proposal</strong> (<em>pypmc.density.mixture.MixtureDensity</em>) – Initial gaussian mixture density that shall be adapted to the posterior density.</p></li>
+<li><p><strong>step_N</strong> (<em>int</em>) – Number of samples that shall be drawn in each adaptation step.</p></li>
+<li><p><strong>steps</strong> (<em>int</em>) – Number of adaptation steps.</p></li>
+<li><p><strong>final_N</strong> (<em>int</em>) – Number of samples that shall be drawn after all adaptation steps.</p></li>
+<li><p><strong>rng</strong> – Optional random number generator (must be compatible with the requirements of pypmc.sampler.importance_sampler.ImportanceSampler)</p></li>
+<li><p><strong>return_final_only</strong> – If set to True, only returns the samples and weights of the final sampling step, after all adaptations have finished.</p></li>
+<li><p><strong>final_perplexity_threshold</strong> – Adaptations are stopped if the perplexity of the last adaptation step is above this threshold value.</p></li>
+<li><p><strong>weight_threshold</strong> – Mixture components with a weight smaller than this threshold are pruned.</p></li>
+<li><p><strong>pmc_iterations</strong> – (advanced) Maximum number of update of the PMC, changing this value may make the update unstable.</p></li>
+<li><p><strong>pmc_rel_tol</strong> – (advanced) Relative tolerance of the PMC. If two consecutive values of the current density log-likelihood are relatively smaller than this value, the convergence is declared.</p></li>
+<li><p><strong>pmc_abs_tol</strong> – (advanced) Absolute tolerance of the PMC. If two consecutive values of the current density log-likelihood are smaller than this value, the convergence is declared.</p></li>
+<li><p><strong>pmc_lookback</strong> – (advanced) Use reweighted samples from the previous update steps when adjusting the mixture density.
+The parameter determines the number of update steps to “look back”.
+The default value of 1 disables this feature, a value of 0 means that all previous steps are used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tuple of the parameters as array of length N = step_N * steps + final_N, the (linear) weights as array of length N, and the
+final proposal function as pypmc.density.mixture.MixtureDensity.</p>
+</dd>
+</dl>
+<p>This method should be called after obtaining approximate samples of the
+log(posterior) by other means, e.g., by using <a class="reference internal" href="#eos.Analysis.sample" title="eos.Analysis.sample"><code class="xref py py-meth docutils literal notranslate"><span class="pre">eos.Analysis.sample()</span></code></a>.
+A possible (incomplete) example could look as follows:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pypmc.mix_adapt.r_value</span> <span class="kn">import</span> <span class="n">make_r_gaussmix</span>
+<span class="n">chains</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="c1"># run Markov Chains for your problem</span>
+    <span class="n">chain</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">chains</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chain</span><span class="p">)</span>
+
+<span class="c1"># please consult the pypmc documentation for details on the call below</span>
+<span class="n">proposal_density</span> <span class="o">=</span> <span class="n">make_r_gaussmix</span><span class="p">(</span><span class="n">chains</span><span class="p">,</span> <span class="n">K_g</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">critical_r</span><span class="o">=</span><span class="mf">1.1</span><span class="p">)</span>
+
+<span class="c1"># adapt the proposal to the posterior and obtain high-quality samples</span>
+<span class="n">analysis</span><span class="o">.</span><span class="n">sample_pmc</span><span class="p">(</span><span class="n">proposal_density</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method requires the PyPMC python module, which can be installed from PyPI.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.BestFitPoint">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">BestFitPoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.BestFitPoint" title="Permalink to this definition"></a></dt>
+<dd><p>Represents the best-fit point of a Bayesian analysis undertaken with the <a class="reference internal" href="#eos.Analysis" title="eos.Analysis"><code class="xref py py-class docutils literal notranslate"><span class="pre">Analysis</span></code></a> class.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.GoodnessOfFit">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">GoodnessOfFit</span></span><a class="headerlink" href="#eos.GoodnessOfFit" title="Permalink to this definition"></a></dt>
+<dd><p>Represents the goodness of fit characteristics of the log(posterior).</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.GoodnessOfFit.total_chi_square">
+<span class="sig-name descname"><span class="pre">total_chi_square</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(GoodnessOfFit)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.GoodnessOfFit.total_chi_square" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the total <span class="math notranslate nohighlight">\(\chi^2\)</span> value of the log(likelihood). Only (multivariate) gaussian
+likelihoods are considered for this result.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.GoodnessOfFit.total_degrees_of_freedom">
+<span class="sig-name descname"><span class="pre">total_degrees_of_freedom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(GoodnessOfFit)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.GoodnessOfFit.total_degrees_of_freedom" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the total number of degrees of freedom in the log(posterior).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.Kinematics">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">Kinematics</span></span><a class="headerlink" href="#eos.Kinematics" title="Permalink to this definition"></a></dt>
+<dd><p>Represents the set of kinematic variables relevant to an <code class="xref py py-class docutils literal notranslate"><span class="pre">observable</span></code>.</p>
+<p>Initialize a new set of kinematic variables. The inital set of variables and their initial
+set of values can be provided through keyword arguments, e.g. using</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">k</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">k2</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>                      <span class="c1"># default keyword arguments</span>
+<span class="n">k</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">({</span><span class="s1">&#39;q2&#39;</span><span class="p">:</span> <span class="mf">0.4</span><span class="p">,</span> <span class="s1">&#39;cos(theta_l)&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">})</span>   <span class="c1"># use a dictionary if variable names are not</span>
+                                                        <span class="c1"># valid python identifiers</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Kinematics.declare">
+<span class="sig-name descname"><span class="pre">declare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(Kinematics)self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(str)name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(float)value</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">KinematicVariable</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Kinematics.declare" title="Permalink to this definition"></a></dt>
+<dd><p>Declares a new kinematic variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – The name of the new kinematic variable.</p></li>
+<li><p><strong>value</strong> (<em>float</em>) – The initial value for the new kinematic variable.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.LogLikelihood">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">LogLikelihood</span></span><a class="headerlink" href="#eos.LogLikelihood" title="Permalink to this definition"></a></dt>
+<dd><p>Represents the log(likelihood) of a Bayesian analysis undertaken with the <a class="reference internal" href="#eos.Analysis" title="eos.Analysis"><code class="xref py py-class docutils literal notranslate"><span class="pre">Analysis</span></code></a> class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.LogLikelihood.add">
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(LogLikelihood)arg1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(Constraint)arg2</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#eos.LogLikelihood.add" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.LogLikelihood.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(LogLikelihood)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#eos.LogLikelihood.evaluate" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.LogLikelihood.observable_cache">
+<span class="sig-name descname"><span class="pre">observable_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(LogLikelihood)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ObservableCache</span></span></span><a class="headerlink" href="#eos.LogLikelihood.observable_cache" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.LogPosterior">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">LogPosterior</span></span><a class="headerlink" href="#eos.LogPosterior" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="eos.LogPosterior.add">
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(LogPosterior)arg1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(LogPrior)arg2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(bool)arg3</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#eos.LogPosterior.add" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.LogPosterior.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(LogPosterior)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#eos.LogPosterior.evaluate" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.LogPosterior.log_likelihood">
+<span class="sig-name descname"><span class="pre">log_likelihood</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(LogPosterior)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.LogLikelihood" title="eos.LogLikelihood"><span class="pre">LogLikelihood</span></a></span></span><a class="headerlink" href="#eos.LogPosterior.log_likelihood" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.LogPosterior.log_priors">
+<span class="sig-name descname"><span class="pre">log_priors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(object)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">object</span></span></span><a class="headerlink" href="#eos.LogPosterior.log_priors" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.LogPrior">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">LogPrior</span></span><a class="headerlink" href="#eos.LogPrior" title="Permalink to this definition"></a></dt>
+<dd><p>Represents a Bayesian prior on the log scale.</p>
+<p>New LogPrior objects can only be created using the capitalized static methods:
+<a class="reference internal" href="#eos.LogPrior.Uniform" title="eos.LogPrior.Uniform"><code class="xref py py-meth docutils literal notranslate"><span class="pre">LogPrior.Uniform()</span></code></a>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">LogPrior.Gaussian()</span></code>, and <a class="reference internal" href="#eos.LogPrior.Scale" title="eos.LogPrior.Scale"><code class="xref py py-meth docutils literal notranslate"><span class="pre">LogPrior.Scale()</span></code></a>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.LogPrior.Flat">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Flat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(_Parameters)parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(str)name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(ParameterRange)range</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">LogPrior</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.LogPrior.Flat" title="Permalink to this definition"></a></dt>
+<dd><p>Alias for <a class="reference internal" href="#eos.LogPrior.Uniform" title="eos.LogPrior.Uniform"><code class="xref py py-meth docutils literal notranslate"><span class="pre">LogPrior.Uniform()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.LogPrior.Gauss">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Gauss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(_Parameters)parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(str)name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(ParameterRange)range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(float)lower</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(float)central</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(float)upper</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">LogPrior</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.LogPrior.Gauss" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a new Gaussian prior as a LogPrior.</p>
+<p>The prior’s support is provided by the <cite>range</cite> parameter, with the
+68% probability interval [<cite>lower</cite>, <cite>upper</cite>] and the mode provided
+by the parameter <cite>central</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameters</strong> (<a class="reference internal" href="#eos.Parameters" title="eos.Parameters"><em>eos.Parameters</em></a>) – The parameters to which this LogPrior is bound.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – The name of the parameter for which the LogPrior is defined.</p></li>
+<li><p><strong>range</strong> (<em>tuple of two floating point numbers</em>) – The range [min, max] for the values that the parameter is allowed to take.</p></li>
+<li><p><strong>lower</strong> (<em>float</em>) – The lower boundary of the 68% probability interval.</p></li>
+<li><p><strong>central</strong> (<em>float</em>) – The mode and median of the prior.</p></li>
+<li><p><strong>upper</strong> (<em>float</em>) – The upper boundary of the 68% probability interval.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.LogPrior.Scale">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Scale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(_Parameters)parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(str)name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(ParameterRange)range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(float)mu_0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(float)scale</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">LogPrior</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.LogPrior.Scale" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a new Scale prior as a LogPrior.</p>
+<p>The prior’s support is provided by the <cite>range</cite> parameter, which should
+coincide with [<cite>mu_0 / lambda</cite>, <cite>mu_0 * lambda</cite>]. The PDF is chosen
+such that a renormalization scale is varied in this range and with
+central value <cite>mu_0</cite> such that <span class="math notranslate nohighlight">\(\ln x / \mu_0\)</span> is uniformly
+distributed in the interval <span class="math notranslate nohighlight">\([-\ln \lambda, +\ln \lambda]\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameters</strong> (<a class="reference internal" href="#eos.Parameters" title="eos.Parameters"><em>eos.Parameters</em></a>) – The parameters to which this LogPrior is bound.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – The name of the parameter for which the LogPrior is defined.</p></li>
+<li><p><strong>range</strong> (<em>tuple of two floating point numbers</em>) – The range [min, max] for the values that the parameter is allowed to take.</p></li>
+<li><p><strong>mu_0</strong> (<em>float</em><em>, </em><em>strictly positive</em>) – The central value of the parameter.</p></li>
+<li><p><strong>lambda</strong> (<em>float</em><em>, </em><em>strictly positive</em>) – The scale factor.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.LogPrior.Uniform">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Uniform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(_Parameters)parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(str)name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(ParameterRange)range</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">LogPrior</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.LogPrior.Uniform" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a new uniform prior as a LogPrior.</p>
+<p>The prior’s support is provided by the <cite>range</cite> parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameters</strong> (<a class="reference internal" href="#eos.Parameters" title="eos.Parameters"><em>eos.Parameters</em></a>) – The parameters to which this LogPrior is bound.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – The name of the parameter for which the LogPrior is defined.</p></li>
+<li><p><strong>range</strong> (<em>tuple of two floating point numbers</em>) – The range [min, max] for the values that the parameter is allowed to take.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.LogPrior.inverse_cdf">
+<span class="sig-name descname"><span class="pre">inverse_cdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(LogPrior)arg1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(float)p</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.LogPrior.inverse_cdf" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the parameter value corresponding to the cumulative propability <span class="math notranslate nohighlight">\(p\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>p</strong> (<em>float</em><em>, </em><em>[</em><em>0.0</em><em>, </em><em>1.0</em><em>]</em>) – The cumulative propability.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.Observable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">Observable</span></span><a class="headerlink" href="#eos.Observable" title="Permalink to this definition"></a></dt>
+<dd><p>Represents an observable or pseudo observable known to EOS.</p>
+<p>New observable objects are created using the <a class="reference internal" href="#eos.Observable.make" title="eos.Observable.make"><code class="xref py py-meth docutils literal notranslate"><span class="pre">make</span></code></a> static method.
+See also <a class="reference external" href="../observables.html">the complete list of observables</a>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Observable.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(Observable)self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Observable.evaluate" title="Permalink to this definition"></a></dt>
+<dd><p>Evaluates the observable for the present values of its bound set of parameters and set of kinematic variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The value of the observable.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Observable.kinematics">
+<span class="sig-name descname"><span class="pre">kinematics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(Observable)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Kinematics</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Observable.kinematics" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the set of kinematic variables bound to this observable.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Observable.make">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(QualifiedName)name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(_Parameters)parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(Kinematics)kinematics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(Options)options</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Observable</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Observable.make" title="Permalink to this definition"></a></dt>
+<dd><p>Makes a new <a class="reference internal" href="#eos.Observable" title="eos.Observable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Observable</span></code></a> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference internal" href="#eos.QualifiedName" title="eos.QualifiedName"><em>eos.QualifiedName</em></a>) – <p>The name of the observable. See <a class="reference external" href="../observables.html">the complete list of observables</a>.</p>
+</p></li>
+<li><p><strong>parameters</strong> (<a class="reference internal" href="#eos.Parameters" title="eos.Parameters"><em>eos.Parameters</em></a>) – The set of parameters to which this observable is bound.</p></li>
+<li><p><strong>kinematics</strong> (<a class="reference internal" href="#eos.Kinematics" title="eos.Kinematics"><em>eos.Kinematics</em></a>) – The set of kinematic variables to which this observable is bound.</p></li>
+<li><p><strong>options</strong> (<a class="reference internal" href="#eos.Options" title="eos.Options"><em>eos.Options</em></a>) – The set of options relevant to this observable.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The new observable object.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#eos.Observable" title="eos.Observable">eos.Observable</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Observable.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(Observable)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">QualifiedName</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Observable.name" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the name of the observable.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Observable.options">
+<span class="sig-name descname"><span class="pre">options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(Observable)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Options</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Observable.options" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the set of options used when creating the observable.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Observable.parameters">
+<span class="sig-name descname"><span class="pre">parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(Observable)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">_Parameters</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Observable.parameters" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the set of parameters bound to this observable.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.Observables">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">Observables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showall</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Observables" title="Permalink to this definition"></a></dt>
+<dd><p>Represents the complete list of observables known to EOS.</p>
+<p>Objects of this class are visualized as tables in Jupyter notebooks for easy
+overview. Filters can be applied through keyword arguments to the initialization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prefix</strong> (<em>str</em>) – Only show observables whose qualified names contain the provided <code class="docutils literal notranslate"><span class="pre">prefix</span></code> in their prefix part.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – Only show observables whose qualified names contain the provided <code class="docutils literal notranslate"><span class="pre">name</span></code> in their name part.</p></li>
+<li><p><strong>suffix</strong> (<em>str</em>) – Only show observables whose qualified names contain the provided <code class="docutils literal notranslate"><span class="pre">suffix</span></code> in their suffix part.</p></li>
+</ul>
+</dd>
+</dl>
+<p>See also <a class="reference external" href="../observables.html">the complete list of observables</a> in this documentation.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.Options">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">Options</span></span><a class="headerlink" href="#eos.Options" title="Permalink to this definition"></a></dt>
+<dd><p>Represents the set of options provided to an observable.</p>
+<p>Options are pairs of (key, value) pairs. The list of valid keys and their
+respective valid options are specific to each observable. The initialization
+accepts keyword arguments, e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">o</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s1">&#39;WET&#39;</span><span class="p">)</span>                   <span class="c1"># default keyword arguments</span>
+<span class="n">o</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">({</span><span class="s1">&#39;form-factors&#39;</span><span class="p">:</span> <span class="s1">&#39;BSZ2015&#39;</span><span class="p">})</span>   <span class="c1"># use a dictionary if option keys are not</span>
+                                               <span class="c1"># valid python identifiers</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Options.declare">
+<span class="sig-name descname"><span class="pre">declare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(Options)arg1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(str)arg2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(str)arg3</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#eos.Options.declare" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.Parameters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">Parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Parameters" title="Permalink to this definition"></a></dt>
+<dd><p>Represents the set of parameters known to EOS.</p>
+<p>Objects of this class are visualized as tables in Jupyter notebooks for easy
+overview. Filters can be applied through keyword arguments to the initialization.
+An independent instance of the default parameters is obtained by each call to the constructor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prefix</strong> (<em>str</em>) – Only show parameters whose qualified names contain the provided <code class="docutils literal notranslate"><span class="pre">prefix</span></code> in their prefix part.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – Only show parameters whose qualified names contain the provided <code class="docutils literal notranslate"><span class="pre">name</span></code> in their name part.</p></li>
+<li><p><strong>suffix</strong> (<em>str</em>) – Only show parameters whose qualified names contain the provided <code class="docutils literal notranslate"><span class="pre">suffix</span></code> in their suffix part.</p></li>
+</ul>
+</dd>
+</dl>
+<p>See also <a class="reference external" href="../parameters.html">the complete list of parameters</a>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Parameters.FromWCxf">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">FromWCxf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">w</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Parameters.FromWCxf" title="Permalink to this definition"></a></dt>
+<dd><p>Imports Wilson coefficients into an eos.Parameters object from a wilson.Wilson object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>w</strong> (<em>wilson.Wilson</em>) – WET Wilson coefficients in the EOS basis.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Parameters.dump">
+<span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Parameters.dump" title="Permalink to this definition"></a></dt>
+<dd><p>Dumps an eos.Parameters object to a YAML file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> (<em>str</em>) – Name of the file to which the parameters shall be written.</p></li>
+<li><p><strong>names</strong> (<em>iterable of str</em><em> (</em><em>optional</em><em>)</em>) – Names of the parameters that shall be converted.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Parameters.to_yaml">
+<span class="sig-name descname"><span class="pre">to_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Parameters.to_yaml" title="Permalink to this definition"></a></dt>
+<dd><p>Converts an eos.Parameters object to a YAML representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>names</strong> – Names of the parameters that shall be converted.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.QualifiedName">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">QualifiedName</span></span><a class="headerlink" href="#eos.QualifiedName" title="Permalink to this definition"></a></dt>
+<dd><p>Represent a qualified (i.e. complete and syntactically correct) name.</p>
+<p>EOS uses qualified names when naming any observable or constraint. The
+composition is approximately:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PREFIX</span><span class="p">::</span><span class="n">NAME</span><span class="nd">@SUFFIX</span><span class="p">;</span><span class="n">OPTIONS</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.QualifiedName.name_part">
+<span class="sig-name descname"><span class="pre">name_part</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(QualifiedName)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qnpName</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.QualifiedName.name_part" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the name part of the name, i.e., the part following the ‘::’ and preceeding any
+optional ‘&#64;’.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.QualifiedName.prefix_part">
+<span class="sig-name descname"><span class="pre">prefix_part</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(QualifiedName)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qnpPrefix</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.QualifiedName.prefix_part" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the prefix part of the name, i.e., the part preceeding the ‘::’.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.QualifiedName.suffix_part">
+<span class="sig-name descname"><span class="pre">suffix_part</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(QualifiedName)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qnpSuffix</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.QualifiedName.suffix_part" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the optional suffix part of the name, i.e., the part following the optional ‘&#64;’.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.SignalPDF">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">SignalPDF</span></span><a class="headerlink" href="#eos.SignalPDF" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="eos.SignalPDF.log_pdf">
+<span class="sig-name descname"><span class="pre">log_pdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.SignalPDF.log_pdf" title="Permalink to this definition"></a></dt>
+<dd><p>Adapter for use with external optimization software (e.g. pypmc) to aid when sampling from the log(PDF).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>iterable of float</em>) – Phase space point, with the elements corresponding to the sorted list of variables in lexicographical order; inspect <cite>self.variables</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.SignalPDF.make">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kinematics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.SignalPDF.make" title="Permalink to this definition"></a></dt>
+<dd><p>Makes a new <a class="reference internal" href="#eos.SignalPDF" title="eos.SignalPDF"><code class="xref py py-class docutils literal notranslate"><span class="pre">SignalPDF</span></code></a> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference internal" href="#eos.QualifiedName" title="eos.QualifiedName"><em>eos.QualifiedName</em></a>) – The name of the probability density function (PDF). See <a class="reference external" href="../signal-pdfs.html">the complete list of PDFs</a>.</p></li>
+<li><p><strong>parameters</strong> (<a class="reference internal" href="#eos.Parameters" title="eos.Parameters"><em>eos.Parameters</em></a>) – The set of parameters to which this PDF is bound.</p></li>
+<li><p><strong>kinematics</strong> (<a class="reference internal" href="#eos.Kinematics" title="eos.Kinematics"><em>eos.Kinematics</em></a>) – The set of kinematic variables to which this PDF is bound.</p></li>
+<li><p><strong>options</strong> (<a class="reference internal" href="#eos.Options" title="eos.Options"><em>eos.Options</em></a>) – The set of options relevant to this PDF.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The new PDF object.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#eos.SignalPDF" title="eos.SignalPDF">eos.SignalPDF</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.SignalPDF.sample_mcmc">
+<span class="sig-name descname"><span class="pre">sample_mcmc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stride</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preruns</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cov_scale=0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_point=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng=&lt;module</span> <span class="pre">'numpy.random.mtrand'</span> <span class="pre">from</span> <span class="pre">'/opt/venv/lib/python3.6/site-packages/numpy/random/mtrand.cpython-36m-x86_64-linux-gnu.so'&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.SignalPDF.sample_mcmc" title="Permalink to this definition"></a></dt>
+<dd><p>Return samples of the kinematic variables and the log(PDF).</p>
+<p>Obtains random samples of the log(PDF) using an adaptive Markov Chain Monte Carlo with PyPMC.
+A prerun with adaptations is carried out first and its samples are discarded.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>N</strong> – Number of samples that shall be returned</p></li>
+<li><p><strong>stride</strong> – Stride, i.e., the number by which the actual amount of samples shall be thinned to return N samples.</p></li>
+<li><p><strong>pre_N</strong> – Number of samples in each prerun.</p></li>
+<li><p><strong>preruns</strong> – Number of preruns.</p></li>
+<li><p><strong>cov_scale</strong> – Scale factor for the initial guess of the covariance matrix.</p></li>
+<li><p><strong>start_point</strong> (<em>list-like</em><em>, </em><em>optional</em>) – Optional starting point for the chain</p></li>
+<li><p><strong>rng</strong> – Optional random number generator (must be compatible with the requirements of pypmc.sampler.markov_chain.MarkovChain)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tuple of the kinematic variables as array of size N and the log(PDF) as array of size N.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method requires the PyPMC python module, which can be installed from PyPI.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-eos-data">
+<h2>Module <code class="docutils literal notranslate"><span class="pre">eos.data</span></code><a class="headerlink" href="#module-eos-data" title="Permalink to this headline"></a></h2>
+<p>EOS provides access to save and load the various (intermediate) results of analyses via the <code class="docutils literal notranslate"><span class="pre">eos.data</span></code> module.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.data.MarkovChain">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.data.</span></span><span class="sig-name descname"><span class="pre">MarkovChain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.MarkovChain" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="eos.data.MarkovChain.create">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.MarkovChain.create" title="Permalink to this definition"></a></dt>
+<dd><p>Write a new MarkovChain object to disk.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – Path to the storage location, which will be created as a directory.</p></li>
+<li><p><strong>parameters</strong> (<em>list</em><em> or </em><em>iterable of eos.Parameter</em>) – Parameter descriptions as a 1D array of shape (N, ).</p></li>
+<li><p><strong>samples</strong> (<em>2D numpy array</em>) – Samples as a 2D array of shape (N, P).</p></li>
+<li><p><strong>weights</strong> (<em>2D numpy array</em><em>, </em><em>optional</em>) – Weights on a linear scale as a 2D array of shape (N, 1).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.data.MixtureDensity">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.data.</span></span><span class="sig-name descname"><span class="pre">MixtureDensity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.MixtureDensity" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="eos.data.MixtureDensity.cartesian_product">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cartesian_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">densities</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.MixtureDensity.cartesian_product" title="Permalink to this definition"></a></dt>
+<dd><p>Construct the cartesian product of a list of mixture densities. The means and covariances
+of the components are copied and concatenated and the weights are multiplied. Note that
+this product is not commutative, the order of densities affects the order of parameters
+in the output density. Only Gaussian mixtures are supported.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>densities</strong> (<em>iterable of pypmc.density.MixtureDensity</em>) – List of mixture densities.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.data.MixtureDensity.create">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">density</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.MixtureDensity.create" title="Permalink to this definition"></a></dt>
+<dd><p>Write a new MixtureDensity object to disk.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – Path to the storage location, which will be created as a directory.</p></li>
+<li><p><strong>density</strong> (<em>pypmc.density.MixtureDensity</em>) – Mixture density.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.data.MixtureDensity.density">
+<span class="sig-name descname"><span class="pre">density</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.MixtureDensity.density" title="Permalink to this definition"></a></dt>
+<dd><p>Return a pypmc.density.MixtureDensity.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.data.PMCSampler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.data.</span></span><span class="sig-name descname"><span class="pre">PMCSampler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.PMCSampler" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="eos.data.PMCSampler.create">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proposal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_test_stat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.PMCSampler.create" title="Permalink to this definition"></a></dt>
+<dd><p>Write a new PMCSampler object to disk.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – Path to the storage location, which will be created as a directory.</p></li>
+<li><p><strong>parameters</strong> (<em>list</em><em> or </em><em>iterable of eos.Parameter</em>) – Parameter descriptions as a 1D array of shape (P, ).</p></li>
+<li><p><strong>sigma_test_stat</strong> (<em>list</em><em> or </em><em>iterable</em>) – (optional) If provided, the inverse CDF of -2*log(PDF) will be evaluated, using the provided values as the respective significance.</p></li>
+<li><p><strong>samples</strong> (<em>2D numpy array</em><em>, </em><em>optional</em>) – Samples as a 2D array of shape (N, P). Needed to generate the test statistic.</p></li>
+<li><p><strong>weights</strong> (<em>1D numpy array</em><em>, </em><em>optional</em>) – Weights on a linear scale as a 2D array of shape (N, 1). Needed to generate the test statistic.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.data.PMCSampler.density">
+<span class="sig-name descname"><span class="pre">density</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.PMCSampler.density" title="Permalink to this definition"></a></dt>
+<dd><p>Return a pypmc.density.MixtureDensity.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-eos-plot">
+<h2>Module <code class="docutils literal notranslate"><span class="pre">eos.plot</span></code><a class="headerlink" href="#module-eos-plot" title="Permalink to this headline"></a></h2>
+<p>EOS provides a plotting framework based on <a class="reference external" href="https://matplotlib.org/">Matplotlib</a>.
+Plots can readily be created from a Python script, from within a Jupyter notebook,
+or in the command line using the <code class="docutils literal notranslate"><span class="pre">eos-plot</span></code> script.
+For all of these cases a description of the plot is required in the format described below.
+For the command-line script <code class="docutils literal notranslate"><span class="pre">eos-plot</span></code>, the Python dictionary describing the plots must be provided as a YAML file.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Import <code class="docutils literal notranslate"><span class="pre">eos.plot</span></code> before you do something like <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">matplotlib.pyplot</span> <span class="pre">as</span> <span class="pre">plt</span></code>,
+because the <code class="docutils literal notranslate"><span class="pre">eos.plot</span></code> module sets its default plot style and a matplotlib backend.
+All options (except the backend) can be overwritten by updating <code class="docutils literal notranslate"><span class="pre">matplotlib.rcParams[...]</span></code>;
+see also the <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> documentation.
+Note that the default settings use LaTeX to create labels and math expressions,
+so for this to work latex needs to be available on your system.</p>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.plot.Plotter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.plot.</span></span><span class="sig-name descname"><span class="pre">Plotter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter" title="Permalink to this definition"></a></dt>
+<dd><p>Produces publication-quality plots</p>
+<p>Plots can contain EOS observables, EOS constraints, and <a class="reference internal" href="#eos.Analysis" title="eos.Analysis"><code class="xref py py-class docutils literal notranslate"><span class="pre">Analysis</span></code></a> results.
+See <a class="reference internal" href="#plot-description-format">Plot description format</a> for documentation of how to create a plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>description</strong> (<em>dict</em>) – Description of the plot and its contents, see <a class="reference internal" href="#plot-description-format">Plot description format</a>.</p></li>
+<li><p><strong>output</strong> (<em>string</em><em>, </em><em>optional</em>) – Name of the output file. The file format is automatically determined based on the file’s extension.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.plot.Plotter.Band">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Band</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plotter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Band" title="Permalink to this definition"></a></dt>
+<dd><p>Plots a shaded band</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.plot.Plotter.BasePlot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">BasePlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plotter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.BasePlot" title="Permalink to this definition"></a></dt>
+<dd><p>Base class for any of the plots supported by Plotter</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.plot.Plotter.Constraint">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Constraint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plotter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Constraint" title="Permalink to this definition"></a></dt>
+<dd><p>Plots constraints from the EOS library of experimental and theoretical likelihoods</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.plot.Plotter.Constraint2D">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Constraint2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plotter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Constraint2D" title="Permalink to this definition"></a></dt>
+<dd><p>Plot 2D contours for two correlated observables from a single constraint</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.plot.Plotter.ConstraintOverview">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ConstraintOverview</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plotter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.ConstraintOverview" title="Permalink to this definition"></a></dt>
+<dd><p>Plots overview of several constraints from the EOS library of experimental and theoretical likelihoods</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.plot.Plotter.Contours2D">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Contours2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plotter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Contours2D" title="Permalink to this definition"></a></dt>
+<dd><p>Plots 2D contours of a pair of parameters based on pre-existing random samples</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.plot.Plotter.ErrorBar">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ErrorBar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plotter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.ErrorBar" title="Permalink to this definition"></a></dt>
+<dd><p>Plots a single errors bar</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.plot.Plotter.Expression">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Expression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plotter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Expression" title="Permalink to this definition"></a></dt>
+<dd><p>Plots a given expression</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.plot.Plotter.Histogram1D">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Histogram1D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plotter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Histogram1D" title="Permalink to this definition"></a></dt>
+<dd><p>Plots a 1D histogram of pre-existing random samples</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.plot.Plotter.Histogram2D">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Histogram2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plotter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Histogram2D" title="Permalink to this definition"></a></dt>
+<dd><p>Plots a 2D histogram of pre-existing random samples</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.plot.Plotter.KernelDensityEstimate1D">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">KernelDensityEstimate1D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plotter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.KernelDensityEstimate1D" title="Permalink to this definition"></a></dt>
+<dd><p>Plots a 1D Kernel Density Estimate (KDE) of pre-existing random samples</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.plot.Plotter.KernelDensityEstimate2D">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">KernelDensityEstimate2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plotter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.KernelDensityEstimate2D" title="Permalink to this definition"></a></dt>
+<dd><p>Plots contours of a 2D Kernel Density Estimate (KDE) of pre-existing random samples</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.plot.Plotter.Observable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Observable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plotter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Observable" title="Permalink to this definition"></a></dt>
+<dd><p>Plots a single EOS observable w/o uncertainties as a function of one kinemtic variable or one parameter</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.plot.Plotter.Point">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plotter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Point" title="Permalink to this definition"></a></dt>
+<dd><p>Plots a single point</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.plot.Plotter.SignalPDF">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SignalPDF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plotter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.SignalPDF" title="Permalink to this definition"></a></dt>
+<dd><p>Plots a single EOS signal PDF w/o uncertainties as a function of one kinemtic variable</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.plot.Plotter.Uncertainty">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Uncertainty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plotter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Uncertainty" title="Permalink to this definition"></a></dt>
+<dd><p>Plots an uncertainty band as a function of one kinematic variable</p>
+<p>This routine expects the uncertainty propagation to have produced an HDF5 file</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.plot.Plotter.UncertaintyBinned">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UncertaintyBinned</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plotter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.UncertaintyBinned" title="Permalink to this definition"></a></dt>
+<dd><p>Plots one or more uncertainty band integrated over one kinematic variable</p>
+<p>This routine expects the uncertainty propagation to have produces an HDF5 file</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.plot.Plotter.UncertaintyOverview">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UncertaintyOverview</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plotter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.UncertaintyOverview" title="Permalink to this definition"></a></dt>
+<dd><p>Plots an overview of uncertainty estimates</p>
+<p>This routine expects the uncertainty propagation to have produced an HDF5 file</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.plot.Plotter.Watermark">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Watermark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plotter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Watermark" title="Permalink to this definition"></a></dt>
+<dd><p>Inserts an EOS watermark into the plots</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="eos.plot.Plotter.next_color">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">next_color</span></span><a class="headerlink" href="#eos.plot.Plotter.next_color" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the next available color</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="eos.plot.Plotter.next_z_order">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">next_z_order</span></span><a class="headerlink" href="#eos.plot.Plotter.next_z_order" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the next available z-order value, incremented for each plot w/o pre-defined z-order value</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.plot.Plotter.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.plot" title="Permalink to this definition"></a></dt>
+<dd><p>Produces the plot</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.plot.Plotter.plot_contents">
+<span class="sig-name descname"><span class="pre">plot_contents</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.plot_contents" title="Permalink to this definition"></a></dt>
+<dd><p>Plots the contents specified in the instructions provided to Plotter</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.plot.Plotter.setup_plot">
+<span class="sig-name descname"><span class="pre">setup_plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.setup_plot" title="Permalink to this definition"></a></dt>
+<dd><p>Setting up the plot based on the provided instruction</p>
+</dd></dl>
+
+</dd></dl>
+
+<section id="plot-description-format">
+<h3>Plot description format<a class="headerlink" href="#plot-description-format" title="Permalink to this headline"></a></h3>
+<p>The input must be formatted as a dictionary containing the keys <code class="docutils literal notranslate"><span class="pre">plot</span></code> and <code class="docutils literal notranslate"><span class="pre">contents</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">plot</span></code> key must be mapped to a dictionary; it describes the layout of the plot,
+including axis labels, positioning of the key, and similar settings.
+The <code class="docutils literal notranslate"><span class="pre">contents</span></code> key must be mapped to a list; it describes the contents of the plot,
+expressed in terms of independent plot items.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plot_desc</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="o">...</span> <span class="p">},</span>       <span class="c1"># description of the x axis</span>
+        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="o">...</span> <span class="p">},</span>       <span class="c1"># description of the y axis</span>
+        <span class="s1">&#39;legend&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="o">...</span> <span class="p">},</span>  <span class="c1"># description of the legend</span>
+        <span class="o">...</span>                 <span class="c1"># further layouting options</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span> <span class="o">...</span> <span class="p">},</span> <span class="c1"># first plot item</span>
+        <span class="p">{</span> <span class="o">...</span> <span class="p">},</span> <span class="c1"># second plot item</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="n">eos</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">plot_desc</span><span class="p">,</span> <span class="n">FILENAME</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>In the above, <code class="docutils literal notranslate"><span class="pre">FILENAME</span></code> is an optional argument naming the file into which the plot shall be placed.
+The format is automatically determined based on the file name extension.</p>
+<section id="plot-layouting">
+<h4>Plot Layouting<a class="headerlink" href="#plot-layouting" title="Permalink to this headline"></a></h4>
+<p>By default plots lack any axis labels and units, and any legend.</p>
+<p>An axis’ description is provided through the following key/value pairs, which can apply equally to the x and y axis:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">label</span></code> (<em>str</em>, may contain LaTeX commands) – The axis’ label.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">unit</span></code>  (<em>str</em>, may contain LaTeX commands) – The axis’ unit, which will be appended to the axis’ label in square brackets.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">range</span></code> (<em>list</em> or <em>tuple</em> of two <em>float</em>) – The tuple of [minimal, maximal] values, which will be displayed along the axis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scale</span></code> (<em>str</em>) – Can be either <code class="docutils literal notranslate"><span class="pre">linear</span></code> or <code class="docutils literal notranslate"><span class="pre">log</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scaling_factor</span></code> (<em>number</em>) – The axis’ scale by which all tick coordinates will be divided. The scale will <em>not</em> be appended to
+the axis’ label automatically. Using this argument is not recommended as it prevents automatic axis tick formatting and providing
+the argument below is required.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">format</span></code> (<em>str</em>, Python 3 format string) – The axis’ tick label format can be provided and is only in use when <code class="docutils literal notranslate"><span class="pre">scale</span></code> is used, to
+avoid a bad string representation of the axis ticks. For example, the user might need to determine the necessary number of digits
+manually. Due to a Matplotlib peculiarity, the format string must always format the variable <code class="docutils literal notranslate"><span class="pre">x</span></code>. See Matplotlib format strings for
+details.</p></li>
+</ul>
+</div></blockquote>
+<p>The legend description presently only includes options for its location:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">location</span></code> (<em>str</em>, valid Matplotlib legend location) – The legend’s location within the plot.</p></li>
+</ul>
+</div></blockquote>
+<p>Further layouting options are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">title</span></code> (<em>str</em>) – The plot’s title.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">size</span></code> (<em>tuple of two numbers</em>) – The plot’s size in x and y directions provided in centimeters.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">axes</span></code> (<em>str</em>, <code class="docutils literal notranslate"><span class="pre">equal</span></code>) – Enforces equal scaling of the plot’s x and y axes, if set.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">grid</span></code> (<em>str</em>, either <code class="docutils literal notranslate"><span class="pre">major</span></code>, <code class="docutils literal notranslate"><span class="pre">minor</span></code>, or <code class="docutils literal notranslate"><span class="pre">both</span></code>) – Enables the plot’s gridline, if set.</p></li>
+</ul>
+</div></blockquote>
+<p>An example illustrating plot layouting follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$q^2$&#39;</span><span class="p">,</span> <span class="s1">&#39;unit&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$\textnormal</span><span class="si">{GeV}</span><span class="s1">^2$&#39;</span><span class="p">,</span> <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">11.60</span><span class="p">]</span> <span class="p">},</span>
+        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$d\mathcal</span><span class="si">{B}</span><span class="s1">/dq^2$&#39;</span><span class="p">,</span>                    <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span>  <span class="mf">5e-3</span><span class="p">]</span> <span class="p">},</span>
+        <span class="s1">&#39;legend&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="s1">&#39;upper center&#39;</span> <span class="p">},</span>
+        <span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="o">...</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="plot-contents">
+<h4>Plot Contents<a class="headerlink" href="#plot-contents" title="Permalink to this headline"></a></h4>
+<p>Each item in a plot’s contents is represented by a dictionary.
+Each features the mandatory <code class="docutils literal notranslate"><span class="pre">type</span></code> key and more type-specific (mandatory or optional) keys.</p>
+<blockquote>
+<div><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">type</span></code> (<em>str</em>, mandatory) – The type of the plot item, from one of the following recognized item types:</p>
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>value</p></th>
+<th class="head"><p>description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">band</span></code></p></td>
+<td><p>Plots a shaded band</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">constraint</span></code></p></td>
+<td><p>Plots constraints from the EOS library of experimental and theoretical likelihoods</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">constraint2D</span></code></p></td>
+<td><p>Plot 2D contours for two correlated observables from a single constraint</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">constraint-overview</span></code></p></td>
+<td><p>Plots overview of several constraints from the EOS library of experimental and theoretical likelihoods</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">contours2D</span></code></p></td>
+<td><p>Plots 2D contours of a pair of parameters based on pre-existing random samples</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">expression</span></code></p></td>
+<td><p>Plots a given expression</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">errorbar</span></code></p></td>
+<td><p>Plots a single errors bar</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">histogram</span></code></p></td>
+<td><p>Plots a 1D histogram of pre-existing random samples</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">histogram2D</span></code></p></td>
+<td><p>Plots a 2D histogram of pre-existing random samples</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">kde</span></code></p></td>
+<td><p>Plots a 1D Kernel Density Estimate (KDE) of pre-existing random samples</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">kde2D</span></code></p></td>
+<td><p>Plots contours of a 2D Kernel Density Estimate (KDE) of pre-existing random samples</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">observable</span></code></p></td>
+<td><p>Plots a single EOS observable w/o uncertainties as a function of one kinemtic variable or one parameter</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">point</span></code></p></td>
+<td><p>Plots a single point</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">signal-pdf</span></code></p></td>
+<td><p>Plots a single EOS signal PDF w/o uncertainties as a function of one kinemtic variable</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">uncertainty</span></code></p></td>
+<td><p>Plots an uncertainty band as a function of one kinematic variable</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">uncertainty-binned</span></code></p></td>
+<td><p>Plots one or more uncertainty band integrated over one kinematic variable</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">uncertainty-overview</span></code></p></td>
+<td><p>Plots an overview of uncertainty estimates</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">watermark</span></code></p></td>
+<td><p>Inserts an EOS watermark into the plots</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div></blockquote>
+<p>All item types recognize the following optional keys:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (<em>str</em>, optional) – The name of the plot item, for convenience when reporting warnings and errors.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">alpha</span></code> (<em>float</em>, between 0.0 and 1.0) – The opacity of the plot item expressed as an alpha value. 0.0 means completely transparent,
+1.0 means completely opaque.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">color</span></code> (<em>str</em>, containing any valid Matplotlib color specification) – The color of the plot item.
+Defaults to one of the colors in the Matplotlib default color cycler.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">label</span></code> (<em>str</em>, may contain LaTeX commands) – The label that appears in the plot’s legend for this plot item.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">style</span></code> (<em>str</em>, containing any valid Matplotlib styale specification) – The style of the plot item.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="plotting-constraints">
+<span id="constraint"></span><h4>Plotting Constraints<a class="headerlink" href="#plotting-constraints" title="Permalink to this headline"></a></h4>
+<p>Contents items of type <code class="docutils literal notranslate"><span class="pre">constraints</span></code> are used to display one of the built-in <a class="reference external" href="../constraints.html">experimental or theoretical constraints</a>.
+The following keys are mandatory:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">constraints</span></code> (<a class="reference internal" href="#eos.QualifiedName" title="eos.QualifiedName"><code class="xref py py-class docutils literal notranslate"><span class="pre">QualifiedName</span></code></a> or iterable thereof) – The name or the list of names of the constraints
+that will be plotted. Must identify at least one of the constraints known to EOS; see <a class="reference external" href="../constraints.html">the complete list of constraints</a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">variable</span></code> (<em>str</em>) – The name of the kinematic variable to which the x axis will be mapped.</p></li>
+</ul>
+</div></blockquote>
+<p>When plotting multivariate constraints, the following key is also mandatory:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">observable</span></code> (<a class="reference internal" href="#eos.QualifiedName" title="eos.QualifiedName"><code class="xref py py-class docutils literal notranslate"><span class="pre">QualifiedName</span></code></a>) – The name of the observable whose constraints will be plotted.
+Must identify one of the observables known to EOS; see <a class="reference external" href="../observables.html">the complete list of observables</a>.
+This is only mandatory in multivariate constraints, since these can constrain more than one observable simultaneously.</p></li>
+</ul>
+</div></blockquote>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="o">...</span> <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;Belle 2015 $\ell=e,\, q=d$&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;constraint&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;C0&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;constraints&#39;</span><span class="p">:</span> <span class="s1">&#39;B^0-&gt;D^+e^-nu::BRs@Belle:2015A&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;observable&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;Dlnu::BR&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;variable&#39;</span><span class="p">:</span> <span class="s1">&#39;q2&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;rescale-by-width&#39;</span><span class="p">:</span> <span class="kc">False</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="plotting-histograms">
+<span id="histogram"></span><h4>Plotting Histograms<a class="headerlink" href="#plotting-histograms" title="Permalink to this headline"></a></h4>
+<p>Contents items of type <code class="docutils literal notranslate"><span class="pre">histogram</span></code> are used to display samples of a probability density, be it a prior, a posterior, or a signal PDF.
+The following key is mandatory:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code> (<em>dict</em>, see below) – The data on probability density that will be histogramed.</p></li>
+</ul>
+</div></blockquote>
+<p>Within the data object, the following keys are understood.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">samples</span></code> (<em>list</em> of <em>float</em>) – The samples that will be histogramed. Mandatory.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">weights</span></code> or <code class="docutils literal notranslate"><span class="pre">log_weights</span></code> (<em>list</em> of <em>float</em>, optional) – The weights of the samples, on a linear or logarithmic scale.
+Defaults to uniform weights.</p></li>
+</ul>
+</div></blockquote>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># eos.Analysis object as discussed in the example notebook `inference.ipynb`</span>
+<span class="n">parameter_samples</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">pre_N</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$|V_</span><span class="si">{cb}</span><span class="s1">|$&#39;</span> <span class="p">},</span>
+        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$d\mathcal</span><span class="si">{B}</span><span class="s1">/dq^2$&#39;</span> <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;histogram&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">parameter_samples</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="p">},</span>
+        <span class="p">},</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="plotting-2d-histograms">
+<span id="histogram2d"></span><h4>Plotting 2D Histograms<a class="headerlink" href="#plotting-2d-histograms" title="Permalink to this headline"></a></h4>
+<p>Contents items of type <code class="docutils literal notranslate"><span class="pre">histogram2D</span></code> are used to display samples of a two-dimension probability density,
+be it a prior, a posterior, or a signal PDF.
+The following key is mandatory:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code> (<em>dict</em>, see below) – The data on probability density that will be histogramed.</p></li>
+</ul>
+</div></blockquote>
+<p>Within the data object, the following keys are understood.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">samples</span></code> (<em>list</em> of <em>float</em> with shape (N, 2)) – The samples that will be histogramed. Mandatory.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">weights</span></code> or <code class="docutils literal notranslate"><span class="pre">log_weights</span></code> (<em>list</em> of <em>float</em> with length N, optional) – The weights of the samples,
+on a linear or logarithmic scale, respectively. Defaults to uniform weights.</p></li>
+</ul>
+</div></blockquote>
+<p>Additional optional keys are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">bins</span></code> (<em>int</em> or <em>list</em> of <em>int</em>, optional) – The number of bins for both dimensions together  or in each dimension seperately. Defaults to 100 for both dimensions.</p></li>
+</ul>
+</div></blockquote>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># eos.Analysis object as discussed in the example notebook `inference.ipynb`</span>
+<span class="n">dstarlnu_kinematics</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># create kineamtics and SignalPDF as discussed in the example notebook `simulation.ipynb`</span>
+<span class="n">dstarlnu_pdf</span>        <span class="o">=</span> <span class="o">...</span>
+<span class="n">dstarlnu_samples</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">dstarlnu_pdf</span><span class="o">.</span><span class="n">sample_mcmc</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">50000</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pre_N</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">preruns</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+<span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$q^2$&#39;</span><span class="p">,</span> <span class="s1">&#39;unit&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$        extnormal</span><span class="si">{GeV}</span><span class="s1">^2$&#39;</span><span class="p">,</span> <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">10.50</span><span class="p">]</span> <span class="p">},</span>
+        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$cos(      heta_\ell)$&#39;</span><span class="p">,</span>                     <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span>  <span class="o">+</span><span class="mf">1.0</span><span class="p">]</span> <span class="p">},</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;samples ($\ell=\mu$)&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;histogram2D&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">dstarlnu_samples</span><span class="p">[:,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;bins&#39;</span><span class="p">:</span> <span class="mi">40</span>
+        <span class="p">},</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="n">eos</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">plot_args</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="plotting-kernel-density-estimates">
+<span id="kde"></span><h4>Plotting Kernel Density Estimates<a class="headerlink" href="#plotting-kernel-density-estimates" title="Permalink to this headline"></a></h4>
+<p>Contents items of type <code class="docutils literal notranslate"><span class="pre">kde</span></code> are used to display a kernel density estimate (a smooth histogram) of samples of a probability density,
+be it a prior, a posterior, or a signal PDF.</p>
+<p>The following key is mandatory:</p>
+<blockquote>
+<div><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code> (<em>dict</em>, see below) – The data on the probability density that will be histogramed.</p>
+<p>Within the data object, the following keys are understood.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">samples</span></code> (<em>list</em> of <em>float</em>) – The samples that will be histogramed. Mandatory.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">weights</span></code> or <code class="docutils literal notranslate"><span class="pre">log_weights</span></code> (<em>list</em> of <em>float</em>, optional) – The weights of the samples, on a linear or logarithmic scale.
+Defaults to uniform weights.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<p>The following keys are optional:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">bandwidth</span></code> (<em>float</em>) – The factor by which the automatically determined kernel bandwidth is scaled. See the SciPy documentation
+for <code class="docutils literal notranslate"><span class="pre">gaussian_kde</span></code>, <code class="docutils literal notranslate"><span class="pre">bw_method='silverman'</span></code>. Defaults to 1.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">range</span></code> (<em>tuple</em> of two <em>float</em>) – The minimum and maximum value of the x coordinate for which the smooth histogram is plotted.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">level</span></code> (<em>float</em>) – The probability level of the contour. Defaults to <code class="docutils literal notranslate"><span class="pre">68.27</span></code>.</p></li>
+</ul>
+</div></blockquote>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># eos.Analysis object as discussed in the example notebook `inference.ipynb`</span>
+<span class="n">parameter_samples</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">pre_N</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$|V_</span><span class="si">{cb}</span><span class="s1">|$&#39;</span><span class="p">,</span> <span class="s1">&#39;range&#39;</span><span class="p">:[</span><span class="mf">38e-3</span><span class="p">,</span> <span class="mf">45e-3</span><span class="p">]</span> <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;kde&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="n">C0</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;posterior&#39;</span><span class="p">,</span> <span class="s1">&#39;bandwidth&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">40e-3</span><span class="p">,</span> <span class="mf">45e-3</span><span class="p">],</span>
+            <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">parameter_samples</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="plotting-2d-kernel-density-estimates">
+<span id="kde2d"></span><h4>Plotting 2D Kernel Density Estimates<a class="headerlink" href="#plotting-2d-kernel-density-estimates" title="Permalink to this headline"></a></h4>
+<p>Contents items of type <code class="docutils literal notranslate"><span class="pre">kde2D</span></code> are used to display contours of a two-dimensional
+kernel density estimate (a 2D smooth histogram) of samples of a probability density,
+be it a prior, a posterior, or a signal PDF.</p>
+<p>The following key is mandatory:</p>
+<blockquote>
+<div><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code> (<em>dict</em>, see below) – The data on the probability density that will be histogramed.</p>
+<p>Within the data object, the following keys are understood.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">samples</span></code> (<em>list</em> of <em>float</em> with shape (N, 2)) – The samples that will be histogramed. Mandatory.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">weights</span></code> or <code class="docutils literal notranslate"><span class="pre">log_weights</span></code> (<em>list</em> of <em>float</em>, optional) – The weights of the samples, on a linear or logarithmic scale.
+Defaults to uniform weights.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<p>The following keys are optional:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">bandwidth</span></code> (<em>float</em>) – The factor by which the automatically determined kernel bandwidth is scaled. See the SciPy documentation
+for <code class="docutils literal notranslate"><span class="pre">gaussian_kde</span></code>, <code class="docutils literal notranslate"><span class="pre">bw_method='silverman'</span></code>. Defaults to 1.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">contours</span></code> (a <em>list</em> containing <code class="docutils literal notranslate"><span class="pre">'lines'</span></code>, <code class="docutils literal notranslate"><span class="pre">'areas'</span></code>, or both) – The setting for the illustration of the contours.
+If <code class="docutils literal notranslate"><span class="pre">'lines'</span></code> is provided, the contour lines are drawn.
+If <code class="docutils literal notranslate"><span class="pre">'areas'</span></code> is provided, the contour areas are filled.
+Defaults to <code class="docutils literal notranslate"><span class="pre">['lines']</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">levels</span></code> (<em>list</em> of <em>float</em>) – The probability levels of the contours. Defaults to <code class="docutils literal notranslate"><span class="pre">[68,</span> <span class="pre">95,</span> <span class="pre">99]</span></code>.</p></li>
+</ul>
+</div></blockquote>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># eos.Analysis object as discussed in the example notebook `inference.ipynb`</span>
+<span class="n">parameter_samples</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">pre_N</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$|V_</span><span class="si">{cb}</span><span class="s1">|$&#39;</span><span class="p">,</span> <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">38e-3</span><span class="p">,</span> <span class="mf">47e-3</span><span class="p">]</span> <span class="p">},</span>
+        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$f_+(0)$&#39;</span><span class="p">,</span>   <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">]</span> <span class="p">},</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;kde2D&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;posterior&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;levels&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">68</span><span class="p">,</span> <span class="mi">95</span><span class="p">],</span> <span class="s1">&#39;contours&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span><span class="s1">&#39;areas&#39;</span><span class="p">],</span> <span class="s1">&#39;bandwidth&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span>
+            <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">parameter_samples</span><span class="p">[:,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span> <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="n">eos</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">plot_args</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="plotting-observables">
+<span id="observable"></span><h4>Plotting Observables<a class="headerlink" href="#plotting-observables" title="Permalink to this headline"></a></h4>
+<p>Contents items of type <code class="docutils literal notranslate"><span class="pre">observable</span></code> are used to display one of the built-in <a class="reference external" href="../observables.html">observables</a>.
+The following keys are mandatory:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">observable</span></code> (<a class="reference internal" href="#eos.QualifiedName" title="eos.QualifiedName"><code class="xref py py-class docutils literal notranslate"><span class="pre">QualifiedName</span></code></a>) – The name of the observable that will be plotted.
+Must identify one of the observables known to EOS; see <a class="reference external" href="../observables.html">the complete list of observables</a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">range</span></code> (<em>list</em> or <em>tuple</em> of two <em>float</em>) –The tuple of [minimal, maximal] values of the specified kinematic variable
+for which the observable will be evaluated.</p></li>
+</ul>
+</div></blockquote>
+<p>Exactly one of the following keys is mandatory, to specify either a kinematic variable or a parameter to which the x coordinate
+will be mapped:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">variable</span></code> (<em>str</em>) – The name of the kinematic variable to which the x axis will be mapped.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kinematic</span></code> (<em>str</em>) – Alias for <code class="docutils literal notranslate"><span class="pre">variable</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">parameter</span></code> (<em>str</em>) – The name of the parameter to which the x axis will be mapped;
+see <a class="reference external" href="../parameters.html">the complete list of parameters</a>.</p></li>
+</ul>
+</div></blockquote>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="o">...</span> <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$\ell=\mu$&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;observable&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;observable&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;Dlnu::dBR/dq2;l=mu&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;variable&#39;</span><span class="p">:</span> <span class="s1">&#39;q2&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">11.60</span><span class="p">],</span>
+        <span class="p">},</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="plotting-points">
+<span id="point"></span><h4>Plotting Points<a class="headerlink" href="#plotting-points" title="Permalink to this headline"></a></h4>
+<p>Content items of type <code class="docutils literal notranslate"><span class="pre">point</span></code> are used to display a single data point manually.
+The following keys are mandatory:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">x</span></code> (<em>number</em>) – The point’s x coordinate.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">y</span></code> (<em>number</em>) – The point’s y coordinate.</p></li>
+</ul>
+</div></blockquote>
+<p>Beside the common set of optional keys, this item type recognizes the following optional
+keys:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">marker</span></code> (<em>str</em>, a valid Matplotlib marker style) – The point’s marker style.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">markersize</span></code> (<em>number</em>, a valid Matplotlib marker size) – The point’s marker size in pts.</p></li>
+</ul>
+</div></blockquote>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="o">...</span> <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;LCSR (Bharucha 2012)&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;point&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;C0&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mf">0.261</span><span class="p">,</span>
+            <span class="s1">&#39;marker&#39;</span><span class="p">:</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;markersize&#39;</span><span class="p">:</span> <span class="mi">12</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="plotting-uncertainty-bands">
+<span id="uncertainty"></span><h4>Plotting Uncertainty Bands<a class="headerlink" href="#plotting-uncertainty-bands" title="Permalink to this headline"></a></h4>
+<p>Contents items of type <code class="docutils literal notranslate"><span class="pre">uncertainty</span></code> are used to display uncertainty bands at 68% probability
+for one of the built-in <a class="reference external" href="../observables.html">observables</a>. This item type requires that either
+a predictive distribution of the observables has been previously produced.</p>
+<p>Exactly one of the following keys is mandatory:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code> (<em>dict</em>, see below) – The data on predictive distribution of the observable whose uncertainty band will be plotted.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data-file</span></code> (<em>str</em>, path to an existing data file of type <em>eos.data.Prediction</em>) – The path to
+a data file that was generated with the <code class="docutils literal notranslate"><span class="pre">eos-analysis</span></code> command-line client.</p></li>
+</ul>
+</div></blockquote>
+<p>For <code class="docutils literal notranslate"><span class="pre">data</span></code> object, the following keys are mandatory:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">xvalues</span></code> (array-like of <em>float</em>) – The values on the x axis at which the observable has been evaluated.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">samples</span></code> (<em>list</em> of tuples of <em>float</em>) – The list of samples of the predictive distribution. Each tuple of samples
+corresponds to an evaluation of the observables at the kinematic configuration corresponding to the <code class="docutils literal notranslate"><span class="pre">xvalues</span></code>
+entry with the same index.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">weights</span></code> (array-like of <em>float</em>, optional) – The weights of the samples, on a linear scale. Defaults to uniform weights.</p></li>
+</ul>
+</div></blockquote>
+<p>The following keys are optional:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">band</span></code> (a <em>list</em> containing <code class="docutils literal notranslate"><span class="pre">'lines'</span></code>, <code class="docutils literal notranslate"><span class="pre">'areas'</span></code>, or both) – The setting for the illustration of the band.
+If <code class="docutils literal notranslate"><span class="pre">'outer'</span></code> is provided, the band’s outer lines are drawn.
+If <code class="docutils literal notranslate"><span class="pre">'median'</span></code> is provided, the band’s median line is drawn.
+If <code class="docutils literal notranslate"><span class="pre">'area'</span></code> is provided, the band’s areas are filled.
+Defaults to <code class="docutils literal notranslate"><span class="pre">['area',</span> <span class="pre">'outer',</span> <span class="pre">'median']</span></code>.</p></li>
+</ul>
+</div></blockquote>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">analysis</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># eos.Analysis object as discussed in the example notebook `predictions.ipynb`</span>
+<span class="n">mu_q2values</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.02</span><span class="p">,</span><span class="mf">1.00</span><span class="p">,</span><span class="mi">20</span><span class="p">),</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1.00</span><span class="p">,</span><span class="mf">11.60</span><span class="p">,</span><span class="mi">20</span><span class="p">))))</span>
+<span class="n">mu_obs</span>      <span class="o">=</span> <span class="p">[</span><span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;B-&gt;Dlnu::dBR/dq2&#39;</span><span class="p">,</span> <span class="n">prior</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span>
+                                   <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2</span><span class="o">=</span><span class="n">q2</span><span class="p">),</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">({</span><span class="s1">&#39;form-factors&#39;</span><span class="p">:</span><span class="s1">&#39;BSZ2015&#39;</span><span class="p">,</span><span class="s1">&#39;l&#39;</span><span class="p">:</span><span class="s1">&#39;mu&#39;</span><span class="p">}))</span>
+               <span class="k">for</span> <span class="n">q2</span> <span class="ow">in</span> <span class="n">mu_q2values</span><span class="p">]</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">mu_samples</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">pre_N</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">observables</span><span class="o">=</span><span class="n">mu_obs</span><span class="p">)</span>
+<span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$q^2$&#39;</span> <span class="p">},</span>
+        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$d\mathcal</span><span class="si">{B}</span><span class="s1">/dq^2$&#39;</span> <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$\ell=\mu$&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uncertainty&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">mu_samples</span><span class="p">,</span> <span class="s1">&#39;xvalues&#39;</span><span class="p">:</span> <span class="n">mu_q2values</span> <span class="p">},</span>
+            <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">11.60</span><span class="p">],</span>
+        <span class="p">},</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../faq.html" class="btn btn-neutral float-left" title="Frequently Asked Questions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../constraints.html" class="btn btn-neutral float-right" title="List of Constraints" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2021, Danny van Dyk and others.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

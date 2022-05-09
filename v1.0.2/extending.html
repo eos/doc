@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Extending EOS &mdash; EOS 1.0.2 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/contentui.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+    <link rel="canonical" href="https://eos.github.io/doc/extending.html" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/contentui.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> EOS
+            <img src="_static/github-eos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basics.html">Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use-cases.html">Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/python.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="constraints.html">List of Constraints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="observables.html">List of Observables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parameters.html">List of Parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">List of References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">EOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Extending EOS</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="extending-eos">
+<h1>Extending EOS<a class="headerlink" href="#extending-eos" title="Permalink to this headline"></a></h1>
+<p>The three most common cases of extending are:</p>
+<ul class="simple">
+<li><p>adding a new parameter;</p></li>
+<li><p>adding a new measurement or theory prediction as a constraint;</p></li>
+<li><p>adding a new theory expression for a (pseudo) observable.</p></li>
+</ul>
+<p>To make your modification to EOS permanent, we ask you to submit
+it as a Github pull request.</p>
+<section id="adding-a-new-parameter">
+<h2>Adding a new parameter<a class="headerlink" href="#adding-a-new-parameter" title="Permalink to this headline"></a></h2>
+<p>Parameters are stored in YAML files below eos/parameters. Each parameter entry consists of the
+parameter’s name, its default value and range, as well as optionally further metadata.</p>
+<p>To be able to create a summary of all EOS parameters on this website, the format of the
+parameter files is hierarchical.</p>
+<p>Each parameter file corresponds to a section, which is
+subdivided into groups. Each section is a key/value map with the following mandatory keys:</p>
+<ul class="simple">
+<li><p><strong>title</strong> (<em>str</em>) – The section’s title. Basic LaTeX math mode elements are permitted, provided that
+they are used within inline mathmode (i.e., enclosed by single dollar signs).</p></li>
+<li><p><strong>description</strong> (<em>str</em>) – The section’s (succinct) description. Basic LaTeX math mode elements are permitted as for
+a section title.</p></li>
+<li><p><strong>groups</strong> (<em>list</em>) – The list of parameter groups in this section.</p></li>
+</ul>
+<p>Each parameter group’s entry is a key/value map with the following mandatory keys:</p>
+<ul class="simple">
+<li><p><strong>title</strong> (<em>str</em>) – The group’s title.  Basic LaTeX math mode elements are permitted as for
+a section title.</p></li>
+<li><p><strong>description</strong> (<em>str</em>) – The group’s (succinct) descripton. Basic LaTeX math mode elements are permitted as for
+a section title.</p></li>
+<li><p><strong>parameters</strong> (<em>map</em>) – The group’s parameters. The keys into this map are strings representing a valid
+<a class="reference internal" href="api/python.html#eos.QualifiedName" title="eos.QualifiedName"><code class="xref py py-class docutils literal notranslate"><span class="pre">QualifiedName</span></code></a>. The values are parameter entries.</p></li>
+</ul>
+<p>Each parameter’ entry is a key/value map with the following mandatory keys:</p>
+<ul class="simple">
+<li><p><strong>central</strong> (<em>float</em>) – The default central value of the parameter.</p></li>
+<li><p><strong>min</strong> (<em>float</em>) – The minimal value the parameter can take.</p></li>
+<li><p><strong>max</strong> (<em>float</em>) – The maximal value the parameter can take.</p></li>
+</ul>
+<p>Further optional but recommended keys are:</p>
+<ul class="simple">
+<li><p><strong>latex</strong> (<em>str</em>) – The LaTeX representation of the parameter in math mode.
+Enclosing math mode delimiters (such as <code class="docutils literal notranslate"><span class="pre">$...$</span></code>, <code class="docutils literal notranslate"><span class="pre">$$...$$</span></code>, or <code class="docutils literal notranslate"><span class="pre">\(...\)</span></code>) are not permitted.</p></li>
+<li><p><strong>unit</strong> (<em>str</em>) – The unit in which the parameter value is expressed.</p></li>
+<li><p><strong>comment</strong> (<em>str</em>) – A comment on the source of the parameter’s default value.</p></li>
+</ul>
+<p>New parameters should be added to existing groups best as possible.</p>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this headline"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">title</span><span class="p">:</span> <span class="n">Example</span> <span class="n">parameter</span> <span class="n">section</span> <span class="k">for</span> <span class="n">the</span> <span class="n">documentation</span>
+<span class="n">description</span><span class="p">:</span> <span class="n">This</span> <span class="n">section</span> <span class="n">collects</span> <span class="n">parameters</span> <span class="n">of</span> <span class="n">groups</span> <span class="n">A</span> <span class="ow">and</span> <span class="n">B</span>
+<span class="n">groups</span><span class="p">:</span>
+  <span class="o">-</span> <span class="n">title</span><span class="p">:</span> <span class="n">Example</span> <span class="n">group</span> <span class="n">A</span>
+    <span class="n">description</span><span class="p">:</span> <span class="n">Group</span> <span class="n">A</span><span class="s1">&#39;s parameter are relevant to a a specific process $X</span><span class="se">\t</span><span class="s1">o Y$, and grouped together.</span>
+    <span class="n">parameters</span><span class="p">:</span>
+      <span class="n">X</span><span class="o">-&gt;</span><span class="n">Y</span><span class="p">::</span><span class="n">a0</span><span class="nd">@B</span><span class="p">:</span><span class="mi">2002</span><span class="n">A</span>
+        <span class="n">central</span><span class="p">:</span> <span class="o">+</span><span class="mf">1.0</span>
+        <span class="nb">min</span><span class="p">:</span>      <span class="mf">0.0</span>
+        <span class="nb">max</span><span class="p">:</span>     <span class="o">+</span><span class="mf">2.0</span>
+        <span class="n">latex</span><span class="p">:</span>   <span class="s1">&#39;a_0^{X</span><span class="se">\t</span><span class="s1">o Y}&#39;</span>
+        <span class="c1"># arbitrary units</span>
+        <span class="n">comment</span><span class="p">:</span> <span class="s1">&#39;Taken from ref. [B:2002A] without changes.&#39;</span>
+     <span class="n">X</span><span class="o">-&gt;</span><span class="n">Y</span><span class="p">::</span><span class="n">a2</span><span class="nd">@B</span><span class="p">:</span><span class="mi">2002</span><span class="n">A</span>
+        <span class="n">central</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.1</span>
+        <span class="nb">min</span><span class="p">:</span>     <span class="o">-</span><span class="mf">2.0</span>
+        <span class="nb">max</span><span class="p">:</span>     <span class="o">+</span><span class="mf">2.0</span>
+        <span class="n">latex</span><span class="p">:</span>   <span class="s1">&#39;a_1^{X</span><span class="se">\t</span><span class="s1">o Y}&#39;</span>
+        <span class="c1"># arbitrary units</span>
+        <span class="n">comment</span><span class="p">:</span> <span class="s1">&#39;Taken from ref. [B:2002A] without changes.&#39;</span>
+  <span class="o">-</span> <span class="n">title</span><span class="p">:</span> <span class="n">Example</span> <span class="n">group</span> <span class="n">B</span>
+    <span class="n">description</span><span class="p">:</span> <span class="n">Group</span> <span class="sa">B</span><span class="s1">&#39;s parameter are also relevant to a a specific process $X</span><span class="se">\t</span><span class="s1">o Y$, but are independent of group A</span>
+    <span class="n">parameters</span><span class="p">:</span>
+      <span class="n">X</span><span class="o">-&gt;</span><span class="n">Y</span><span class="p">::</span><span class="n">rho</span>
+        <span class="n">central</span><span class="p">:</span> <span class="o">+</span><span class="mf">1.234</span>
+        <span class="nb">min</span><span class="p">:</span>     <span class="o">-</span><span class="mf">2.000</span>
+        <span class="nb">max</span><span class="p">:</span>     <span class="o">+</span><span class="mf">2.000</span>
+        <span class="n">latex</span><span class="p">:</span>    <span class="s1">&#39;</span><span class="se">\r</span><span class="s1">ho(X</span><span class="se">\t</span><span class="s1">o Y)&#39;</span>
+        <span class="n">comment</span><span class="p">:</span>  <span class="s1">&#39;relevant only in certain corner cases.&#39;</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2021, Danny van Dyk and others.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
