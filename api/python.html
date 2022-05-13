@@ -19,7 +19,9 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/contentui.js"></script>
-        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -100,7 +102,31 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="python-api">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="python-api">
 <h1>Python API<a class="headerlink" href="#python-api" title="Permalink to this headline"></a></h1>
 <section id="module-eos">
 <h2>Module <code class="docutils literal notranslate"><span class="pre">eos</span></code><a class="headerlink" href="#module-eos" title="Permalink to this headline"></a></h2>
@@ -147,7 +173,7 @@ distance to the lower and upper end of the 68% probability interval.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.Analysis.goodness_of_fit">
 <span class="sig-name descname"><span class="pre">goodness_of_fit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.goodness_of_fit" title="Permalink to this definition"></a></dt>
-<dd><p>Returns a goodness-of-fit summary for the current parameter point.</p>
+<dd><p>Returns a <a class="reference internal" href="#eos.GoodnessOfFit" title="eos.GoodnessOfFit"><code class="xref py py-class docutils literal notranslate"><span class="pre">GoodnessOfFit</span></code></a> object that summarizes the quality of the fit for the current parameter point.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -193,6 +219,12 @@ If not specified, optimization starts at the current parameter point.</p></li>
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="eos.Analysis.parameters">
+<span class="sig-name descname"><span class="pre">parameters</span></span><a class="headerlink" href="#eos.Analysis.parameters" title="Permalink to this definition"></a></dt>
+<dd><p>The set of parameters used for this analysis.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -277,12 +309,28 @@ A possible (incomplete) example could look as follows:</p>
 </div>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="eos.Analysis.varied_parameters">
+<span class="sig-name descname"><span class="pre">varied_parameters</span></span><a class="headerlink" href="#eos.Analysis.varied_parameters" title="Permalink to this definition"></a></dt>
+<dd><p>The set of parameters that are varied in this analysis.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="eos.BestFitPoint">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">BestFitPoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.BestFitPoint" title="Permalink to this definition"></a></dt>
 <dd><p>Represents the best-fit point of a Bayesian analysis undertaken with the <a class="reference internal" href="#eos.Analysis" title="eos.Analysis"><code class="xref py py-class docutils literal notranslate"><span class="pre">Analysis</span></code></a> class.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.Constraints">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">Constraints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Constraints" title="Permalink to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="eos.Constraints.insert">
+<span class="sig-name descname"><span class="pre">insert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(_Constraints)arg1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(QualifiedName)arg2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(str)arg3</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ConstraintEntry</span></span></span><a class="headerlink" href="#eos.Constraints.insert" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -348,31 +396,6 @@ set of values can be provided through keyword arguments, e.g. using</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.LogLikelihood.observable_cache">
 <span class="sig-name descname"><span class="pre">observable_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(LogLikelihood)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ObservableCache</span></span></span><a class="headerlink" href="#eos.LogLikelihood.observable_cache" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="eos.LogPosterior">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">LogPosterior</span></span><a class="headerlink" href="#eos.LogPosterior" title="Permalink to this definition"></a></dt>
-<dd><dl class="py method">
-<dt class="sig sig-object py" id="eos.LogPosterior.add">
-<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(LogPosterior)arg1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(LogPrior)arg2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(bool)arg3</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#eos.LogPosterior.add" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="eos.LogPosterior.evaluate">
-<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(LogPosterior)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#eos.LogPosterior.evaluate" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="eos.LogPosterior.log_likelihood">
-<span class="sig-name descname"><span class="pre">log_likelihood</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(LogPosterior)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.LogLikelihood" title="eos.LogLikelihood"><span class="pre">LogLikelihood</span></a></span></span><a class="headerlink" href="#eos.LogPosterior.log_likelihood" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="eos.LogPosterior.log_priors">
-<span class="sig-name descname"><span class="pre">log_priors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(object)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">object</span></span></span><a class="headerlink" href="#eos.LogPosterior.log_priors" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -546,6 +569,28 @@ overview. Filters can be applied through keyword arguments to the initialization
 </dd>
 </dl>
 <p>See also <a class="reference external" href="../observables.html">the complete list of observables</a> in this documentation.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Observables.insert">
+<span class="sig-name descname"><span class="pre">insert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(_Observables)arg1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(QualifiedName)name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(str)latex</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(Unit)unit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(Options)options</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(str)expression</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Observables.insert" title="Permalink to this definition"></a></dt>
+<dd><p>Insert a new observable to EOS by parsing the input string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference internal" href="#eos.QualifiedName" title="eos.QualifiedName"><em>eos.QualifiedName</em></a>) – The name of the new observable.</p></li>
+<li><p><strong>latex</strong> (<em>std::string</em>) – The latex representation of the new observable.</p></li>
+<li><p><strong>unit</strong> (<a class="reference internal" href="#eos.Unit" title="eos.Unit"><em>eos.Unit</em></a>) – The unit of the new observable.</p></li>
+<li><p><strong>options</strong> (<a class="reference internal" href="#eos.Options" title="eos.Options"><em>eos.Options</em></a>) – The set of options relevant to this new observable. These options apply to <strong>all</strong> the observables in the expression.</p></li>
+<li><p><strong>expression</strong> (<em>std::string</em>) – The expression to be parsed.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Observables.sections">
+<span class="sig-name descname"><span class="pre">sections</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(object)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">object</span></span></span><a class="headerlink" href="#eos.Observables.sections" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -568,6 +613,73 @@ accepts keyword arguments, e.g.:</p>
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="eos.Parameter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">Parameter</span></span><a class="headerlink" href="#eos.Parameter" title="Permalink to this definition"></a></dt>
+<dd><p>Represents a single real-valued scalar parameter in EOS.</p>
+<p>Users cannot directly create new objects of this class. However, new named sets of parameters can be created,
+via the <a class="reference internal" href="#eos.Parameters" title="eos.Parameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">eos.Parameters</span></code></a> class, from which the parameter of interest can be extracted, inspected, and altered.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Parameter.central">
+<span class="sig-name descname"><span class="pre">central</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(Parameter)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#eos.Parameter.central" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Parameter.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(Parameter)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Parameter.evaluate" title="Permalink to this definition"></a></dt>
+<dd><p>Return the current value of a parameter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Parameter.latex">
+<span class="sig-name descname"><span class="pre">latex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(Parameter)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Parameter.latex" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the LaTeX representation of the parameter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Parameter.max">
+<span class="sig-name descname"><span class="pre">max</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(Parameter)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#eos.Parameter.max" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Parameter.min">
+<span class="sig-name descname"><span class="pre">min</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(Parameter)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#eos.Parameter.min" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Parameter.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(Parameter)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Parameter.name" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the name of the parameter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Parameter.set">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(Parameter)arg1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(float)arg2</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Parameter.set" title="Permalink to this definition"></a></dt>
+<dd><p>Set the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> (<em>float</em>) – The value to set the parameter to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Parameter.set_max">
+<span class="sig-name descname"><span class="pre">set_max</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(Parameter)arg1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(float)arg2</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#eos.Parameter.set_max" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Parameter.set_min">
+<span class="sig-name descname"><span class="pre">set_min</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(Parameter)arg1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(float)arg2</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#eos.Parameter.set_min" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Parameter.unit">
+<span class="sig-name descname"><span class="pre">unit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(Parameter)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.Unit" title="eos.Unit"><span class="pre">Unit</span></a></span></span><a class="headerlink" href="#eos.Parameter.unit" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="eos.Parameters">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">Parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Parameters" title="Permalink to this definition"></a></dt>
 <dd><p>Represents the set of parameters known to EOS.</p>
@@ -585,6 +697,11 @@ An independent instance of the default parameters is obtained by each call to th
 </dl>
 <p>See also <a class="reference external" href="../parameters.html">the complete list of parameters</a>.</p>
 <dl class="py method">
+<dt class="sig sig-object py" id="eos.Parameters.Defaults">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Defaults</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">_Parameters</span></span></span><a class="headerlink" href="#eos.Parameters.Defaults" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="eos.Parameters.FromWCxf">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">FromWCxf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">w</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Parameters.FromWCxf" title="Permalink to this definition"></a></dt>
 <dd><p>Imports Wilson coefficients into an eos.Parameters object from a wilson.Wilson object.</p>
@@ -596,6 +713,16 @@ An independent instance of the default parameters is obtained by each call to th
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="eos.Parameters.by_id">
+<span class="sig-name descname"><span class="pre">by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(_Parameters)arg1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(int)arg2</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.Parameter" title="eos.Parameter"><span class="pre">Parameter</span></a></span></span><a class="headerlink" href="#eos.Parameters.by_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Parameters.declare">
+<span class="sig-name descname"><span class="pre">declare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(_Parameters)arg1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(QualifiedName)arg2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(float)arg3</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.Parameter" title="eos.Parameter"><span class="pre">Parameter</span></a></span></span><a class="headerlink" href="#eos.Parameters.declare" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="eos.Parameters.dump">
 <span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Parameters.dump" title="Permalink to this definition"></a></dt>
 <dd><p>Dumps an eos.Parameters object to a YAML file.</p>
@@ -604,6 +731,35 @@ An independent instance of the default parameters is obtained by each call to th
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>file</strong> (<em>str</em>) – Name of the file to which the parameters shall be written.</p></li>
 <li><p><strong>names</strong> (<em>iterable of str</em><em> (</em><em>optional</em><em>)</em>) – Names of the parameters that shall be converted.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Parameters.has">
+<span class="sig-name descname"><span class="pre">has</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(_Parameters)arg1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(QualifiedName)arg2</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#eos.Parameters.has" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Parameters.override_from_file">
+<span class="sig-name descname"><span class="pre">override_from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(_Parameters)arg1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(str)arg2</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#eos.Parameters.override_from_file" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Parameters.sections">
+<span class="sig-name descname"><span class="pre">sections</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(object)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">object</span></span></span><a class="headerlink" href="#eos.Parameters.sections" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Parameters.set">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(_Parameters)arg1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(QualifiedName)arg2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(float)arg3</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Parameters.set" title="Permalink to this definition"></a></dt>
+<dd><p>Set the value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – The name of the parameter to set.</p></li>
+<li><p><strong>value</strong> (<em>float</em>) – The value to set the parameter to.</p></li>
 </ul>
 </dd>
 </dl>
@@ -656,6 +812,26 @@ optional ‘&#64;’.</p>
 <dt class="sig sig-object py" id="eos.SignalPDF">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">SignalPDF</span></span><a class="headerlink" href="#eos.SignalPDF" title="Permalink to this definition"></a></dt>
 <dd><dl class="py method">
+<dt class="sig sig-object py" id="eos.SignalPDF.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(_SignalPDF)self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.SignalPDF.evaluate" title="Permalink to this definition"></a></dt>
+<dd><p>Evaluates the (unnormalized) PDF for the present values of the sets of parameters and kinematic variables that it is bound to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The value of the PDF.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.SignalPDF.kinematics">
+<span class="sig-name descname"><span class="pre">kinematics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(_SignalPDF)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Kinematics</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.SignalPDF.kinematics" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the set of kinematic variables bound to this PDF.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="eos.SignalPDF.log_pdf">
 <span class="sig-name descname"><span class="pre">log_pdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.SignalPDF.log_pdf" title="Permalink to this definition"></a></dt>
 <dd><p>Adapter for use with external optimization software (e.g. pypmc) to aid when sampling from the log(PDF).</p>
@@ -689,6 +865,33 @@ optional ‘&#64;’.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="eos.SignalPDF.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(_SignalPDF)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">QualifiedName</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.SignalPDF.name" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the name of the PDF.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.SignalPDF.normalization">
+<span class="sig-name descname"><span class="pre">normalization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(_SignalPDF)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.SignalPDF.normalization" title="Permalink to this definition"></a></dt>
+<dd><p>Evaluates the normalization of the PDF.</p>
+<p>To speed up sampling from the PDF, the <a class="reference internal" href="#eos.SignalPDF.evaluate" title="eos.SignalPDF.evaluate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">evaluate</span></code></a> returns values of an
+unnormalized function proportional to the actual PDF. To ensure that the integral over the PDF is
+normalized to 1, the values returned by evaluate need to be divided by the return value of this method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.SignalPDF.options">
+<span class="sig-name descname"><span class="pre">options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(_SignalPDF)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Options</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.SignalPDF.options" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the set of options used when creating the PDF.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.SignalPDF.parameters">
+<span class="sig-name descname"><span class="pre">parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(_SignalPDF)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">_Parameters</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.SignalPDF.parameters" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the set of parameters bound to this PDF.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="eos.SignalPDF.sample_mcmc">
 <span class="sig-name descname"><span class="pre">sample_mcmc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stride</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preruns</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cov_scale=0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_point=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng=&lt;module</span> <span class="pre">'numpy.random.mtrand'</span> <span class="pre">from</span> <span class="pre">'/opt/venv/lib/python3.10/site-packages/numpy/random/mtrand.cpython-310-x86_64-linux-gnu.so'&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.SignalPDF.sample_mcmc" title="Permalink to this definition"></a></dt>
 <dd><p>Return samples of the kinematic variables and the log(PDF).</p>
@@ -715,6 +918,78 @@ A prerun with adaptations is carried out first and its samples are discarded.</p
 <p>This method requires the PyPMC python module, which can be installed from PyPI.</p>
 </div>
 </dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.SignalPDFs">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">SignalPDFs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showall</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.SignalPDFs" title="Permalink to this definition"></a></dt>
+<dd><p>Represents the complete list of probability density functions (PDFs) known to EOS.</p>
+<p>Objects of this class are visualized as tables in Jupyter notebooks for easy
+overview. Filters can be applied through keyword arguments to the initialization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prefix</strong> (<em>str</em>) – Only show observables whose qualified names contain the provided <code class="docutils literal notranslate"><span class="pre">prefix</span></code> in their prefix part.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – Only show observables whose qualified names contain the provided <code class="docutils literal notranslate"><span class="pre">name</span></code> in their name part.</p></li>
+<li><p><strong>suffix</strong> (<em>str</em>) – Only show observables whose qualified names contain the provided <code class="docutils literal notranslate"><span class="pre">suffix</span></code> in their suffix part.</p></li>
+</ul>
+</dd>
+</dl>
+<p>See also <a class="reference external" href="../signal-pdfs.html">the complete list of signal PDFs</a> in this documentation.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.Unit">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">Unit</span></span><a class="headerlink" href="#eos.Unit" title="Permalink to this definition"></a></dt>
+<dd><p>Represents the unit of the observables.</p>
+<p>Seven possible entries are currently implemented in EOS:
+- Undefined
+- None
+- GeV
+- GeV2
+- InverseGeV2
+- InverseGeV4
+- InversePicoSecond</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Unit.GeV">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GeV</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.Unit" title="eos.Unit"><span class="pre">Unit</span></a></span></span><a class="headerlink" href="#eos.Unit.GeV" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Unit.GeV2">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">GeV2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.Unit" title="eos.Unit"><span class="pre">Unit</span></a></span></span><a class="headerlink" href="#eos.Unit.GeV2" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Unit.InverseGeV2">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InverseGeV2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.Unit" title="eos.Unit"><span class="pre">Unit</span></a></span></span><a class="headerlink" href="#eos.Unit.InverseGeV2" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Unit.InverseGeV4">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InverseGeV4</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.Unit" title="eos.Unit"><span class="pre">Unit</span></a></span></span><a class="headerlink" href="#eos.Unit.InverseGeV4" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Unit.InversePicoSecond">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InversePicoSecond</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.Unit" title="eos.Unit"><span class="pre">Unit</span></a></span></span><a class="headerlink" href="#eos.Unit.InversePicoSecond" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Unit.Undefined">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Undefined</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.Unit" title="eos.Unit"><span class="pre">Unit</span></a></span></span><a class="headerlink" href="#eos.Unit.Undefined" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Unit.Unity">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Unity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.Unit" title="eos.Unit"><span class="pre">Unit</span></a></span></span><a class="headerlink" href="#eos.Unit.Unity" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Unit.latex">
+<span class="sig-name descname"><span class="pre">latex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(Unit)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#eos.Unit.latex" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
