@@ -627,12 +627,13 @@ The plots will be stored as PDF files within the respective sample inputs.</p>
 <section id="find-mode">
 <h5>find-mode<a class="headerlink" href="#find-mode" title="Permalink to this headline"></a></h5>
 <p>Finds the mode of the named posterior.</p>
-<p>The optimization process can be initialized either with a provided
-parameter point, or by extracting the point with the largest posterior
-from among previously obtained MCMC samples. The output will be stored
-in EOS_BASE_DIRECTORY/posterior/mode.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">find</span><span class="o">-</span><span class="n">mode</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="n">POINTS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="n">INIT_FILE</span><span class="p">]</span>
-                       <span class="p">[</span><span class="o">--</span><span class="n">from</span><span class="o">-</span><span class="n">point</span> <span class="n">POINT</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">use</span><span class="o">-</span><span class="n">random</span><span class="o">-</span><span class="n">seed</span> <span class="n">SEED</span><span class="p">]</span>
+<p>The optimization process can be initialized either with a random point,
+a provided parameter point, or by extracting the point with the largest posterior
+from among previously obtained MCMC samples. The optimization can be iterated to
+increase the accuracy of the result. The output will be stored
+in EOS_BASE_DIRECTORY/posterior/mode-LABEL.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">find</span><span class="o">-</span><span class="n">mode</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OPTIMIZATIONS</span><span class="p">]</span>
+                       <span class="p">[</span><span class="o">-</span><span class="n">c</span> <span class="n">CHAIN</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="n">START_POINT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">s</span> <span class="n">SEED</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">L</span> <span class="n">LABEL</span><span class="p">]</span>
                        <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
                        <span class="n">POSTERIOR</span>
 </pre></div>
@@ -654,17 +655,20 @@ in EOS_BASE_DIRECTORY/posterior/mode.</p>
 <dt><kbd>-f, --analysis-file</kbd></dt>
 <dd><p>The analysis file. Defaults to ‘.analysis.yaml’.</p>
 </dd>
-<dt><kbd>-p, --starting-points</kbd></dt>
-<dd><p>The number of parameter points from which maximization is started.</p>
+<dt><kbd>-o, --optimizations</kbd></dt>
+<dd><p>The number of calls to the optimization algorithm.</p>
 </dd>
-<dt><kbd>-i, --init-from-file</kbd></dt>
-<dd><p>The name of an MCMC data file from which the maximization is started.</p>
+<dt><kbd>-c, --from-mcmc</kbd></dt>
+<dd><p>The chain index of an MCMC data file from which the maximization is started.</p>
 </dd>
-<dt><kbd>--from-point</kbd></dt>
+<dt><kbd>-p, --from-point</kbd></dt>
 <dd><p>The point from which the minimization is started.</p>
 </dd>
-<dt><kbd>--use-random-seed</kbd></dt>
+<dt><kbd>-s, --use-random-seed</kbd></dt>
 <dd><p>The seed used to generate the random starting point of the minimization.</p>
+</dd>
+<dt><kbd>-L, --label</kbd></dt>
+<dd><p>The label used for the generated data file.</p>
 </dd>
 <dt><kbd>-b, --base-directory</kbd></dt>
 <dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
