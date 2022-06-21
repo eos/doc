@@ -227,6 +227,8 @@ Each features the mandatory ``type`` key and more type-specific (mandatory or op
         - Plots a 1D Kernel Density Estimate (KDE) of pre-existing random samples
       * - ``kde2D``
         - Plots contours of a 2D Kernel Density Estimate (KDE) of pre-existing random samples
+      * - ``likelihood2D``
+        - Plots contours of a user-provided function
       * - ``observable``
         - Plots a single EOS observable w/o uncertainties as a function of one kinemtic variable or one parameter
       * - ``point``
@@ -472,6 +474,25 @@ Example:
        ]
    }
    eos.plot.Plotter(plot_args).plot()
+
+.. _likelihood2D:
+
+Plotting a user-provided Likelihood
+-----------------------------------
+
+The following key is mandatory:
+
+ * ``likelihood`` (*evaluable*, see below) -- The 2D probability density that will be plotted.
+
+The following keys are optional:
+
+ * ``contours`` (a *list* containing ``'lines'``, ``'areas'``, or both) -- The setting for the illustration of the contours.
+   If ``'lines'`` is provided, the contour lines are drawn.
+   If ``'areas'`` is provided, the contour areas are filled.
+   Defaults to ``['lines']``.
+ * ``levels`` (*list* of *float*) -- The probability levels of the contours. Defaults to ``[68, 95, 99]``.
+ * ``xrange`` (*list* of *float*) -- The x-axis range where the likelihood is evaluated, defaults to the plot ranges if provided.
+ * ``yrange`` (*list* of *float*) -- The y-axis range where the likelihood is evaluated, defaults to the plot ranges if provided.
 
 .. _observable:
 

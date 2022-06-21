@@ -64,6 +64,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#plotting-2d-histograms">Plotting 2D Histograms</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#plotting-kernel-density-estimates">Plotting Kernel Density Estimates</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#plotting-2d-kernel-density-estimates">Plotting 2D Kernel Density Estimates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plotting-a-user-provided-likelihood">Plotting a user-provided Likelihood</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#plotting-observables">Plotting Observables</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#plotting-points">Plotting Points</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#plotting-uncertainty-bands">Plotting Uncertainty Bands</a></li>
@@ -1165,6 +1166,12 @@ See <a class="reference internal" href="#plot-description-format">Plot descripti
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="eos.plot.Plotter.ExternalLikelihood2D">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ExternalLikelihood2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plotter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.ExternalLikelihood2D" title="Permalink to this definition"></a></dt>
+<dd><p>Plots contours of a user-provided function</p>
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="eos.plot.Plotter.Histogram1D">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Histogram1D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plotter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.plot.Plotter.Histogram1D" title="Permalink to this definition"></a></dt>
 <dd><p>Plots a 1D histogram of pre-existing random samples</p>
@@ -1394,25 +1401,28 @@ Each features the mandatory <code class="docutils literal notranslate"><span cla
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">kde2D</span></code></p></td>
 <td><p>Plots contours of a 2D Kernel Density Estimate (KDE) of pre-existing random samples</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">observable</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">likelihood2D</span></code></p></td>
+<td><p>Plots contours of a user-provided function</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">observable</span></code></p></td>
 <td><p>Plots a single EOS observable w/o uncertainties as a function of one kinemtic variable or one parameter</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">point</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">point</span></code></p></td>
 <td><p>Plots a single point</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">signal-pdf</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">signal-pdf</span></code></p></td>
 <td><p>Plots a single EOS signal PDF w/o uncertainties as a function of one kinemtic variable</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">uncertainty</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">uncertainty</span></code></p></td>
 <td><p>Plots an uncertainty band as a function of one kinematic variable</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">uncertainty-binned</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">uncertainty-binned</span></code></p></td>
 <td><p>Plots one or more uncertainty band integrated over one kinematic variable</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">uncertainty-overview</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">uncertainty-overview</span></code></p></td>
 <td><p>Plots an overview of uncertainty estimates</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">watermark</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">watermark</span></code></p></td>
 <td><p>Inserts an EOS watermark into the plots</p></td>
 </tr>
 </tbody>
@@ -1651,6 +1661,27 @@ Defaults to <code class="docutils literal notranslate"><span class="pre">['lines
 <span class="n">eos</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">plot_args</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
+</section>
+<section id="plotting-a-user-provided-likelihood">
+<span id="likelihood2d"></span><h4>Plotting a user-provided Likelihood<a class="headerlink" href="#plotting-a-user-provided-likelihood" title="Permalink to this headline"></a></h4>
+<p>The following key is mandatory:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">likelihood</span></code> (<em>evaluable</em>, see below) – The 2D probability density that will be plotted.</p></li>
+</ul>
+</div></blockquote>
+<p>The following keys are optional:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">contours</span></code> (a <em>list</em> containing <code class="docutils literal notranslate"><span class="pre">'lines'</span></code>, <code class="docutils literal notranslate"><span class="pre">'areas'</span></code>, or both) – The setting for the illustration of the contours.
+If <code class="docutils literal notranslate"><span class="pre">'lines'</span></code> is provided, the contour lines are drawn.
+If <code class="docutils literal notranslate"><span class="pre">'areas'</span></code> is provided, the contour areas are filled.
+Defaults to <code class="docutils literal notranslate"><span class="pre">['lines']</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">levels</span></code> (<em>list</em> of <em>float</em>) – The probability levels of the contours. Defaults to <code class="docutils literal notranslate"><span class="pre">[68,</span> <span class="pre">95,</span> <span class="pre">99]</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xrange</span></code> (<em>list</em> of <em>float</em>) – The x-axis range where the likelihood is evaluated, defaults to the plot ranges if provided.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">yrange</span></code> (<em>list</em> of <em>float</em>) – The y-axis range where the likelihood is evaluated, defaults to the plot ranges if provided.</p></li>
+</ul>
+</div></blockquote>
 </section>
 <section id="plotting-observables">
 <span id="observable"></span><h4>Plotting Observables<a class="headerlink" href="#plotting-observables" title="Permalink to this headline"></a></h4>
