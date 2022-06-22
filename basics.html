@@ -17,6 +17,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/contentui.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -304,6 +305,7 @@ div.nboutput.container div.output_area > div[class^='highlight']{
 }
 
 /* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
 div.rendered_html table {
   border: none;
   border-collapse: collapse;
@@ -312,10 +314,14 @@ div.rendered_html table {
   font-size: 12px;
   table-layout: fixed;
 }
+.jp-RenderedHTMLCommon thead,
 div.rendered_html thead {
   border-bottom: 1px solid black;
   vertical-align: bottom;
 }
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
 div.rendered_html tr,
 div.rendered_html th,
 div.rendered_html td {
@@ -327,12 +333,15 @@ div.rendered_html td {
   max-width: none;
   border: none;
 }
+.jp-RenderedHTMLCommon th,
 div.rendered_html th {
   font-weight: bold;
 }
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
 div.rendered_html tbody tr:nth-child(odd) {
   background: #f5f5f5;
 }
+.jp-RenderedHTMLCommon tbody tr:hover,
 div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
@@ -360,10 +369,10 @@ div.rendered_html tbody tr:hover {
 }
 </style>
 <section id="Basics">
-<h1>Basics<a class="headerlink" href="#Basics" title="Permalink to this headline"></a></h1>
+<h1>Basics<a class="headerlink" href="#Basics" title="Permalink to this heading"></a></h1>
 <p>This notebook will introduce you to the basic data types and operations that are needed to use EOS.</p>
 <section id="Importing-the-module">
-<h2>Importing the module<a class="headerlink" href="#Importing-the-module" title="Permalink to this headline"></a></h2>
+<h2>Importing the module<a class="headerlink" href="#Importing-the-module" title="Permalink to this heading"></a></h2>
 <p>Before you can begin using EOS, you need to load it into your Python interpreter. We achieve this with the <code class="docutils literal notranslate"><span class="pre">import</span></code> keyword.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -380,7 +389,7 @@ div.rendered_html tbody tr:hover {
 </ul>
 </section>
 <section id="(Almost)-Everything-can-be-a-Parameter">
-<h2>(Almost) Everything can be a Parameter<a class="headerlink" href="#(Almost)-Everything-can-be-a-Parameter" title="Permalink to this headline"></a></h2>
+<h2>(Almost) Everything can be a Parameter<a class="headerlink" href="#(Almost)-Everything-can-be-a-Parameter" title="Permalink to this heading"></a></h2>
 <p>In EOS we make a lot of use of the <a class="reference internal" href="api/python.html#eos.Parameter"><span class="std std-ref">eos.Parameter</span></a> class. It provides access to one real-valued and scalar parameter, among a diverse and large set of parameters. You cannot create an object of type <a class="reference internal" href="api/python.html#eos.Parameter"><span class="std std-ref">eos.Parameter</span></a> yourself. Instead, you can create a new set of parameters of the class <a class="reference internal" href="api/python.html#eos.Parameters"><span class="std std-ref">eos.Parameters</span></a>, from which the parameter of interest can be extracted, inspected, and altered.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
@@ -631,7 +640,7 @@ div.rendered_html tbody tr:hover {
 <p>These properties make it possible to bind a function to an arbitrary number of parameters, let the function evaluate these parameters in a computationally efficient way, and let the user change these parameters at a whim. Parameters are meant to be <strong>shared</strong>, i.e., a single set of parameters is meant to be used by arbitrary number of functions. The sharing of parameters is cause for the versatility in the EOS use cases.</p>
 </section>
 <section id="Kinematics-and-kinematic-variables">
-<h2>Kinematics and kinematic variables<a class="headerlink" href="#Kinematics-and-kinematic-variables" title="Permalink to this headline"></a></h2>
+<h2>Kinematics and kinematic variables<a class="headerlink" href="#Kinematics-and-kinematic-variables" title="Permalink to this heading"></a></h2>
 <p>EOS makes also plentiful use of the <a class="reference internal" href="api/python.html#eos.Kinematics"><span class="std std-ref">eos.Kinematics</span></a> class. Objects of this class are used to store a set of real-valued and scalar kinematic variables by name. Contrary to the parameters, there are no default variables or values. This would not make much sense: kinematic variables pertain to a single process. Consequently, naming of kinematic variables does not require a distinction by any sort of <code class="docutils literal notranslate"><span class="pre">prefix</span></code>. We will see what kinematic variables a process
 requires in a later section. You can create an empty set of kinematic variables as follows:</p>
 <div class="nbinput nblast docutils container">
@@ -765,7 +774,7 @@ requires in a later section. You can create an empty set of kinematic variables 
 <p>Kinematic variables and their naming <em>usually</em> pertain to only a single observable. When creating observables, we therefore <em>usually</em> create an independet set of kinematic variables per observable. Nevertheless, it is possible to create observables that have a common set of kinematic variables. This makes it possible to investigate correlations among observables that share a kinematic variable (e.g., LFU ratios such as <span class="math notranslate nohighlight">\(R_K\)</span> as a functions of the lower dilepton momentum cut-off).</p>
 </section>
 <section id="Options-and-what-they-impact">
-<h2>Options and what they impact<a class="headerlink" href="#Options-and-what-they-impact" title="Permalink to this headline"></a></h2>
+<h2>Options and what they impact<a class="headerlink" href="#Options-and-what-they-impact" title="Permalink to this heading"></a></h2>
 <p>EOS allows us to modify the behaviour of processes through objects of the <a class="reference internal" href="api/python.html#eos.Options"><span class="std std-ref">eos.Options</span></a> class. In many cases, the processes have a default set of options, e.g., the process’ default choice of hadronic form factors, its default choice of BSM model, and so on. In some cases, it does not make sense to have a default choice, e.g., when evaluating a single hadronic form factor. In such cases, you will see an error expressed through a Python exception if the mandatory
 option is not specified by you!</p>
 <p>Contrary to parameters and kinematic variables, EOS does not permit to change a process’ options after the creation. To make this abundantly clear: if you change an <a class="reference internal" href="api/python.html#eos.Options"><span class="std std-ref">eos.Options</span></a> object after it has been used (in, e.g. an observable), none of your modifications to the options will have any effect on the user (again, e.g. an observable)</p>
@@ -873,7 +882,7 @@ option is not specified by you!</p>
 </div>
 </section>
 <section id="Applying-what-we-learned:-creating-our-first-Observable">
-<h2>Applying what we learned: creating our first Observable<a class="headerlink" href="#Applying-what-we-learned:-creating-our-first-Observable" title="Permalink to this headline"></a></h2>
+<h2>Applying what we learned: creating our first Observable<a class="headerlink" href="#Applying-what-we-learned:-creating-our-first-Observable" title="Permalink to this heading"></a></h2>
 <p>EOS uses the class <a class="reference internal" href="api/python.html#eos.Observable"><span class="std std-ref">eos.Observable</span></a> to provide theory predictions for a variety of processes and their associated observables. A list of all observables known to EOS is available online in the documentation, or via:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:

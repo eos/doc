@@ -17,6 +17,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/contentui.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -308,6 +309,7 @@ div.nboutput.container div.output_area > div[class^='highlight']{
 }
 
 /* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
 div.rendered_html table {
   border: none;
   border-collapse: collapse;
@@ -316,10 +318,14 @@ div.rendered_html table {
   font-size: 12px;
   table-layout: fixed;
 }
+.jp-RenderedHTMLCommon thead,
 div.rendered_html thead {
   border-bottom: 1px solid black;
   vertical-align: bottom;
 }
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
 div.rendered_html tr,
 div.rendered_html th,
 div.rendered_html td {
@@ -331,12 +337,15 @@ div.rendered_html td {
   max-width: none;
   border: none;
 }
+.jp-RenderedHTMLCommon th,
 div.rendered_html th {
   font-weight: bold;
 }
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
 div.rendered_html tbody tr:nth-child(odd) {
   background: #f5f5f5;
 }
+.jp-RenderedHTMLCommon tbody tr:hover,
 div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
@@ -364,10 +373,10 @@ div.rendered_html tbody tr:hover {
 }
 </style>
 <section id="Theory-Predictions-and-their-Uncertainties">
-<h1>Theory Predictions and their Uncertainties<a class="headerlink" href="#Theory-Predictions-and-their-Uncertainties" title="Permalink to this headline"></a></h1>
+<h1>Theory Predictions and their Uncertainties<a class="headerlink" href="#Theory-Predictions-and-their-Uncertainties" title="Permalink to this heading"></a></h1>
 <p>EOS can produce theory predictions for any of its built-in observables. The examples following in this section illustrate how to find a specific observable from the list of all built-in observables, construct an <a class="reference internal" href="api/python.html#eos.Observable"><span class="std std-ref">eos.Observable</span></a> object and evaluate it, and estimate the theoretical uncertainties associated with it.</p>
 <section id="Listing-the-built-in-Observables">
-<h2>Listing the built-in Observables<a class="headerlink" href="#Listing-the-built-in-Observables" title="Permalink to this headline"></a></h2>
+<h2>Listing the built-in Observables<a class="headerlink" href="#Listing-the-built-in-Observables" title="Permalink to this heading"></a></h2>
 <p>The full list of built-in observables for the most-recent EOS release is available online <a class="reference external" href="https://eos.github.io/doc/observables">here</a>. You can also show this list using the <a class="reference internal" href="api/python.html#eos.Observables"><span class="std std-ref">eos.Observables</span></a> class. Searching for a specific observable is possible by filtering for specific strings in the observable name’s <em>prefix</em>, <em>name</em>, or <em>suffix</em> parts. The following example only shows observables that contain a <code class="docutils literal notranslate"><span class="pre">'D'</span></code> in the prefix part and <code class="docutils literal notranslate"><span class="pre">'BR'</span></code> in the name part:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -957,7 +966,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </section>
 <section id="Constructing-and-Evaluating-an-Observable">
-<h2>Constructing and Evaluating an Observable<a class="headerlink" href="#Constructing-and-Evaluating-an-Observable" title="Permalink to this headline"></a></h2>
+<h2>Constructing and Evaluating an Observable<a class="headerlink" href="#Constructing-and-Evaluating-an-Observable" title="Permalink to this heading"></a></h2>
 <p>To make theory predictions of any observable, EOS requires its full name, its <a class="reference internal" href="api/python.html#eos.Parameters"><span class="std std-ref">eos.Parameters</span></a> object, its <a class="reference internal" href="api/python.html#eos.Kinematics"><span class="std std-ref">eos.Kinematics</span></a> object, and its <a class="reference internal" href="api/python.html#eos.Options"><span class="std std-ref">eos.Options</span></a> object. As an example, we will use the integrated branching ratio of <span class="math notranslate nohighlight">\(B^-\to D\ell^-\bar\nu\)</span>, which is represented by the name <code class="docutils literal notranslate"><span class="pre">B-&gt;Dlnu::BR</span></code>. The latter is a well formed <a class="reference internal" href="api/python.html#eos.QualifiedName"><span class="std std-ref">eos.QualifiedName</span></a>, which is
 used throughout EOS to address observables and other objects. Additional information about any given observable can be obtained by displaying the full database entry, which also contains information about the kinematic variables required:</p>
 <div class="nbinput docutils container">
@@ -1114,7 +1123,7 @@ INFO:EOS:   plotting EOS observable &#34;B-&gt;Dlnu::dBR/dq2;l=tau&#34;
 </div>
 </section>
 <section id="Estimating-Theory-Uncertainties">
-<h2>Estimating Theory Uncertainties<a class="headerlink" href="#Estimating-Theory-Uncertainties" title="Permalink to this headline"></a></h2>
+<h2>Estimating Theory Uncertainties<a class="headerlink" href="#Estimating-Theory-Uncertainties" title="Permalink to this heading"></a></h2>
 <p>To estimate theoretical uncertainties of the observables, EOS uses Bayesian statistics. The latter interprets the theory parameters as random variables and assigns <em>a priori</em> probability density functions (prior PDFs) for each parameter.</p>
 <p>We carry on using the integrated branching ratios of <span class="math notranslate nohighlight">\(\bar{B}^-\to D^0\left\lbrace\mu^-, \tau^-\right\rbrace\bar\nu\)</span> decays as examples. The largest source of theoretical uncertainty in these decays arises from the hadronic matrix elements, i.e., from the form factors <span class="math notranslate nohighlight">\(f^{B\to \bar{D}}_+(q^2)\)</span> and <span class="math notranslate nohighlight">\(f^{B\to \bar{D}}_0(q^2)\)</span>. Both form factors have been obtained independently using lattice QCD simulations by the HPQCD and Fermilab/MILC (FNAL+MILC) collaborations. The joint
 likelihoods for both form factors at different <span class="math notranslate nohighlight">\(q^2\)</span> values of each prediction are available in EOS as <code class="docutils literal notranslate"><span class="pre">Constraint</span></code> objects under the names <code class="docutils literal notranslate"><span class="pre">B-&gt;D::f_++f_0&#64;HPQCD2015A</span></code> and <code class="docutils literal notranslate"><span class="pre">B-&gt;D::f_++f_0&#64;FNAL+MILC2015B</span></code>. We will discuss such constraints in more detail in the next example notebook on <a class="reference internal" href="inference.html"><span class="doc">parameter inference</span></a>. For this example, we will use both the HPQCD and the FNAL+MILC results and create a combined likelihood as follows:</p>
@@ -1191,13 +1200,13 @@ INFO:EOS:likelihood probably depends on 3 parameter(s) that do not appear in the
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
 INFO:EOS:Prerun 0 out of 3
-INFO:EOS:Prerun 0: acceptance rate is   1%
+INFO:EOS:Prerun 0: acceptance rate is   2%
 INFO:EOS:Prerun 1 out of 3
-INFO:EOS:Prerun 1: acceptance rate is   7%
+INFO:EOS:Prerun 1: acceptance rate is   2%
 INFO:EOS:Prerun 2 out of 3
-INFO:EOS:Prerun 2: acceptance rate is  25%
+INFO:EOS:Prerun 2: acceptance rate is  11%
 INFO:EOS:Main run: started ...
-INFO:EOS:Main run: acceptance rate is  32%
+INFO:EOS:Main run: acceptance rate is  23%
 </pre></div></div>
 </div>
 <p>Here <code class="docutils literal notranslate"><span class="pre">N=5000</span></code> samples are produced. To illustrate these samples we use EOS’ plotting framework:</p>
@@ -1303,7 +1312,7 @@ INFO:EOS:Main run: acceptance rate is  32%
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-B-&gt;Dlnu::BR;I=1/2,U=c,form-factors=BSZ2015,l=mu  = 0.0234 +/- 0.0007
+B-&gt;Dlnu::BR;I=1/2,U=c,form-factors=BSZ2015,l=mu  = 0.0234 +/- 0.0006
 B-&gt;Dlnu::BR;I=1/2,U=c,form-factors=BSZ2015,l=tau = 0.0071 +/- 0.0001
 B-&gt;Dlnu::R_D;form-factors=BSZ2015          = 0.3018 +/- 0.0001
 </pre></div></div>
@@ -1335,21 +1344,21 @@ B-&gt;Dlnu::R_D;form-factors=BSZ2015          = 0.3018 +/- 0.0001
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
 INFO:EOS:Prerun 0 out of 3
-INFO:EOS:Prerun 0: acceptance rate is   1%
-INFO:EOS:Prerun 1 out of 3
-INFO:EOS:Prerun 1: acceptance rate is   9%
-INFO:EOS:Prerun 2 out of 3
-INFO:EOS:Prerun 2: acceptance rate is  26%
-INFO:EOS:Main run: started ...
-INFO:EOS:Main run: acceptance rate is  32%
-INFO:EOS:Prerun 0 out of 3
 INFO:EOS:Prerun 0: acceptance rate is   2%
 INFO:EOS:Prerun 1 out of 3
 INFO:EOS:Prerun 1: acceptance rate is   1%
 INFO:EOS:Prerun 2 out of 3
-INFO:EOS:Prerun 2: acceptance rate is   4%
+INFO:EOS:Prerun 2: acceptance rate is  10%
 INFO:EOS:Main run: started ...
-INFO:EOS:Main run: acceptance rate is  18%
+INFO:EOS:Main run: acceptance rate is  21%
+INFO:EOS:Prerun 0 out of 3
+INFO:EOS:Prerun 0: acceptance rate is   2%
+INFO:EOS:Prerun 1 out of 3
+INFO:EOS:Prerun 1: acceptance rate is   0%
+INFO:EOS:Prerun 2 out of 3
+INFO:EOS:Prerun 2: acceptance rate is   5%
+INFO:EOS:Main run: started ...
+INFO:EOS:Main run: acceptance rate is  14%
 </pre></div></div>
 </div>
 <p>We can plot the so-obtained posterior-predictive samples with EOS’ plotting framework by running:</p>

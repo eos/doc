@@ -17,6 +17,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/contentui.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -309,6 +310,7 @@ div.nboutput.container div.output_area > div[class^='highlight']{
 }
 
 /* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
 div.rendered_html table {
   border: none;
   border-collapse: collapse;
@@ -317,10 +319,14 @@ div.rendered_html table {
   font-size: 12px;
   table-layout: fixed;
 }
+.jp-RenderedHTMLCommon thead,
 div.rendered_html thead {
   border-bottom: 1px solid black;
   vertical-align: bottom;
 }
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
 div.rendered_html tr,
 div.rendered_html th,
 div.rendered_html td {
@@ -332,12 +338,15 @@ div.rendered_html td {
   max-width: none;
   border: none;
 }
+.jp-RenderedHTMLCommon th,
 div.rendered_html th {
   font-weight: bold;
 }
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
 div.rendered_html tbody tr:nth-child(odd) {
   background: #f5f5f5;
 }
+.jp-RenderedHTMLCommon tbody tr:hover,
 div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
@@ -365,10 +374,10 @@ div.rendered_html tbody tr:hover {
 }
 </style>
 <section id="Parameter-Inference">
-<h1>Parameter Inference<a class="headerlink" href="#Parameter-Inference" title="Permalink to this headline"></a></h1>
+<h1>Parameter Inference<a class="headerlink" href="#Parameter-Inference" title="Permalink to this heading"></a></h1>
 <p>EOS can infer parameters based on a database of experimental or theoretical constraints and its built-in observables. The examples in this notebook illustrate how to find a specific constraint from the list of all built-in observables, construct an <a class="reference internal" href="api/python.html#eos.Analysis"><span class="std std-ref">eos.Analysis</span></a> object that represents the statistical analysis, and infer mean value and standard deviation of a list of parameters through optimization or Monte Carlo methods.</p>
 <section id="Listing-the-built-in-Constraints">
-<h2>Listing the built-in Constraints<a class="headerlink" href="#Listing-the-built-in-Constraints" title="Permalink to this headline"></a></h2>
+<h2>Listing the built-in Constraints<a class="headerlink" href="#Listing-the-built-in-Constraints" title="Permalink to this heading"></a></h2>
 <p>The full list of built-in constraints for the most-recent EOS release is available online <a class="reference external" href="https://eos.github.io/doc/constraints">here</a>. You can also show this list using the <a class="reference internal" href="api/python.html#eos.Constraints"><span class="std std-ref">eos.Constraints</span></a> class. Searching for a specific constraint is possible by filtering for specific strings in the constraint name’s <em>prefix</em>, <em>name</em>, or <em>suffix</em> parts. The following example only shows constraints that contain a <code class="docutils literal notranslate"><span class="pre">'-&gt;D'</span></code> in the prefix part:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
@@ -419,7 +428,7 @@ div.rendered_html tbody tr:hover {
             <td><a onclick="toggle_obs(this, 'con0-obs')">
         <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
         <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B->D::f_0(q2)</tt><br/><tt>B->D::f_+(q2)</tt>
+       <tt>B->D::f_+(q2)</tt><br/><tt>B->D::f_0(q2)</tt>
         </span>
     </a></td>
             <td>MultivariateGaussian</td>
@@ -430,7 +439,7 @@ div.rendered_html tbody tr:hover {
             <td><a onclick="toggle_obs(this, 'con0-obs')">
         <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
         <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B->D::f_0(q2)</tt><br/><tt>B->D::f_+(q2)</tt>
+       <tt>B->D::f_+(q2)</tt><br/><tt>B->D::f_0(q2)</tt>
         </span>
     </a></td>
             <td>MultivariateGaussian</td>
@@ -452,7 +461,7 @@ div.rendered_html tbody tr:hover {
             <td><a onclick="toggle_obs(this, 'con0-obs')">
         <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
         <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B->D^*::A_2(q2)</tt><br/><tt>B->D^*::A_0(q2)</tt><br/><tt>B->D^*::A_1(q2)</tt><br/><tt>B->D^*::V(q2)</tt><br/><tt>B->D::f_+(q2)</tt><br/><tt>B->D^*::T_1(q2)</tt><br/><tt>B->D^*::T_23(q2)</tt><br/><tt>B->D::f_0(q2)</tt><br/><tt>B->D^*::T_2(q2)</tt>
+       <tt>B->D^*::T_1(q2)</tt><br/><tt>B->D::f_+(q2)</tt><br/><tt>B->D^*::A_0(q2)</tt><br/><tt>B->D^*::A_1(q2)</tt><br/><tt>B->D^*::T_2(q2)</tt><br/><tt>B->D^*::T_23(q2)</tt><br/><tt>B->D^*::V(q2)</tt><br/><tt>B->D::f_0(q2)</tt><br/><tt>B->D^*::A_2(q2)</tt>
         </span>
     </a></td>
             <td>MultivariateGaussian(Covariance)</td>
@@ -463,7 +472,7 @@ div.rendered_html tbody tr:hover {
             <td><a onclick="toggle_obs(this, 'con0-obs')">
         <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
         <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B->D^*::A_2(q2)</tt><br/><tt>B->D^*::A_0(q2)</tt><br/><tt>B->D^*::A_1(q2)</tt><br/><tt>B->D^*::V(q2)</tt><br/><tt>B->D::f_T(q2)</tt><br/><tt>B->D::f_+(q2)</tt><br/><tt>B->D^*::T_1(q2)</tt><br/><tt>B->D^*::T_23(q2)</tt><br/><tt>B->D::f_0(q2)</tt><br/><tt>B->D^*::T_2(q2)</tt>
+       <tt>B->D^*::T_1(q2)</tt><br/><tt>B->D::f_+(q2)</tt><br/><tt>B->D^*::A_0(q2)</tt><br/><tt>B->D^*::A_1(q2)</tt><br/><tt>B->D^*::T_2(q2)</tt><br/><tt>B->D::f_T(q2)</tt><br/><tt>B->D^*::T_23(q2)</tt><br/><tt>B->D^*::V(q2)</tt><br/><tt>B->D::f_0(q2)</tt><br/><tt>B->D^*::A_2(q2)</tt>
         </span>
     </a></td>
             <td>MultivariateGaussian(Covariance)</td>
@@ -474,7 +483,7 @@ div.rendered_html tbody tr:hover {
             <td><a onclick="toggle_obs(this, 'con0-obs')">
         <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
         <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B->D^*::alpha^V_0@BSZ2015</tt><br/><tt>B->D::alpha^f0_1@BSZ2015</tt><br/><tt>B->D::alpha^f+_1@BSZ2015</tt><br/><tt>B->D^*::alpha^A0_1@BSZ2015</tt><br/><tt>B->D^*::alpha^A1_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A0_2@BSZ2015</tt><br/><tt>B->D^*::alpha^T1_1@BSZ2015</tt><br/><tt>B->D^*::alpha^T2_2@BSZ2015</tt><br/><tt>B->D^*::alpha^T23_2@BSZ2015</tt><br/><tt>B->D^*::alpha^T23_1@BSZ2015</tt><br/><tt>B->D^*::alpha^A1_0@BSZ2015</tt><br/><tt>B->D::alpha^f0_2@BSZ2015</tt><br/><tt>B->D::alpha^fT_1@BSZ2015</tt><br/><tt>B->D^*::alpha^T2_1@BSZ2015</tt><br/><tt>B->D^*::alpha^V_1@BSZ2015</tt><br/><tt>B->D::alpha^fT_0@BSZ2015</tt><br/><tt>B->D^*::alpha^V_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A0_0@BSZ2015</tt><br/><tt>B->D^*::alpha^T23_0@BSZ2015</tt><br/><tt>B->D::alpha^f+_2@BSZ2015</tt><br/><tt>B->D::alpha^f+_0@BSZ2015</tt><br/><tt>B->D^*::alpha^A1_1@BSZ2015</tt><br/><tt>B->D^*::alpha^A12_2@BSZ2015</tt><br/><tt>B->D::alpha^fT_2@BSZ2015</tt><br/><tt>B->D^*::alpha^T1_0@BSZ2015</tt><br/><tt>B->D^*::alpha^T1_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A12_1@BSZ2015</tt>
+       <tt>B->D::alpha^f+_0@BSZ2015</tt><br/><tt>B->D^*::alpha^A0_0@BSZ2015</tt><br/><tt>B->D^*::alpha^T23_0@BSZ2015</tt><br/><tt>B->D^*::alpha^A1_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A1_0@BSZ2015</tt><br/><tt>B->D^*::alpha^A0_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A12_1@BSZ2015</tt><br/><tt>B->D::alpha^f0_2@BSZ2015</tt><br/><tt>B->D^*::alpha^T2_1@BSZ2015</tt><br/><tt>B->D^*::alpha^T1_1@BSZ2015</tt><br/><tt>B->D::alpha^fT_0@BSZ2015</tt><br/><tt>B->D^*::alpha^A1_1@BSZ2015</tt><br/><tt>B->D^*::alpha^T23_1@BSZ2015</tt><br/><tt>B->D^*::alpha^T2_2@BSZ2015</tt><br/><tt>B->D^*::alpha^T23_2@BSZ2015</tt><br/><tt>B->D^*::alpha^V_2@BSZ2015</tt><br/><tt>B->D^*::alpha^V_1@BSZ2015</tt><br/><tt>B->D^*::alpha^T1_0@BSZ2015</tt><br/><tt>B->D::alpha^f+_1@BSZ2015</tt><br/><tt>B->D::alpha^fT_1@BSZ2015</tt><br/><tt>B->D::alpha^f0_1@BSZ2015</tt><br/><tt>B->D::alpha^fT_2@BSZ2015</tt><br/><tt>B->D^*::alpha^V_0@BSZ2015</tt><br/><tt>B->D::alpha^f+_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A12_2@BSZ2015</tt><br/><tt>B->D^*::alpha^T1_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A0_1@BSZ2015</tt>
         </span>
     </a></td>
             <td>MultivariateGaussian(Covariance)</td>
@@ -485,7 +494,7 @@ div.rendered_html tbody tr:hover {
             <td><a onclick="toggle_obs(this, 'con0-obs')">
         <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
         <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B->D^*::alpha^V_0@BSZ2015</tt><br/><tt>B->D::alpha^f0_1@BSZ2015</tt><br/><tt>B->D::alpha^f+_1@BSZ2015</tt><br/><tt>B->D^*::alpha^A0_1@BSZ2015</tt><br/><tt>B->D^*::alpha^A1_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A0_2@BSZ2015</tt><br/><tt>B->D^*::alpha^T1_1@BSZ2015</tt><br/><tt>B->D^*::alpha^T2_2@BSZ2015</tt><br/><tt>B->D^*::alpha^T23_2@BSZ2015</tt><br/><tt>B->D^*::alpha^T23_1@BSZ2015</tt><br/><tt>B->D^*::alpha^A1_0@BSZ2015</tt><br/><tt>B->D::alpha^f0_2@BSZ2015</tt><br/><tt>B->D::alpha^fT_1@BSZ2015</tt><br/><tt>B->D^*::alpha^T2_1@BSZ2015</tt><br/><tt>B->D^*::alpha^V_1@BSZ2015</tt><br/><tt>B->D::alpha^fT_0@BSZ2015</tt><br/><tt>B->D^*::alpha^V_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A0_0@BSZ2015</tt><br/><tt>B->D^*::alpha^T23_0@BSZ2015</tt><br/><tt>B->D::alpha^f+_2@BSZ2015</tt><br/><tt>B->D::alpha^f+_0@BSZ2015</tt><br/><tt>B->D^*::alpha^A1_1@BSZ2015</tt><br/><tt>B->D^*::alpha^A12_2@BSZ2015</tt><br/><tt>B->D::alpha^fT_2@BSZ2015</tt><br/><tt>B->D^*::alpha^T1_0@BSZ2015</tt><br/><tt>B->D^*::alpha^T1_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A12_1@BSZ2015</tt>
+       <tt>B->D::alpha^f+_0@BSZ2015</tt><br/><tt>B->D^*::alpha^A0_0@BSZ2015</tt><br/><tt>B->D^*::alpha^T23_0@BSZ2015</tt><br/><tt>B->D^*::alpha^A1_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A1_0@BSZ2015</tt><br/><tt>B->D^*::alpha^A0_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A12_1@BSZ2015</tt><br/><tt>B->D::alpha^f0_2@BSZ2015</tt><br/><tt>B->D^*::alpha^T2_1@BSZ2015</tt><br/><tt>B->D^*::alpha^T1_1@BSZ2015</tt><br/><tt>B->D::alpha^fT_0@BSZ2015</tt><br/><tt>B->D^*::alpha^A1_1@BSZ2015</tt><br/><tt>B->D^*::alpha^T23_1@BSZ2015</tt><br/><tt>B->D^*::alpha^T2_2@BSZ2015</tt><br/><tt>B->D^*::alpha^T23_2@BSZ2015</tt><br/><tt>B->D^*::alpha^V_2@BSZ2015</tt><br/><tt>B->D^*::alpha^V_1@BSZ2015</tt><br/><tt>B->D^*::alpha^T1_0@BSZ2015</tt><br/><tt>B->D::alpha^f+_1@BSZ2015</tt><br/><tt>B->D::alpha^fT_1@BSZ2015</tt><br/><tt>B->D::alpha^f0_1@BSZ2015</tt><br/><tt>B->D::alpha^fT_2@BSZ2015</tt><br/><tt>B->D^*::alpha^V_0@BSZ2015</tt><br/><tt>B->D::alpha^f+_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A12_2@BSZ2015</tt><br/><tt>B->D^*::alpha^T1_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A0_1@BSZ2015</tt>
         </span>
     </a></td>
             <td>MultivariateGaussian(Covariance)</td>
@@ -617,7 +626,7 @@ div.rendered_html tbody tr:hover {
             <td><a onclick="toggle_obs(this, 'con0-obs')">
         <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
         <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B_s->D_s::f_+(q2)</tt><br/><tt>B_s->D_s::f_0(q2)</tt><br/><tt>B_s->D_s^*::A_2(q2)</tt><br/><tt>B_s->D_s^*::T_1(q2)</tt><br/><tt>B_s->D_s^*::V(q2)</tt><br/><tt>B_s->D_s^*::T_2(q2)</tt><br/><tt>B_s->D_s^*::A_1(q2)</tt><br/><tt>B_s->D_s^*::T_23(q2)</tt><br/><tt>B_s->D_s^*::A_0(q2)</tt>
+       <tt>B_s->D_s^*::A_1(q2)</tt><br/><tt>B_s->D_s::f_+(q2)</tt><br/><tt>B_s->D_s^*::A_2(q2)</tt><br/><tt>B_s->D_s^*::A_0(q2)</tt><br/><tt>B_s->D_s^*::T_23(q2)</tt><br/><tt>B_s->D_s^*::T_2(q2)</tt><br/><tt>B_s->D_s^*::V(q2)</tt><br/><tt>B_s->D_s::f_0(q2)</tt><br/><tt>B_s->D_s^*::T_1(q2)</tt>
         </span>
     </a></td>
             <td>MultivariateGaussian(Covariance)</td>
@@ -628,7 +637,7 @@ div.rendered_html tbody tr:hover {
             <td><a onclick="toggle_obs(this, 'con0-obs')">
         <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
         <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B_s->D_s::f_+(q2)</tt><br/><tt>B_s->D_s::f_0(q2)</tt><br/><tt>B_s->D_s::f_T(q2)</tt><br/><tt>B_s->D_s^*::A_2(q2)</tt><br/><tt>B_s->D_s^*::T_1(q2)</tt><br/><tt>B_s->D_s^*::V(q2)</tt><br/><tt>B_s->D_s^*::T_2(q2)</tt><br/><tt>B_s->D_s^*::A_1(q2)</tt><br/><tt>B_s->D_s^*::T_23(q2)</tt><br/><tt>B_s->D_s^*::A_0(q2)</tt>
+       <tt>B_s->D_s^*::A_1(q2)</tt><br/><tt>B_s->D_s::f_+(q2)</tt><br/><tt>B_s->D_s^*::A_2(q2)</tt><br/><tt>B_s->D_s^*::A_0(q2)</tt><br/><tt>B_s->D_s^*::T_23(q2)</tt><br/><tt>B_s->D_s^*::T_2(q2)</tt><br/><tt>B_s->D_s^*::V(q2)</tt><br/><tt>B_s->D_s::f_T(q2)</tt><br/><tt>B_s->D_s::f_0(q2)</tt><br/><tt>B_s->D_s^*::T_1(q2)</tt>
         </span>
     </a></td>
             <td>MultivariateGaussian(Covariance)</td>
@@ -639,7 +648,7 @@ div.rendered_html tbody tr:hover {
             <td><a onclick="toggle_obs(this, 'con0-obs')">
         <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
         <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B_s->D_s^*::alpha^T2_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A12_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T2_1@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f+_0@BSZ2015</tt><br/><tt>B_s->D_s::alpha^fT_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^V_1@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f0_2@BSZ2015</tt><br/><tt>B_s->D_s::alpha^fT_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T1_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T23_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T23_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T23_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A1_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A1_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A0_2@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f+_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T1_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T1_0@BSZ2015</tt><br/><tt>B_s->D_s::alpha^fT_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A12_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^V_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A1_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A0_1@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f+_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A0_0@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f0_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^V_0@BSZ2015</tt>
+       <tt>B_s->D_s::alpha^fT_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T23_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A12_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A0_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T1_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A0_1@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f0_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T23_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T23_1@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f0_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A1_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T1_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A1_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T2_2@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f+_0@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f+_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A1_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^V_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^V_0@BSZ2015</tt><br/><tt>B_s->D_s::alpha^fT_1@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f+_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A12_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^V_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T2_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A0_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T1_1@BSZ2015</tt><br/><tt>B_s->D_s::alpha^fT_2@BSZ2015</tt>
         </span>
     </a></td>
             <td>MultivariateGaussian(Covariance)</td>
@@ -650,7 +659,7 @@ div.rendered_html tbody tr:hover {
             <td><a onclick="toggle_obs(this, 'con0-obs')">
         <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
         <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B_s->D_s^*::alpha^T2_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A12_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T2_1@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f+_0@BSZ2015</tt><br/><tt>B_s->D_s::alpha^fT_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^V_1@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f0_2@BSZ2015</tt><br/><tt>B_s->D_s::alpha^fT_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T1_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T23_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T23_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T23_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A1_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A1_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A0_2@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f+_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T1_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T1_0@BSZ2015</tt><br/><tt>B_s->D_s::alpha^fT_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A12_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^V_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A1_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A0_1@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f+_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A0_0@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f0_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^V_0@BSZ2015</tt>
+       <tt>B_s->D_s::alpha^fT_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T23_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A12_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A0_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T1_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A0_1@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f0_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T23_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T23_1@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f0_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A1_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T1_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A1_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T2_2@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f+_0@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f+_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A1_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^V_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^V_0@BSZ2015</tt><br/><tt>B_s->D_s::alpha^fT_1@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f+_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A12_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^V_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T2_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A0_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T1_1@BSZ2015</tt><br/><tt>B_s->D_s::alpha^fT_2@BSZ2015</tt>
         </span>
     </a></td>
             <td>MultivariateGaussian(Covariance)</td>
@@ -682,7 +691,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </section>
 <section id="Visualizing-the-built-in-Constraints">
-<h2>Visualizing the built-in Constraints<a class="headerlink" href="#Visualizing-the-built-in-Constraints" title="Permalink to this headline"></a></h2>
+<h2>Visualizing the built-in Constraints<a class="headerlink" href="#Visualizing-the-built-in-Constraints" title="Permalink to this heading"></a></h2>
 <p>For what follows we will use the two experimental constraints <code class="docutils literal notranslate"><span class="pre">B^0-&gt;D^+e^-nu::BRs&#64;Belle:2015A</span></code> and <code class="docutils literal notranslate"><span class="pre">B^0-&gt;D^+mu^-nu::BRs&#64;Belle:2015A</span></code>, to infer the CKM matrix element <span class="math notranslate nohighlight">\(|V_{cb}|\)</span>. We can readily display these two constraints, along with the default theory prediction (without any uncertainties), using the following code:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
@@ -754,7 +763,7 @@ INFO:EOS:   plotting EOS observable &#34;B-&gt;Dlnu::dBR/dq2;l=e,q=d&#34;
 </div>
 </section>
 <section id="Defining-the-Statistical-Analysis">
-<h2>Defining the Statistical Analysis<a class="headerlink" href="#Defining-the-Statistical-Analysis" title="Permalink to this headline"></a></h2>
+<h2>Defining the Statistical Analysis<a class="headerlink" href="#Defining-the-Statistical-Analysis" title="Permalink to this heading"></a></h2>
 <p>To define our statistical analysis for the inference of <span class="math notranslate nohighlight">\(|V_{cb}|\)</span> from measurements of the <span class="math notranslate nohighlight">\(\bar{B}\to D\ell^-\bar\nu\)</span> branching ratios, some decisions are needed. First, we must decide how to parametrize the hadronic form factors that emerge in semileptonic <span class="math notranslate nohighlight">\(\bar{B}\to D\)</span> transitions. For what follows we will use the [BSZ:2015A] parametrization. Next, we must decide the theory input for the form factors. For what follows we will combine the correlated lattice QCD results
 published by the Fermilab/MILC and HPQCD collaborations in 2015.</p>
 <p>We then create an <a class="reference internal" href="api/python.html#eos.Analysis"><span class="std std-ref">eos.Analysis</span></a> object as follows:</p>
@@ -841,7 +850,7 @@ INFO:EOS:Optimization goal achieved after 139 function evaluations
 </div>
 </section>
 <section id="Sampling-from-the-Posterior">
-<h2>Sampling from the Posterior<a class="headerlink" href="#Sampling-from-the-Posterior" title="Permalink to this headline"></a></h2>
+<h2>Sampling from the Posterior<a class="headerlink" href="#Sampling-from-the-Posterior" title="Permalink to this heading"></a></h2>
 <p>To sample from the posterior, EOS provides the <a class="reference internal" href="api/python.html#eos.Analysis.sample"><span class="std std-ref">analysis.sample</span></a> method. Optionally, this can also produce posterior-predictive samples for a list of observables. We can use these samples to illustrate the results of our fit in comparison to the experimental constraints.</p>
 <p>For this example, we produce such posterior-predictive samples for the differential <span class="math notranslate nohighlight">\(\bar{B}\to D^+e^-\bar\nu\)</span> branching ratio in 40 points in the kinematical variable <span class="math notranslate nohighlight">\(q^2\)</span>; the square of the momentum transfer to the <span class="math notranslate nohighlight">\(e^-\bar\nu\)</span> pair. Due to the strong dependence of the branching ratio on <span class="math notranslate nohighlight">\(q^2\)</span>, we do not distribute the points equally across the full phase space. Instead, we equally distribute half of the points in the interval
 <span class="math notranslate nohighlight">\([0.02\,\text{GeV}^2, 1.00\,\text{GeV}^2]\)</span> and the other half in the remainder of the phase space.</p>
@@ -869,11 +878,11 @@ step. The samples obtained as part of the preruns are discarded. To ensure effic
 INFO:EOS:Prerun 0 out of 5
 INFO:EOS:Prerun 0: acceptance rate is   0%
 INFO:EOS:Prerun 1 out of 5
-INFO:EOS:Prerun 1: acceptance rate is  54%
+INFO:EOS:Prerun 1: acceptance rate is  60%
 INFO:EOS:Prerun 2 out of 5
-INFO:EOS:Prerun 2: acceptance rate is  32%
+INFO:EOS:Prerun 2: acceptance rate is  30%
 INFO:EOS:Prerun 3 out of 5
-INFO:EOS:Prerun 3: acceptance rate is  25%
+INFO:EOS:Prerun 3: acceptance rate is  28%
 INFO:EOS:Prerun 4 out of 5
 INFO:EOS:Prerun 4: acceptance rate is  25%
 INFO:EOS:Main run: started ...
