@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parameter Inference &mdash; EOS 1.0.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/contentui.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+    <link rel="canonical" href="https://eos.github.io/doc/inference.html" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/contentui.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Simulation of Pseudo Events" href="simulation.html" />
+    <link rel="prev" title="Theory Predictions and their Uncertainties" href="predictions.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> EOS
+            <img src="_static/github-eos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basics.html">Basics</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="use-cases.html">Use Cases</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="predictions.html">Theory Predictions and their Uncertainties</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Parameter Inference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Listing-the-built-in-Constraints">Listing the built-in Constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Visualizing-the-built-in-Constraints">Visualizing the built-in Constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Defining-the-Statistical-Analysis">Defining the Statistical Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Sampling-from-the-Posterior">Sampling from the Posterior</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simulation.html">Simulation of Pseudo Events</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/python.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="constraints.html">List of Constraints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="observables.html">List of Observables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parameters.html">List of Parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">List of References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">EOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="use-cases.html">Use Cases</a> &raquo;</li>
+      <li>Parameter Inference</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+.jp-RenderedHTMLCommon thead,
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+.jp-RenderedHTMLCommon th,
+div.rendered_html th {
+  font-weight: bold;
+}
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+.jp-RenderedHTMLCommon tbody tr:hover,
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="Parameter-Inference">
+<h1>Parameter Inference<a class="headerlink" href="#Parameter-Inference" title="Permalink to this heading"></a></h1>
+<p>EOS can infer parameters based on a database of experimental or theoretical constraints and its built-in observables. The examples in this notebook illustrate how to find a specific constraint from the list of all built-in observables, construct an <a class="reference internal" href="api/python.html#eos.Analysis"><span class="std std-ref">eos.Analysis</span></a> object that represents the statistical analysis, and infer mean value and standard deviation of a list of parameters through optimization or Monte Carlo methods.</p>
+<section id="Listing-the-built-in-Constraints">
+<h2>Listing the built-in Constraints<a class="headerlink" href="#Listing-the-built-in-Constraints" title="Permalink to this heading"></a></h2>
+<p>The full list of built-in constraints for the most-recent EOS release is available online <a class="reference external" href="https://eos.github.io/doc/constraints">here</a>. You can also show this list using the <a class="reference internal" href="api/python.html#eos.Constraints"><span class="std std-ref">eos.Constraints</span></a> class. Searching for a specific constraint is possible by filtering for specific strings in the constraint name’s <em>prefix</em>, <em>name</em>, or <em>suffix</em> parts. The following example only shows constraints that contain a <code class="docutils literal notranslate"><span class="pre">'-&gt;D'</span></code> in the prefix part:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">eos</span>
+<span class="n">eos</span><span class="o">.</span><span class="n">Constraints</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;-&gt;D&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<script>
+    function toggle_obs(obs_anchor, id) {
+        var query_dots   = 'span.dots[id="' + id + '"]'
+        var query_values = 'span.values[id="' + id + '"]'
+        var dots   = obs_anchor.querySelector(query_dots)
+        var values = obs_anchor.querySelector(query_values)
+        if (dots.style.display == "none") {
+            dots.style.display   = "inline"
+            values.style.display = "none"
+        } else {
+            dots.style.display   = "none"
+            values.style.display = "inline"
+        }
+    }
+</script>
+<table>
+    <colgroup>
+        <col width="50%" id="qn"     style="min-width: 200px">
+        <col width="25%" id="type"   style="min-width: 200px">
+        <col width="15%" id="type"   style="min-width: 100px">
+        <col width="10%" id="ref"    style="min-width: 100px">
+    </colgroup>
+    <thead>
+        <tr>
+            <th>qualified name</th>
+            <th>observables</th>
+            <th>type</th>
+            <th>reference</th>
+        </tr>
+    </thead>
+        <tr>
+            <td><tt>B->D::f_++f_0@FNAL+MILC:2015B</tt></td>
+            <td><a onclick="toggle_obs(this, 'con0-obs')">
+        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
+        <span class="values" id="con0-obs" style="display: none;   text-align: left">
+       <tt>B->D::f_+(q2)</tt><br/><tt>B->D::f_0(q2)</tt>
+        </span>
+    </a></td>
+            <td>MultivariateGaussian</td>
+            <td><a " href="https://arxiv.org/abs/1503.07237"">FNAL+MILC:2015B</a></td>
+        </tr>
+        <tr>
+            <td><tt>B->D::f_++f_0@HPQCD:2015A</tt></td>
+            <td><a onclick="toggle_obs(this, 'con0-obs')">
+        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
+        <span class="values" id="con0-obs" style="display: none;   text-align: left">
+       <tt>B->D::f_+(q2)</tt><br/><tt>B->D::f_0(q2)</tt>
+        </span>
+    </a></td>
+            <td>MultivariateGaussian</td>
+            <td><a " href="https://arxiv.org/abs/1505.03925"">HPQCD:2015A</a></td>
+        </tr>
+        <tr>
+            <td><tt>B->D::f_+@FKKM:2008A</tt></td>
+            <td><a onclick="toggle_obs(this, 'con0-obs')">
+        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
+        <span class="values" id="con0-obs" style="display: none;   text-align: left">
+       <tt>B->D::f_+(q2)</tt>
+        </span>
+    </a></td>
+            <td>Gaussian</td>
+            <td><a " href="https://arxiv.org/abs/0809.0222"">FKKM:2008A</a></td>
+        </tr>
+        <tr>
+            <td><tt>B->D^(*)::FormFactors[f_+,f_0,A_0,A_1,A_2,V,T_1,T_2,T_23]@GKvD:2018A</tt></td>
+            <td><a onclick="toggle_obs(this, 'con0-obs')">
+        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
+        <span class="values" id="con0-obs" style="display: none;   text-align: left">
+       <tt>B->D^*::A_1(q2)</tt><br/><tt>B->D^*::A_0(q2)</tt><br/><tt>B->D^*::T_2(q2)</tt><br/><tt>B->D::f_+(q2)</tt><br/><tt>B->D::f_0(q2)</tt><br/><tt>B->D^*::T_1(q2)</tt><br/><tt>B->D^*::V(q2)</tt><br/><tt>B->D^*::T_23(q2)</tt><br/><tt>B->D^*::A_2(q2)</tt>
+        </span>
+    </a></td>
+            <td>MultivariateGaussian(Covariance)</td>
+            <td><a " href="https://arxiv.org/abs/1811.00983"">GKvD:2018A</a></td>
+        </tr>
+        <tr>
+            <td><tt>B->D^(*)::FormFactors[f_+,f_0,f_T,A_0,A_1,A_2,V,T_1,T_2,T_23]@GKvD:2018A</tt></td>
+            <td><a onclick="toggle_obs(this, 'con0-obs')">
+        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
+        <span class="values" id="con0-obs" style="display: none;   text-align: left">
+       <tt>B->D^*::A_1(q2)</tt><br/><tt>B->D^*::A_0(q2)</tt><br/><tt>B->D^*::T_2(q2)</tt><br/><tt>B->D::f_+(q2)</tt><br/><tt>B->D::f_0(q2)</tt><br/><tt>B->D^*::T_1(q2)</tt><br/><tt>B->D::f_T(q2)</tt><br/><tt>B->D^*::V(q2)</tt><br/><tt>B->D^*::T_23(q2)</tt><br/><tt>B->D^*::A_2(q2)</tt>
+        </span>
+    </a></td>
+            <td>MultivariateGaussian(Covariance)</td>
+            <td><a " href="https://arxiv.org/abs/1811.00983"">GKvD:2018A</a></td>
+        </tr>
+        <tr>
+            <td><tt>B->D^(*)::FormFactors[parametric,LCSRLattice]@GKvD:2018A</tt></td>
+            <td><a onclick="toggle_obs(this, 'con0-obs')">
+        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
+        <span class="values" id="con0-obs" style="display: none;   text-align: left">
+       <tt>B->D^*::alpha^A0_0@BSZ2015</tt><br/><tt>B->D::alpha^fT_0@BSZ2015</tt><br/><tt>B->D^*::alpha^V_0@BSZ2015</tt><br/><tt>B->D::alpha^f+_1@BSZ2015</tt><br/><tt>B->D^*::alpha^T1_0@BSZ2015</tt><br/><tt>B->D^*::alpha^T2_2@BSZ2015</tt><br/><tt>B->D^*::alpha^T2_1@BSZ2015</tt><br/><tt>B->D^*::alpha^A1_0@BSZ2015</tt><br/><tt>B->D^*::alpha^A12_2@BSZ2015</tt><br/><tt>B->D::alpha^f+_2@BSZ2015</tt><br/><tt>B->D::alpha^f+_0@BSZ2015</tt><br/><tt>B->D::alpha^fT_1@BSZ2015</tt><br/><tt>B->D^*::alpha^T23_1@BSZ2015</tt><br/><tt>B->D^*::alpha^V_2@BSZ2015</tt><br/><tt>B->D^*::alpha^T23_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A12_1@BSZ2015</tt><br/><tt>B->D^*::alpha^A0_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A0_1@BSZ2015</tt><br/><tt>B->D::alpha^f0_1@BSZ2015</tt><br/><tt>B->D::alpha^fT_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A1_1@BSZ2015</tt><br/><tt>B->D^*::alpha^V_1@BSZ2015</tt><br/><tt>B->D^*::alpha^T1_1@BSZ2015</tt><br/><tt>B->D^*::alpha^T1_2@BSZ2015</tt><br/><tt>B->D^*::alpha^T23_0@BSZ2015</tt><br/><tt>B->D::alpha^f0_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A1_2@BSZ2015</tt>
+        </span>
+    </a></td>
+            <td>MultivariateGaussian(Covariance)</td>
+            <td><a " href="https://arxiv.org/abs/1811.00983"">GKvD:2018A</a></td>
+        </tr>
+        <tr>
+            <td><tt>B->D^(*)::FormFactors[parametric,LCSR]@GKvD:2018A</tt></td>
+            <td><a onclick="toggle_obs(this, 'con0-obs')">
+        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
+        <span class="values" id="con0-obs" style="display: none;   text-align: left">
+       <tt>B->D^*::alpha^A0_0@BSZ2015</tt><br/><tt>B->D::alpha^fT_0@BSZ2015</tt><br/><tt>B->D^*::alpha^V_0@BSZ2015</tt><br/><tt>B->D::alpha^f+_1@BSZ2015</tt><br/><tt>B->D^*::alpha^T1_0@BSZ2015</tt><br/><tt>B->D^*::alpha^T2_2@BSZ2015</tt><br/><tt>B->D^*::alpha^T2_1@BSZ2015</tt><br/><tt>B->D^*::alpha^A1_0@BSZ2015</tt><br/><tt>B->D^*::alpha^A12_2@BSZ2015</tt><br/><tt>B->D::alpha^f+_2@BSZ2015</tt><br/><tt>B->D::alpha^f+_0@BSZ2015</tt><br/><tt>B->D::alpha^fT_1@BSZ2015</tt><br/><tt>B->D^*::alpha^T23_1@BSZ2015</tt><br/><tt>B->D^*::alpha^V_2@BSZ2015</tt><br/><tt>B->D^*::alpha^T23_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A12_1@BSZ2015</tt><br/><tt>B->D^*::alpha^A0_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A0_1@BSZ2015</tt><br/><tt>B->D::alpha^f0_1@BSZ2015</tt><br/><tt>B->D::alpha^fT_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A1_1@BSZ2015</tt><br/><tt>B->D^*::alpha^V_1@BSZ2015</tt><br/><tt>B->D^*::alpha^T1_1@BSZ2015</tt><br/><tt>B->D^*::alpha^T1_2@BSZ2015</tt><br/><tt>B->D^*::alpha^T23_0@BSZ2015</tt><br/><tt>B->D::alpha^f0_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A1_2@BSZ2015</tt>
+        </span>
+    </a></td>
+            <td>MultivariateGaussian(Covariance)</td>
+            <td><a " href="https://arxiv.org/abs/1811.00983"">GKvD:2018A</a></td>
+        </tr>
+        <tr>
+            <td><tt>B->D^(*)lnu::R_D^(*)@HFLAV:2019A</tt></td>
+            <td><a onclick="toggle_obs(this, 'con0-obs')">
+        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
+        <span class="values" id="con0-obs" style="display: none;   text-align: left">
+       <tt>B->D^*lnu::R_D^*</tt><br/><tt>B->Dlnu::R_D</tt>
+        </span>
+    </a></td>
+            <td>MultivariateGaussian(Covariance)</td>
+            <td><a " href="https://arxiv.org/abs/1909.12524"">HFLAV:2019A</a></td>
+        </tr>
+        <tr>
+            <td><tt>B->D^*::A_1@FKKM:2008A</tt></td>
+            <td><a onclick="toggle_obs(this, 'con0-obs')">
+        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
+        <span class="values" id="con0-obs" style="display: none;   text-align: left">
+       <tt>B->D^*::A_1(q2)</tt>
+        </span>
+    </a></td>
+            <td>Gaussian</td>
+            <td><a " href="https://arxiv.org/abs/0809.0222"">FKKM:2008A</a></td>
+        </tr>
+        <tr>
+            <td><tt>B->D^*::A_1[s_max]@FNAL+MILC:2014A</tt></td>
+            <td><a onclick="toggle_obs(this, 'con0-obs')">
+        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
+        <span class="values" id="con0-obs" style="display: none;   text-align: left">
+       <tt>B->D^*::A_1(q2)</tt>
+        </span>
+    </a></td>
+            <td>Gaussian</td>
+            <td><a " href="https://arxiv.org/abs/1403.0635"">FNAL+MILC:2014A</a></td>
+        </tr>
+        <tr>
+            <td><tt>B->D^*::A_1[s_max]@HFLAV:2019A</tt></td>
+            <td><a onclick="toggle_obs(this, 'con0-obs')">
+        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
+        <span class="values" id="con0-obs" style="display: none;   text-align: left">
+       <tt>B->D^*::A_1(q2)</tt>
+        </span>
+    </a></td>
+            <td>Gaussian</td>
+            <td><a " href="https://arxiv.org/abs/1909.12524"">HFLAV:2019A</a></td>
+        </tr>
+        <tr>
+            <td><tt>B->D^*::A_1[s_max]@HPQCD:2017A</tt></td>
+            <td><a onclick="toggle_obs(this, 'con0-obs')">
+        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
+        <span class="values" id="con0-obs" style="display: none;   text-align: left">
+       <tt>B->D^*::A_1(q2)</tt>
+        </span>
+    </a></td>
+            <td>Gaussian</td>
+            <td><a "">HPQCD:2017A</a></td>
+        </tr>
+        <tr>
+            <td><tt>B->D^*::A_2@FKKM:2008A</tt></td>
+            <td><a onclick="toggle_obs(this, 'con0-obs')">
+        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
+        <span class="values" id="con0-obs" style="display: none;   text-align: left">
+       <tt>B->D^*::A_2(q2)</tt>
+        </span>
+    </a></td>
+            <td>Gaussian</td>
+            <td><a " href="https://arxiv.org/abs/0809.0222"">FKKM:2008A</a></td>
+        </tr>
+        <tr>
+            <td><tt>B->D^*::V@FKKM:2008A</tt></td>
+            <td><a onclick="toggle_obs(this, 'con0-obs')">
+        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
+        <span class="values" id="con0-obs" style="display: none;   text-align: left">
+       <tt>B->D^*::V(q2)</tt>
+        </span>
+    </a></td>
+            <td>Gaussian</td>
+            <td><a " href="https://arxiv.org/abs/0809.0222"">FKKM:2008A</a></td>
+        </tr>
+        <tr>
+            <td><tt>B^0->D^+e^-nu::BRs@Belle:2015A</tt></td>
+            <td><a onclick="toggle_obs(this, 'con0-obs')">
+        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
+        <span class="values" id="con0-obs" style="display: none;   text-align: left">
+       <tt>B->Dlnu::BR</tt>
+        </span>
+    </a></td>
+            <td>MultivariateGaussian(Covariance)</td>
+            <td><a " href="https://arxiv.org/abs/1510.03657"">Belle:2015A</a></td>
+        </tr>
+        <tr>
+            <td><tt>B^0->D^+l^-nu::KinematicalDistribution[w]@Belle:2015A</tt></td>
+            <td><a onclick="toggle_obs(this, 'con0-obs')">
+        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
+        <span class="values" id="con0-obs" style="display: none;   text-align: left">
+       <tt>B->Dlnu::P(w_min,w_max)</tt>
+        </span>
+    </a></td>
+            <td>MultivariateGaussian(Covariance)</td>
+            <td><a " href="https://arxiv.org/abs/1510.03657"">Belle:2015A</a></td>
+        </tr>
+        <tr>
+            <td><tt>B^0->D^+mu^-nu::BRs@Belle:2015A</tt></td>
+            <td><a onclick="toggle_obs(this, 'con0-obs')">
+        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
+        <span class="values" id="con0-obs" style="display: none;   text-align: left">
+       <tt>B->Dlnu::BR</tt>
+        </span>
+    </a></td>
+            <td>MultivariateGaussian(Covariance)</td>
+            <td><a " href="https://arxiv.org/abs/1510.03657"">Belle:2015A</a></td>
+        </tr>
+        <tr>
+            <td><tt>B_s->D_s::f_++f_0@HPQCD:2019A</tt></td>
+            <td><a onclick="toggle_obs(this, 'con0-obs')">
+        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
+        <span class="values" id="con0-obs" style="display: none;   text-align: left">
+       <tt>B_s->D_s::f_+(q2)</tt><br/><tt>B_s->D_s::f_0(q2)</tt>
+        </span>
+    </a></td>
+            <td>MultivariateGaussian(Covariance)</td>
+            <td><a "">HPQCD:2019A</a></td>
+        </tr>
+        <tr>
+            <td><tt>B_s->D_s^(*)::FormFactors[f_+,f_0,A_0,A_1,A_2,V,T_1,T_2,T_23]@BGJvD:2019A</tt></td>
+            <td><a onclick="toggle_obs(this, 'con0-obs')">
+        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
+        <span class="values" id="con0-obs" style="display: none;   text-align: left">
+       <tt>B_s->D_s^*::A_1(q2)</tt><br/><tt>B_s->D_s::f_0(q2)</tt><br/><tt>B_s->D_s^*::T_1(q2)</tt><br/><tt>B_s->D_s^*::T_2(q2)</tt><br/><tt>B_s->D_s^*::T_23(q2)</tt><br/><tt>B_s->D_s^*::A_0(q2)</tt><br/><tt>B_s->D_s::f_+(q2)</tt><br/><tt>B_s->D_s^*::V(q2)</tt><br/><tt>B_s->D_s^*::A_2(q2)</tt>
+        </span>
+    </a></td>
+            <td>MultivariateGaussian(Covariance)</td>
+            <td><a "">BGJvD:2019A</a></td>
+        </tr>
+        <tr>
+            <td><tt>B_s->D_s^(*)::FormFactors[f_+,f_0,f_T,A_0,A_1,A_2,V,T_1,T_2,T_23]@BGJvD:2019A</tt></td>
+            <td><a onclick="toggle_obs(this, 'con0-obs')">
+        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
+        <span class="values" id="con0-obs" style="display: none;   text-align: left">
+       <tt>B_s->D_s^*::A_1(q2)</tt><br/><tt>B_s->D_s^*::A_2(q2)</tt><br/><tt>B_s->D_s::f_0(q2)</tt><br/><tt>B_s->D_s^*::T_1(q2)</tt><br/><tt>B_s->D_s^*::T_2(q2)</tt><br/><tt>B_s->D_s^*::T_23(q2)</tt><br/><tt>B_s->D_s::f_+(q2)</tt><br/><tt>B_s->D_s::f_T(q2)</tt><br/><tt>B_s->D_s^*::V(q2)</tt><br/><tt>B_s->D_s^*::A_0(q2)</tt>
+        </span>
+    </a></td>
+            <td>MultivariateGaussian(Covariance)</td>
+            <td><a "">BGJvD:2019A</a></td>
+        </tr>
+        <tr>
+            <td><tt>B_s->D_s^(*)::FormFactors[parametric,LCSRLattice]@BGJvD:2019A</tt></td>
+            <td><a onclick="toggle_obs(this, 'con0-obs')">
+        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
+        <span class="values" id="con0-obs" style="display: none;   text-align: left">
+       <tt>B_s->D_s^*::alpha^A1_2@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f0_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A1_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A0_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T2_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T1_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A12_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T23_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T1_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A0_1@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f0_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A1_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T23_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^V_1@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f+_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A0_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A12_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^V_0@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f+_2@BSZ2015</tt><br/><tt>B_s->D_s::alpha^fT_0@BSZ2015</tt><br/><tt>B_s->D_s::alpha^fT_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T1_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^V_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T23_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T2_1@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f+_0@BSZ2015</tt><br/><tt>B_s->D_s::alpha^fT_2@BSZ2015</tt>
+        </span>
+    </a></td>
+            <td>MultivariateGaussian(Covariance)</td>
+            <td><a "">BGJvD:2019A</a></td>
+        </tr>
+        <tr>
+            <td><tt>B_s->D_s^(*)::FormFactors[parametric,LCSR]@BGJvD:2019A</tt></td>
+            <td><a onclick="toggle_obs(this, 'con0-obs')">
+        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
+        <span class="values" id="con0-obs" style="display: none;   text-align: left">
+       <tt>B_s->D_s^*::alpha^A1_2@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f0_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A1_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A0_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T2_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T1_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A12_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T23_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T1_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A0_1@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f0_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A1_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T23_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^V_1@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f+_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A0_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A12_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^V_0@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f+_2@BSZ2015</tt><br/><tt>B_s->D_s::alpha^fT_0@BSZ2015</tt><br/><tt>B_s->D_s::alpha^fT_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T1_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^V_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T23_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T2_1@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f+_0@BSZ2015</tt><br/><tt>B_s->D_s::alpha^fT_2@BSZ2015</tt>
+        </span>
+    </a></td>
+            <td>MultivariateGaussian(Covariance)</td>
+            <td><a "">BGJvD:2019A</a></td>
+        </tr>
+        <tr>
+            <td><tt>B_s->D_s^*::A_1[s_max]@HPQCD:2017A</tt></td>
+            <td><a onclick="toggle_obs(this, 'con0-obs')">
+        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
+        <span class="values" id="con0-obs" style="display: none;   text-align: left">
+       <tt>B_s->D_s^*::A_1(q2)</tt>
+        </span>
+    </a></td>
+            <td>Gaussian</td>
+            <td><a "">HPQCD:2017A</a></td>
+        </tr>
+        <tr>
+            <td><tt>B_s->D_s^*::A_1[s_max]@HPQCD:2019A</tt></td>
+            <td><a onclick="toggle_obs(this, 'con0-obs')">
+        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
+        <span class="values" id="con0-obs" style="display: none;   text-align: left">
+       <tt>B_s->D_s^*::A_1(q2)</tt>
+        </span>
+    </a></td>
+            <td>Gaussian</td>
+            <td><a "">HPQCD:2019A</a></td>
+        </tr>
+    </table></div>
+</div>
+</section>
+<section id="Visualizing-the-built-in-Constraints">
+<h2>Visualizing the built-in Constraints<a class="headerlink" href="#Visualizing-the-built-in-Constraints" title="Permalink to this heading"></a></h2>
+<p>For what follows we will use the two experimental constraints <code class="docutils literal notranslate"><span class="pre">B^0-&gt;D^+e^-nu::BRs&#64;Belle:2015A</span></code> and <code class="docutils literal notranslate"><span class="pre">B^0-&gt;D^+mu^-nu::BRs&#64;Belle:2015A</span></code>, to infer the CKM matrix element <span class="math notranslate nohighlight">\(|V_{cb}|\)</span>. We can readily display these two constraints, along with the default theory prediction (without any uncertainties), using the following code:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$q^2$&#39;</span><span class="p">,</span> <span class="s1">&#39;unit&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$\textnormal</span><span class="si">{GeV}</span><span class="s1">^2$&#39;</span><span class="p">,</span> <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">11.63</span><span class="p">]</span> <span class="p">},</span>
+        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$d\mathcal</span><span class="si">{B}</span><span class="s1">/dq^2$&#39;</span><span class="p">,</span>                    <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span>  <span class="mf">5e-3</span><span class="p">]</span> <span class="p">},</span>
+        <span class="s1">&#39;legend&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="s1">&#39;lower left&#39;</span> <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$\ell=e$&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;observable&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;observable&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;Dlnu::dBR/dq2;l=e,q=d&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;variable&#39;</span><span class="p">:</span> <span class="s1">&#39;q2&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">11.63</span><span class="p">],</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;Belle 2015 $\ell=e,\, q=d$&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;constraint&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;C0&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;constraints&#39;</span><span class="p">:</span> <span class="s1">&#39;B^0-&gt;D^+e^-nu::BRs@Belle:2015A&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;observable&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;Dlnu::BR&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;variable&#39;</span><span class="p">:</span> <span class="s1">&#39;q2&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;rescale-by-width&#39;</span><span class="p">:</span> <span class="kc">True</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;Belle 2015 $\ell=\mu,\,q=d$&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;constraint&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;constraints&#39;</span><span class="p">:</span> <span class="s1">&#39;B^0-&gt;D^+mu^-nu::BRs@Belle:2015A&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;observable&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;Dlnu::BR&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;variable&#39;</span><span class="p">:</span> <span class="s1">&#39;q2&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;rescale-by-width&#39;</span><span class="p">:</span> <span class="kc">True</span>
+        <span class="p">},</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="n">eos</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">plot_args</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:EOS:   plotting EOS observable &#34;B-&gt;Dlnu::dBR/dq2;l=e,q=d&#34;
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&lt;Figure size 432x288 with 1 Axes&gt;,
+ &lt;AxesSubplot:xlabel=&#39;$q^2$\\,[$\\textnormal{GeV}^2$]&#39;, ylabel=&#39;$d\\mathcal{B}/dq^2$&#39;&gt;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/inference_7_2.png" src="_images/inference_7_2.png" />
+</div>
+</div>
+</section>
+<section id="Defining-the-Statistical-Analysis">
+<h2>Defining the Statistical Analysis<a class="headerlink" href="#Defining-the-Statistical-Analysis" title="Permalink to this heading"></a></h2>
+<p>To define our statistical analysis for the inference of <span class="math notranslate nohighlight">\(|V_{cb}|\)</span> from measurements of the <span class="math notranslate nohighlight">\(\bar{B}\to D\ell^-\bar\nu\)</span> branching ratios, some decisions are needed. First, we must decide how to parametrize the hadronic form factors that emerge in semileptonic <span class="math notranslate nohighlight">\(\bar{B}\to D\)</span> transitions. For what follows we will use the [BSZ:2015A] parametrization. Next, we must decide the theory input for the form factors. For what follows we will combine the correlated lattice QCD results
+published by the Fermilab/MILC and HPQCD collaborations in 2015.</p>
+<p>We then create an <a class="reference internal" href="api/python.html#eos.Analysis"><span class="std std-ref">eos.Analysis</span></a> object as follows:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;global_options&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;form-factors&#39;</span><span class="p">:</span> <span class="s1">&#39;BSZ2015&#39;</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="s1">&#39;CKM&#39;</span> <span class="p">},</span>
+    <span class="s1">&#39;priors&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span> <span class="s1">&#39;parameter&#39;</span><span class="p">:</span> <span class="s1">&#39;CKM::abs(V_cb)&#39;</span><span class="p">,</span>           <span class="s1">&#39;min&#39;</span><span class="p">:</span>  <span class="mf">38e-3</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">:</span>  <span class="mf">45e-3</span> <span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uniform&#39;</span><span class="p">},</span>
+        <span class="p">{</span> <span class="s1">&#39;parameter&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;D::alpha^f+_0@BSZ2015&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">:</span>  <span class="mf">0.0</span><span class="p">,</span>   <span class="s1">&#39;max&#39;</span><span class="p">:</span>  <span class="mf">1.0</span>   <span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uniform&#39;</span><span class="p">},</span>
+        <span class="p">{</span> <span class="s1">&#39;parameter&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;D::alpha^f+_1@BSZ2015&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">4.0</span><span class="p">,</span>   <span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.0</span>   <span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uniform&#39;</span><span class="p">},</span>
+        <span class="p">{</span> <span class="s1">&#39;parameter&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;D::alpha^f+_2@BSZ2015&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">:</span> <span class="o">+</span><span class="mf">4.0</span><span class="p">,</span>   <span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="o">+</span><span class="mf">6.0</span>   <span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uniform&#39;</span><span class="p">},</span>
+        <span class="p">{</span> <span class="s1">&#39;parameter&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;D::alpha^f0_1@BSZ2015&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span>   <span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="o">+</span><span class="mf">2.0</span>   <span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uniform&#39;</span><span class="p">},</span>
+        <span class="p">{</span> <span class="s1">&#39;parameter&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;D::alpha^f0_2@BSZ2015&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">,</span>   <span class="s1">&#39;max&#39;</span><span class="p">:</span>  <span class="mf">0.0</span>   <span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uniform&#39;</span><span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s1">&#39;likelihood&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s1">&#39;B-&gt;D::f_++f_0@HPQCD:2015A&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;B-&gt;D::f_++f_0@FNAL+MILC:2015B&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;B^0-&gt;D^+e^-nu::BRs@Belle:2015A&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;B^0-&gt;D^+mu^-nu::BRs@Belle:2015A&#39;</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="n">analysis</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Analysis</span><span class="p">(</span><span class="o">**</span><span class="n">analysis_args</span><span class="p">)</span>
+<span class="n">analysis</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;CKM::abs(V_cb)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mf">42.0e-3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:EOS:Creating analysis with 6 priors, 4 EOS-wide constraints, 2 global options, 0 manually-entered constraints and 0 fixed parameters.
+INFO:EOS:likelihood probably depends on 48 parameter(s) that do not appear in the prior; check prior?
+</pre></div></div>
+</div>
+<p>In the above, the global options ensure that our choice of form factor parametrization is used throughout, and that for CKM matrix elements the <code class="docutils literal notranslate"><span class="pre">CKM</span></code> model is used. The latter provides parametric access to the <span class="math notranslate nohighlight">\(V_{cb}\)</span> matrix element through two parameters: the absolute value <code class="docutils literal notranslate"><span class="pre">CKM::abs(V_cb)</span></code> and the complex phase <code class="docutils literal notranslate"><span class="pre">CKM::arg(V_cb)</span></code>. The latter is not accessible from <span class="math notranslate nohighlight">\(b\to c\ell\bar\nu\)</span>. We provide the parameters in our analysis through the specifications of the Bayesian priors.
+In the above, each prior is a uniform prior that covers the range from <code class="docutils literal notranslate"><span class="pre">min</span></code> to <code class="docutils literal notranslate"><span class="pre">max</span></code>. The likelihood is defined through a list constraints, which in the above includes both the experimental measurements by the Belle collaboration as well as the theoretical lattice QCD results. Finally, we set the starting value of <code class="docutils literal notranslate"><span class="pre">CKM::abs(V_cb)</span></code> to a sensible value of <span class="math notranslate nohighlight">\(42\cdot 10^{-3}\)</span>.</p>
+<p>We can now proceed to optimize the log(posterior) through a call to <a class="reference internal" href="api/python.html#eos.Analysis.optimize"><span class="std std-ref">analysis.optimize</span></a>. In a Jupyter notebook, it is useful to display the return value of this method, which illustrates the best-fit point. We can further display a summary of fit quality using the <a class="reference internal" href="api/python.html#eos.Analysis.goodness_of_fit"><span class="std std-ref">analysis.goodness_of_fit</span></a> method.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bfp</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+<span class="n">display</span><span class="p">(</span><span class="n">bfp</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">analysis</span><span class="o">.</span><span class="n">goodness_of_fit</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:EOS:Optimization goal achieved after 139 function evaluations
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<tr><th>parameter</th><th>value</th></tr>
+<tr><td>$|V_{cb}|$</td><td>0.0419</td></tr><tr><td>$\alpha_{+,0}^{B \to D,\mathrm{BSZ2015}}$</td><td>0.6668</td></tr><tr><td>$\alpha_{+,1}^{B \to D,\mathrm{BSZ2015}}$</td><td>-2.5421</td></tr><tr><td>$\alpha_{+,2}^{B \to D,\mathrm{BSZ2015}}$</td><td>4.7866</td></tr><tr><td>$\alpha_{0,1}^{B \to D,\mathrm{BSZ2015}}$</td><td>0.2560</td></tr><tr><td>$\alpha_{0,2}^{B \to D,\mathrm{BSZ2015}}$</td><td>-0.9289</td></tr></table></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<tr><th>constraint</th><th>&chi;<sup>2</sup></th><th>d.o.f.</th><th>local p-value</th></tr>
+<tr><td><tt>B->D::f_++f_0@FNAL+MILC:2015B</tt></td><td>3.5110</td><td>7</td><td>83.4057%</td></tr>
+<tr><td><tt>B->D::f_++f_0@HPQCD:2015A</tt></td><td>3.0279</td><td>5</td><td>69.5689%</td></tr>
+<tr><td><tt>B^0->D^+e^-nu::BRs@Belle:2015A</tt></td><td>11.8514</td><td>10</td><td>29.5126%</td></tr>
+<tr><td><tt>B^0->D^+mu^-nu::BRs@Belle:2015A</tt></td><td>5.2417</td><td>10</td><td>87.4455%</td></tr>
+</table><br/>
+<table>
+<tr><th>total &chi;<sup>2</sup></th><td>23.6320</td></tr>
+<tr><th>total degrees of freedom</th><td>26</td></tr>
+<tr><th>p-value</th><td>59.6998%</td></tr>
+</table></div>
+</div>
+</section>
+<section id="Sampling-from-the-Posterior">
+<h2>Sampling from the Posterior<a class="headerlink" href="#Sampling-from-the-Posterior" title="Permalink to this heading"></a></h2>
+<p>To sample from the posterior, EOS provides the <a class="reference internal" href="api/python.html#eos.Analysis.sample"><span class="std std-ref">analysis.sample</span></a> method. Optionally, this can also produce posterior-predictive samples for a list of observables. We can use these samples to illustrate the results of our fit in comparison to the experimental constraints.</p>
+<p>For this example, we produce such posterior-predictive samples for the differential <span class="math notranslate nohighlight">\(\bar{B}\to D^+e^-\bar\nu\)</span> branching ratio in 40 points in the kinematical variable <span class="math notranslate nohighlight">\(q^2\)</span>; the square of the momentum transfer to the <span class="math notranslate nohighlight">\(e^-\bar\nu\)</span> pair. Due to the strong dependence of the branching ratio on <span class="math notranslate nohighlight">\(q^2\)</span>, we do not distribute the points equally across the full phase space. Instead, we equally distribute half of the points in the interval
+<span class="math notranslate nohighlight">\([0.02\,\text{GeV}^2, 1.00\,\text{GeV}^2]\)</span> and the other half in the remainder of the phase space.</p>
+<p>We produce <code class="docutils literal notranslate"><span class="pre">N</span></code> <span class="math notranslate nohighlight">\(= 20000\)</span> samples with a thinning factor (or <code class="docutils literal notranslate"><span class="pre">stride</span></code>) of <span class="math notranslate nohighlight">\(5\)</span>. This means that <code class="docutils literal notranslate"><span class="pre">stride</span> <span class="pre">*</span> <span class="pre">N</span></code> <span class="math notranslate nohighlight">\(= 100000\)</span> samples are produced, but only every <span class="math notranslate nohighlight">\(5\)</span>th sample is returned. This improves the quality of the samples by reducing the autocorrelation. Before the samples are produced, the Markov Chain self-adapts in a series of preruns, the number of which is governed by the <code class="docutils literal notranslate"><span class="pre">preprun</span></code> argument. In each prerun, <code class="docutils literal notranslate"><span class="pre">pre_N</span></code> samples are drawn before the adaptation
+step. The samples obtained as part of the preruns are discarded. To ensure efficient sampling, the chain is started in the best-fit point obtained earlier through optimization.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">e_q2values</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.02</span><span class="p">,</span>  <span class="mf">1.00</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1.00</span><span class="p">,</span> <span class="mf">11.60</span><span class="p">,</span> <span class="mi">20</span><span class="p">))))</span>
+<span class="n">e_obs</span>       <span class="o">=</span> <span class="p">[</span><span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span>
+                  <span class="s1">&#39;B-&gt;Dlnu::dBR/dq2&#39;</span><span class="p">,</span> <span class="n">analysis</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2</span><span class="o">=</span><span class="n">q2</span><span class="p">),</span>
+                  <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">({</span><span class="s1">&#39;form-factors&#39;</span><span class="p">:</span> <span class="s1">&#39;BSZ2015&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;q&#39;</span><span class="p">:</span> <span class="s1">&#39;d&#39;</span><span class="p">}))</span>
+              <span class="k">for</span> <span class="n">q2</span> <span class="ow">in</span> <span class="n">e_q2values</span><span class="p">]</span>
+<span class="n">parameter_samples</span><span class="p">,</span> <span class="n">log_posterior</span><span class="p">,</span> <span class="n">e_samples</span>  <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">20000</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pre_N</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span> <span class="n">preruns</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">start_point</span><span class="o">=</span><span class="n">bfp</span><span class="o">.</span><span class="n">point</span><span class="p">,</span> <span class="n">observables</span><span class="o">=</span><span class="n">e_obs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:EOS:Prerun 0 out of 5
+INFO:EOS:Prerun 0: acceptance rate is   1%
+INFO:EOS:Prerun 1 out of 5
+INFO:EOS:Prerun 1: acceptance rate is  45%
+INFO:EOS:Prerun 2 out of 5
+INFO:EOS:Prerun 2: acceptance rate is  29%
+INFO:EOS:Prerun 3 out of 5
+INFO:EOS:Prerun 3: acceptance rate is  23%
+INFO:EOS:Prerun 4 out of 5
+INFO:EOS:Prerun 4: acceptance rate is  25%
+INFO:EOS:Main run: started ...
+INFO:EOS:Main run: acceptance rate is  25%
+</pre></div></div>
+</div>
+<p>The values of the log(posterior) are stored in <code class="docutils literal notranslate"><span class="pre">log_posterior</span></code>. The posterior-preditive samples for the observables are stored in <code class="docutils literal notranslate"><span class="pre">e_samples</span></code>, and are only returned if the <code class="docutils literal notranslate"><span class="pre">observables</span></code> keyword argument is provided.</p>
+<p>We can plot our result using the <code class="docutils literal notranslate"><span class="pre">uncertainty</span></code> plot type. It expects a <code class="docutils literal notranslate"><span class="pre">data</span></code> item that contains the samples as well as the x-axis values used in the production of the samples. This plot type will interpolate between neighboring x-axis values, and display the <span class="math notranslate nohighlight">\(68\%\)</span> probability envelope along the median curve.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$q^2$&#39;</span><span class="p">,</span> <span class="s1">&#39;unit&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$\textnormal</span><span class="si">{GeV}</span><span class="s1">^2$&#39;</span><span class="p">,</span> <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">11.63</span><span class="p">]</span> <span class="p">},</span>
+        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$d\mathcal</span><span class="si">{B}</span><span class="s1">/dq^2$&#39;</span><span class="p">,</span>                    <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span>  <span class="mf">5e-3</span><span class="p">]</span> <span class="p">},</span>
+        <span class="s1">&#39;legend&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="s1">&#39;lower left&#39;</span> <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$\ell=\mu$&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uncertainty&#39;</span><span class="p">,</span> <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">11.60</span><span class="p">],</span>
+          <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">e_samples</span><span class="p">,</span> <span class="s1">&#39;xvalues&#39;</span><span class="p">:</span> <span class="n">e_q2values</span> <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;Belle 2015 $\ell=e,\, q=d$&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;constraint&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;C0&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;constraints&#39;</span><span class="p">:</span> <span class="s1">&#39;B^0-&gt;D^+e^-nu::BRs@Belle:2015A&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;observable&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;Dlnu::BR&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;variable&#39;</span><span class="p">:</span> <span class="s1">&#39;q2&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;rescale-by-width&#39;</span><span class="p">:</span> <span class="kc">True</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;Belle 2015 $\ell=\mu,\,q=d$&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;constraint&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;C1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;constraints&#39;</span><span class="p">:</span> <span class="s1">&#39;B^0-&gt;D^+mu^-nu::BRs@Belle:2015A&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;observable&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;Dlnu::BR&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;variable&#39;</span><span class="p">:</span> <span class="s1">&#39;q2&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;rescale-by-width&#39;</span><span class="p">:</span> <span class="kc">True</span>
+        <span class="p">},</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="n">eos</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">plot_args</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&lt;Figure size 432x288 with 1 Axes&gt;,
+ &lt;AxesSubplot:xlabel=&#39;$q^2$\\,[$\\textnormal{GeV}^2$]&#39;, ylabel=&#39;$d\\mathcal{B}/dq^2$&#39;&gt;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/inference_19_1.png" src="_images/inference_19_1.png" />
+</div>
+</div>
+<p>The distribution of the parameter samples, here using <span class="math notranslate nohighlight">\(|V_{cb}|\)</span> as an example, can be inspected using regular histograms or a smooth histogram based on a kernel density estimate (KDE). For the latter, the parameter <code class="docutils literal notranslate"><span class="pre">bandwidth</span></code> regulates the smoothing. EOS applies a relative bandwidth factor with respect to SciPy’s best bandwidth estimate, i.e., specifying <code class="docutils literal notranslate"><span class="pre">'bandwidth':</span> <span class="pre">2</span></code> double SciPy’s estimate for the bandwidth.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$|V_</span><span class="si">{cb}</span><span class="s1">|$&#39;</span><span class="p">,</span> <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">38e-3</span><span class="p">,</span> <span class="mf">47e-3</span><span class="p">]</span> <span class="p">},</span>
+        <span class="s1">&#39;legend&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="s1">&#39;upper left&#39;</span> <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;histogram&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">parameter_samples</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;kde&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;posterior&#39;</span><span class="p">,</span> <span class="s1">&#39;bandwidth&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">40e-3</span><span class="p">,</span> <span class="mf">45e-3</span><span class="p">],</span>
+            <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">parameter_samples</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="n">eos</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">plot_args</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&lt;Figure size 432x288 with 1 Axes&gt;, &lt;AxesSubplot:xlabel=&#39;$|V_{cb}|$&#39;&gt;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/inference_21_1.png" src="_images/inference_21_1.png" />
+</div>
+</div>
+<p>We can also illustrate the correlation between <span class="math notranslate nohighlight">\(|V_{cb}|\)</span> and any form factor parameter. Her, we use the normalization of the form factors at <span class="math notranslate nohighlight">\(q^2 = 0\)</span> as an example. Contours of equal probability at the <span class="math notranslate nohighlight">\(68\%\)</span> and <span class="math notranslate nohighlight">\(95\%\)</span> levels can be generated using a KDE as follows:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$|V_</span><span class="si">{cb}</span><span class="s1">|$&#39;</span><span class="p">,</span> <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">38e-3</span><span class="p">,</span> <span class="mf">47e-3</span><span class="p">]</span> <span class="p">},</span>
+        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$f_+(0)$&#39;</span><span class="p">,</span>   <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">]</span> <span class="p">},</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;kde2D&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;posterior&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;levels&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">68</span><span class="p">,</span> <span class="mi">95</span><span class="p">],</span> <span class="s1">&#39;contours&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span><span class="s1">&#39;areas&#39;</span><span class="p">],</span> <span class="s1">&#39;bandwidth&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span>
+            <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">parameter_samples</span><span class="p">[:,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span> <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="n">eos</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">plot_args</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&lt;Figure size 432x288 with 1 Axes&gt;,
+ &lt;AxesSubplot:xlabel=&#39;$|V_{cb}|$&#39;, ylabel=&#39;$f_+(0)$&#39;&gt;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/inference_23_1.png" src="_images/inference_23_1.png" />
+</div>
+</div>
+<p>Here the <code class="docutils literal notranslate"><span class="pre">bandwidth</span></code> parameter takes the same role as in the 1D histogram.</p>
+<p>We can compute the mean value and its standard deviation using <code class="docutils literal notranslate"><span class="pre">numpy</span></code> methods</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;$|V_{{cb}}|$ = </span><span class="si">{mean:.4f}</span><span class="s1"> +/- </span><span class="si">{std:.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+    <span class="n">mean</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">parameter_samples</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]),</span>
+    <span class="n">std</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">parameter_samples</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+$|V_{cb}|$ = 0.0420 +/- 0.0009
+</pre></div></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="predictions.html" class="btn btn-neutral float-left" title="Theory Predictions and their Uncertainties" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="simulation.html" class="btn btn-neutral float-right" title="Simulation of Pseudo Events" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2021, Danny van Dyk and others.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
