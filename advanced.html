@@ -379,7 +379,7 @@ At the top level, the format includes the following YAML keys:</p>
 (for descriptions and small numerical datasets) and Numpy datafiles (for samples).
 The datafiles can be access with the classes documented as part of the <code class="xref py py-obj docutils literal notranslate"><span class="pre">eos.data</span></code> module.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span>
-                    <span class="p">{</span><span class="nb">list</span><span class="o">-</span><span class="n">priors</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">likelihoods</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">posteriors</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">predictions</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">mcmc</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">pmc</span><span class="p">,</span><span class="n">plot</span><span class="o">-</span><span class="n">samples</span><span class="p">,</span><span class="n">find</span><span class="o">-</span><span class="n">mode</span><span class="p">,</span><span class="n">mixture</span><span class="o">-</span><span class="n">product</span><span class="p">,</span><span class="n">find</span><span class="o">-</span><span class="n">clusters</span><span class="p">,</span><span class="n">predict</span><span class="o">-</span><span class="n">observables</span><span class="p">,</span><span class="n">run</span><span class="p">}</span>
+                    <span class="p">{</span><span class="nb">list</span><span class="o">-</span><span class="n">priors</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">likelihoods</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">posteriors</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">predictions</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">mcmc</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">pmc</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">nested</span><span class="p">,</span><span class="n">plot</span><span class="o">-</span><span class="n">samples</span><span class="p">,</span><span class="n">find</span><span class="o">-</span><span class="n">mode</span><span class="p">,</span><span class="n">mixture</span><span class="o">-</span><span class="n">product</span><span class="p">,</span><span class="n">find</span><span class="o">-</span><span class="n">clusters</span><span class="p">,</span><span class="n">predict</span><span class="o">-</span><span class="n">observables</span><span class="p">,</span><span class="n">run</span><span class="p">}</span>
                     <span class="o">...</span>
 </pre></div>
 </div>
@@ -588,15 +588,13 @@ The output file will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pmc.</p>
 </dl>
 </section>
 </section>
-<section id="plot-samples">
-<h5>plot-samples<a class="headerlink" href="#plot-samples" title="Permalink to this heading"></a></h5>
-<p>Plots all samples obtained for a named posterior.</p>
-<p>The results of either the sample-mcmc or the sample-pmc command are expected in
-EOS_BASE_DIRECTORY/POSTERIOR/mcmc-* or EOS_BASE_DIRECTORY/POSTERIOR/pmc, respectively.
-The plots will be stored as PDF files within the respective sample inputs.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">plot</span><span class="o">-</span><span class="n">samples</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">B</span> <span class="n">BINS</span><span class="p">]</span>
-                          <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
-                          <span class="n">POSTERIOR</span>
+<section id="sample-nested">
+<h5>sample-nested<a class="headerlink" href="#sample-nested" title="Permalink to this heading"></a></h5>
+<p>Samples from a likelihood associated with a named posterior using dynamic nested sampling.</p>
+<p>The output file will be stored in EOS_BASE_DIRECTORY/POSTERIOR/nested.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">sample</span><span class="o">-</span><span class="n">nested</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">B</span> <span class="n">BOUND</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">n</span> <span class="n">NLIVE</span><span class="p">]</span>
+                           <span class="p">[</span><span class="o">-</span><span class="n">d</span> <span class="n">DLOGZ</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">m</span> <span class="n">MAXITER</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+                           <span class="n">POSTERIOR</span>
 </pre></div>
 </div>
 <section id="Positional Arguments_repeat2">
@@ -609,6 +607,52 @@ The plots will be stored as PDF files within the respective sample inputs.</p>
 </section>
 <section id="options_repeat6">
 <h6>options<a class="headerlink" href="#options_repeat6" title="Permalink to this heading"></a></h6>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘.analysis.yaml’.</p>
+</dd>
+<dt><kbd>-B, --target-bound</kbd></dt>
+<dd><p>The method used to approximately bound the prior using the current set of live points. Conditions the sampling methods used to propose new live points. For valid values, see the dynesty documentation.</p>
+</dd>
+<dt><kbd>-n, --number-of-live-points</kbd></dt>
+<dd><p>The number of live points.</p>
+</dd>
+<dt><kbd>-d, --evidence-tolerance</kbd></dt>
+<dd><p>The relative tolerance for the remaining evidence.</p>
+</dd>
+<dt><kbd>-m, --max-number-iterations</kbd></dt>
+<dd><p>The maximum number of iterations. Iterations may stop earlier if the termination condition is reached.</p>
+</dd>
+<dt><kbd>-b, --base-directory</kbd></dt>
+<dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="plot-samples">
+<h5>plot-samples<a class="headerlink" href="#plot-samples" title="Permalink to this heading"></a></h5>
+<p>Plots all samples obtained for a named posterior.</p>
+<p>The results of either the sample-mcmc or the sample-pmc command are expected in
+EOS_BASE_DIRECTORY/POSTERIOR/mcmc-* or EOS_BASE_DIRECTORY/POSTERIOR/pmc, respectively.
+The plots will be stored as PDF files within the respective sample inputs.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">plot</span><span class="o">-</span><span class="n">samples</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">B</span> <span class="n">BINS</span><span class="p">]</span>
+                          <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+                          <span class="n">POSTERIOR</span>
+</pre></div>
+</div>
+<section id="Positional Arguments_repeat3">
+<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments_repeat3" title="Permalink to this heading"></a></h6>
+<dl class="option-list">
+<dt><kbd>POSTERIOR</kbd></dt>
+<dd><p>The name of the posterior PDF from which to draw the samples.</p>
+</dd>
+</dl>
+</section>
+<section id="options_repeat7">
+<h6>options<a class="headerlink" href="#options_repeat7" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script</p>
@@ -639,16 +683,16 @@ in EOS_BASE_DIRECTORY/posterior/mode-LABEL.</p>
                        <span class="n">POSTERIOR</span>
 </pre></div>
 </div>
-<section id="Positional Arguments_repeat3">
-<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments_repeat3" title="Permalink to this heading"></a></h6>
+<section id="Positional Arguments_repeat4">
+<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments_repeat4" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>POSTERIOR</kbd></dt>
 <dd><p>The name of the posterior PDF that will be maximized.</p>
 </dd>
 </dl>
 </section>
-<section id="options_repeat7">
-<h6>options<a class="headerlink" href="#options_repeat7" title="Permalink to this heading"></a></h6>
+<section id="options_repeat8">
+<h6>options<a class="headerlink" href="#options_repeat8" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script</p>
@@ -688,8 +732,8 @@ The output density will be stored in EOS_BASE_DIRECTORY/POSTERIOR/product.</p>
                              <span class="n">POSTERIOR</span> <span class="n">POSTERIORS</span>
 </pre></div>
 </div>
-<section id="Positional Arguments_repeat4">
-<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments_repeat4" title="Permalink to this heading"></a></h6>
+<section id="Positional Arguments_repeat5">
+<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments_repeat5" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>POSTERIOR</kbd></dt>
 <dd><p>The name of the posterior PDF for which the product is computed</p>
@@ -699,8 +743,8 @@ The output density will be stored in EOS_BASE_DIRECTORY/POSTERIOR/product.</p>
 </dd>
 </dl>
 </section>
-<section id="options_repeat8">
-<h6>options<a class="headerlink" href="#options_repeat8" title="Permalink to this heading"></a></h6>
+<section id="options_repeat9">
+<h6>options<a class="headerlink" href="#options_repeat9" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script</p>
@@ -725,16 +769,16 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/clusters.</p>
                            <span class="n">POSTERIOR</span>
 </pre></div>
 </div>
-<section id="Positional Arguments_repeat5">
-<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments_repeat5" title="Permalink to this heading"></a></h6>
+<section id="Positional Arguments_repeat6">
+<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments_repeat6" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>POSTERIOR</kbd></dt>
 <dd><p>The name of the posterior PDF from which MCMC samples have previously been drawn.</p>
 </dd>
 </dl>
 </section>
-<section id="options_repeat9">
-<h6>options<a class="headerlink" href="#options_repeat9" title="Permalink to this heading"></a></h6>
+<section id="options_repeat10">
+<h6>options<a class="headerlink" href="#options_repeat10" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script</p>
@@ -764,8 +808,8 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pred-PREDICTION.
                                  <span class="n">POSTERIOR</span> <span class="n">PREDICTION</span>
 </pre></div>
 </div>
-<section id="Positional Arguments_repeat6">
-<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments_repeat6" title="Permalink to this heading"></a></h6>
+<section id="Positional Arguments_repeat7">
+<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments_repeat7" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>POSTERIOR</kbd></dt>
 <dd><p>The name of the posterior PDF from which to draw the samples.</p>
@@ -775,8 +819,8 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pred-PREDICTION.
 </dd>
 </dl>
 </section>
-<section id="options_repeat10">
-<h6>options<a class="headerlink" href="#options_repeat10" title="Permalink to this heading"></a></h6>
+<section id="options_repeat11">
+<h6>options<a class="headerlink" href="#options_repeat11" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script</p>
@@ -802,8 +846,8 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pred-PREDICTION.
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">run</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="p">]</span>
 </pre></div>
 </div>
-<section id="options_repeat11">
-<h6>options<a class="headerlink" href="#options_repeat11" title="Permalink to this heading"></a></h6>
+<section id="options_repeat12">
+<h6>options<a class="headerlink" href="#options_repeat12" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script</p>
