@@ -19,6 +19,7 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
         <script src="../_static/contentui.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
@@ -55,7 +56,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Python API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-eos">Module <code class="docutils literal notranslate"><span class="pre">eos</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#basic-classes">Basic Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#basic-classes">Basic Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#eos.Analysis"><code class="docutils literal notranslate"><span class="pre">Analysis</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.BestFitPoint"><code class="docutils literal notranslate"><span class="pre">BestFitPoint</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.Constraints"><code class="docutils literal notranslate"><span class="pre">Constraints</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.GoodnessOfFit"><code class="docutils literal notranslate"><span class="pre">GoodnessOfFit</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.Kinematics"><code class="docutils literal notranslate"><span class="pre">Kinematics</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.LogLikelihood"><code class="docutils literal notranslate"><span class="pre">LogLikelihood</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.LogPrior"><code class="docutils literal notranslate"><span class="pre">LogPrior</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.Observable"><code class="docutils literal notranslate"><span class="pre">Observable</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.Observables"><code class="docutils literal notranslate"><span class="pre">Observables</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.Options"><code class="docutils literal notranslate"><span class="pre">Options</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.Parameter"><code class="docutils literal notranslate"><span class="pre">Parameter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.Parameters"><code class="docutils literal notranslate"><span class="pre">Parameters</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.QualifiedName"><code class="docutils literal notranslate"><span class="pre">QualifiedName</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.SignalPDF"><code class="docutils literal notranslate"><span class="pre">SignalPDF</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.SignalPDFs"><code class="docutils literal notranslate"><span class="pre">SignalPDFs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.Unit"><code class="docutils literal notranslate"><span class="pre">Unit</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#common-tasks">Common Tasks</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#mode-finding">Mode Finding</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sampling-and-auxilliary-tasks">Sampling and Auxilliary Tasks</a></li>
@@ -63,8 +82,65 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#module-eos-data">Module <code class="docutils literal notranslate"><span class="pre">eos.data</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-eos-data">Module <code class="docutils literal notranslate"><span class="pre">eos.data</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#eos.data.ImportanceSamples"><code class="docutils literal notranslate"><span class="pre">ImportanceSamples</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#eos.data.ImportanceSamples.create"><code class="docutils literal notranslate"><span class="pre">ImportanceSamples.create()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#eos.data.MarkovChain"><code class="docutils literal notranslate"><span class="pre">MarkovChain</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#eos.data.MarkovChain.create"><code class="docutils literal notranslate"><span class="pre">MarkovChain.create()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#eos.data.MixtureDensity"><code class="docutils literal notranslate"><span class="pre">MixtureDensity</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#eos.data.MixtureDensity.cartesian_product"><code class="docutils literal notranslate"><span class="pre">MixtureDensity.cartesian_product()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.data.MixtureDensity.create"><code class="docutils literal notranslate"><span class="pre">MixtureDensity.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.data.MixtureDensity.density"><code class="docutils literal notranslate"><span class="pre">MixtureDensity.density()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#eos.data.Mode"><code class="docutils literal notranslate"><span class="pre">Mode</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#eos.data.Mode.create"><code class="docutils literal notranslate"><span class="pre">Mode.create()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#eos.data.PMCSampler"><code class="docutils literal notranslate"><span class="pre">PMCSampler</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#eos.data.PMCSampler.create"><code class="docutils literal notranslate"><span class="pre">PMCSampler.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.data.PMCSampler.density"><code class="docutils literal notranslate"><span class="pre">PMCSampler.density()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#eos.data.Prediction"><code class="docutils literal notranslate"><span class="pre">Prediction</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#eos.data.Prediction.create"><code class="docutils literal notranslate"><span class="pre">Prediction.create()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#module-eos-plot">Module <code class="docutils literal notranslate"><span class="pre">eos.plot</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#eos.plot.Plotter"><code class="docutils literal notranslate"><span class="pre">Plotter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#eos.plot.Plotter.Band"><code class="docutils literal notranslate"><span class="pre">Plotter.Band</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.plot.Plotter.BasePlot"><code class="docutils literal notranslate"><span class="pre">Plotter.BasePlot</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.plot.Plotter.Constraint"><code class="docutils literal notranslate"><span class="pre">Plotter.Constraint</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.plot.Plotter.Constraint2D"><code class="docutils literal notranslate"><span class="pre">Plotter.Constraint2D</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.plot.Plotter.ConstraintOverview"><code class="docutils literal notranslate"><span class="pre">Plotter.ConstraintOverview</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.plot.Plotter.Contours2D"><code class="docutils literal notranslate"><span class="pre">Plotter.Contours2D</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.plot.Plotter.ErrorBar"><code class="docutils literal notranslate"><span class="pre">Plotter.ErrorBar</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.plot.Plotter.Expression"><code class="docutils literal notranslate"><span class="pre">Plotter.Expression</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.plot.Plotter.ExternalLikelihood2D"><code class="docutils literal notranslate"><span class="pre">Plotter.ExternalLikelihood2D</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.plot.Plotter.Histogram1D"><code class="docutils literal notranslate"><span class="pre">Plotter.Histogram1D</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.plot.Plotter.Histogram2D"><code class="docutils literal notranslate"><span class="pre">Plotter.Histogram2D</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.plot.Plotter.KernelDensityEstimate1D"><code class="docutils literal notranslate"><span class="pre">Plotter.KernelDensityEstimate1D</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.plot.Plotter.KernelDensityEstimate2D"><code class="docutils literal notranslate"><span class="pre">Plotter.KernelDensityEstimate2D</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.plot.Plotter.Observable"><code class="docutils literal notranslate"><span class="pre">Plotter.Observable</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.plot.Plotter.Point"><code class="docutils literal notranslate"><span class="pre">Plotter.Point</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.plot.Plotter.SignalPDF"><code class="docutils literal notranslate"><span class="pre">Plotter.SignalPDF</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.plot.Plotter.Uncertainty"><code class="docutils literal notranslate"><span class="pre">Plotter.Uncertainty</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.plot.Plotter.UncertaintyBinned"><code class="docutils literal notranslate"><span class="pre">Plotter.UncertaintyBinned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.plot.Plotter.UncertaintyOverview"><code class="docutils literal notranslate"><span class="pre">Plotter.UncertaintyOverview</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.plot.Plotter.Watermark"><code class="docutils literal notranslate"><span class="pre">Plotter.Watermark</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.plot.Plotter.next_color"><code class="docutils literal notranslate"><span class="pre">Plotter.next_color</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.plot.Plotter.next_z_order"><code class="docutils literal notranslate"><span class="pre">Plotter.next_z_order</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.plot.Plotter.plot"><code class="docutils literal notranslate"><span class="pre">Plotter.plot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.plot.Plotter.plot_contents"><code class="docutils literal notranslate"><span class="pre">Plotter.plot_contents()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.plot.Plotter.setup_plot"><code class="docutils literal notranslate"><span class="pre">Plotter.setup_plot()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#plot-description-format">Plot description format</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#plot-layouting">Plot Layouting</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#plot-contents">Plot Contents</a></li>
@@ -102,8 +178,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Python API</li>
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Python API</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -471,7 +547,7 @@ by the parameter <cite>central</cite>.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>parameters</strong> (<a class="reference internal" href="#eos.Parameters" title="eos.Parameters"><em>eos.Parameters</em></a>) – The parameters to which this LogPrior is bound.</p></li>
 <li><p><strong>name</strong> (<em>str</em>) – The name of the parameter for which the LogPrior is defined.</p></li>
-<li><p><strong>range</strong> (<em>tuple of two floating point numbers</em>) – The range [min, max] for the values that the parameter is allowed to take.</p></li>
+<li><p><strong>range</strong> (<em>tuple</em><em> of </em><em>two floating point numbers</em>) – The range [min, max] for the values that the parameter is allowed to take.</p></li>
 <li><p><strong>lower</strong> (<em>float</em>) – The lower boundary of the 68% probability interval.</p></li>
 <li><p><strong>central</strong> (<em>float</em>) – The mode and median of the prior.</p></li>
 <li><p><strong>upper</strong> (<em>float</em>) – The upper boundary of the 68% probability interval.</p></li>
@@ -494,7 +570,7 @@ distributed in the interval <span class="math notranslate nohighlight">\([-\ln \
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>parameters</strong> (<a class="reference internal" href="#eos.Parameters" title="eos.Parameters"><em>eos.Parameters</em></a>) – The parameters to which this LogPrior is bound.</p></li>
 <li><p><strong>name</strong> (<em>str</em>) – The name of the parameter for which the LogPrior is defined.</p></li>
-<li><p><strong>range</strong> (<em>tuple of two floating point numbers</em>) – The range [min, max] for the values that the parameter is allowed to take.</p></li>
+<li><p><strong>range</strong> (<em>tuple</em><em> of </em><em>two floating point numbers</em>) – The range [min, max] for the values that the parameter is allowed to take.</p></li>
 <li><p><strong>mu_0</strong> (<em>float</em><em>, </em><em>strictly positive</em>) – The central value of the parameter.</p></li>
 <li><p><strong>lambda</strong> (<em>float</em><em>, </em><em>strictly positive</em>) – The scale factor.</p></li>
 </ul>
@@ -512,7 +588,7 @@ distributed in the interval <span class="math notranslate nohighlight">\([-\ln \
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>parameters</strong> (<a class="reference internal" href="#eos.Parameters" title="eos.Parameters"><em>eos.Parameters</em></a>) – The parameters to which this LogPrior is bound.</p></li>
 <li><p><strong>name</strong> (<em>str</em>) – The name of the parameter for which the LogPrior is defined.</p></li>
-<li><p><strong>range</strong> (<em>tuple of two floating point numbers</em>) – The range [min, max] for the values that the parameter is allowed to take.</p></li>
+<li><p><strong>range</strong> (<em>tuple</em><em> of </em><em>two floating point numbers</em>) – The range [min, max] for the values that the parameter is allowed to take.</p></li>
 </ul>
 </dd>
 </dl>
@@ -777,7 +853,7 @@ An independent instance of the default parameters is obtained by each call to th
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>file</strong> (<em>str</em>) – Name of the file to which the parameters shall be written.</p></li>
-<li><p><strong>names</strong> (<em>iterable of str</em><em> (</em><em>optional</em><em>)</em>) – Names of the parameters that shall be converted.</p></li>
+<li><p><strong>names</strong> (<em>iterable</em><em> of </em><em>str</em><em> (</em><em>optional</em><em>)</em>) – Names of the parameters that shall be converted.</p></li>
 </ul>
 </dd>
 </dl>
@@ -884,7 +960,7 @@ optional ‘&#64;’.</p>
 <dd><p>Adapter for use with external optimization software (e.g. pypmc) to aid when sampling from the log(PDF).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>x</strong> (<em>iterable of float</em>) – Phase space point, with the elements corresponding to the sorted list of variables in lexicographical order; inspect <cite>self.variables</cite>.</p>
+<dd class="field-odd"><p><strong>x</strong> (<em>iterable</em><em> of </em><em>float</em>) – Phase space point, with the elements corresponding to the sorted list of variables in lexicographical order; inspect <cite>self.variables</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1130,7 +1206,7 @@ The output density will be stored in EOS_BASE_DIRECTORY/POSTERIOR/product.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>posterior</strong> (<em>str</em>) – The name of the posterior.</p></li>
-<li><p><strong>posteriors</strong> (<em>iterable of str</em>) – The list of names of the posteriors whose mixture densities will be concatenated.</p></li>
+<li><p><strong>posteriors</strong> (<em>iterable</em><em> of </em><em>str</em>) – The list of names of the posteriors whose mixture densities will be concatenated.</p></li>
 <li><p><strong>base_directory</strong> (<em>str</em><em>, </em><em>optional</em>) – The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p></li>
 </ul>
 </dd>
@@ -1194,7 +1270,7 @@ The output file will be stored in EOS_BASE_DIRECTORY/POSTERIOR/nested.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="eos.predict_observables">
-<span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">predict_observables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prediction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">begin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.predict_observables" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">predict_observables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prediction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">begin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.predict_observables" title="Permalink to this definition"></a></dt>
 <dd><p>Predicts a set of observables based on previously obtained importance samples.</p>
 <p>The input files are expected in EOS_BASE_DIRECTORY/POSTERIOR/pmc.
 The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pred-PREDICTION.</p>
@@ -1229,7 +1305,7 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pred-PREDICTION.
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>path</strong> (<em>str</em>) – Path to the storage location, which will be created as a directory.</p></li>
-<li><p><strong>parameters</strong> (<em>list</em><em> or </em><em>iterable of eos.Parameter</em>) – Parameter descriptions as a 1D array of shape (P, ).</p></li>
+<li><p><strong>parameters</strong> (<em>list</em><em> or </em><em>iterable</em><em> of </em><a class="reference internal" href="#eos.Parameter" title="eos.Parameter"><em>eos.Parameter</em></a>) – Parameter descriptions as a 1D array of shape (P, ).</p></li>
 <li><p><strong>samples</strong> (<em>2D numpy array</em>) – Samples as a 2D array of shape (N, P).</p></li>
 <li><p><strong>weights</strong> (<em>1D numpy array</em><em>, </em><em>optional</em>) – Weights on a linear scale as a 2D array of shape (N, 1).</p></li>
 </ul>
@@ -1250,7 +1326,7 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pred-PREDICTION.
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>path</strong> (<em>str</em>) – Path to the storage location, which will be created as a directory.</p></li>
-<li><p><strong>parameters</strong> (<em>list</em><em> or </em><em>iterable of eos.Parameter</em>) – Parameter descriptions as a 1D array of shape (N, ).</p></li>
+<li><p><strong>parameters</strong> (<em>list</em><em> or </em><em>iterable</em><em> of </em><a class="reference internal" href="#eos.Parameter" title="eos.Parameter"><em>eos.Parameter</em></a>) – Parameter descriptions as a 1D array of shape (N, ).</p></li>
 <li><p><strong>samples</strong> (<em>2D numpy array</em>) – Samples as a 2D array of shape (N, P).</p></li>
 <li><p><strong>weights</strong> (<em>2D numpy array</em><em>, </em><em>optional</em>) – Weights on a linear scale as a 2D array of shape (N, 1).</p></li>
 </ul>
@@ -1272,7 +1348,7 @@ this product is not commutative, the order of densities affects the order of par
 in the output density. Only Gaussian mixtures are supported.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>densities</strong> (<em>iterable of pypmc.density.MixtureDensity</em>) – List of mixture densities.</p>
+<dd class="field-odd"><p><strong>densities</strong> (<em>iterable</em><em> of </em><em>pypmc.density.MixtureDensity</em>) – List of mixture densities.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1310,7 +1386,7 @@ in the output density. Only Gaussian mixtures are supported.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>path</strong> (<em>str</em>) – Path to the storage location, which will be created as a directory.</p></li>
-<li><p><strong>parameters</strong> (<em>list</em><em> or </em><em>iterable of eos.Parameter</em>) – Parameter descriptions as a 1D array of shape (N, ).</p></li>
+<li><p><strong>parameters</strong> (<em>list</em><em> or </em><em>iterable</em><em> of </em><a class="reference internal" href="#eos.Parameter" title="eos.Parameter"><em>eos.Parameter</em></a>) – Parameter descriptions as a 1D array of shape (N, ).</p></li>
 <li><p><strong>mode</strong> (<em>numpy.ndarray</em>) – The mode to be stored.</p></li>
 </ul>
 </dd>
@@ -1330,7 +1406,7 @@ in the output density. Only Gaussian mixtures are supported.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>path</strong> (<em>str</em>) – Path to the storage location, which will be created as a directory.</p></li>
-<li><p><strong>parameters</strong> (<em>list</em><em> or </em><em>iterable of eos.Parameter</em>) – Parameter descriptions as a 1D array of shape (P, ).</p></li>
+<li><p><strong>parameters</strong> (<em>list</em><em> or </em><em>iterable</em><em> of </em><a class="reference internal" href="#eos.Parameter" title="eos.Parameter"><em>eos.Parameter</em></a>) – Parameter descriptions as a 1D array of shape (P, ).</p></li>
 <li><p><strong>sigma_test_stat</strong> (<em>list</em><em> or </em><em>iterable</em>) – (optional) If provided, the inverse CDF of -2*log(PDF) will be evaluated, using the provided values as the respective significance.</p></li>
 <li><p><strong>samples</strong> (<em>2D numpy array</em><em>, </em><em>optional</em>) – Samples as a 2D array of shape (N, P). Needed to generate the test statistic.</p></li>
 <li><p><strong>weights</strong> (<em>1D numpy array</em><em>, </em><em>optional</em>) – Weights on a linear scale as a 2D array of shape (N, 1). Needed to generate the test statistic.</p></li>
@@ -1358,7 +1434,7 @@ in the output density. Only Gaussian mixtures are supported.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>path</strong> (<em>str</em>) – Path to the storage location, which will be created as a directory.</p></li>
-<li><p><strong>observables</strong> (<em>list</em><em> or </em><em>iterable of eos.Observable</em>) – Observables as a 1D array of shape (O, ).</p></li>
+<li><p><strong>observables</strong> (<em>list</em><em> or </em><em>iterable</em><em> of </em><a class="reference internal" href="#eos.Observable" title="eos.Observable"><em>eos.Observable</em></a>) – Observables as a 1D array of shape (O, ).</p></li>
 <li><p><strong>samples</strong> (<em>2D numpy array</em>) – Samples as a 2D array of shape (N, O).</p></li>
 <li><p><strong>weights</strong> (<em>1D numpy array</em>) – Weights on a linear scale as a 1D array of shape (N, ).</p></li>
 </ul>

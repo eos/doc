@@ -19,6 +19,7 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
         <script src="_static/contentui.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="_static/js/theme.js"></script>
@@ -68,7 +69,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#the-command-line-interface">The Command-Line Interface</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#Sub-commands:">Sub-commands:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Sub-commands">Sub-commands</a></li>
 </ul>
 </li>
 </ul>
@@ -96,8 +97,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Advanced Usage</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Advanced Usage</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -182,19 +183,19 @@ E.g. <code class="docutils literal notranslate"><span class="pre">&lt;&lt;B_u-&g
 <section id="the-insert-method">
 <h3>The Insert Method<a class="headerlink" href="#the-insert-method" title="Permalink to this heading"></a></h3>
 <p>Once a new observable is defined via its expression string, it can be added to the list of observables via the <code class="docutils literal notranslate"><span class="pre">insert</span></code> method</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">Observables</span><span class="p">()</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">latex</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">expression</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>eos.Observables().insert(name, latex, unit, options, expression)
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">latex</span></code> and <code class="docutils literal notranslate"><span class="pre">unit</span></code> are the (Qualified)name, the latex representation and the unit of the new observable;
 <code class="docutils literal notranslate"><span class="pre">options</span></code> takes an <code class="docutils literal notranslate"><span class="pre">eos.Options</span></code> object and allows to specify <cite>global</cite> options (i.e. applied to all observables in the expression);
 and <code class="docutils literal notranslate"><span class="pre">expression</span></code> is the expression string to be parsed.</p>
 <p>We conclude with a concrete example</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">Observables</span><span class="p">()</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">&#39;B-&gt;Kll::R_K_example&#39;</span><span class="p">,</span> <span class="sa">R</span><span class="s1">&#39;(R_K)&#39;</span><span class="p">,</span> <span class="n">eos</span><span class="o">.</span><span class="n">Unit</span><span class="o">.</span><span class="n">Unity</span><span class="p">(),</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(),</span>
-                         <span class="s1">&#39;( &lt;&lt;B-&gt;Kll::BR;l=mu&gt;&gt;[q2_max=6, q2_min=&gt;q2_mu_min] / &lt;&lt;B-&gt;Kll::BR;l=e&gt;&gt;[q2_max=6,q2_min=&gt;q2_e_min] )&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>eos.Observables().insert(&#39;B-&gt;Kll::R_K_example&#39;, R&#39;(R_K)&#39;, eos.Unit.Unity(), eos.Options(),
+                         &#39;( &lt;&lt;B-&gt;Kll::BR;l=mu&gt;&gt;[q2_max=6, q2_min=&gt;q2_mu_min] / &lt;&lt;B-&gt;Kll::BR;l=e&gt;&gt;[q2_max=6,q2_min=&gt;q2_e_min] )&#39;)
 
-<span class="n">R_K</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;B-&gt;Kll::R_K_example&#39;</span><span class="p">,</span> <span class="n">eos</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">Defaults</span><span class="p">(),</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2_e_min</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">q2_mu_min</span><span class="o">=</span><span class="mf">1.1</span><span class="p">),</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;tag&#39;</span><span class="p">:</span><span class="s1">&#39;BFS2004&#39;</span><span class="p">}))</span>
+R_K = eos.Observable.make(&#39;B-&gt;Kll::R_K_example&#39;, eos.Parameters.Defaults(), eos.Kinematics(q2_e_min=1.1, q2_mu_min=1.1), eos.Options(**{&#39;tag&#39;:&#39;BFS2004&#39;}))
 
-<span class="n">R_K</span><span class="o">.</span><span class="n">evaluate</span><span class="p">()</span>   <span class="c1"># should be ~1</span>
+R_K.evaluate()   # should be ~1
 </pre></div>
 </div>
 </section>
@@ -385,16 +386,16 @@ The datafiles can be access with the classes documented as part of the <code cla
                     <span class="o">...</span>
 </pre></div>
 </div>
-<section id="Sub-commands:">
-<h4>Sub-commands:<a class="headerlink" href="#Sub-commands:" title="Permalink to this heading"></a></h4>
+<section id="Sub-commands">
+<h4>Sub-commands<a class="headerlink" href="#Sub-commands" title="Permalink to this heading"></a></h4>
 <section id="list-priors">
 <h5>list-priors<a class="headerlink" href="#list-priors" title="Permalink to this heading"></a></h5>
 <p>Lists the named prior PDFs defined within the scope of this analysis file.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="nb">list</span><span class="o">-</span><span class="n">priors</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span>
 </pre></div>
 </div>
-<section id="options">
-<h6>options<a class="headerlink" href="#options" title="Permalink to this heading"></a></h6>
+<section id="named-arguments">
+<h6>Named Arguments<a class="headerlink" href="#named-arguments" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script</p>
@@ -411,8 +412,8 @@ The datafiles can be access with the classes documented as part of the <code cla
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="nb">list</span><span class="o">-</span><span class="n">likelihoods</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="p">]</span>
 </pre></div>
 </div>
-<section id="options_repeat1">
-<h6>options<a class="headerlink" href="#options_repeat1" title="Permalink to this heading"></a></h6>
+<section id="named-arguments_repeat1">
+<h6>Named Arguments<a class="headerlink" href="#named-arguments_repeat1" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script</p>
@@ -432,8 +433,8 @@ The datafiles can be access with the classes documented as part of the <code cla
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="nb">list</span><span class="o">-</span><span class="n">posteriors</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span>
 </pre></div>
 </div>
-<section id="options_repeat2">
-<h6>options<a class="headerlink" href="#options_repeat2" title="Permalink to this heading"></a></h6>
+<section id="named-arguments_repeat2">
+<h6>Named Arguments<a class="headerlink" href="#named-arguments_repeat2" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script</p>
@@ -450,8 +451,8 @@ The datafiles can be access with the classes documented as part of the <code cla
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="nb">list</span><span class="o">-</span><span class="n">predictions</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span>
 </pre></div>
 </div>
-<section id="options_repeat3">
-<h6>options<a class="headerlink" href="#options_repeat3" title="Permalink to this heading"></a></h6>
+<section id="named-arguments_repeat3">
+<h6>Named Arguments<a class="headerlink" href="#named-arguments_repeat3" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script</p>
@@ -472,8 +473,8 @@ The datafiles can be access with the classes documented as part of the <code cla
                          <span class="n">POSTERIOR</span> <span class="n">CHAIN</span><span class="o">-</span><span class="n">IDX</span>
 </pre></div>
 </div>
-<section id="Positional Arguments">
-<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments" title="Permalink to this heading"></a></h6>
+<section id="positional-arguments">
+<h6>Positional Arguments<a class="headerlink" href="#positional-arguments" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>POSTERIOR</kbd></dt>
 <dd><p>The name of the posterior PDF from which to draw the samples.</p>
@@ -483,8 +484,8 @@ The datafiles can be access with the classes documented as part of the <code cla
 </dd>
 </dl>
 </section>
-<section id="options_repeat4">
-<h6>options<a class="headerlink" href="#options_repeat4" title="Permalink to this heading"></a></h6>
+<section id="named-arguments_repeat4">
+<h6>Named Arguments<a class="headerlink" href="#named-arguments_repeat4" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script</p>
@@ -531,16 +532,16 @@ The output file will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pmc.</p>
                         <span class="n">POSTERIOR</span>
 </pre></div>
 </div>
-<section id="Positional Arguments_repeat1">
-<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments_repeat1" title="Permalink to this heading"></a></h6>
+<section id="positional-arguments_repeat1">
+<h6>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat1" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>POSTERIOR</kbd></dt>
 <dd><p>The name of the posterior PDF from which to draw the samples.</p>
 </dd>
 </dl>
 </section>
-<section id="options_repeat5">
-<h6>options<a class="headerlink" href="#options_repeat5" title="Permalink to this heading"></a></h6>
+<section id="named-arguments_repeat5">
+<h6>Named Arguments<a class="headerlink" href="#named-arguments_repeat5" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script</p>
@@ -599,16 +600,16 @@ The output file will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pmc.</p>
                            <span class="n">POSTERIOR</span>
 </pre></div>
 </div>
-<section id="Positional Arguments_repeat2">
-<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments_repeat2" title="Permalink to this heading"></a></h6>
+<section id="positional-arguments_repeat2">
+<h6>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat2" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>POSTERIOR</kbd></dt>
 <dd><p>The name of the posterior PDF from which to draw the samples.</p>
 </dd>
 </dl>
 </section>
-<section id="options_repeat6">
-<h6>options<a class="headerlink" href="#options_repeat6" title="Permalink to this heading"></a></h6>
+<section id="named-arguments_repeat6">
+<h6>Named Arguments<a class="headerlink" href="#named-arguments_repeat6" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script</p>
@@ -645,16 +646,16 @@ The plots will be stored as PDF files within the respective sample inputs.</p>
                           <span class="n">POSTERIOR</span>
 </pre></div>
 </div>
-<section id="Positional Arguments_repeat3">
-<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments_repeat3" title="Permalink to this heading"></a></h6>
+<section id="positional-arguments_repeat3">
+<h6>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat3" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>POSTERIOR</kbd></dt>
 <dd><p>The name of the posterior PDF from which to draw the samples.</p>
 </dd>
 </dl>
 </section>
-<section id="options_repeat7">
-<h6>options<a class="headerlink" href="#options_repeat7" title="Permalink to this heading"></a></h6>
+<section id="named-arguments_repeat7">
+<h6>Named Arguments<a class="headerlink" href="#named-arguments_repeat7" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script</p>
@@ -685,16 +686,16 @@ in EOS_BASE_DIRECTORY/posterior/mode-LABEL.</p>
                        <span class="n">POSTERIOR</span>
 </pre></div>
 </div>
-<section id="Positional Arguments_repeat4">
-<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments_repeat4" title="Permalink to this heading"></a></h6>
+<section id="positional-arguments_repeat4">
+<h6>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat4" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>POSTERIOR</kbd></dt>
 <dd><p>The name of the posterior PDF that will be maximized.</p>
 </dd>
 </dl>
 </section>
-<section id="options_repeat8">
-<h6>options<a class="headerlink" href="#options_repeat8" title="Permalink to this heading"></a></h6>
+<section id="named-arguments_repeat8">
+<h6>Named Arguments<a class="headerlink" href="#named-arguments_repeat8" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script</p>
@@ -734,8 +735,8 @@ The output density will be stored in EOS_BASE_DIRECTORY/POSTERIOR/product.</p>
                              <span class="n">POSTERIOR</span> <span class="n">POSTERIORS</span>
 </pre></div>
 </div>
-<section id="Positional Arguments_repeat5">
-<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments_repeat5" title="Permalink to this heading"></a></h6>
+<section id="positional-arguments_repeat5">
+<h6>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat5" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>POSTERIOR</kbd></dt>
 <dd><p>The name of the posterior PDF for which the product is computed</p>
@@ -745,8 +746,8 @@ The output density will be stored in EOS_BASE_DIRECTORY/POSTERIOR/product.</p>
 </dd>
 </dl>
 </section>
-<section id="options_repeat9">
-<h6>options<a class="headerlink" href="#options_repeat9" title="Permalink to this heading"></a></h6>
+<section id="named-arguments_repeat9">
+<h6>Named Arguments<a class="headerlink" href="#named-arguments_repeat9" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script</p>
@@ -771,16 +772,16 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/clusters.</p>
                            <span class="n">POSTERIOR</span>
 </pre></div>
 </div>
-<section id="Positional Arguments_repeat6">
-<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments_repeat6" title="Permalink to this heading"></a></h6>
+<section id="positional-arguments_repeat6">
+<h6>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat6" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>POSTERIOR</kbd></dt>
 <dd><p>The name of the posterior PDF from which MCMC samples have previously been drawn.</p>
 </dd>
 </dl>
 </section>
-<section id="options_repeat10">
-<h6>options<a class="headerlink" href="#options_repeat10" title="Permalink to this heading"></a></h6>
+<section id="named-arguments_repeat10">
+<h6>Named Arguments<a class="headerlink" href="#named-arguments_repeat10" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script</p>
@@ -810,8 +811,8 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pred-PREDICTION.
                                  <span class="n">POSTERIOR</span> <span class="n">PREDICTION</span>
 </pre></div>
 </div>
-<section id="Positional Arguments_repeat7">
-<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments_repeat7" title="Permalink to this heading"></a></h6>
+<section id="positional-arguments_repeat7">
+<h6>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat7" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>POSTERIOR</kbd></dt>
 <dd><p>The name of the posterior PDF from which to draw the samples.</p>
@@ -821,8 +822,8 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pred-PREDICTION.
 </dd>
 </dl>
 </section>
-<section id="options_repeat11">
-<h6>options<a class="headerlink" href="#options_repeat11" title="Permalink to this heading"></a></h6>
+<section id="named-arguments_repeat11">
+<h6>Named Arguments<a class="headerlink" href="#named-arguments_repeat11" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script</p>
@@ -851,16 +852,16 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/plots.</p>
                          <span class="n">POSTERIOR</span>
 </pre></div>
 </div>
-<section id="Positional Arguments_repeat8">
-<h6>Positional Arguments<a class="headerlink" href="#Positional Arguments_repeat8" title="Permalink to this heading"></a></h6>
+<section id="positional-arguments_repeat8">
+<h6>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat8" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>POSTERIOR</kbd></dt>
 <dd><p>The name of the posterior PDF from which the samples were drawn.</p>
 </dd>
 </dl>
 </section>
-<section id="options_repeat12">
-<h6>options<a class="headerlink" href="#options_repeat12" title="Permalink to this heading"></a></h6>
+<section id="named-arguments_repeat12">
+<h6>Named Arguments<a class="headerlink" href="#named-arguments_repeat12" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script</p>
@@ -880,8 +881,8 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/plots.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">run</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="p">]</span>
 </pre></div>
 </div>
-<section id="options_repeat13">
-<h6>options<a class="headerlink" href="#options_repeat13" title="Permalink to this heading"></a></h6>
+<section id="named-arguments_repeat13">
+<h6>Named Arguments<a class="headerlink" href="#named-arguments_repeat13" title="Permalink to this heading"></a></h6>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script</p>
