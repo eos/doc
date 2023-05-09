@@ -1,0 +1,1548 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Theory Predictions and their Uncertainties &mdash; EOS 1.0.7 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/contentui.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+    <link rel="canonical" href="https://eos.github.io/doc/predictions.html" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/contentui.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Parameter Inference" href="inference.html" />
+    <link rel="prev" title="Use Cases" href="use-cases.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> EOS
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basics.html">Basics</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="use-cases.html">Use Cases</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Theory Predictions and their Uncertainties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Listing-the-built-in-Observables">Listing the built-in Observables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Constructing-and-Evaluating-an-Observable">Constructing and Evaluating an Observable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Estimating-Theory-Uncertainties">Estimating Theory Uncertainties</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="inference.html">Parameter Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation.html">Simulation of Pseudo Events</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/python.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="constraints.html">List of Constraints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="observables.html">List of Observables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parameters.html">List of Parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">List of References</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">EOS</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="use-cases.html">Use Cases</a> &raquo;</li>
+        
+      <li>Theory Predictions and their Uncertainties</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars and line breaks on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+    white-space: pre;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+.jp-RenderedHTMLCommon thead,
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+.jp-RenderedHTMLCommon th,
+div.rendered_html th {
+  font-weight: bold;
+}
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+.jp-RenderedHTMLCommon tbody tr:hover,
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="Theory-Predictions-and-their-Uncertainties">
+<h1>Theory Predictions and their Uncertainties<a class="headerlink" href="#Theory-Predictions-and-their-Uncertainties" title="Permalink to this heading">¶</a></h1>
+<p>EOS can produce theory predictions for any of its built-in observables. The examples following in this section illustrate how to find a specific observable from the list of all built-in observables, construct an <a class="reference internal" href="api/python.html#eos.Observable"><span class="std std-ref">eos.Observable</span></a> object and evaluate it, and estimate the theoretical uncertainties associated with it.</p>
+<section id="Listing-the-built-in-Observables">
+<h2>Listing the built-in Observables<a class="headerlink" href="#Listing-the-built-in-Observables" title="Permalink to this heading">¶</a></h2>
+<p>The full list of built-in observables for the most-recent EOS release is available online <a class="reference external" href="https://eos.github.io/doc/observables">here</a>. You can also show this list using the <a class="reference internal" href="api/python.html#eos.Observables"><span class="std std-ref">eos.Observables</span></a> class. Searching for a specific observable is possible by filtering for specific strings in the observable name’s <em>prefix</em>, <em>name</em>, or <em>suffix</em> parts. The following example only shows observables that contain a <code class="docutils literal notranslate"><span class="pre">'D'</span></code> in the prefix part and <code class="docutils literal notranslate"><span class="pre">'BR'</span></code> in the name part:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">eos</span>
+<span class="n">eos</span><span class="o">.</span><span class="n">Observables</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;BR&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<script>
+    function toggle_group(group_title, id) {
+        var table = group_title.parentNode.parentNode.parentNode.parentNode
+        var query = 'tbody[id="' + id + '"]'
+        var group = table.querySelector(query)
+        if (group.style.visibility == "collapse") {
+            group.style.visibility = "visible"
+        } else {
+            group.style.visibility = "collapse"
+        }
+    }
+    function toggle_av(opt_anchor, id) {
+        var query_dots   = 'span.dots[id="' + id + '"]'
+        var query_values = 'span.values[id="' + id + '"]'
+        var dots   = opt_anchor.querySelector(query_dots)
+        var values = opt_anchor.querySelector(query_values)
+        if (dots.style.display == "none") {
+            dots.style.display   = "inline"
+            values.style.display = "none"
+        } else {
+            dots.style.display   = "none"
+            values.style.display = "inline"
+        }
+    }
+</script>
+<style>
+    td.qn     { text-align: left;   }
+    td.sym    { text-align: center; }
+    td.unit   { text-align: right;  }
+    td.optkey { text-align: left;   }
+    td.optav  { text-align: left;   }
+    td.optdef { text-align: left;   }
+</style>
+<table>
+    <colgroup>
+        <col width="25%" id="qn"          style="min-width: 200px; text-align: left">
+        <col width="20%" id="symbol"      style="min-width: 200px">
+        <col width="5%"  id="unit"        style="min-width:  50px">
+        <col width="20%" id="kv"          style="min-width: 200px">
+        <col width="10%" id="opt-key"     style="min-width:  75px">
+        <col width="10%" id="opt-allowed" style="min-width:  75px">
+        <col width="10%" id="opt-default" style="min-width:  75px">
+    </colgroup>
+    <thead>
+        <tr>
+            <th rowspan="2">qualified name</th>
+            <th rowspan="2">symbol</th>
+            <th rowspan="2">unit</th>
+            <th rowspan="2">kinematic<br> variables</th>
+            <th colspan=3>options</th>
+        </tr>
+        <tr>
+            <th>key</th>
+            <th>values</th>
+            <th>default</th>
+        </tr>
+    </thead>
+
+        <tr>
+            <th style="text-align:left" colspan=8><big>Observables in (semi)leptonic $b$-hadron decays</big></th>
+        </tr>
+            <tbody>
+                <tr>
+                    <th style="text-align:left" colspan=8>
+                        <a style="text-decoration: none" onclick="toggle_group(this, 'grp3')">Observables in $B\to \bar{D} \ell^-\bar\nu$ decays</a>
+                    </th>
+                </tr>
+            </tbody>
+
+            <tbody style="visibility:collapse" id="grp3">
+            <tr>
+                <td style="text-align:left" colspan=8>The option "l" selects the charged lepton flavor. The option "q" selects the spectator quark flavor. The option "form-factors" selects the form factor parametrization.</td>
+            </tr>
+
+                <tr>
+                    <th class="qn"     rowspan="6"><tt>B->Dlnu::BR</tt></th>
+                    <td class="sym"    rowspan="6">$$\mathcal{B}(B\to \bar{D}\ell^-\bar\nu)$$</td>
+                    <td class="unit"   rowspan="6">&mdash;</td>
+                    <td class="kv"     rowspan="6"><tt>q2_min</tt><br><tt>q2_max</tt></td>
+                    <td class="optkey" rowspan="1"><tt>model</tt></td>
+                    <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs0-opt0')">
+                    <span class="dots"   id="grp3-obs0-opt0" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs0-opt0" style="display: none;   text-align: left">
+                   <tt>CKM</tt><br/><tt>SM</tt><br/><tt>WET</tt><br/><tt>WET-SMEFT</tt>
+                    </span>
+                </a></td>
+                    <td class="optdef" rowspan="1"><tt>SM</tt></td>
+                </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>form-factors</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs0-opt1')">
+                    <span class="dots"   id="grp3-obs0-opt1" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs0-opt1" style="display: none;   text-align: left">
+                   <tt>B-LCSR</tt><br/><tt>BCL2008</tt><br/><tt>BCL2008-4</tt><br/><tt>BCL2008-5</tt><br/><tt>BFW2010</tt><br/><tt>BGJvD2019</tt><br/><tt>BGL1997</tt><br/><tt>BSZ2015</tt><br/><tt>DKMMO2008</tt><br/><tt>KMPW2010</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt></tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>l</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs0-opt2')">
+                    <span class="dots"   id="grp3-obs0-opt2" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs0-opt2" style="display: none;   text-align: left">
+                   <tt>e</tt><br/><tt>mu</tt><br/><tt>tau</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>mu</tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>U</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs0-opt3')">
+                    <span class="dots"   id="grp3-obs0-opt3" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs0-opt3" style="display: none;   text-align: left">
+                   <tt>c</tt><br/><tt>u</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>c</tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>q</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs0-opt4')">
+                    <span class="dots"   id="grp3-obs0-opt4" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs0-opt4" style="display: none;   text-align: left">
+                   <tt>u</tt><br/><tt>d</tt><br/><tt>s</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>d</tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>I</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs0-opt5')">
+                    <span class="dots"   id="grp3-obs0-opt5" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs0-opt5" style="display: none;   text-align: left">
+                   <tt>1</tt><br/><tt>0</tt><br/><tt>1/2</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>1</tt></td>
+                    </tr>
+
+                <tr>
+                    <th class="qn"     rowspan="6"><tt>B->Dlnu::dBR/dq2</tt></th>
+                    <td class="sym"    rowspan="6">$$d\mathcal{B}(B\to \bar{D}\ell^-\bar\nu)/dq^2$$</td>
+                    <td class="unit"   rowspan="6">$$\left[ \textrm{GeV}^{-2} \right]$$</td>
+                    <td class="kv"     rowspan="6"><tt>q2</tt></td>
+                    <td class="optkey" rowspan="1"><tt>model</tt></td>
+                    <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs1-opt0')">
+                    <span class="dots"   id="grp3-obs1-opt0" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs1-opt0" style="display: none;   text-align: left">
+                   <tt>CKM</tt><br/><tt>SM</tt><br/><tt>WET</tt><br/><tt>WET-SMEFT</tt>
+                    </span>
+                </a></td>
+                    <td class="optdef" rowspan="1"><tt>SM</tt></td>
+                </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>form-factors</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs1-opt1')">
+                    <span class="dots"   id="grp3-obs1-opt1" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs1-opt1" style="display: none;   text-align: left">
+                   <tt>B-LCSR</tt><br/><tt>BCL2008</tt><br/><tt>BCL2008-4</tt><br/><tt>BCL2008-5</tt><br/><tt>BFW2010</tt><br/><tt>BGJvD2019</tt><br/><tt>BGL1997</tt><br/><tt>BSZ2015</tt><br/><tt>DKMMO2008</tt><br/><tt>KMPW2010</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt></tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>l</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs1-opt2')">
+                    <span class="dots"   id="grp3-obs1-opt2" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs1-opt2" style="display: none;   text-align: left">
+                   <tt>e</tt><br/><tt>mu</tt><br/><tt>tau</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>mu</tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>U</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs1-opt3')">
+                    <span class="dots"   id="grp3-obs1-opt3" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs1-opt3" style="display: none;   text-align: left">
+                   <tt>c</tt><br/><tt>u</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>c</tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>q</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs1-opt4')">
+                    <span class="dots"   id="grp3-obs1-opt4" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs1-opt4" style="display: none;   text-align: left">
+                   <tt>u</tt><br/><tt>d</tt><br/><tt>s</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>d</tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>I</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs1-opt5')">
+                    <span class="dots"   id="grp3-obs1-opt5" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs1-opt5" style="display: none;   text-align: left">
+                   <tt>1</tt><br/><tt>0</tt><br/><tt>1/2</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>1</tt></td>
+                    </tr>
+                    </tbody>
+            <tbody>
+                <tr>
+                    <th style="text-align:left" colspan=8>
+                        <a style="text-decoration: none" onclick="toggle_group(this, 'grp4')">Observables in $B_s\to \bar{D_s} \ell^-\bar\nu$ decays</a>
+                    </th>
+                </tr>
+            </tbody>
+
+            <tbody style="visibility:collapse" id="grp4">
+            <tr>
+                <td style="text-align:left" colspan=8>The option "l" selects the charged lepton flavor.The option "form-factors" selects the form factor parametrization.</td>
+            </tr>
+
+                <tr>
+                    <th class="qn"     rowspan="6"><tt>B_s->D_slnu::BR</tt></th>
+                    <td class="sym"    rowspan="6">$$\mathcal{B}(B_s\to \bar{D}_s\ell^-\bar\nu)$$</td>
+                    <td class="unit"   rowspan="6">&mdash;</td>
+                    <td class="kv"     rowspan="6"><tt>q2_min</tt><br><tt>q2_max</tt></td>
+                    <td class="optkey" rowspan="1"><tt>model</tt></td>
+                    <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp4-obs2-opt0')">
+                    <span class="dots"   id="grp4-obs2-opt0" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp4-obs2-opt0" style="display: none;   text-align: left">
+                   <tt>CKM</tt><br/><tt>SM</tt><br/><tt>WET</tt><br/><tt>WET-SMEFT</tt>
+                    </span>
+                </a></td>
+                    <td class="optdef" rowspan="1"><tt>SM</tt></td>
+                </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>form-factors</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp4-obs2-opt1')">
+                    <span class="dots"   id="grp4-obs2-opt1" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp4-obs2-opt1" style="display: none;   text-align: left">
+                   <tt>B-LCSR</tt><br/><tt>BCL2008</tt><br/><tt>BCL2008-4</tt><br/><tt>BCL2008-5</tt><br/><tt>BFW2010</tt><br/><tt>BGJvD2019</tt><br/><tt>BGL1997</tt><br/><tt>BSZ2015</tt><br/><tt>DKMMO2008</tt><br/><tt>KMPW2010</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt></tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>l</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp4-obs2-opt2')">
+                    <span class="dots"   id="grp4-obs2-opt2" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp4-obs2-opt2" style="display: none;   text-align: left">
+                   <tt>e</tt><br/><tt>mu</tt><br/><tt>tau</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>mu</tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>U</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp4-obs2-opt3')">
+                    <span class="dots"   id="grp4-obs2-opt3" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp4-obs2-opt3" style="display: none;   text-align: left">
+                   <tt>c</tt><br/><tt>u</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>c</tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>q</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp4-obs2-opt4')">
+                    <span class="dots"   id="grp4-obs2-opt4" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp4-obs2-opt4" style="display: none;   text-align: left">
+                   <tt>u</tt><br/><tt>d</tt><br/><tt>s</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>d</tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>I</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp4-obs2-opt5')">
+                    <span class="dots"   id="grp4-obs2-opt5" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp4-obs2-opt5" style="display: none;   text-align: left">
+                   <tt>1</tt><br/><tt>0</tt><br/><tt>1/2</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>1</tt></td>
+                    </tr>
+
+                <tr>
+                    <th class="qn"     rowspan="6"><tt>B_s->D_slnu::dBR/dq2</tt></th>
+                    <td class="sym"    rowspan="6">$$d\mathcal{B}(B_s\to \bar{D}_s\ell^-\bar\nu)/dq^2$$</td>
+                    <td class="unit"   rowspan="6">$$\left[ \textrm{GeV}^{-2} \right]$$</td>
+                    <td class="kv"     rowspan="6"><tt>q2</tt></td>
+                    <td class="optkey" rowspan="1"><tt>model</tt></td>
+                    <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp4-obs3-opt0')">
+                    <span class="dots"   id="grp4-obs3-opt0" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp4-obs3-opt0" style="display: none;   text-align: left">
+                   <tt>CKM</tt><br/><tt>SM</tt><br/><tt>WET</tt><br/><tt>WET-SMEFT</tt>
+                    </span>
+                </a></td>
+                    <td class="optdef" rowspan="1"><tt>SM</tt></td>
+                </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>form-factors</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp4-obs3-opt1')">
+                    <span class="dots"   id="grp4-obs3-opt1" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp4-obs3-opt1" style="display: none;   text-align: left">
+                   <tt>B-LCSR</tt><br/><tt>BCL2008</tt><br/><tt>BCL2008-4</tt><br/><tt>BCL2008-5</tt><br/><tt>BFW2010</tt><br/><tt>BGJvD2019</tt><br/><tt>BGL1997</tt><br/><tt>BSZ2015</tt><br/><tt>DKMMO2008</tt><br/><tt>KMPW2010</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt></tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>l</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp4-obs3-opt2')">
+                    <span class="dots"   id="grp4-obs3-opt2" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp4-obs3-opt2" style="display: none;   text-align: left">
+                   <tt>e</tt><br/><tt>mu</tt><br/><tt>tau</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>mu</tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>U</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp4-obs3-opt3')">
+                    <span class="dots"   id="grp4-obs3-opt3" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp4-obs3-opt3" style="display: none;   text-align: left">
+                   <tt>c</tt><br/><tt>u</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>c</tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>q</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp4-obs3-opt4')">
+                    <span class="dots"   id="grp4-obs3-opt4" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp4-obs3-opt4" style="display: none;   text-align: left">
+                   <tt>u</tt><br/><tt>d</tt><br/><tt>s</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>d</tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>I</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp4-obs3-opt5')">
+                    <span class="dots"   id="grp4-obs3-opt5" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp4-obs3-opt5" style="display: none;   text-align: left">
+                   <tt>1</tt><br/><tt>0</tt><br/><tt>1/2</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>1</tt></td>
+                    </tr>
+                    </tbody>
+            <tbody>
+                <tr>
+                    <th style="text-align:left" colspan=8>
+                        <a style="text-decoration: none" onclick="toggle_group(this, 'grp7')">Observables in $B\to \bar{D}^* \ell^-\bar\nu$ decays</a>
+                    </th>
+                </tr>
+            </tbody>
+
+            <tbody style="visibility:collapse" id="grp7">
+            <tr>
+                <td style="text-align:left" colspan=8>The option "l" selects the charged lepton flavor. The option "q" selects the spectator quark flavor. The option "form-factors" selects the form factor parametrization.</td>
+            </tr>
+
+                <tr>
+                    <th class="qn"     rowspan="1"><tt>B->D^*lnu::BR</tt></th>
+                    <td class="sym"    rowspan="1">$$\bar{\mathcal{B}}(B\to \bar{D}^*\ell^-\bar\nu)$$</td>
+                    <td class="unit"   rowspan="1">&mdash;</td>
+                    <td class="kv"     rowspan="1"><tt>q2_max</tt><br><tt>q2_min</tt></td>
+                    <td class="optkey" rowspan="1">&mdash;</td>
+                    <td class="optav"  rowspan="1">&mdash;</td>
+                    <td class="optdef" rowspan="1">&mdash;</td>
+                </tr>
+
+                <tr>
+                    <th class="qn"     rowspan="3"><tt>B->D^*lnu::BR_CP_specific</tt></th>
+                    <td class="sym"    rowspan="3">$$\mathcal{B}(B\to \bar{D}^*\ell^-\bar\nu)$$</td>
+                    <td class="unit"   rowspan="3">&mdash;</td>
+                    <td class="kv"     rowspan="3"><tt>q2_min</tt><br><tt>q2_max</tt></td>
+                    <td class="optkey" rowspan="1"><tt>model</tt></td>
+                    <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp7-obs5-opt0')">
+                    <span class="dots"   id="grp7-obs5-opt0" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp7-obs5-opt0" style="display: none;   text-align: left">
+                   <tt>CKM</tt><br/><tt>SM</tt><br/><tt>WET</tt><br/><tt>WET-SMEFT</tt>
+                    </span>
+                </a></td>
+                    <td class="optdef" rowspan="1"><tt>SM</tt></td>
+                </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>form-factors</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp7-obs5-opt1')">
+                    <span class="dots"   id="grp7-obs5-opt1" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp7-obs5-opt1" style="display: none;   text-align: left">
+                   <tt>B-LCSR</tt><br/><tt>BFW2010</tt><br/><tt>BGJvD2019</tt><br/><tt>BGL1997</tt><br/><tt>BSZ2015</tt><br/><tt>KMPW2010</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt></tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>l</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp7-obs5-opt2')">
+                    <span class="dots"   id="grp7-obs5-opt2" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp7-obs5-opt2" style="display: none;   text-align: left">
+                   <tt>e</tt><br/><tt>mu</tt><br/><tt>tau</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>mu</tt></td>
+                    </tr>
+
+                <tr>
+                    <th class="qn"     rowspan="1"><tt>B->D^*lnu::BRbar</tt></th>
+                    <td class="sym"    rowspan="1">$$\mathcal{B}(B\to \bar{D}^*\ell^-\bar\nu)_{\ell=e,\mu}$$</td>
+                    <td class="unit"   rowspan="1">&mdash;</td>
+                    <td class="kv"     rowspan="1"><tt>q2_e_max</tt><br><tt>q2_e_min</tt><br><tt>q2_mu_max</tt><br><tt>q2_mu_min</tt></td>
+                    <td class="optkey" rowspan="1">&mdash;</td>
+                    <td class="optav"  rowspan="1">&mdash;</td>
+                    <td class="optdef" rowspan="1">&mdash;</td>
+                </tr>
+
+                <tr>
+                    <th class="qn"     rowspan="1"><tt>B->D^*lnu::DeltaBR</tt></th>
+                    <td class="sym"    rowspan="1">$$\Delta\mathcal{B}(B\to \bar{D}^*\ell^-\bar\nu)_{\ell=e,\mu}$$</td>
+                    <td class="unit"   rowspan="1">&mdash;</td>
+                    <td class="kv"     rowspan="1"><tt>q2_e_max</tt><br><tt>q2_e_min</tt><br><tt>q2_mu_max</tt><br><tt>q2_mu_min</tt></td>
+                    <td class="optkey" rowspan="1">&mdash;</td>
+                    <td class="optav"  rowspan="1">&mdash;</td>
+                    <td class="optdef" rowspan="1">&mdash;</td>
+                </tr>
+
+                <tr>
+                    <th class="qn"     rowspan="3"><tt>B->D^*lnu::dBR/dq2</tt></th>
+                    <td class="sym"    rowspan="3">$$d\mathcal{B}(B\to \bar{D}^*\ell^-\bar\nu)/dq^2$$</td>
+                    <td class="unit"   rowspan="3">$$\left[ \textrm{GeV}^{-2} \right]$$</td>
+                    <td class="kv"     rowspan="3"><tt>q2</tt></td>
+                    <td class="optkey" rowspan="1"><tt>model</tt></td>
+                    <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp7-obs8-opt0')">
+                    <span class="dots"   id="grp7-obs8-opt0" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp7-obs8-opt0" style="display: none;   text-align: left">
+                   <tt>CKM</tt><br/><tt>SM</tt><br/><tt>WET</tt><br/><tt>WET-SMEFT</tt>
+                    </span>
+                </a></td>
+                    <td class="optdef" rowspan="1"><tt>SM</tt></td>
+                </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>form-factors</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp7-obs8-opt1')">
+                    <span class="dots"   id="grp7-obs8-opt1" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp7-obs8-opt1" style="display: none;   text-align: left">
+                   <tt>B-LCSR</tt><br/><tt>BFW2010</tt><br/><tt>BGJvD2019</tt><br/><tt>BGL1997</tt><br/><tt>BSZ2015</tt><br/><tt>KMPW2010</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt></tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>l</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp7-obs8-opt2')">
+                    <span class="dots"   id="grp7-obs8-opt2" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp7-obs8-opt2" style="display: none;   text-align: left">
+                   <tt>e</tt><br/><tt>mu</tt><br/><tt>tau</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>mu</tt></td>
+                    </tr>
+                    </tbody>
+            <tbody>
+                <tr>
+                    <th style="text-align:left" colspan=8>
+                        <a style="text-decoration: none" onclick="toggle_group(this, 'grp10')">Observables in $\bar{B}_s\to D_s^* \ell^-\bar\nu$ decays</a>
+                    </th>
+                </tr>
+            </tbody>
+
+            <tbody style="visibility:collapse" id="grp10">
+            <tr>
+                <td style="text-align:left" colspan=8>The option "l" selects the charged lepton flavor.The option "form-factors" selects the form factor parametrization.</td>
+            </tr>
+
+                <tr>
+                    <th class="qn"     rowspan="3"><tt>B_s->D_s^*lnu::BR</tt></th>
+                    <td class="sym"    rowspan="3">$$\mathcal{B}(B_s\to \bar{D}_s^*\ell^-\bar\nu)$$</td>
+                    <td class="unit"   rowspan="3">&mdash;</td>
+                    <td class="kv"     rowspan="3"><tt>q2_min</tt><br><tt>q2_max</tt></td>
+                    <td class="optkey" rowspan="1"><tt>model</tt></td>
+                    <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp10-obs9-opt0')">
+                    <span class="dots"   id="grp10-obs9-opt0" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp10-obs9-opt0" style="display: none;   text-align: left">
+                   <tt>CKM</tt><br/><tt>SM</tt><br/><tt>WET</tt><br/><tt>WET-SMEFT</tt>
+                    </span>
+                </a></td>
+                    <td class="optdef" rowspan="1"><tt>SM</tt></td>
+                </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>form-factors</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp10-obs9-opt1')">
+                    <span class="dots"   id="grp10-obs9-opt1" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp10-obs9-opt1" style="display: none;   text-align: left">
+                   <tt>B-LCSR</tt><br/><tt>BFW2010</tt><br/><tt>BGJvD2019</tt><br/><tt>BGL1997</tt><br/><tt>BSZ2015</tt><br/><tt>KMPW2010</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt></tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>l</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp10-obs9-opt2')">
+                    <span class="dots"   id="grp10-obs9-opt2" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp10-obs9-opt2" style="display: none;   text-align: left">
+                   <tt>e</tt><br/><tt>mu</tt><br/><tt>tau</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>mu</tt></td>
+                    </tr>
+
+                <tr>
+                    <th class="qn"     rowspan="3"><tt>B_s->D_s^*lnu::dBR/dq2</tt></th>
+                    <td class="sym"    rowspan="3">$$d\mathcal{B}(B_s\to \bar{D}_s^*\ell^-\bar\nu)/dq^2$$</td>
+                    <td class="unit"   rowspan="3">$$\left[ \textrm{GeV}^{-2} \right]$$</td>
+                    <td class="kv"     rowspan="3"><tt>q2</tt></td>
+                    <td class="optkey" rowspan="1"><tt>model</tt></td>
+                    <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp10-obs10-opt0')">
+                    <span class="dots"   id="grp10-obs10-opt0" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp10-obs10-opt0" style="display: none;   text-align: left">
+                   <tt>CKM</tt><br/><tt>SM</tt><br/><tt>WET</tt><br/><tt>WET-SMEFT</tt>
+                    </span>
+                </a></td>
+                    <td class="optdef" rowspan="1"><tt>SM</tt></td>
+                </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>form-factors</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp10-obs10-opt1')">
+                    <span class="dots"   id="grp10-obs10-opt1" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp10-obs10-opt1" style="display: none;   text-align: left">
+                   <tt>B-LCSR</tt><br/><tt>BFW2010</tt><br/><tt>BGJvD2019</tt><br/><tt>BGL1997</tt><br/><tt>BSZ2015</tt><br/><tt>KMPW2010</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt></tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>l</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp10-obs10-opt2')">
+                    <span class="dots"   id="grp10-obs10-opt2" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp10-obs10-opt2" style="display: none;   text-align: left">
+                   <tt>e</tt><br/><tt>mu</tt><br/><tt>tau</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>mu</tt></td>
+                    </tr>
+                    </tbody></table></div>
+</div>
+</section>
+<section id="Constructing-and-Evaluating-an-Observable">
+<h2>Constructing and Evaluating an Observable<a class="headerlink" href="#Constructing-and-Evaluating-an-Observable" title="Permalink to this heading">¶</a></h2>
+<p>To make theory predictions of any observable, EOS requires its full name, its <a class="reference internal" href="api/python.html#eos.Parameters"><span class="std std-ref">eos.Parameters</span></a> object, its <a class="reference internal" href="api/python.html#eos.Kinematics"><span class="std std-ref">eos.Kinematics</span></a> object, and its <a class="reference internal" href="api/python.html#eos.Options"><span class="std std-ref">eos.Options</span></a> object. As an example, we will use the integrated branching ratio of <span class="math notranslate nohighlight">\(B^-\to D\ell^-\bar\nu\)</span>, which is represented by the name <code class="docutils literal notranslate"><span class="pre">B-&gt;Dlnu::BR</span></code>. The latter is a well formed <a class="reference internal" href="api/python.html#eos.QualifiedName"><span class="std std-ref">eos.QualifiedName</span></a>, which is
+used throughout EOS to address observables and other objects. Additional information about any given observable can be obtained by displaying the full database entry, which also contains information about the kinematic variables required:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">Observables</span><span class="p">()[</span><span class="s1">&#39;B-&gt;Dlnu::BR&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<tr><th>QualifedName</th><td><tt style="color:grey">B->Dlnu::BR</tt></td></tr><tr><th>Description</th><td>$$\mathcal{B}(B\to \bar{D}\ell^-\bar\nu)$$</td></tr><tr><th rowspan=2>Kinematic Variables</th><td>q2_min</td></tr><tr><td>q2_max</td></tr></table></div>
+</div>
+<p>Note that in the above we display a single observable by name using the <code class="docutils literal notranslate"><span class="pre">[]</span></code> operator.</p>
+<p>From the above output we understand that the observable <code class="docutils literal notranslate"><span class="pre">B-&gt;Dlnu::BR</span></code> expects two kinematic variables, corresponding here to the lower and upper integration boundaries of the dilepton invariant mass <code class="docutils literal notranslate"><span class="pre">q2</span></code>.</p>
+<p>We proceed to create an <a class="reference internal" href="api/python.html#eos.Observable"><span class="std std-ref">eos.Observable</span></a> object for <code class="docutils literal notranslate"><span class="pre">B-&gt;Dlnu::BR</span></code> with the default set of parameters and options, and then display it:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">Defaults</span><span class="p">()</span>
+<span class="n">kinematics</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2_min</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">q2_max</span><span class="o">=</span><span class="mf">11.60</span><span class="p">)</span>
+<span class="n">obs</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;B-&gt;Dlnu::BR&#39;</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">kinematics</span><span class="p">,</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">())</span>
+<span class="n">display</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+    <tr>
+        <th>B->Dlnu::BR</th>
+        <td colspan="2">(eos.Observable)</td>
+    </tr>
+    <tr>
+        <th rowspan="2">kinematics</th>
+        <th>q2_min</th><td>0.02</td>
+    </tr>
+    <tr><th>q2_max</th><td>11.6</td></tr>
+    <tr>
+        <th rowspan="2">options</th>
+        <th>I</th><td>1/2</td>
+    </tr>
+    <tr><th>U</th><td>c</td></tr>
+    <tr>
+        <th>current value</th>
+        <td colspan="2"><tt>0.02417</tt></td>
+    </tr>
+</table></div>
+</div>
+<p>The default option <code class="docutils literal notranslate"><span class="pre">l=mu</span></code> select <span class="math notranslate nohighlight">\(\ell=\mu\)</span> as the lepton flavour. The value of the observable is shown to be about <span class="math notranslate nohighlight">\(2.4\%\)</span>, which is compatible with the current world average for the <span class="math notranslate nohighlight">\(\bar{B}^-\to D^0\mu^-\bar\nu\)</span> branching ratio.</p>
+<p>By setting the <code class="docutils literal notranslate"><span class="pre">l</span></code> option to the value <code class="docutils literal notranslate"><span class="pre">tau</span></code>, we create a different observable representing the <span class="math notranslate nohighlight">\(\bar{B}^-\to D^0\tau^-\bar\nu\)</span> branching ratio:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kinematics</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2_min</span><span class="o">=</span><span class="mf">3.17</span><span class="p">,</span> <span class="n">q2_max</span><span class="o">=</span><span class="mf">11.60</span><span class="p">)</span>
+<span class="n">obs</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;B-&gt;Dlnu::BR&#39;</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">kinematics</span><span class="p">,</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="s1">&#39;tau&#39;</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+        <table>
+            <tr>
+                <th>B->Dlnu::BR</th>
+                <td colspan="2">(eos.Observable)</td>
+            </tr>
+            <tr>
+                <th rowspan="2">kinematics</th>
+                <th>q2_min</th><td>3.17</td>
+            </tr>
+            <tr><th>q2_max</th><td>11.6</td></tr>
+            <tr>
+                <th rowspan="3">options</th>
+                <th>I</th><td>1/2</td>
+            </tr>
+            <tr><th>U</th><td>c</td></tr>
+<tr><th>l</th><td>tau</td></tr>
+            <tr>
+                <th>current value</th>
+                <td colspan="2"><tt>0.007147</tt></td>
+            </tr>
+        </table></div>
+</div>
+<p>The new observable yields a value of <span class="math notranslate nohighlight">\(0.71\%\)</span>.</p>
+<p>So far we evaluated the integrated branching ratio. EOS also provides the corresponding differential branching ratio as a function of the squared momentum transfer <span class="math notranslate nohighlight">\(q^2\)</span>. The differential branching fraction is accessible through the name <code class="docutils literal notranslate"><span class="pre">B-&gt;Dlnu::dBR/dq2</span></code>. To illustrate it, we use EOS’s plot functions:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$q^2$&#39;</span><span class="p">,</span> <span class="s1">&#39;unit&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$\textnormal</span><span class="si">{GeV}</span><span class="s1">^2$&#39;</span><span class="p">,</span> <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">11.60</span><span class="p">]</span> <span class="p">},</span>
+        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$d\mathcal</span><span class="si">{B}</span><span class="s1">/dq^2$&#39;</span><span class="p">,</span>                    <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span>  <span class="mf">5e-3</span><span class="p">]</span> <span class="p">},</span>
+        <span class="s1">&#39;legend&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="s1">&#39;upper center&#39;</span> <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$\ell=\mu$&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;observable&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;observable&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;Dlnu::dBR/dq2;l=mu&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;variable&#39;</span><span class="p">:</span> <span class="s1">&#39;q2&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">11.60</span><span class="p">],</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$\ell=\tau$&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;observable&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;observable&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;Dlnu::dBR/dq2;l=tau&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;variable&#39;</span><span class="p">:</span> <span class="s1">&#39;q2&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">3.17</span><span class="p">,</span> <span class="mf">11.60</span><span class="p">],</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="n">eos</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">plot_args</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:EOS:   plotting EOS observable &#34;B-&gt;Dlnu::dBR/dq2;l=mu&#34;
+INFO:EOS:   plotting EOS observable &#34;B-&gt;Dlnu::dBR/dq2;l=tau&#34;
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&lt;Figure size 640x480 with 1 Axes&gt;,
+ &lt;AxesSubplot: xlabel=&#39;$q^2$\\,[$\\textnormal{GeV}^2$]&#39;, ylabel=&#39;$d\\mathcal{B}/dq^2$&#39;&gt;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/predictions_13_2.png" src="_images/predictions_13_2.png" />
+</div>
+</div>
+</section>
+<section id="Estimating-Theory-Uncertainties">
+<h2>Estimating Theory Uncertainties<a class="headerlink" href="#Estimating-Theory-Uncertainties" title="Permalink to this heading">¶</a></h2>
+<p>To estimate theoretical uncertainties of the observables, EOS uses Bayesian statistics. The latter interprets the theory parameters as random variables and assigns <em>a priori</em> probability density functions (prior PDFs) for each parameter.</p>
+<p>We carry on using the integrated branching ratios of <span class="math notranslate nohighlight">\(\bar{B}^-\to D^0\left\lbrace\mu^-, \tau^-\right\rbrace\bar\nu\)</span> decays as examples. The largest source of theoretical uncertainty in these decays arises from the hadronic matrix elements, i.e., from the form factors <span class="math notranslate nohighlight">\(f^{B\to \bar{D}}_+(q^2)\)</span> and <span class="math notranslate nohighlight">\(f^{B\to \bar{D}}_0(q^2)\)</span>. Both form factors have been obtained independently using lattice QCD simulations by the HPQCD and Fermilab/MILC (FNAL+MILC) collaborations. The joint
+likelihoods for both form factors at different <span class="math notranslate nohighlight">\(q^2\)</span> values of each prediction are available in EOS as <code class="docutils literal notranslate"><span class="pre">Constraint</span></code> objects under the names <code class="docutils literal notranslate"><span class="pre">B-&gt;D::f_++f_0&#64;HPQCD2015A</span></code> and <code class="docutils literal notranslate"><span class="pre">B-&gt;D::f_++f_0&#64;FNAL+MILC2015B</span></code>. We will discuss such constraints in more detail in the next example notebook on <a class="reference internal" href="inference.html"><span class="doc">parameter inference</span></a>. For this example, we will use both the HPQCD and the FNAL+MILC results and create a combined likelihood as follows:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;priors&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span> <span class="s1">&#39;parameter&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;D::alpha^f+_0@BSZ2015&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">:</span>  <span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">:</span>  <span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uniform&#39;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="s1">&#39;parameter&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;D::alpha^f+_1@BSZ2015&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">5.0</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="o">+</span><span class="mf">5.0</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uniform&#39;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="s1">&#39;parameter&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;D::alpha^f+_2@BSZ2015&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">5.0</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="o">+</span><span class="mf">5.0</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uniform&#39;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="s1">&#39;parameter&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;D::alpha^f0_1@BSZ2015&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">5.0</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="o">+</span><span class="mf">5.0</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uniform&#39;</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="s1">&#39;parameter&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;D::alpha^f0_2@BSZ2015&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">5.0</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="o">+</span><span class="mf">5.0</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uniform&#39;</span> <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s1">&#39;likelihood&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s1">&#39;B-&gt;D::f_++f_0@HPQCD:2015A&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;B-&gt;D::f_++f_0@FNAL+MILC:2015B&#39;</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="n">analysis</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Analysis</span><span class="p">(</span><span class="o">**</span><span class="n">analysis_args</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:EOS:Creating analysis with 5 priors, 2 EOS-wide constraints, 0 global options, 0 manually-entered constraints and 0 fixed parameters.
+INFO:EOS:likelihood probably depends on 3 parameter(s) that do not appear in the prior; check prior?
+</pre></div></div>
+</div>
+<p>Next we create three observables: the semi-muonic branching ratio, the semi-tauonic branching ratio, and the ratio of the former two. By using <a class="reference internal" href="api/python.html#eos.Analysis"><span class="std std-ref">analysis.parameters</span></a> in the construction of these observables, we ensure that our observables and the <a class="reference internal" href="api/python.html#eos.Analysis"><span class="std std-ref">eos.Analysis</span></a> object share the same parameter set. This means that changes to the analysis’ parameters will affect the evaluation of all three observables.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">obs_mu</span>  <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span>
+    <span class="s1">&#39;B-&gt;Dlnu::BR&#39;</span><span class="p">,</span>
+    <span class="n">analysis</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span>
+    <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2_min</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">q2_max</span><span class="o">=</span><span class="mf">11.60</span><span class="p">),</span>
+    <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">({</span><span class="s1">&#39;l&#39;</span><span class="p">:</span><span class="s1">&#39;mu&#39;</span><span class="p">,</span> <span class="s1">&#39;form-factors&#39;</span><span class="p">:</span><span class="s1">&#39;BSZ2015&#39;</span><span class="p">})</span>
+<span class="p">)</span>
+<span class="n">obs_tau</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span>
+    <span class="s1">&#39;B-&gt;Dlnu::BR&#39;</span><span class="p">,</span>
+    <span class="n">analysis</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span>
+    <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2_min</span><span class="o">=</span><span class="mf">3.17</span><span class="p">,</span> <span class="n">q2_max</span><span class="o">=</span><span class="mf">11.60</span><span class="p">),</span>
+    <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">({</span><span class="s1">&#39;l&#39;</span><span class="p">:</span><span class="s1">&#39;tau&#39;</span><span class="p">,</span><span class="s1">&#39;form-factors&#39;</span><span class="p">:</span><span class="s1">&#39;BSZ2015&#39;</span><span class="p">})</span>
+<span class="p">)</span>
+<span class="n">obs_R_D</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span>
+    <span class="s1">&#39;B-&gt;Dlnu::R_D&#39;</span><span class="p">,</span>
+    <span class="n">analysis</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span>
+    <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2_mu_min</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">q2_mu_max</span><span class="o">=</span><span class="mf">11.60</span><span class="p">,</span> <span class="n">q2_tau_min</span><span class="o">=</span><span class="mf">3.17</span><span class="p">,</span> <span class="n">q2_tau_max</span><span class="o">=</span><span class="mf">11.60</span><span class="p">),</span>
+    <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">({</span><span class="s1">&#39;form-factors&#39;</span><span class="p">:</span><span class="s1">&#39;BSZ2015&#39;</span><span class="p">})</span>
+<span class="p">)</span>
+<span class="n">observables</span><span class="o">=</span><span class="p">(</span><span class="n">obs_mu</span><span class="p">,</span> <span class="n">obs_tau</span><span class="p">,</span> <span class="n">obs_R_D</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>In the above, we made sure to provide the option :code:<code class="docutils literal notranslate"><span class="pre">form-factors=BSZ2015</span></code> to ensure that the right form factor plugin is used.</p>
+<p>Sampling from the log(posterior) and – at the same time – producing posterior-predictive samples of the three observables is achieved as follows:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameter_samples</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">observable_samples</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">pre_N</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">observables</span><span class="o">=</span><span class="n">observables</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:EOS:Prerun 0 out of 3
+INFO:EOS:Prerun 0: acceptance rate is   1%
+INFO:EOS:Prerun 1 out of 3
+INFO:EOS:Prerun 1: acceptance rate is  10%
+INFO:EOS:Prerun 2 out of 3
+INFO:EOS:Prerun 2: acceptance rate is  30%
+INFO:EOS:Main run: started ...
+INFO:EOS:Main run: acceptance rate is  36%
+</pre></div></div>
+</div>
+<p>Here <code class="docutils literal notranslate"><span class="pre">N=5000</span></code> samples are produced. To illustrate these samples we use EOS’ plotting framework:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$d\mathcal</span><span class="si">{B}</span><span class="s1">/dq^2$&#39;</span><span class="p">,</span>  <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span>  <span class="mf">3e-2</span><span class="p">]</span> <span class="p">},</span>
+        <span class="s1">&#39;legend&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="s1">&#39;upper center&#39;</span> <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$\ell=\mu$&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;histogram&#39;</span><span class="p">,</span> <span class="s1">&#39;bins&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">observable_samples</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="p">}},</span>
+        <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$\ell=\tau$&#39;</span><span class="p">,</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;histogram&#39;</span><span class="p">,</span> <span class="s1">&#39;bins&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">observable_samples</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="p">}},</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="n">eos</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">plot_args</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&lt;Figure size 640x480 with 1 Axes&gt;,
+ &lt;AxesSubplot: xlabel=&#39;$d\\mathcal{B}/dq^2$&#39;&gt;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/predictions_22_1.png" src="_images/predictions_22_1.png" />
+</div>
+</div>
+<p>We can convince ourselves of the usefullness of the correlated samples by computing the lepton-flavour universality ratio <span class="math notranslate nohighlight">\(R_D\)</span> twice: once using EOS’ built-in observable <code class="docutils literal notranslate"><span class="pre">B-&gt;Dlnu::R_D</span></code> as sampled above, and once by calculating the ratio manually for each sample:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$d\mathcal</span><span class="si">{B}</span><span class="s1">/dq^2$&#39;</span><span class="p">,</span>  <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.28</span><span class="p">,</span>  <span class="mf">0.32</span><span class="p">]</span> <span class="p">},</span>
+        <span class="s1">&#39;legend&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="s1">&#39;upper left&#39;</span> <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$R_D$ (EOS)&#39;</span><span class="p">,</span>     <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;histogram&#39;</span><span class="p">,</span> <span class="s1">&#39;bins&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;C3&#39;</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">observable_samples</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="p">}},</span>
+        <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$R_D$ (manually)&#39;</span><span class="p">,</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;histogram&#39;</span><span class="p">,</span> <span class="s1">&#39;bins&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;C4&#39;</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">o</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">o</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">observable_samples</span><span class="p">[:]]</span> <span class="p">},</span>
+          <span class="s1">&#39;histtype&#39;</span><span class="p">:</span> <span class="s1">&#39;step&#39;</span><span class="p">},</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="n">eos</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">plot_args</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&lt;Figure size 640x480 with 1 Axes&gt;,
+ &lt;AxesSubplot: xlabel=&#39;$d\\mathcal{B}/dq^2$&#39;&gt;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/predictions_24_1.png" src="_images/predictions_24_1.png" />
+</div>
+</div>
+<p>Using the Numpy routines <code class="docutils literal notranslate"><span class="pre">numpy.average</span></code> and <code class="docutils literal notranslate"><span class="pre">numpy.var</span></code> we can produce numerical estimates of the mean and the standard deviation:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{obs}</span><span class="s1">;</span><span class="si">{opt}</span><span class="s1">  = </span><span class="si">{mean:.4f}</span><span class="s1"> +/- </span><span class="si">{std:.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+    <span class="n">obs</span><span class="o">=</span><span class="n">obs_mu</span><span class="o">.</span><span class="n">name</span><span class="p">(),</span> <span class="n">opt</span><span class="o">=</span><span class="n">obs_mu</span><span class="o">.</span><span class="n">options</span><span class="p">(),</span>
+    <span class="n">mean</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">observable_samples</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]),</span>
+    <span class="n">std</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">observable_samples</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]))</span>
+<span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{obs}</span><span class="s1">;</span><span class="si">{opt}</span><span class="s1"> = </span><span class="si">{mean:.4f}</span><span class="s1"> +/- </span><span class="si">{std:.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+    <span class="n">obs</span><span class="o">=</span><span class="n">obs_tau</span><span class="o">.</span><span class="n">name</span><span class="p">(),</span> <span class="n">opt</span><span class="o">=</span><span class="n">obs_tau</span><span class="o">.</span><span class="n">options</span><span class="p">(),</span>
+    <span class="n">mean</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">observable_samples</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]),</span>
+    <span class="n">std</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">observable_samples</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]))</span>
+<span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{obs}</span><span class="s1">;</span><span class="si">{opt}</span><span class="s1">          = </span><span class="si">{mean:.4f}</span><span class="s1"> +/- </span><span class="si">{std:.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+    <span class="n">obs</span><span class="o">=</span><span class="n">obs_R_D</span><span class="o">.</span><span class="n">name</span><span class="p">(),</span> <span class="n">opt</span><span class="o">=</span><span class="n">obs_R_D</span><span class="o">.</span><span class="n">options</span><span class="p">(),</span>
+    <span class="n">mean</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">observable_samples</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]),</span>
+    <span class="n">std</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">observable_samples</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]))</span>
+<span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+B-&gt;Dlnu::BR;I=1/2,U=c,form-factors=BSZ2015,l=mu  = 0.0234 +/- 0.0006
+B-&gt;Dlnu::BR;I=1/2,U=c,form-factors=BSZ2015,l=tau = 0.0071 +/- 0.0001
+B-&gt;Dlnu::R_D;form-factors=BSZ2015          = 0.3019 +/- 0.0001
+</pre></div></div>
+</div>
+<p>To obtain uncertainty bands for a plot of the differential branching ratios, we can now produce a sequence of observables at different points in phase space. We then pass these observables on to <a class="reference internal" href="api/python.html#eos.Analysis.sample"><span class="std std-ref">analysis.sample</span></a>, to obtain posterior-predictive samples:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mu_q2values</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.02</span><span class="p">,</span>  <span class="mf">1.00</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1.00</span><span class="p">,</span> <span class="mf">11.60</span><span class="p">,</span> <span class="mi">20</span><span class="p">))))</span>
+<span class="n">mu_obs</span>       <span class="o">=</span> <span class="p">[</span><span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span>
+                   <span class="s1">&#39;B-&gt;Dlnu::dBR/dq2&#39;</span><span class="p">,</span> <span class="n">analysis</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2</span><span class="o">=</span><span class="n">q2</span><span class="p">),</span>
+                   <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">({</span><span class="s1">&#39;form-factors&#39;</span><span class="p">:</span> <span class="s1">&#39;BSZ2015&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;mu&#39;</span><span class="p">}))</span>
+               <span class="k">for</span> <span class="n">q2</span> <span class="ow">in</span> <span class="n">mu_q2values</span><span class="p">]</span>
+<span class="n">tau_q2values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">3.17</span><span class="p">,</span> <span class="mf">11.60</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+<span class="n">tau_obs</span>      <span class="o">=</span> <span class="p">[</span><span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span>
+                   <span class="s1">&#39;B-&gt;Dlnu::dBR/dq2&#39;</span><span class="p">,</span> <span class="n">analysis</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2</span><span class="o">=</span><span class="n">q2</span><span class="p">),</span>
+                   <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">({</span><span class="s1">&#39;form-factors&#39;</span><span class="p">:</span> <span class="s1">&#39;BSZ2015&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;tau&#39;</span><span class="p">}))</span>
+               <span class="k">for</span> <span class="n">q2</span> <span class="ow">in</span> <span class="n">tau_q2values</span><span class="p">]</span>
+
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">mu_samples</span>  <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">pre_N</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">observables</span><span class="o">=</span><span class="n">mu_obs</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">tau_samples</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">pre_N</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">observables</span><span class="o">=</span><span class="n">tau_obs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:EOS:Prerun 0 out of 3
+INFO:EOS:Prerun 0: acceptance rate is   2%
+INFO:EOS:Prerun 1 out of 3
+INFO:EOS:Prerun 1: acceptance rate is   2%
+INFO:EOS:Prerun 2 out of 3
+INFO:EOS:Prerun 2: acceptance rate is   6%
+INFO:EOS:Main run: started ...
+INFO:EOS:Main run: acceptance rate is  16%
+INFO:EOS:Prerun 0 out of 3
+INFO:EOS:Prerun 0: acceptance rate is   2%
+INFO:EOS:Prerun 1 out of 3
+INFO:EOS:Prerun 1: acceptance rate is   4%
+INFO:EOS:Prerun 2 out of 3
+INFO:EOS:Prerun 2: acceptance rate is  12%
+INFO:EOS:Main run: started ...
+INFO:EOS:Main run: acceptance rate is  31%
+</pre></div></div>
+</div>
+<p>We can plot the so-obtained posterior-predictive samples with EOS’ plotting framework by running:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$q^2$&#39;</span><span class="p">,</span> <span class="s1">&#39;unit&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$\textnormal</span><span class="si">{GeV}</span><span class="s1">^2$&#39;</span><span class="p">,</span> <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">11.60</span><span class="p">]</span> <span class="p">},</span>
+        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$d\mathcal</span><span class="si">{B}</span><span class="s1">/dq^2$&#39;</span><span class="p">,</span>                    <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span>  <span class="mf">5e-3</span><span class="p">]</span> <span class="p">},</span>
+        <span class="s1">&#39;legend&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="s1">&#39;upper center&#39;</span> <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$\ell=\mu$&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uncertainty&#39;</span><span class="p">,</span> <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">11.60</span><span class="p">],</span>
+          <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">mu_samples</span><span class="p">,</span> <span class="s1">&#39;xvalues&#39;</span><span class="p">:</span> <span class="n">mu_q2values</span> <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$\ell=\tau$&#39;</span><span class="p">,</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uncertainty&#39;</span><span class="p">,</span> <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">3.17</span><span class="p">,</span> <span class="mf">11.60</span><span class="p">],</span>
+          <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">tau_samples</span><span class="p">,</span> <span class="s1">&#39;xvalues&#39;</span><span class="p">:</span> <span class="n">tau_q2values</span> <span class="p">}</span>
+        <span class="p">},</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="n">eos</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">plot_args</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&lt;Figure size 640x480 with 1 Axes&gt;,
+ &lt;AxesSubplot: xlabel=&#39;$q^2$\\,[$\\textnormal{GeV}^2$]&#39;, ylabel=&#39;$d\\mathcal{B}/dq^2$&#39;&gt;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/predictions_30_1.png" src="_images/predictions_30_1.png" />
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="inference.html" class="btn btn-neutral float-right" title="Parameter Inference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="use-cases.html" class="btn btn-neutral float-left" title="Use Cases" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2019-2023, The EOS Authors.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
