@@ -354,12 +354,12 @@ distance to the lower and upper end of the 68% probability interval.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.Analysis.log_likelihood">
-<span class="sig-name descname"><span class="pre">log_likelihood</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.log_likelihood" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">log_likelihood</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.log_likelihood" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adapter for use with external sampling software (e.g. dynesty) to aid when sampling from the log(likelihood).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<em>iterable</em>) – Parameter point, with the elements in the same order as in eos.Analysis.varied_parameters, rescaled so that every element is in the interval [-1, +1].</p></li>
+<li><p><strong>p</strong> (<em>iterable</em>) – Parameter point, with the elements in the same order as in eos.Analysis.varied_parameters.</p></li>
 <li><p><strong>args</strong> (<em>optional</em>) – Dummy parameter (ignored)</p></li>
 </ul>
 </dd>
@@ -368,12 +368,12 @@ distance to the lower and upper end of the 68% probability interval.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.Analysis.log_pdf">
-<span class="sig-name descname"><span class="pre">log_pdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.log_pdf" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">log_pdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.log_pdf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adapter for use with external optimization software (e.g. pypmc) to aid when optimizing the log(posterior).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<em>iterable</em>) – Parameter point, with the elements in the same order as in eos.Analysis.varied_parameters, rescaled so that every element is in the interval [-1, +1].</p></li>
+<li><p><strong>u</strong> (<em>iterable</em>) – Parameter point in u space, with the elements in the same order as in eos.Analysis.varied_parameters.</p></li>
 <li><p><strong>args</strong> (<em>optional</em>) – Dummy parameter (ignored)</p></li>
 </ul>
 </dd>
@@ -382,12 +382,12 @@ distance to the lower and upper end of the 68% probability interval.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.Analysis.negative_log_pdf">
-<span class="sig-name descname"><span class="pre">negative_log_pdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.negative_log_pdf" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">negative_log_pdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.negative_log_pdf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adapter for use with external optimization software (e.g. scipy.optimize.minimize) to aid when optimizing the log(posterior).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<em>iterable</em>) – Parameter point, with the elements in the same order as in eos.Analysis.varied_parameters, rescaled so that every element is in the interval [-1, +1].</p></li>
+<li><p><strong>u</strong> (<em>iterable</em>) – Parameter point in u space, with the elements in the same order as in eos.Analysis.varied_parameters.</p></li>
 <li><p><strong>args</strong> (<em>optional</em>) – Dummy parameter (ignored)</p></li>
 </ul>
 </dd>
@@ -419,7 +419,7 @@ If not specified, optimization starts at the current parameter point.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.Analysis.sample">
-<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N=1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stride=5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_N=150</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preruns=3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cov_scale=0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observables=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_point=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng=&lt;module</span> <span class="pre">'numpy.random.mtrand'</span> <span class="pre">from</span> <span class="pre">'/opt/venv/lib/python3.10/site-packages/numpy/random/mtrand.cpython-310-x86_64-linux-gnu.so'&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.sample" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N=1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stride=5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_N=150</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preruns=3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cov_scale=0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observables=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_point=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng=&lt;module</span> <span class="pre">'numpy.random.mtrand'</span> <span class="pre">from</span> <span class="pre">'/opt/venv/lib/python3.10/site-packages/numpy/random/mtrand.cpython-310-x86_64-linux-gnu.so'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_uspace=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.sample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return samples of the parameters, log(weights), and optionally posterior-predictive samples for a sequence of observables.</p>
 <p>Obtains random samples of the log(posterior) using an adaptive Markov Chain Monte Carlo with PyPMC.
 A prerun with adaptations is carried out first and its samples are discarded.</p>
@@ -448,7 +448,7 @@ A prerun with adaptations is carried out first and its samples are discarded.</p
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.Analysis.sample_nested">
-<span class="sig-name descname"><span class="pre">sample_nested</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'multi'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nlive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">250</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dlogz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.sample_nested" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">sample_nested</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'multi'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nlive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">250</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dlogz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_progress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.sample_nested" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return samples of the parameters.</p>
 <p>Obtains random samples of log(likelihood) using dynamic nested sampling with dynesty.</p>
 <dl class="field-list simple">
@@ -519,12 +519,6 @@ A possible (incomplete) example could look as follows:</p>
 <p class="admonition-title">Note</p>
 <p>This method requires the PyPMC python module, which can be installed from PyPI.</p>
 </div>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="eos.Analysis.varied_parameters">
-<span class="sig-name descname"><span class="pre">varied_parameters</span></span><a class="headerlink" href="#eos.Analysis.varied_parameters" title="Permalink to this definition">¶</a></dt>
-<dd><p>The set of parameters that are varied in this analysis.</p>
 </dd></dl>
 
 </dd></dl>
@@ -619,17 +613,11 @@ set of values can be provided through keyword arguments, e.g. using</p>
 <p>New LogPrior objects can only be created using the capitalized static methods:
 <a class="reference internal" href="#eos.LogPrior.Uniform" title="eos.LogPrior.Uniform"><code class="xref py py-meth docutils literal notranslate"><span class="pre">LogPrior.Uniform()</span></code></a>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">LogPrior.Gaussian()</span></code>, and <a class="reference internal" href="#eos.LogPrior.Scale" title="eos.LogPrior.Scale"><code class="xref py py-meth docutils literal notranslate"><span class="pre">LogPrior.Scale()</span></code></a>.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="eos.LogPrior.Flat">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Flat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(_Parameters)parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(str)name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(ParameterRange)range</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">LogPrior</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.LogPrior.Flat" title="Permalink to this definition">¶</a></dt>
-<dd><p>Alias for <a class="reference internal" href="#eos.LogPrior.Uniform" title="eos.LogPrior.Uniform"><code class="xref py py-meth docutils literal notranslate"><span class="pre">LogPrior.Uniform()</span></code></a>.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="eos.LogPrior.Gauss">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Gauss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(_Parameters)parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(str)name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(ParameterRange)range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(float)lower</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(float)central</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(float)upper</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">LogPrior</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.LogPrior.Gauss" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a new Gaussian prior as a LogPrior.</p>
+<dt class="sig sig-object py" id="eos.LogPrior.CurtailedGauss">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CurtailedGauss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(_Parameters)parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(str)name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(ParameterRange)range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(float)lower</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(float)central</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(float)upper</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">LogPrior</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.LogPrior.CurtailedGauss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new (curtailed) Gaussian prior as a LogPrior.</p>
 <p>The prior’s support is provided by the <cite>range</cite> parameter, with the
-68% probability interval [<cite>lower</cite>, <cite>upper</cite>] and the mode provided
+approximate 68% probability interval [<cite>lower</cite>, <cite>upper</cite>] and the mode provided
 by the parameter <cite>central</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -643,6 +631,12 @@ by the parameter <cite>central</cite>.</p>
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.LogPrior.Flat">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Flat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(_Parameters)parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(str)name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(ParameterRange)range</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">LogPrior</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.LogPrior.Flat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for <a class="reference internal" href="#eos.LogPrior.Uniform" title="eos.LogPrior.Uniform"><code class="xref py py-meth docutils literal notranslate"><span class="pre">LogPrior.Uniform()</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -684,15 +678,29 @@ distributed in the interval <span class="math notranslate nohighlight">\([-\ln \
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="eos.LogPrior.inverse_cdf">
-<span class="sig-name descname"><span class="pre">inverse_cdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(LogPrior)arg1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(float)p</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.LogPrior.inverse_cdf" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the parameter value corresponding to the cumulative propability <span class="math notranslate nohighlight">\(p\)</span>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>p</strong> (<em>float</em><em>, </em><em>[</em><em>0.0</em><em>, </em><em>1.0</em><em>]</em>) – The cumulative propability.</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="eos.LogPrior.compute_cdf">
+<span class="sig-name descname"><span class="pre">compute_cdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(LogPrior)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.LogPrior.compute_cdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the cumulative probabilities <span class="math notranslate nohighlight">\(p\)</span> assigned to each parameter via its
+<a class="reference internal" href="#eos.Parameter.evaluate_generator" title="eos.Parameter.evaluate_generator"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Parameter.evaluate_generator()</span></code></a> method.</p>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.LogPrior.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(LogPrior)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.LogPrior.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the logarithm of the prior’s probability density at the current parameter values.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.LogPrior.sample">
+<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(LogPrior)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.LogPrior.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets its parameters’ values corresponding to the cumulative propability <span class="math notranslate nohighlight">\(p\)</span> assigned to
+each parameter via its <a class="reference internal" href="#eos.Parameter.set_generator" title="eos.Parameter.set_generator"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Parameter.set_generator()</span></code></a> method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.LogPrior.varied_parameters">
+<span class="sig-name descname"><span class="pre">varied_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(object)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">object</span></span></span><a class="headerlink" href="#eos.LogPrior.varied_parameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -871,6 +879,12 @@ via the <a class="reference internal" href="#eos.Parameters" title="eos.Paramete
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="eos.Parameter.evaluate_generator">
+<span class="sig-name descname"><span class="pre">evaluate_generator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(Parameter)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Parameter.evaluate_generator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the current generator value of a parameter.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="eos.Parameter.latex">
 <span class="sig-name descname"><span class="pre">latex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(Parameter)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Parameter.latex" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the LaTeX representation of the parameter.</p>
@@ -899,6 +913,17 @@ via the <a class="reference internal" href="#eos.Parameters" title="eos.Paramete
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>value</strong> (<em>float</em>) – The value to set the parameter to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Parameter.set_generator">
+<span class="sig-name descname"><span class="pre">set_generator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(Parameter)arg1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(float)arg2</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Parameter.set_generator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the generator value of a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> (<em>float</em>) – The value to set the parameter’s generator to.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1033,6 +1058,12 @@ composition is approximately:</p>
 <span class="sig-name descname"><span class="pre">name_part</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(QualifiedName)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qnpName</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.QualifiedName.name_part" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the name part of the name, i.e., the part following the ‘::’ and preceeding any
 optional ‘&#64;’.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.QualifiedName.options_part">
+<span class="sig-name descname"><span class="pre">options_part</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(QualifiedName)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Options</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.QualifiedName.options_part" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the optional options part of the name, i.e., the part following the optional ‘;’.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1440,14 +1471,15 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pred-PREDICTION.
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.data.</span></span><span class="sig-name descname"><span class="pre">MarkovChain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.MarkovChain" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="eos.data.MarkovChain.create">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.MarkovChain.create" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usamples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.MarkovChain.create" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write a new MarkovChain object to disk.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>path</strong> (<em>str</em>) – Path to the storage location, which will be created as a directory.</p></li>
 <li><p><strong>parameters</strong> (<em>list</em><em> or </em><em>iterable</em><em> of </em><a class="reference internal" href="#eos.Parameter" title="eos.Parameter"><em>eos.Parameter</em></a>) – Parameter descriptions as a 1D array of shape (N, ).</p></li>
-<li><p><strong>samples</strong> (<em>2D numpy array</em>) – Samples as a 2D array of shape (N, P).</p></li>
+<li><p><strong>samples</strong> (<em>2D numpy array</em>) – Samples in parameter space as a 2D array of shape (N, P).</p></li>
+<li><p><strong>usamples</strong> (<em>2D numpy array</em>) – Samples in u space as a 2D array of shape (N, P).</p></li>
 <li><p><strong>weights</strong> (<em>2D numpy array</em><em>, </em><em>optional</em>) – Weights on a linear scale as a 2D array of shape (N, 1).</p></li>
 </ul>
 </dd>
