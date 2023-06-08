@@ -261,6 +261,8 @@ Each features the mandatory ``type`` key and more type-specific (mandatory or op
         - Plot 2D contours for two correlated observables from a single constraint
       * - ``constraint-overview``
         - Plots overview of several constraints from the EOS library of experimental and theoretical likelihoods
+      * - ``graph``
+        - Plots the graph of a function
       * - ``expression``
         - Plots a given expression
       * - ``errorbar``
@@ -339,6 +341,37 @@ Example:
                'variable': 'q2',
                'rescale-by-width': False
            }
+       ]
+   }
+
+.. _graph:
+
+Plotting a Function Graph
+-------------------------
+
+The graph of a function can be easily plotted by providing the coordinates (x, f(x)) of the function.
+The coordinates are provided using a ``data`` object containing:
+
+ * ``xvalues`` (array-like of *float*) -- The values on the x axis at which the function has been evaluated.
+ * ``yvalues`` (array-like of *float*) -- The values oof the function at the points provided by ``xvalues``.
+
+Example:
+
+.. code-block::
+
+   xvalues = np.linspace(0, 5, 20)
+   plot_args = {
+       'plot': {
+           'x': { 'label': r'$q^2$' },
+           'y': { 'label': r'$q^4$' }
+       },
+       'contents': [
+           {
+               'label': r'$\ell=\mu$',
+               'type': 'graph',
+               'data': { 'yvalues': xvalues**2, 'xvalues': xvalues },
+               'range': [0, 5],
+           },
        ]
    }
 
