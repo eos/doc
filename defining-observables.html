@@ -264,13 +264,18 @@ For example, the observable defined by the expression <code class="docutils lite
 <code class="docutils literal notranslate"><span class="pre">q2</span></code>, since the reference observable <code class="docutils literal notranslate"><span class="pre">B-&gt;pilnu::dBR/dq2</span></code> does.
 When more than one observable appears in the expression, it is sometimes useful or even essential to rename kinematic variables,
 i.e., create an alias for the name of the kinematic variable.
-For example, wenn defining a lepton-flavour universality observable such as the ratio of branching fractions <code class="docutils literal notranslate"><span class="pre">&lt;&lt;B-&gt;Dlnu::BR;l=tau&gt;&gt;</span> <span class="pre">/</span> <span class="pre">&lt;&lt;B-&gt;Dlnu::BR;l=mu&gt;&gt;</span></code>,
-the kinematic variable <code class="docutils literal notranslate"><span class="pre">q2</span></code> should be renamed t     rather than two kinematic variables.</p>
+For example, when defining a lepton-flavour universality observable such as the ratio of branching fractions <code class="docutils literal notranslate"><span class="pre">&lt;&lt;B-&gt;Dlnu::BR;l=tau&gt;&gt;</span> <span class="pre">/</span> <span class="pre">&lt;&lt;B-&gt;Dlnu::BR;l=mu&gt;&gt;</span></code>,
+the kinematic variable <code class="docutils literal notranslate"><span class="pre">q2</span></code> should be renamed to <code class="docutils literal notranslate"><span class="pre">q2_tau</span></code> and <code class="docutils literal notranslate"><span class="pre">q2_mu</span></code> for the two observables, respectively, to avoid any ambiguity.
+Moreover, phenomenological application sometimes involve the evaluation of an observable at a fixed value of a kinematic variable.
+Both types of modification to the kinematic variables of a referenced observable are supported.
+They are achieved by appending a kinematic specification to the reference of an EOS observable: <code class="docutils literal notranslate"><span class="pre">&lt;&lt;...&gt;&gt;[...]</span></code>.</p>
+<p>Two types of kinematics specification are supported</p>
 <blockquote>
-<div><blockquote>
-<div><p>two only expects a specification for <code class="docutils literal notranslate"><span class="pre">q2_max</span></code>.evaluation of the denominator.</p>
-</div></blockquote>
-<ul class="simple">
+<div><ul class="simple">
+<li><p>the <code class="docutils literal notranslate"><span class="pre">=&gt;</span></code> operator renames the kinematic variable on its left-hand side to the name on its right-hand side.
+For example, the expression <code class="docutils literal notranslate"><span class="pre">&lt;&lt;B_u-&gt;lnu::BR&#64;l=mu&gt;&gt;[q2=&gt;q2_mu]</span> <span class="pre">/</span> <span class="pre">&lt;&lt;B_u-&gt;lnu::BR&#64;l=e&gt;&gt;[q2=&gt;q2_e]</span></code> expects
+two kinematic variable: <code class="docutils literal notranslate"><span class="pre">q2_mu</span></code> and <code class="docutils literal notranslate"><span class="pre">q2_e</span></code>. The value of the former is only used in the evaluation of the numerator;
+the value of the latter is only used in the evaluation of the denominator.</p></li>
 <li><p>the <code class="docutils literal notranslate"><span class="pre">=</span></code> operator fixes a kinematic variable to a given value.
 For example, the expression <code class="docutils literal notranslate"><span class="pre">&lt;&lt;B-&gt;pilnu::BR&gt;&gt;[q2_min=0.1]</span></code> expects only one kinematic variable <code class="docutils literal notranslate"><span class="pre">q2_max</span></code>.
 The kinematic variable <code class="docutils literal notranslate"><span class="pre">q2_min</span></code> that the references observable <code class="docutils literal notranslate"><span class="pre">B-&gt;pilnu::BR</span></code> also depends on is
