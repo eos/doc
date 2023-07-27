@@ -500,7 +500,7 @@ div.rendered_html tbody tr:hover {
 <h2>Constructing a 1D PDF and Simulating Pseudo Events<a class="headerlink" href="#Constructing-a-1D-PDF-and-Simulating-Pseudo-Events" title="Permalink to this heading">¶</a></h2>
 <p>We construct the one-dimension PDF describing the decay distribution in the variable <span class="math notranslate nohighlight">\(q^2\)</span> and for <span class="math notranslate nohighlight">\(\ell=\mu\)</span> leptons. We create the <code class="docutils literal notranslate"><span class="pre">q2</span></code> kinematic variable and set it to an arbitrary starting value. We set boundaries for the phase space from which we want to sample through the kinematic variables <code class="docutils literal notranslate"><span class="pre">q2_min</span></code> and <code class="docutils literal notranslate"><span class="pre">q2_max</span></code>. If needed, we can shrink the phase space to a volume smaller than physically allowed. The normalization of the PDF will automatically adapt.</p>
 <p>We simulate <code class="docutils literal notranslate"><span class="pre">stride</span> <span class="pre">*</span> <span class="pre">N=250000</span></code> pseudo events/samples from the PDF, which are thinned down to <code class="docutils literal notranslate"><span class="pre">N=50000</span></code>. The Markov chains can self adapt to the PDF in <code class="docutils literal notranslate"><span class="pre">preruns=3</span></code> preruns with <code class="docutils literal notranslate"><span class="pre">pre_N=1000</span></code> pseudo events/samples each.</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
@@ -513,23 +513,8 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-INFO:EOS:Prerun 0 out of 3
-INFO:EOS:Prerun 0: acceptance rate is  87%
-INFO:EOS:Prerun 1 out of 3
-INFO:EOS:Prerun 1: acceptance rate is  39%
-INFO:EOS:Prerun 2 out of 3
-INFO:EOS:Prerun 2: acceptance rate is  32%
-INFO:EOS:Main run: started ...
-INFO:EOS:Main run: acceptance rate is  29%
-</pre></div></div>
-</div>
 <p>We repeat the exercise for <span class="math notranslate nohighlight">\(\ell=\tau\)</span> leptons, and adapt the phase space accordingly.</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
@@ -541,21 +526,6 @@ INFO:EOS:Main run: acceptance rate is  29%
 <span class="n">tau_samples</span><span class="p">,</span> <span class="n">tau_weights</span> <span class="o">=</span> <span class="n">tau_pdf</span><span class="o">.</span><span class="n">sample_mcmc</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">50000</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pre_N</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">preruns</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-INFO:EOS:Prerun 0 out of 3
-INFO:EOS:Prerun 0: acceptance rate is  89%
-INFO:EOS:Prerun 1 out of 3
-INFO:EOS:Prerun 1: acceptance rate is  42%
-INFO:EOS:Prerun 2 out of 3
-INFO:EOS:Prerun 2: acceptance rate is  38%
-INFO:EOS:Main run: started ...
-INFO:EOS:Main run: acceptance rate is  29%
-</pre></div></div>
 </div>
 </section>
 <section id="Comparing-the-1D-PDF-samples-with-the-analytic-result">
@@ -619,15 +589,6 @@ INFO:EOS:Main run: acceptance rate is  29%
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-INFO:EOS:   plotting EOS PDF &#34;B-&gt;Dlnu::dGamma/dq2;l=mu&#34;
-INFO:EOS:   plotting EOS PDF &#34;B-&gt;Dlnu::dGamma/dq2;l=tau&#34;
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
@@ -641,7 +602,7 @@ INFO:EOS:   plotting EOS PDF &#34;B-&gt;Dlnu::dGamma/dq2;l=tau&#34;
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/simulation_13_2.png" src="_images/simulation_13_2.png" />
+<img alt="_images/simulation_13_1.png" src="_images/simulation_13_1.png" />
 </div>
 </div>
 <p>As you can see, we have excellent agreement between our simulations and the respective analytic expressions for the PDFs.</p>
@@ -651,7 +612,7 @@ INFO:EOS:   plotting EOS PDF &#34;B-&gt;Dlnu::dGamma/dq2;l=tau&#34;
 <p>We can also draw samples for PDFs with more than two kinematic variables. Here, we use the full four-dimensional PDF for <span class="math notranslate nohighlight">\(\bar{B}\to D^*\ell^-\bar\nu\)</span> decays.</p>
 <p>We declare and initialize all four kinematic variables (<code class="docutils literal notranslate"><span class="pre">q2</span></code>, <code class="docutils literal notranslate"><span class="pre">cos(theta_l)</span></code>, <code class="docutils literal notranslate"><span class="pre">cos(theta_d)</span></code>, and <code class="docutils literal notranslate"><span class="pre">phi</span></code>), and provide the phase space boundaries (same names appended with <code class="docutils literal notranslate"><span class="pre">_min</span></code> and <code class="docutils literal notranslate"><span class="pre">_max</span></code>).</p>
 <p>We then produce the samples as for the 1D PDF.</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
@@ -666,21 +627,6 @@ INFO:EOS:   plotting EOS PDF &#34;B-&gt;Dlnu::dGamma/dq2;l=tau&#34;
 <span class="n">dstarlnu_samples</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">dstarlnu_pdf</span><span class="o">.</span><span class="n">sample_mcmc</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">50000</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pre_N</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">preruns</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-INFO:EOS:Prerun 0 out of 3
-INFO:EOS:Prerun 0: acceptance rate is  61%
-INFO:EOS:Prerun 1 out of 3
-INFO:EOS:Prerun 1: acceptance rate is  15%
-INFO:EOS:Prerun 2 out of 3
-INFO:EOS:Prerun 2: acceptance rate is  19%
-INFO:EOS:Main run: started ...
-INFO:EOS:Main run: acceptance rate is  19%
-</pre></div></div>
 </div>
 <p>We can now show correlations of the kinematic variables by plotting 2D histograms, beginning with <span class="math notranslate nohighlight">\(q^2\)</span> vs <span class="math notranslate nohighlight">\(\cos\theta_\ell\)</span>, …</p>
 <div class="nbinput docutils container">
