@@ -1,0 +1,532 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Analysis Organisation &mdash; EOS 1.0.9 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/contentui.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+    <link rel="canonical" href="https://eos.github.io/doc/analysis-organisation.html" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/contentui.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Common Tasks in Phenomenological Analyses" href="tasks.html" />
+    <link rel="prev" title="Defining Observables" href="defining-observables.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> EOS
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basics.html">Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use-cases.html">Use Cases</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="advanced.html">Advanced Usage</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="defining-observables.html">Defining Observables</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Analysis Organisation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-analysis-description-format">The Analysis Description Format</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#priors">Priors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#likelihoods">Likelihoods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#posteriors">Posteriors</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tasks.html">Common Tasks in Phenomenological Analyses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command-line-interface.html">The EOS Command-Line Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/python.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="constraints.html">List of Constraints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="observables.html">List of Observables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parameters.html">List of Parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">List of References</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">EOS</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="advanced.html">Advanced Usage</a> &raquo;</li>
+        
+      <li>Analysis Organisation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="analysis-organisation">
+<h1>Analysis Organisation<a class="headerlink" href="#analysis-organisation" title="Permalink to this heading">¶</a></h1>
+<p id="id1">The examples illustrating the various use cases cover relatively simple phenomenological analyses.
+The number of observables, parameters, and statistical constraints is rather small.
+Typical analyses carried out using EOS require a high degree of organisation.
+To this end EOS provides the means to store one or more analysis within an external file, a so-called analysis file.
+This is beneficial in particular when the stored analyses share common elements.</p>
+<section id="the-analysis-description-format">
+<h2>The Analysis Description Format<a class="headerlink" href="#the-analysis-description-format" title="Permalink to this heading">¶</a></h2>
+<p>Every EOS analysis file is a YAML file that describe the individual steps of one or more Bayesina analysis.
+At the top level, the format includes the following YAML keys:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">priors</span></code> (<strong>mandatory</strong>) — The list of priors within the analysis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">likelihoods</span></code> (<strong>mandatory</strong>) — The list of likelihoods within the analysis..</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">posteriors</span></code> (<strong>mandatory</strong>) — The list of posteriors within the analysis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">predictions</span></code> (<strong>optional</strong>) — The list of theory predictions within the analysis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">observables</span></code> (<strong>optional</strong>) — The list of custom observables defined for the scope of the analysis;
+see <a class="reference internal" href="defining-observables.html#id1"><span class="std std-ref">the corresponding section</span></a> for an introduction on how to define a custom observable.</p></li>
+</ul>
+</div></blockquote>
+<p>The following example illustrates the analysis file format at the hand of a real-world example.</p>
+<div class="toggle-header docutils container">
+<p>Example <a class="reference external" href="https://github.com/eos/eos/tree/master/examples/b-to-u-l-nu.yaml">examples/b-to-u-l-nu.yaml</a></p>
+</div>
+<div class="toggle-content docutils container">
+<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">likelihoods</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TH-pi</span>
+<span class="w">    </span><span class="nt">constraints</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;B-&gt;pi::form-factors[f_+,f_0,f_T]@LMvD:2021A;form-factors=BCL2008-4&#39;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;B-&gt;pi::f_++f_0+f_T@FNAL+MILC:2015C;form-factors=BCL2008-4&#39;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;B-&gt;pi::f_++f_0@RBC+UKQCD:2015A;form-factors=BCL2008-4&#39;</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">EXP-pi</span>
+<span class="w">    </span><span class="nt">constraints</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;B^0-&gt;pi^-l^+nu::BR@HFLAV:2019A;form-factors=BCL2008-4&#39;</span>
+
+<span class="nt">priors</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CKM</span>
+<span class="w">    </span><span class="nt">parameters</span><span class="p">:</span>
+<span class="w">     </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;parameter&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;CKM::abs(V_ub)&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;min&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">3.0e-3</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;max&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">4.0e-3</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;type&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FF-pi</span>
+<span class="w">    </span><span class="nt">parameters</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;parameter&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="s">&#39;B-&gt;pi::f_+(0)@BCL2008&#39;</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;min&#39;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">0.21</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;max&#39;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">0.32</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;type&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;parameter&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="s">&#39;B-&gt;pi::b_+^1@BCL2008&#39;</span><span class="w">  </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;min&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">-2.96</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;max&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">-0.60</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;type&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;parameter&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="s">&#39;B-&gt;pi::b_+^2@BCL2008&#39;</span><span class="w">  </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;min&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">-3.98</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;max&#39;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">4.38</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;type&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;parameter&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="s">&#39;B-&gt;pi::b_+^3@BCL2008&#39;</span><span class="w">  </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;min&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">-18.30</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;max&#39;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">9.27</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;type&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;parameter&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="s">&#39;B-&gt;pi::b_0^1@BCL2008&#39;</span><span class="w">  </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;min&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">-0.10</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;max&#39;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">1.35</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;type&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;parameter&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="s">&#39;B-&gt;pi::b_0^2@BCL2008&#39;</span><span class="w">  </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;min&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">-2.08</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;max&#39;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">4.65</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;type&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;parameter&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="s">&#39;B-&gt;pi::b_0^3@BCL2008&#39;</span><span class="w">  </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;min&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">-4.73</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;max&#39;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">9.07</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;type&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;parameter&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="s">&#39;B-&gt;pi::b_0^4@BCL2008&#39;</span><span class="w">  </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;min&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">-60.00</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;max&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">38.00</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;type&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;parameter&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="s">&#39;B-&gt;pi::f_T(0)@BCL2008&#39;</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;min&#39;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">0.18</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;max&#39;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">0.32</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;type&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;parameter&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="s">&#39;B-&gt;pi::b_T^1@BCL2008&#39;</span><span class="w">  </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;min&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">-3.91</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;max&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">-0.33</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;type&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;parameter&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="s">&#39;B-&gt;pi::b_T^2@BCL2008&#39;</span><span class="w">  </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;min&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">-4.32</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;max&#39;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">2.00</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;type&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;parameter&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="s">&#39;B-&gt;pi::b_T^3@BCL2008&#39;</span><span class="w">  </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;min&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">-7.39</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;max&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">10.60</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;type&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+
+<span class="nt">posteriors</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CKM-pi</span>
+<span class="w">    </span><span class="nt">global_options</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">l</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">e</span>
+<span class="w">      </span><span class="nt">model</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CKM</span>
+<span class="w">    </span><span class="nt">prior</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CKM</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FF-pi</span>
+<span class="w">    </span><span class="nt">likelihood</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TH-pi</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">EXP-pi</span>
+
+<span class="nt">predictions</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">leptonic-BR-CKM</span>
+<span class="w">    </span><span class="nt">global_options</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">model</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CKM</span>
+<span class="w">    </span><span class="nt">observables</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B_u-&gt;lnu::BR;l=e</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B_u-&gt;lnu::BR;l=mu</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B_u-&gt;lnu::BR;l=tau</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pi-dBR-CKM</span>
+<span class="w">    </span><span class="nt">global_options</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">l</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">e</span>
+<span class="w">      </span><span class="nt">q</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">d</span>
+<span class="w">      </span><span class="nt">model</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CKM</span>
+<span class="w">      </span><span class="nt">form-factors</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BCL2008</span>
+<span class="w">    </span><span class="nt">observables</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">0.05</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">1.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">2.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">3.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">3.5</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">4.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">4.5</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">5.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">5.5</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">6.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">6.5</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">7.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">7.25</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">7.5</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">7.75</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">8.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">8.25</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">8.5</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">8.75</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">9.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">9.25</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">9.5</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">9.75</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">10.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">10.25</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">10.5</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">10.75</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">11.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">11.25</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">11.5</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">11.75</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">12.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">13.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">14.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">15.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">16.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">17.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">18.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">19.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">20.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">21.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">22.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">23.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">24.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">25.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">26.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::dBR/dq2</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">27.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
+</pre></div>
+</div>
+</div>
+<section id="priors">
+<h3>Priors<a class="headerlink" href="#priors" title="Permalink to this heading">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">priors</span></code> key contains a list of <em>named</em> priors. Each prior has one mandatory key:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (<strong>mandatory</strong>) — The unique name of this prior.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">parameters</span></code> (<strong>mandatory</strong>) — The ordered list of parameters described by this prior.</p></li>
+</ul>
+</div></blockquote>
+<p>For a univariate prior, <code class="docutils literal notranslate"><span class="pre">parameters</span></code> contains only a single prior description, which is a key/value map describing the prior.
+For an uncorrelated multivariate prior, <code class="docutils literal notranslate"><span class="pre">parameters</span></code> contains more than one prior description.
+The format for a prior description is the same as used in the <a class="reference internal" href="api/python.html#eos.Analysis" title="eos.Analysis"><code class="xref py py-class docutils literal notranslate"><span class="pre">Analysis</span></code></a> constructor.
+For example, the following code create two named priors <code class="docutils literal notranslate"><span class="pre">CKM</span></code> (univariate) and <code class="docutils literal notranslate"><span class="pre">FF-pi</span></code> (multivariate but uncorrelated).</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">priors</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CKM</span>
+<span class="w">    </span><span class="nt">parameters</span><span class="p">:</span>
+<span class="w">     </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;parameter&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;CKM::abs(V_ub)&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;min&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">3.0e-3</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;max&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">4.0e-3</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;type&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FF-pi</span>
+<span class="w">    </span><span class="nt">parameters</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;parameter&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="s">&#39;B-&gt;pi::f_+(0)@BCL2008&#39;</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;min&#39;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">0.21</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;max&#39;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">0.32</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;type&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;parameter&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="s">&#39;B-&gt;pi::b_+^1@BCL2008&#39;</span><span class="w">  </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;min&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">-2.96</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;max&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">-0.60</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;type&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;parameter&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="s">&#39;B-&gt;pi::b_+^2@BCL2008&#39;</span><span class="w">  </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;min&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">-3.98</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;max&#39;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">4.38</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;type&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;parameter&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="s">&#39;B-&gt;pi::b_+^3@BCL2008&#39;</span><span class="w">  </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;min&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">-18.30</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;max&#39;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">9.27</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;type&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;parameter&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="s">&#39;B-&gt;pi::b_0^1@BCL2008&#39;</span><span class="w">  </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;min&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">-0.10</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;max&#39;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">1.35</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;type&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;parameter&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="s">&#39;B-&gt;pi::b_0^2@BCL2008&#39;</span><span class="w">  </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;min&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">-2.08</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;max&#39;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">4.65</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;type&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;parameter&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="s">&#39;B-&gt;pi::b_0^3@BCL2008&#39;</span><span class="w">  </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;min&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">-4.73</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;max&#39;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">9.07</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;type&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;parameter&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="s">&#39;B-&gt;pi::b_0^4@BCL2008&#39;</span><span class="w">  </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;min&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">-60.00</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;max&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">38.00</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;type&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;parameter&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="s">&#39;B-&gt;pi::f_T(0)@BCL2008&#39;</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;min&#39;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">0.18</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;max&#39;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">0.32</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;type&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;parameter&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="s">&#39;B-&gt;pi::b_T^1@BCL2008&#39;</span><span class="w">  </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;min&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">-3.91</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;max&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">-0.33</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;type&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;parameter&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="s">&#39;B-&gt;pi::b_T^2@BCL2008&#39;</span><span class="w">  </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;min&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">-4.32</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;max&#39;</span><span class="p p-Indicator">:</span><span class="w">   </span><span class="nv">2.00</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;type&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;parameter&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="s">&#39;B-&gt;pi::b_T^3@BCL2008&#39;</span><span class="w">  </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;min&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">-7.39</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;max&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">10.60</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;type&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+</pre></div>
+</div>
+<p>For a correlated multivariate prior, <code class="docutils literal notranslate"><span class="pre">parameters</span></code> contains a single element consisting of a key/value pair.
+The mandatorys key is <code class="docutils literal notranslate"><span class="pre">constraint</span></code> and the value is the qualified name of an EOS constraint.
+The following example illustrates the organisation of a correlated multivariate prior.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">priors</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FF-rho</span>
+<span class="w">    </span><span class="nt">parameters</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;constraint&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;B-&gt;rho::FormFactors[parametric,LCSR]@BSZ:2015A&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+</pre></div>
+</div>
+</section>
+<section id="likelihoods">
+<h3>Likelihoods<a class="headerlink" href="#likelihoods" title="Permalink to this heading">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">likelihoods</span></code> key contains a list of <em>named</em> likelihoods. Each likelihood has two mandatory keys:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (<strong>mandatory</strong>) — The unique name of this likelihood.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">constraints</span></code> (<strong>mandatory</strong>) — The ordered list of EOS constraint names that comprise this likelihood.</p></li>
+</ul>
+</div></blockquote>
+<p>The following example illustrates the organisation of a likelihood.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">EXP-pi</span>
+<span class="w">  </span><span class="nt">constraints</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;B^0-&gt;pi^-l^+nu::BR@HFLAV:2019A;form-factors=BCL2008-4&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="posteriors">
+<h3>Posteriors<a class="headerlink" href="#posteriors" title="Permalink to this heading">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">posteriors</span></code> key contains a list of <em>named</em> posteriors. Each posterior contains two mandator and various optional keys:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (<strong>mandatory</strong>) — The unique name of this posterior.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prior</span></code> (<strong>mandatory</strong>) — The ordered list of named priors that are used as part of this posterior.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">likelihood</span></code> (<strong>mandatory</strong>) — The ordered list of named likelihoods that are used as part of this posterior.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">global_options</span></code> (<strong>optional</strong>) — A key/value map providing global options, i.e., options that apply to all observables used within this posterior.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fixed_parameters</span></code> (<strong>optional</strong>) — A key/value map providing values for parameters that deviate from the default values.</p></li>
+</ul>
+</div></blockquote>
+<p>The following example illustrates the organisation of a posterior.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">posteriors</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CKM-pi</span>
+<span class="w">    </span><span class="nt">global_options</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">l</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">e</span>
+<span class="w">      </span><span class="nt">model</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CKM</span>
+<span class="w">    </span><span class="nt">prior</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CKM</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FF-pi</span>
+<span class="w">    </span><span class="nt">likelihood</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TH-pi</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">EXP-pi</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="tasks.html" class="btn btn-neutral float-right" title="Common Tasks in Phenomenological Analyses" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="defining-observables.html" class="btn btn-neutral float-left" title="Defining Observables" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2019-2023, The EOS Authors.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
