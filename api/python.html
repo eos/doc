@@ -210,6 +210,15 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#module-eos-figure">Module <code class="docutils literal notranslate"><span class="pre">eos.figure</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-eos.figure">Figures</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#eos.figure.make"><code class="docutils literal notranslate"><span class="pre">make()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plot-types">Plot types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#item-types">Item types</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../constraints.html">List of Constraints</a></li>
@@ -2370,6 +2379,229 @@ Defaults to <code class="docutils literal notranslate"><span class="pre">['area'
 <span class="p">}</span>
 </pre></div>
 </div>
+</section>
+</section>
+</section>
+<section id="module-eos-figure">
+<h2>Module <code class="docutils literal notranslate"><span class="pre">eos.figure</span></code><a class="headerlink" href="#module-eos-figure" title="Permalink to this heading">¶</a></h2>
+<p>EOS also provides a new plotting framework with a different interface, which will replace
+the existing framework as soon as it is feature complete.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Import <a class="reference internal" href="#module-eos.figure" title="eos.figure"><code class="xref py py-mod docutils literal notranslate"><span class="pre">eos.figure</span></code></a> before you do something like <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">matplotlib.pyplot</span> <span class="pre">as</span> <span class="pre">plt</span></code>,
+because the <a class="reference internal" href="#module-eos.figure" title="eos.figure"><code class="xref py py-mod docutils literal notranslate"><span class="pre">eos.figure</span></code></a> module modified the default plot style and the matplotlib backend.
+All options (except the backend) can be overwritten by updating <code class="docutils literal notranslate"><span class="pre">matplotlib.rcParams[...]</span></code>;
+see also the <a class="reference external" href="https://matplotlib.org/">matplotlib</a> documentation.
+Note that the default settings use LaTeX to create labels and math expressions,
+so for this to work latex needs to be available on your system.</p>
+</div>
+<section id="module-eos.figure">
+<span id="figures"></span><h3>Figures<a class="headerlink" href="#module-eos.figure" title="Permalink to this heading">¶</a></h3>
+<p>The <cite>eos.figure</cite> submodule provides means to produce publication-quality figures.</p>
+<p>A figure contains one or more plots, each of which is a set of axis that can be
+thought of as a ‘canvas’ to draw on.
+A plot further contains items for display, for example a constraint in the form of
+data points with error bars or an observable as a function of a kinematic variable
+in the form or a line graph.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="eos.figure.make">
+<span class="sig-prename descclassname"><span class="pre">eos.figure.</span></span><span class="sig-name descname"><span class="pre">make</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Figure</span></span></span><a class="headerlink" href="#eos.figure.make" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function takes a figure description and handles the contruction of a publication-grade
+figure in a convenient way.
+The description contains the arguments used for initialization of the objects in the
+<a class="reference internal" href="#module-eos.figure" title="eos.figure"><code class="xref py py-mod docutils literal notranslate"><span class="pre">eos.figure</span></code></a> module.</p>
+<p>A figure can contain one or more plots, where each plot containts one or more items such
+as a data series from the evaluation of an observable or a kernel density estimate to
+visualize a set of statistical samples.</p>
+<p>The description can be either a dictionary (<cite>figure description</cite>) describing a single plot
+or a list of dictionaries describing a grid of plots.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="2"><p><cite>figure description</cite> (dict)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><cite>description</cite></p></td>
+<td><p><cite>plot description</cite> (dict)</p></td>
+</tr>
+<tr class="row-odd"><td><p><cite>items</cite></p></td>
+<td><p>list of <cite>item description</cite></p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="2"><p><cite>plot description</cite> (dict)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><cite>plot_type</cite></p></td>
+<td><p>valid plot type (str)</p></td>
+</tr>
+<tr class="row-odd"><td><p>…</p></td>
+<td><p>one or several keyword arguments</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head" colspan="2"><p><cite>item description</cite> (dict)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><cite>item_type</cite></p></td>
+<td><p>valid item type (str)</p></td>
+</tr>
+<tr class="row-odd"><td><p>…</p></td>
+<td><p>one or several keyword arguments</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>description</strong> (<em>dict</em><em> or </em><em>list</em><em> of </em><em>dict</em>) – A figure description as documented</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>EOS figure</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>eos.figure.Figure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<section id="plot-types">
+<h4>Plot types<a class="headerlink" href="#plot-types" title="Permalink to this heading">¶</a></h4>
+<p>Below we list the available plot types.
+Each key <code class="docutils literal notranslate"><span class="pre">plot_type</span></code> corresponds to a class which is instantiated in the background.
+The user can supply keyword arguments which are documented under <a class="reference internal" href="#module-eos.figure.plot" title="eos.figure.plot"><code class="xref py py-mod docutils literal notranslate"><span class="pre">eos.figure.plot</span></code></a>.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><code class="docutils literal notranslate"><span class="pre">plot_type</span></code></p></th>
+<th class="head"><p>class</p></th>
+<th class="head"><p>description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">2D-plot</span></code></p></td>
+<td><p><a class="reference internal" href="#eos.figure.plot.TwoDimPlot" title="eos.figure.plot.TwoDimPlot"><code class="xref py py-class docutils literal notranslate"><span class="pre">eos.figure.plot.TwoDimPlot</span></code></a></p></td>
+<td><p>Represents a 2d plot with x and y axes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">empty</span></code></p></td>
+<td><p><a class="reference internal" href="#eos.figure.plot.EmptyPlot" title="eos.figure.plot.EmptyPlot"><code class="xref py py-class docutils literal notranslate"><span class="pre">eos.figure.plot.EmptyPlot</span></code></a></p></td>
+<td><p>Can be used in a grid as empty space instead of a plot.</p></td>
+</tr>
+</tbody>
+</table>
+<p>The classes including the arguments the user can pass are documented in detail below.</p>
+<span class="target" id="module-eos.figure.plot"></span><dl class="py class">
+<dt class="sig sig-object py" id="eos.figure.plot.EmptyPlot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.figure.plot.</span></span><span class="sig-name descname"><span class="pre">EmptyPlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.plot.EmptyPlot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Can be used in a grid as empty space instead of a plot.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.figure.plot.EmptyPlot.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.plot.EmptyPlot.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw nothing</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.figure.plot.Plot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.figure.plot.</span></span><span class="sig-name descname"><span class="pre">Plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.plot.Plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a plot along a single set of axes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> (<em>matplotlib.pyplot.Axes</em><em> or </em><em>similar</em>) – Set of axes</p></li>
+<li><p><strong>items</strong> (<em>list</em><em>[</em><em>dict</em><em>] or </em><em>iterable</em><em>[</em><em>dict</em><em>]</em>) – List of content items displayed in this plot</p></li>
+<li><p><strong>title</strong> (<em>str</em><em> or </em><em>NoneType</em><em> (</em><em>optional</em><em>)</em>) – Title of the plot</p></li>
+<li><p><strong>legend</strong> (<em>dict</em>) – Keyword arguments to pass to <code class="docutils literal notranslate"><span class="pre">matplotlib.pyplot.legend</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.figure.plot.Plot.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.plot.Plot.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw the plot including all items</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.figure.plot.TwoDimPlot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.figure.plot.</span></span><span class="sig-name descname"><span class="pre">TwoDimPlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(None,</span> <span class="pre">None)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(None,</span> <span class="pre">None)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.plot.TwoDimPlot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a 2d plot with x and y axes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> (<em>matplotlib.pyplot.Axes</em><em> or </em><em>similar</em>) – Set of axes</p></li>
+<li><p><strong>items</strong> (<em>list</em><em>[</em><em>dict</em><em>] or </em><em>iterable</em><em>[</em><em>dict</em><em>]</em>) – List of content items displayed in this plot</p></li>
+<li><p><strong>x_range</strong> (<em>tuple</em><em> of </em><em>float</em><em> (</em><em>optional</em><em>)</em>) – Range of the x axis (automatic if value is <cite>[None, None]</cite>)</p></li>
+<li><p><strong>y_range</strong> (<em>tuple</em><em> of </em><em>float</em><em> (</em><em>optional</em><em>)</em>) – Range of the y axis (automatic if value is <cite>[None, None]</cite>)</p></li>
+<li><p><strong>x_label</strong> (<em>str</em><em> (</em><em>optional</em><em>)</em>) – Label of the x axis</p></li>
+<li><p><strong>y_label</strong> (<em>str</em><em> (</em><em>optional</em><em>)</em>) – Label of the y axis</p></li>
+<li><p><strong>**kwargs</strong> – Additional keyword arguments to pass to the base class <a class="reference internal" href="#eos.figure.plot.Plot" title="eos.figure.plot.Plot"><code class="xref py py-class docutils literal notranslate"><span class="pre">eos.figure.plot.Plot</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="item-types">
+<h4>Item types<a class="headerlink" href="#item-types" title="Permalink to this heading">¶</a></h4>
+<p>Below we list the available item types.
+Each key <code class="docutils literal notranslate"><span class="pre">item_type</span></code> corresponds to a class which is instantiated in the background.
+The user can supply keyword arguments which are documented under <a class="reference internal" href="#module-eos.figure.item" title="eos.figure.item"><code class="xref py py-mod docutils literal notranslate"><span class="pre">eos.figure.item</span></code></a>.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><code class="docutils literal notranslate"><span class="pre">item_type</span></code></p></th>
+<th class="head"><p>class</p></th>
+<th class="head"><p>description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">observable</span></code></p></td>
+<td><p><a class="reference internal" href="#eos.figure.item.Observable" title="eos.figure.item.Observable"><code class="xref py py-class docutils literal notranslate"><span class="pre">eos.figure.item.Observable</span></code></a></p></td>
+<td><p>Represents an observable as a function of a variable.</p></td>
+</tr>
+</tbody>
+</table>
+<p>The classes including the arguments the user can pass are documented in detail below.</p>
+<span class="target" id="module-eos.figure.item"></span><dl class="py class">
+<dt class="sig sig-object py" id="eos.figure.item.Observable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.figure.item.</span></span><span class="sig-name descname"><span class="pre">Observable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_kinematics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_parameters_from_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.Observable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents an observable as a function of a variable.
+The variable can be either a kinematic variable or a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observable</strong> (<em>str</em>) – EOS qualified name of an observable</p></li>
+<li><p><strong>variable</strong> (<em>str</em>) – Name of a kinematic variable or of a parameter</p></li>
+<li><p><strong>x_values</strong> (<em>list</em><em> of </em><em>float numbers</em>) – Values to be used as sampling points</p></li>
+<li><p><strong>fixed_kineamtics</strong> (<em>dict</em>) – Names and values of fixed kinematic variables</p></li>
+<li><p><strong>fixed_parameters</strong> (<em>dict</em>) – Names and values of fixed parameters</p></li>
+<li><p><strong>fixed_parameters_from_file</strong> (<em>str</em>) – Path to file that contains names and values of fixed parameters in the YAML format</p></li>
+<li><p><strong>options</strong> (<em>dict</em>) – Names and values of options passed to the EOS observable</p></li>
+<li><p><strong>label</strong> (<em>str</em>) – Label used in the legend</p></li>
+<li><p><strong>**kwargs</strong> – Additional keyword arguments to pass to <code class="docutils literal notranslate"><span class="pre">matplotlib.axes.Axes.plot</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.figure.item.Observable.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.Observable.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a line plot of the observable</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.figure.item.Observable.prepare">
+<span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.Observable.prepare" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate the observable at the sample points</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 </section>
