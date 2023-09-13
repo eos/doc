@@ -8,7 +8,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Python API &mdash; EOS 1.0.9 documentation</title>
+  <title>Python API &mdash; EOS 1.0.10 documentation</title>
   
 
   
@@ -127,8 +127,14 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-eos-tasks">Module <code class="docutils literal notranslate"><span class="pre">eos.tasks</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#common-tasks">Common Tasks</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#mode-finding">Mode Finding</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sampling-and-auxilliary-tasks">Sampling and Auxilliary Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.corner_plot"><code class="docutils literal notranslate"><span class="pre">corner_plot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.find_clusters"><code class="docutils literal notranslate"><span class="pre">find_clusters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.find_mode"><code class="docutils literal notranslate"><span class="pre">find_mode()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.mixture_product"><code class="docutils literal notranslate"><span class="pre">mixture_product()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.predict_observables"><code class="docutils literal notranslate"><span class="pre">predict_observables()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.sample_mcmc"><code class="docutils literal notranslate"><span class="pre">sample_mcmc()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.sample_nested"><code class="docutils literal notranslate"><span class="pre">sample_nested()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.sample_pmc"><code class="docutils literal notranslate"><span class="pre">sample_pmc()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -1313,54 +1319,22 @@ Tasks require a description of the statistical analysis (see <a class="reference
 of an analysis file. For a documentation of its format, see <code class="xref py py-class docutils literal notranslate"><span class="pre">eos.AnalysisFile</span></code>.</p>
 <p>Tasks store their results in a hierarchy for directories below a user-provided base directory.
 This ensures that tasks can readily use results produced by another task.</p>
-<section id="mode-finding">
-<h4>Mode Finding<a class="headerlink" href="#mode-finding" title="Permalink to this heading">¶</a></h4>
 <dl class="py function">
-<dt class="sig sig-object py" id="eos.find_mode">
-<span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">find_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chain</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">importance_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'default'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.find_mode" title="Permalink to this definition">¶</a></dt>
-<dd><p>Finds the mode of the named posterior.</p>
-<p>The optimization process can be initialized either with a random point,
-a provided parameter point, or by extracting the point with the largest posterior
-from among previously obtained MCMC or importance samples. The optimization can be iterated to
-increase the accuracy of the result.</p>
+<dt class="sig sig-object py" id="eos.corner_plot">
+<span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">corner_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'posterior'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">begin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.corner_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates a corner plot of the 1-D and 2-D marginalized posteriors.</p>
+<p>The input files are expected in EOS_BASE_DIRECTORY/POSTERIOR/samples.
+The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/plots.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>analysis_file</strong> (str or <cite>eos.AnalysisFile</cite>) – The name of the analysis file that describes the named posterior, or an object of class <cite>eos.AnalysisFile</cite>.</p></li>
-<li><p><strong>posterior</strong> (<em>str</em>) – The name of the posterior PDF from which to draw the samples.</p></li>
+<li><p><strong>posterior</strong> (<em>str</em>) – The name of the posterior.</p></li>
 <li><p><strong>base_directory</strong> (<em>str</em><em>, </em><em>optional</em>) – The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p></li>
-<li><p><strong>optimizations</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of calls to the optimization algorithm.</p></li>
-<li><p><strong>start_point</strong> (<cite>numpy.ndarray</cite>, optional) – If provided, the optimization will start at this point.</p></li>
-<li><p><strong>chain</strong> (<em>int</em><em>, </em><em>optional</em>) – If provided, the optimization will start at the point with the largest posterior of previously computed MCMC samples.
-The samples are expected to be stored in the <cite>mcmc-XXXX</cite> subdirectories of the <cite>base_directory</cite>, where ‘XXXX’ is the provided int.</p></li>
-<li><p><strong>importance_samples</strong> (<em>bool</em><em>, </em><em>optional</em>) – If set to True, the optimization will start at the point with the largest posterior of previously computed importance samples.</p></li>
-<li><p><strong>seed</strong> (<em>int</em><em>, </em><em>optional</em>) – If provided, the optimization will start from a random point and the random number generator will be seeded with this value.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-</section>
-<section id="sampling-and-auxilliary-tasks">
-<h4>Sampling and Auxilliary Tasks<a class="headerlink" href="#sampling-and-auxilliary-tasks" title="Permalink to this heading">¶</a></h4>
-<dl class="py function">
-<dt class="sig sig-object py" id="eos.sample_mcmc">
-<span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">sample_mcmc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chain</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">150</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preruns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stride</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cov_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.sample_mcmc" title="Permalink to this definition">¶</a></dt>
-<dd><p>Samples from a named posterior PDF using Markov Chain Monte Carlo (MCMC) methods.</p>
-<p>The output file will be stored in EOS_BASE_DIRECTORY/POSTERIOR/mcmc-CHAIN.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>analysis_file</strong> (str or <cite>eos.AnalysisFile</cite>) – The name of the analysis file that describes the named posterior, or an object of class <cite>eos.AnalysisFile</cite>.</p></li>
-<li><p><strong>posterior</strong> (<em>str</em>) – The name of the posterior PDF from which to draw the samples.</p></li>
-<li><p><strong>chain</strong> (<em>int &gt;= 0</em>) – The index assigned to the Markov chain. This value is used to seed the RNG for a reproducible analysis.</p></li>
-<li><p><strong>base_directory</strong> (<em>str</em><em>, </em><em>optional</em>) – The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p></li>
-<li><p><strong>pre_N</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of samples to be used for an adaptation in each prerun steps. These samples will be discarded.</p></li>
-<li><p><strong>preruns</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of prerun steps, which are used to adapt the MCMC proposal to the posterior.</p></li>
-<li><p><strong>N</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of samples to be stored in the output file. Defaults to 1000.</p></li>
-<li><p><strong>stride</strong> (<em>int</em><em>, </em><em>optional</em>) – The ratio of samples drawn over samples stored. For every S samples, S - 1 will be discarded. Defaults to 5.</p></li>
-<li><p><strong>cov_scale</strong> (<em>float</em><em>, </em><em>optional</em>) – Scale factor for the initial guess of the covariance matrix.</p></li>
-<li><p><strong>start_point</strong> (<em>list-like</em><em>, </em><em>optional</em>) – Optional starting point for the chain</p></li>
+<li><p><strong>format</strong> (<em>str</em><em> or </em><em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – The file extension of the data files. Can also be a list of file extensions.</p></li>
+<li><p><strong>distribution</strong> (<em>str</em><em>, </em><em>optional</em>) – The distribution to plot. Can be either ‘posterior’ or the name of a prediction.</p></li>
+<li><p><strong>begin</strong> (<em>int</em><em>, </em><em>optional</em>) – The index of the first parameter to plot. Defaults to 0.</p></li>
+<li><p><strong>end</strong> (<em>int</em><em> or </em><em>NoneType</em><em>, </em><em>optional</em>) – The index beyond the last parameter to plot. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1386,6 +1360,31 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/clusters.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="eos.find_mode">
+<span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">find_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chain</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">importance_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'default'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.find_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the mode of the named posterior.</p>
+<p>The optimization process can be initialized either with a random point,
+a provided parameter point, or by extracting the point with the largest posterior
+from among previously obtained MCMC or importance samples. The optimization can be iterated to
+increase the accuracy of the result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>analysis_file</strong> (str or <cite>eos.AnalysisFile</cite>) – The name of the analysis file that describes the named posterior, or an object of class <cite>eos.AnalysisFile</cite>.</p></li>
+<li><p><strong>posterior</strong> (<em>str</em>) – The name of the posterior PDF from which to draw the samples.</p></li>
+<li><p><strong>base_directory</strong> (<em>str</em><em>, </em><em>optional</em>) – The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p></li>
+<li><p><strong>optimizations</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of calls to the optimization algorithm.</p></li>
+<li><p><strong>start_point</strong> (<cite>numpy.ndarray</cite>, optional) – If provided, the optimization will start at this point.</p></li>
+<li><p><strong>chain</strong> (<em>int</em><em>, </em><em>optional</em>) – If provided, the optimization will start at the point with the largest posterior of previously computed MCMC samples.
+The samples are expected to be stored in the <cite>mcmc-XXXX</cite> subdirectories of the <cite>base_directory</cite>, where ‘XXXX’ is the provided int.</p></li>
+<li><p><strong>importance_samples</strong> (<em>bool</em><em>, </em><em>optional</em>) – If set to True, the optimization will start at the point with the largest posterior of previously computed importance samples.</p></li>
+<li><p><strong>seed</strong> (<em>int</em><em>, </em><em>optional</em>) – If provided, the optimization will start from a random point and the random number generator will be seeded with this value.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="eos.mixture_product">
 <span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">mixture_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">posterior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posteriors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analysis_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.mixture_product" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the cartesian product of the densities listed in posteriors. Note that this product is not commutative.</p>
@@ -1397,6 +1396,71 @@ The output density will be stored in EOS_BASE_DIRECTORY/POSTERIOR/product.</p>
 <li><p><strong>posterior</strong> (<em>str</em>) – The name of the posterior.</p></li>
 <li><p><strong>posteriors</strong> (<em>iterable</em><em> of </em><em>str</em>) – The list of names of the posteriors whose mixture densities will be concatenated.</p></li>
 <li><p><strong>base_directory</strong> (<em>str</em><em>, </em><em>optional</em>) – The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="eos.predict_observables">
+<span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">predict_observables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prediction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">begin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.predict_observables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predicts a set of observables based on previously obtained importance samples.</p>
+<p>The input files are expected in EOS_BASE_DIRECTORY/POSTERIOR/pmc.
+The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pred-PREDICTION.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>analysis_file</strong> (str or <cite>eos.AnalysisFile</cite>) – The name of the analysis file that describes the named posterior, or an object of class <cite>eos.AnalysisFile</cite>.</p></li>
+<li><p><strong>posterior</strong> (<em>str</em>) – The name of the posterior.</p></li>
+<li><p><strong>prediction</strong> (<em>str</em>) – The name of the set of observables to predict.</p></li>
+<li><p><strong>base_directory</strong> (<em>str</em><em>, </em><em>optional</em>) – The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p></li>
+<li><p><strong>begin</strong> (<em>int</em>) – The index of the first sample to use for the predictions. Defaults to 0.</p></li>
+<li><p><strong>end</strong> – The index beyond the last sample to use for the predictions. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="eos.sample_mcmc">
+<span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">sample_mcmc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chain</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">150</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preruns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stride</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cov_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.sample_mcmc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Samples from a named posterior PDF using Markov Chain Monte Carlo (MCMC) methods.</p>
+<p>The output file will be stored in EOS_BASE_DIRECTORY/POSTERIOR/mcmc-CHAIN.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>analysis_file</strong> (str or <cite>eos.AnalysisFile</cite>) – The name of the analysis file that describes the named posterior, or an object of class <cite>eos.AnalysisFile</cite>.</p></li>
+<li><p><strong>posterior</strong> (<em>str</em>) – The name of the posterior PDF from which to draw the samples.</p></li>
+<li><p><strong>chain</strong> (<em>int &gt;= 0</em>) – The index assigned to the Markov chain. This value is used to seed the RNG for a reproducible analysis.</p></li>
+<li><p><strong>base_directory</strong> (<em>str</em><em>, </em><em>optional</em>) – The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p></li>
+<li><p><strong>pre_N</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of samples to be used for an adaptation in each prerun steps. These samples will be discarded.</p></li>
+<li><p><strong>preruns</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of prerun steps, which are used to adapt the MCMC proposal to the posterior.</p></li>
+<li><p><strong>N</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of samples to be stored in the output file. Defaults to 1000.</p></li>
+<li><p><strong>stride</strong> (<em>int</em><em>, </em><em>optional</em>) – The ratio of samples drawn over samples stored. For every S samples, S - 1 will be discarded. Defaults to 5.</p></li>
+<li><p><strong>cov_scale</strong> (<em>float</em><em>, </em><em>optional</em>) – Scale factor for the initial guess of the covariance matrix.</p></li>
+<li><p><strong>start_point</strong> (<em>list-like</em><em>, </em><em>optional</em>) – Optional starting point for the chain</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="eos.sample_nested">
+<span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">sample_nested</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'multi'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nlive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">250</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dlogz</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.sample_nested" title="Permalink to this definition">¶</a></dt>
+<dd><p>Samples from a likelihood associated with a named posterior using dynamic nested sampling.</p>
+<p>The results of the find-cluster command are expected in EOS_BASE_DIRECTORY/POSTERIOR/clusters.
+The output file will be stored in EOS_BASE_DIRECTORY/POSTERIOR/nested.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>analysis_file</strong> (str or <cite>eos.AnalysisFile</cite>) – The name of the analysis file that describes the named posterior, or an object of class <cite>eos.AnalysisFile</cite>.</p></li>
+<li><p><strong>posterior</strong> (<em>str</em>) – The name of the posterior.</p></li>
+<li><p><strong>base_directory</strong> (<em>str</em><em>, </em><em>optional</em>) – The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p></li>
+<li><p><strong>bound</strong> (<em>str</em><em>, </em><em>optional</em>) – The option for bounding the target distribution. For valid values, see the dynesty documentation. Defaults to ‘multi’.</p></li>
+<li><p><strong>nlive</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of live points.</p></li>
+<li><p><strong>dlogz</strong> (<em>float</em><em>, </em><em>optional</em>) – Relative tolerance for the remaining evidence. Defaults to 5%.</p></li>
+<li><p><strong>maxiter</strong> (<em>int</em><em>, </em><em>optional</em>) – The maximum number of iterations. Iterations may stop earlier if the termination condition is reached.</p></li>
+<li><p><strong>seed</strong> (<em>int</em><em>, </em><em>optional</em>) – The seed used to initialize the Mersenne Twister pseudo-random number generator.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1436,49 +1500,6 @@ The output file will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pmc.</p>
 </dl>
 </dd></dl>
 
-<dl class="py function">
-<dt class="sig sig-object py" id="eos.sample_nested">
-<span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">sample_nested</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'multi'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nlive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">250</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dlogz</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.sample_nested" title="Permalink to this definition">¶</a></dt>
-<dd><p>Samples from a likelihood associated with a named posterior using dynamic nested sampling.</p>
-<p>The results of the find-cluster command are expected in EOS_BASE_DIRECTORY/POSTERIOR/clusters.
-The output file will be stored in EOS_BASE_DIRECTORY/POSTERIOR/nested.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>analysis_file</strong> (str or <cite>eos.AnalysisFile</cite>) – The name of the analysis file that describes the named posterior, or an object of class <cite>eos.AnalysisFile</cite>.</p></li>
-<li><p><strong>posterior</strong> (<em>str</em>) – The name of the posterior.</p></li>
-<li><p><strong>base_directory</strong> (<em>str</em><em>, </em><em>optional</em>) – The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p></li>
-<li><p><strong>bound</strong> (<em>str</em><em>, </em><em>optional</em>) – The option for bounding the target distribution. For valid values, see the dynesty documentation. Defaults to ‘multi’.</p></li>
-<li><p><strong>nlive</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of live points.</p></li>
-<li><p><strong>dlogz</strong> (<em>float</em><em>, </em><em>optional</em>) – Relative tolerance for the remaining evidence. Defaults to 5%.</p></li>
-<li><p><strong>maxiter</strong> (<em>int</em><em>, </em><em>optional</em>) – The maximum number of iterations. Iterations may stop earlier if the termination condition is reached.</p></li>
-<li><p><strong>seed</strong> (<em>int</em><em>, </em><em>optional</em>) – The seed used to initialize the Mersenne Twister pseudo-random number generator.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="eos.predict_observables">
-<span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">predict_observables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prediction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">begin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.predict_observables" title="Permalink to this definition">¶</a></dt>
-<dd><p>Predicts a set of observables based on previously obtained importance samples.</p>
-<p>The input files are expected in EOS_BASE_DIRECTORY/POSTERIOR/pmc.
-The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pred-PREDICTION.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>analysis_file</strong> (str or <cite>eos.AnalysisFile</cite>) – The name of the analysis file that describes the named posterior, or an object of class <cite>eos.AnalysisFile</cite>.</p></li>
-<li><p><strong>posterior</strong> (<em>str</em>) – The name of the posterior.</p></li>
-<li><p><strong>prediction</strong> (<em>str</em>) – The name of the set of observables to predict.</p></li>
-<li><p><strong>base_directory</strong> (<em>str</em><em>, </em><em>optional</em>) – The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p></li>
-<li><p><strong>begin</strong> (<em>int</em>) – The index of the first sample to use for the predictions. Defaults to 0.</p></li>
-<li><p><strong>end</strong> – The index beyond the last sample to use for the predictions. Defaults to None.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-</section>
 </section>
 </section>
 <section id="module-eos-data">
