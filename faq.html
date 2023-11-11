@@ -22,6 +22,8 @@
         <script src="_static/contentui.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -61,6 +63,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#use-eos-remotely">… use EOS remotely?</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#use-and-develop-eos-on-windows">… use and develop EOS on Windows?</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#check-the-installation">… check the installation?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#choose-which-tag-to-use-for-b-to-s-ell-ell-observables">… choose which <code class="docutils literal notranslate"><span class="pre">tag</span></code> to use for <span class="math notranslate nohighlight">\(b \to s \ell \ell\)</span> observables</a></li>
 </ul>
 </li>
 </ul>
@@ -109,7 +112,7 @@ need to install the <code class="docutils literal notranslate"><span class="pre"
 </pre></div>
 </div>
 <p>The new virtual environment will now be <strong>activated</strong>.
-That means, the <cite>python</cite> (and <cite>pip</cite>) command will now execute the local binary instead of a system-wide one.
+That means, the <code class="docutils literal notranslate"><span class="pre">python</span></code> (and <code class="docutils literal notranslate"><span class="pre">pip</span></code>) command will now execute the local binary instead of a system-wide one.
 At any later point, you can (re-)activate the virtual environment by running the following command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">source</span> <span class="o">~/</span><span class="n">eos</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">activate</span>
 </pre></div>
@@ -179,10 +182,53 @@ It supports connecting natively to the WSL container if you follow these <a clas
 <p>If you built and installed from the source code
 and the import fails, i.e. you see <code class="docutils literal notranslate"><span class="pre">ModuleNotFoundError:</span> <span class="pre">No</span> <span class="pre">module</span> <span class="pre">named</span> <span class="pre">'eos'</span></code>,
 the module was either not installed with <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">install</span></code> or the <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code> is not configured correctly.</p>
-<p>If you installed via <cite>pip</cite>
+<p>If you installed via <code class="docutils literal notranslate"><span class="pre">pip</span></code>
 and the output description is incorrect or <code class="docutils literal notranslate"><span class="pre">None</span></code>,
-you have another module installed that is also named <cite>eos</cite>.
+you have another module installed that is also named <code class="docutils literal notranslate"><span class="pre">eos</span></code>.
 Mind that the package name for the <code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span></code> command is <code class="docutils literal notranslate"><span class="pre">eoshep</span></code>.</p>
+</section>
+<section id="choose-which-tag-to-use-for-b-to-s-ell-ell-observables">
+<span id="faq-tags"></span><h3>… choose which <code class="docutils literal notranslate"><span class="pre">tag</span></code> to use for <span class="math notranslate nohighlight">\(b \to s \ell \ell\)</span> observables<a class="headerlink" href="#choose-which-tag-to-use-for-b-to-s-ell-ell-observables" title="Link to this heading"></a></h3>
+<p>The contributions from non-local operators in <span class="math notranslate nohighlight">\(b \to s \ell \ell\)</span> observables
+can be estimated with different theoretical approaches, usually not valid in the same energy range,
+based on different input parameters and different theoretical assumptions.
+Depending on the analysis under consideration, the user can choose between these approaches by specifying an option called <code class="docutils literal notranslate"><span class="pre">tag</span></code>.
+As different <code class="docutils literal notranslate"><span class="pre">tags</span></code> hide completely different assumptions, we have made this option mandatory.</p>
+<p>We collect here the different <code class="docutils literal notranslate"><span class="pre">tags</span></code> used in EOS and the corresponding references.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 55%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><code class="docutils literal notranslate"><span class="pre">tag</span></code></p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Reference</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Naive</span></code></p></td>
+<td><p>Absence of any non-local contributions.</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">BFS2004</span></code></p></td>
+<td><p>Calculation of the non-local contribution based on the framework of QCD factorization
+and a perturbative treatment of the intermediate quark states.
+This approach is expected to yield sensible results only for <span class="math notranslate nohighlight">\(q^2 \ll 4 m_c^2\)</span>.</p></td>
+<td><p>[BFS:2001A], [BFS:2004A]</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">GP2004</span></code></p></td>
+<td><p>Calculation of the non-local contributions in a local OPE. This approach is expected
+to yield sensible results only for <span class="math notranslate nohighlight">\(q^2\)</span>-integrated observables above the open-charm threshold.</p></td>
+<td><p>[GP:2004A]</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">GvDV2020</span></code></p></td>
+<td><p>Parametrization based on unitarity and analyticity valid for small dilepton masses below the <span class="math notranslate nohighlight">\(\psi(2S)\)</span> state.</p></td>
+<td><p>[GvDV:2020A], [GRvDV:2022A]</p></td>
+</tr>
+</tbody>
+</table>
 </section>
 </section>
 </section>
