@@ -319,13 +319,18 @@ The following keys are mandatory:
  * ``constraints`` (:class:`QualifiedName <eos.QualifiedName>` or iterable thereof) -- The name or the list of names of the constraints
    that will be plotted. Must identify at least one of the constraints known to EOS; see `the complete list of constraints <../constraints.html>`_.
  * ``variable`` (*str*) -- The name of the kinematic variable to which the x axis will be mapped.
- * ``xrange`` (list of int, optional) -- The interval in which the observable is plotted in the case of a multivariate constraint.
 
 When plotting multivariate constraints, the following key is also mandatory:
 
  * ``observable`` (:class:`QualifiedName <eos.QualifiedName>`) -- The name of the observable whose constraints will be plotted.
    Must identify one of the observables known to EOS; see `the complete list of observables <../observables.html>`_.
    This is only mandatory in multivariate constraints, since these can constrain more than one observable simultaneously.
+
+The following keys are optional:
+
+ * ``xrange`` (list of int) -- The interval in which the observable is plotted in the case of a multivariate constraint.
+ * ``rescale-by-width`` (*bool*) -- Rescales binned constraints by the inverse of the bin width. This is often required 
+   to compare theory (integrated) predictions and experimental (averaged) measurements. Defaults to false.
 
 Example:
 
