@@ -22,6 +22,8 @@
         <script src="_static/contentui.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -61,6 +63,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#priors">Priors</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#likelihoods">Likelihoods</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#posteriors">Posteriors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#observables">Observables</a></li>
 </ul>
 </li>
 </ul>
@@ -119,8 +122,7 @@ At the top level, the format includes the following YAML keys:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">likelihoods</span></code> (<strong>mandatory</strong>) — The list of likelihoods within the analysis..</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">posteriors</span></code> (<strong>mandatory</strong>) — The list of posteriors within the analysis.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">predictions</span></code> (<strong>optional</strong>) — The list of theory predictions within the analysis.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">observables</span></code> (<strong>optional</strong>) — The list of custom observables defined for the scope of the analysis;
-see <a class="reference internal" href="defining-observables.html#id1"><span class="std std-ref">the corresponding section</span></a> for an introduction on how to define a custom observable.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">observables</span></code> (<strong>optional</strong>) — The list of custom observables defined for the scope of the analysis.</p></li>
 </ul>
 </div></blockquote>
 <p>The following example illustrates the analysis file format at the hand of a real-world example.</p>
@@ -368,6 +370,20 @@ The following example illustrates the organisation of a correlated multivariate 
 <span class="w">    </span><span class="nt">likelihood</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TH-pi</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">EXP-pi</span>
+</pre></div>
+</div>
+</section>
+<section id="observables">
+<h3>Observables<a class="headerlink" href="#observables" title="Link to this heading"></a></h3>
+<p>New observables can be defined and used in the analysis description by following the syntax described in <a class="reference internal" href="defining-observables.html#id1"><span class="std std-ref">the corresponding section</span></a>.</p>
+<p>For example, the following code defines the ratio of two <span class="math notranslate nohighlight">\(B \to \pi\)</span> form-factors as a new observable.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">observables</span><span class="p">:</span>
+<span class="w">  </span><span class="s">&#39;B-&gt;pi::f_+(q2)/f_0(q2)&#39;</span><span class="p p-Indicator">:</span>
+<span class="w">    </span><span class="nt">latex</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;$\frac{f_+}{f_0}$&#39;</span>
+<span class="w">    </span><span class="nt">unit</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;1&#39;</span>
+<span class="w">    </span><span class="nt">options</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">    </span><span class="nt">expression</span><span class="p">:</span>
+<span class="w">      </span><span class="s">&#39;&lt;&lt;B-&gt;pi::f_+(q2)&gt;&gt;</span><span class="nv"> </span><span class="s">/</span><span class="nv"> </span><span class="s">&lt;&lt;B-&gt;pi::f_0(q2)&gt;&gt;&#39;</span>
 </pre></div>
 </div>
 </section>
