@@ -350,6 +350,24 @@ A possible (incomplete) example could look as follows:</p>
 </div>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.Analysis.sample_prior">
+<span class="sig-name descname"><span class="pre">sample_prior</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N=1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng=&lt;module</span> <span class="pre">'numpy.random.mtrand'</span> <span class="pre">from</span> <span class="pre">'/opt/venv/lib/python3.10/site-packages/numpy/random/mtrand.cpython-310-x86_64-linux-gnu.so'&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.sample_prior" title="Link to this definition"></a></dt>
+<dd><p>Return prior samples of the parameters.</p>
+<p>Obtains random samples of the parameters based on their prior distributions. The code uses inverse transform sampling.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>N</strong> (<em>int</em>) – Number of samples that shall be returned</p></li>
+<li><p><strong>rng</strong> – Optional random number generator</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An iterable of the parameter samples of size N.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -1242,7 +1260,7 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/plots.</p>
 <span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">find_clusters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">posterior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">K_g</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analysis_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.find_clusters" title="Link to this definition"></a></dt>
 <dd><p>Finds clusters among posterior MCMC samples, grouped by Gelman-Rubin R value, and creates a Gaussian mixture density.</p>
 <p>Finding clusters and creating a Gaussian mixture density is a necessary intermediate step before using the sample-pmc subcommand.
-The input files are expected in EOS_BASE_DIRECTORY/POSTERIOR/mcmc-<a href="#id3"><span class="problematic" id="id4">*</span></a>. All MCMC input files present will be used in the clustering.
+The input files are expected in EOS_BASE_DIRECTORY/POSTERIOR/mcmc-*. All MCMC input files present will be used in the clustering.
 The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/clusters.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1393,6 +1411,24 @@ In addition, an ImportanceSamples object is exported to EOS_BASE_DIRECTORY/POSTE
 <li><p><strong>pmc_rel_tol</strong> (<em>float &gt; 0.0</em><em>, </em><em>optional</em><em>, </em><em>advanced</em>) – Relative tolerance of the PMC. If two consecutive values of the current density log-likelihood are relatively smaller than this value, the convergence is declared.</p></li>
 <li><p><strong>pmc_abs_tol</strong> (<em>float &gt; 0.0</em><em>, </em><em>optional</em><em>, </em><em>advanced</em>) – Absolute tolerance of the PMC. If two consecutive values of the current density log-likelihood are smaller than this value, the convergence is declared.</p></li>
 <li><p><strong>pmc_lookback</strong> (<em>int &gt;= 0</em><em>, </em><em>optional</em>) – Use reweighted samples from the previous update steps when adjusting the mixture density. The parameter determines the number of update steps to “look back”. The default value of 1 disables this feature, a value of 0 means that all previous steps are used.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="eos.sample_prior">
+<span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">sample_prior</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1701</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.sample_prior" title="Link to this definition"></a></dt>
+<dd><p>Samples from a named posterior PDF w/o likelihood information, an effective prior PDF.</p>
+<p>The output file will be stored in EOS_BASE_DIRECTORY/POSTERIOR/samples.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>analysis_file</strong> (str or <cite>eos.AnalysisFile</cite>) – The name of the analysis file that describes the named prior, or an object of class <cite>eos.AnalysisFile</cite>.</p></li>
+<li><p><strong>posterior</strong> (<em>str</em>) – The name of the posterior PDF (w/o any likelihood information) from which to draw the samples.</p></li>
+<li><p><strong>base_directory</strong> (<em>str</em><em>, </em><em>optional</em>) – The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p></li>
+<li><p><strong>N</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of samples to be stored in the output file. Defaults to 1000.</p></li>
+<li><p><strong>seed</strong> (<em>int</em><em>, </em><em>optional</em>) – The seed used to initialize the Mersenne Twister pseudo-random number generator.</p></li>
 </ul>
 </dd>
 </dl>
