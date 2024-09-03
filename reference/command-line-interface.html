@@ -53,7 +53,6 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../user-guide/index.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference</a><ul class="current">
@@ -74,6 +73,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#predict-observables">predict-observables</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#corner-plot">corner-plot</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#validate">validate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#report">report</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#run">run</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#init">init</a></li>
 </ul>
@@ -146,7 +146,7 @@ The following provide a documentation of the command-line interface, which is av
 (for descriptions and small numerical datasets) and Numpy datafiles (for samples).
 The datafiles can be access with the classes documented as part of the <code class="xref py py-obj docutils literal notranslate"><span class="pre">eos.data</span></code> module.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span>
-                    <span class="p">{</span><span class="nb">list</span><span class="o">-</span><span class="n">priors</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">likelihoods</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">posteriors</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">predictions</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">mcmc</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">pmc</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">nested</span><span class="p">,</span><span class="n">plot</span><span class="o">-</span><span class="n">samples</span><span class="p">,</span><span class="n">find</span><span class="o">-</span><span class="n">mode</span><span class="p">,</span><span class="n">mixture</span><span class="o">-</span><span class="n">product</span><span class="p">,</span><span class="n">find</span><span class="o">-</span><span class="n">clusters</span><span class="p">,</span><span class="n">predict</span><span class="o">-</span><span class="n">observables</span><span class="p">,</span><span class="n">corner</span><span class="o">-</span><span class="n">plot</span><span class="p">,</span><span class="n">validate</span><span class="p">,</span><span class="n">run</span><span class="p">,</span><span class="n">init</span><span class="p">}</span>
+                    <span class="p">{</span><span class="nb">list</span><span class="o">-</span><span class="n">priors</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">likelihoods</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">posteriors</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">predictions</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">mcmc</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">pmc</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">nested</span><span class="p">,</span><span class="n">plot</span><span class="o">-</span><span class="n">samples</span><span class="p">,</span><span class="n">find</span><span class="o">-</span><span class="n">mode</span><span class="p">,</span><span class="n">mixture</span><span class="o">-</span><span class="n">product</span><span class="p">,</span><span class="n">find</span><span class="o">-</span><span class="n">clusters</span><span class="p">,</span><span class="n">predict</span><span class="o">-</span><span class="n">observables</span><span class="p">,</span><span class="n">corner</span><span class="o">-</span><span class="n">plot</span><span class="p">,</span><span class="n">validate</span><span class="p">,</span><span class="n">report</span><span class="p">,</span><span class="n">run</span><span class="p">,</span><span class="n">init</span><span class="p">}</span>
                     <span class="o">...</span>
 </pre></div>
 </div>
@@ -270,7 +270,7 @@ The datafiles can be access with the classes documented as part of the <code cla
 <dd><p>The number of samples to be used for an adaptation in each prerun steps. These samples will be discarded.</p>
 </dd>
 <dt><kbd>-s, --start-point</kbd></dt>
-<dd><p>Optional starting point for the chain</p>
+<dd><p>Optional starting point for the chain; a comma separated list of floats</p>
 </dd>
 <dt><kbd>-c, --cov-scale</kbd></dt>
 <dd><p>Scale factor for the initial guess of the covariance matrix.</p>
@@ -445,11 +445,10 @@ The plots will be stored as PDF files within the respective sample inputs.</p>
 <section id="find-mode">
 <h3>find-mode<a class="headerlink" href="#find-mode" title="Link to this heading"></a></h3>
 <p>Finds the mode of the named posterior.</p>
-<p>The optimization process can be initialized either with a random point,
-a provided parameter point, or by extracting the point with the largest posterior
-from among previously obtained MCMC samples. The optimization can be iterated to
-increase the accuracy of the result. The output will be stored
-in EOS_BASE_DIRECTORY/posterior/mode-LABEL.</p>
+<p>The optimization process can be initialised either by a provided parameter point or previously obtained
+importance samples (recommended), a random point, or from a pre-existing Markov chain with provided index (deprecated). The optimization
+can be iterated to increase the accuracy of the result. The output will be stored in
+EOS_BASE_DIRECTORY/posterior/mode-LABEL.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">find</span><span class="o">-</span><span class="n">mode</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OPTIMIZATIONS</span><span class="p">]</span>
                        <span class="p">[</span><span class="o">-</span><span class="n">c</span> <span class="n">CHAIN</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">S</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="n">START_POINT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">s</span> <span class="n">SEED</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">L</span> <span class="n">LABEL</span><span class="p">]</span>
                        <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
@@ -477,13 +476,13 @@ in EOS_BASE_DIRECTORY/posterior/mode-LABEL.</p>
 <dd><p>The number of calls to the optimization algorithm.</p>
 </dd>
 <dt><kbd>-c, --from-mcmc</kbd></dt>
-<dd><p>The chain index of an MCMC data file from which the maximization is started.</p>
+<dd><p>The chain index of an MCMC data file from which the maximization is started, this is now deprecated.</p>
 </dd>
 <dt><kbd>-S, --from-samples</kbd></dt>
 <dd><p>If specified, the optimization will start from the importance samples stored in posterior/samples.</p>
 </dd>
 <dt><kbd>-p, --from-point</kbd></dt>
-<dd><p>The point from which the minimization is started.</p>
+<dd><p>The point from which the minimization is started; a comma separated list of floats.</p>
 </dd>
 <dt><kbd>-s, --use-random-seed</kbd></dt>
 <dd><p>The seed used to generate the random starting point of the minimization.</p>
@@ -673,14 +672,48 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/plots.</p>
 </dl>
 </section>
 </section>
+<section id="report">
+<h3>report<a class="headerlink" href="#report" title="Link to this heading"></a></h3>
+<p>Generates a report of the analysis based on the analysis file and the recorded results.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">report</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+                    <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT_FILE</span><span class="p">]</span>
+                    <span class="n">TEMPLATE</span>
+</pre></div>
+</div>
+<section id="positional-arguments_repeat9">
+<h4>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat9" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>TEMPLATE</kbd></dt>
+<dd><p>The file name of the template that is used to generate the report.</p>
+</dd>
+</dl>
+</section>
+<section id="named-arguments_repeat14">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat14" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘analysis.yaml’.</p>
+</dd>
+<dt><kbd>-b, --base-directory</kbd></dt>
+<dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
+</dd>
+<dt><kbd>-o, --output-file</kbd></dt>
+<dd><p>The file name of the output report. If not provided, the report will be printed to the console.</p>
+</dd>
+</dl>
+</section>
+</section>
 <section id="run">
 <h3>run<a class="headerlink" href="#run" title="Link to this heading"></a></h3>
 <p>Runs a list of subcommands based on the pre-recorded steps defined within an analysis.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">run</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="p">]</span>
 </pre></div>
 </div>
-<section id="named-arguments_repeat14">
-<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat14" title="Link to this heading"></a></h4>
+<section id="named-arguments_repeat15">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat15" title="Link to this heading"></a></h4>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script</p>
@@ -703,8 +736,8 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/plots.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">init</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span>
 </pre></div>
 </div>
-<section id="named-arguments_repeat15">
-<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat15" title="Link to this heading"></a></h4>
+<section id="named-arguments_repeat16">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat16" title="Link to this heading"></a></h4>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script</p>

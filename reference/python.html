@@ -55,7 +55,6 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../user-guide/index.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference</a><ul class="current">
@@ -91,6 +90,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#eos.find_mode"><code class="docutils literal notranslate"><span class="pre">find_mode()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#eos.mixture_product"><code class="docutils literal notranslate"><span class="pre">mixture_product()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#eos.predict_observables"><code class="docutils literal notranslate"><span class="pre">predict_observables()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.report"><code class="docutils literal notranslate"><span class="pre">report()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#eos.sample_mcmc"><code class="docutils literal notranslate"><span class="pre">sample_mcmc()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#eos.sample_nested"><code class="docutils literal notranslate"><span class="pre">sample_nested()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#eos.sample_pmc"><code class="docutils literal notranslate"><span class="pre">sample_pmc()</span></code></a></li>
@@ -272,7 +272,7 @@ the standard deviation by the parameter <code class="docutils literal notranslat
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.LogPrior.Poisson">
-<span class="sig-name descname"><span class="pre">Poisson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(_Parameters)parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(str)name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(float)k</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">LogPrior</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.LogPrior.Poisson" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Poisson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(_Parameters)parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(str)name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(float)k</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">LogPrior</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.LogPrior.Poisson" title="Link to this definition"></a></dt>
 <dd><p>Returns a new Poisson prior as a LogPrior.</p>
 <p>The priors support is infinite. The mode is provided by the parameter <code class="docutils literal notranslate"><span class="pre">k</span></code>.</p>
 <dl class="field-list simple">
@@ -307,6 +307,28 @@ distributed in the interval <span class="math notranslate nohighlight">\([-\ln \
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.LogPrior.Transform">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(_Parameters)parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(object)name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(object)shift</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(object)transform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(object)min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(object)max</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">LogPrior</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.LogPrior.Transform" title="Link to this definition"></a></dt>
+<dd><p>Returns a new transformed uniform prior from original uniform priors as a LogPrior.</p>
+<p>The prior’s support is infinite.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameters</strong> (<a class="reference internal" href="#eos.Parameters" title="eos.Parameters"><em>eos.Parameters</em></a>) – The parameters to which this LogPrior is bound.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – The name of the parameters for which the LogPrior is defined.</p></li>
+<li><p><strong>shift</strong> (<em>vector</em>) – The shift vector to the original set of parameters</p></li>
+</ul>
+</dd>
+</dl>
+<p>:param transform; The matrix that transforms the original set of parameters
+:type transform: matrix
+:param min: The vector of minimum values that the parameters are allowed to take.
+:type min: vector
+:param max: The vector of maximum values that the parameters are allowed to take.
+:type max: vector</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1241,6 +1263,12 @@ A possible (incomplete) example could look as follows:</p>
 <dd><p>Create an eos.Analysis object for the named posterior.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.AnalysisFile.dump">
+<span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.AnalysisFile.dump" title="Link to this definition"></a></dt>
+<dd><p>Dumps the contents of the analysis file in YAML format.</p>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="eos.AnalysisFile.likelihoods">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">likelihoods</span></span><a class="headerlink" href="#eos.AnalysisFile.likelihoods" title="Link to this definition"></a></dt>
@@ -1457,6 +1485,11 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pred-PREDICTION.
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="eos.report">
+<span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.report" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="eos.sample_mcmc">
 <span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">sample_mcmc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chain</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">150</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preruns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stride</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cov_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.sample_mcmc" title="Link to this definition"></a></dt>
 <dd><p>Samples from a named posterior PDF using Markov Chain Monte Carlo (MCMC) methods.</p>
@@ -1660,7 +1693,7 @@ in the output density. Only Gaussian mixtures are supported.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">eos.data.</span></span><span class="sig-name descname"><span class="pre">Mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.Mode" title="Link to this definition"></a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="eos.data.Mode.create">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pvalue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_pvalues</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.Mode.create" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pvalue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_pvalues</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_chi2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dof</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.Mode.create" title="Link to this definition"></a></dt>
 <dd><p>Write a new Mode object to disk.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1668,6 +1701,10 @@ in the output density. Only Gaussian mixtures are supported.</p>
 <li><p><strong>path</strong> (<em>str</em>) – Path to the storage location, which will be created as a directory.</p></li>
 <li><p><strong>parameters</strong> (<em>list</em><em> or </em><em>iterable</em><em> of </em><a class="reference internal" href="#eos.Parameter" title="eos.Parameter"><em>eos.Parameter</em></a>) – Parameter descriptions as a 1D array of shape (N, ).</p></li>
 <li><p><strong>mode</strong> (<em>numpy.ndarray</em>) – The mode to be stored.</p></li>
+<li><p><strong>pvalue</strong> (<em>float</em>) – The p-value of the mode.</p></li>
+<li><p><strong>local_pvalues</strong> (<em>dict</em>) – The local p-values of the mode.</p></li>
+<li><p><strong>global_chi2</strong> (<em>float</em>) – The global chi2 value of the mode.</p></li>
+<li><p><strong>dof</strong> (<em>float</em>) – The degrees of freedom of the mode.</p></li>
 </ul>
 </dd>
 </dl>

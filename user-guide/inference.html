@@ -56,15 +56,16 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">User Guide</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="basics.html">Basics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="predictions.html">Theory Predictions and their Uncertainties</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Parameter Inference</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#Listing-the-built-in-Constraints">Listing the built-in Constraints</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Visualizing-the-built-in-Constraints">Visualizing the built-in Constraints</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Defining-the-Statistical-Analysis">Defining the Statistical Analysis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Sampling-from-the-Posterior">Sampling from the Posterior</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Defining-the-analysis">Defining the analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Sampling-from-the-posterior">Sampling from the posterior</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Inferring-the-|V_{cb}|-parameter">Inferring the <span class="math notranslate nohighlight">\(|V_{cb}|\)</span> parameter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Aside:-validating-the-posterior">Aside: validating the posterior</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="simulation.html">Simulation of Pseudo Events</a></li>
@@ -102,21 +103,29 @@
              
   <section id="Parameter-Inference">
 <h1>Parameter Inference<a class="headerlink" href="#Parameter-Inference" title="Link to this heading"></a></h1>
-<p>EOS can infer parameters based on a database of experimental or theoretical constraints and its built-in observables. The examples in this notebook illustrate how to find a specific constraint from the list of all built-in observables, construct an <a class="reference internal" href="../reference/python.html#eos.Analysis"><span class="std std-ref">eos.Analysis</span></a> object that represents the statistical analysis, and infer mean value and standard deviation of a list of parameters through optimization or Monte Carlo methods.</p>
-<section id="Listing-the-built-in-Constraints">
-<h2>Listing the built-in Constraints<a class="headerlink" href="#Listing-the-built-in-Constraints" title="Link to this heading"></a></h2>
-<p>The full list of built-in constraints for the most-recent EOS release is available online <a class="reference external" href="https://eos.github.io/doc/reference/constraints">here</a>. You can also show this list using the <a class="reference internal" href="../reference/python.html#eos.Constraints"><span class="std std-ref">eos.Constraints</span></a> class. Searching for a specific constraint is possible by filtering for specific strings in the constraint name’s <em>prefix</em>, <em>name</em>, or <em>suffix</em> parts. The following example only shows constraints that contain a <code class="docutils literal notranslate"><span class="pre">'-&gt;D'</span></code> in the prefix part:</p>
-<div class="nbinput docutils container">
+<p>EOS can infer parameters based on a database of experimental or theoretical constraints and its built-in observables. The examples in this notebook illustrate how to find a specific constraint from the list of all built-in observables, include them in an analysis file, and infer mean value and standard deviation of a list of parameters through sampling methods.</p>
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">eos</span>
-<span class="n">eos</span><span class="o">.</span><span class="n">Constraints</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;-&gt;D&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+<section id="Listing-the-built-in-Constraints">
+<h2>Listing the built-in Constraints<a class="headerlink" href="#Listing-the-built-in-Constraints" title="Link to this heading"></a></h2>
+<p>The full list of built-in constraints for the most-recent EOS release is available online <a class="reference external" href="https://eos.github.io/doc/reference/constraints">here</a>. You can also show this list using the <a class="reference internal" href="../reference/python.html#eos.Constraints"><span class="std std-ref">eos.Constraints</span></a> class. Searching for a specific constraint is possible by filtering for specific strings in the constraint name’s <em>prefix</em>, <em>name</em>, or <em>suffix</em> parts. The following example only shows constraints that contain a <code class="docutils literal notranslate"><span class="pre">'-&gt;D'</span></code> in the prefix part:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">Constraints</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;B^0-&gt;D^+&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -151,226 +160,6 @@
         </tr>
     </thead>
         <tr>
-            <td><tt>B->D::f_++f_0@FNAL+MILC:2015B</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B->D::f_+(q2)</tt><br/><tt>B->D::f_0(q2)</tt>
-        </span>
-    </a></td>
-            <td>MultivariateGaussian</td>
-            <td><a " href="https://arxiv.org/abs/1503.07237"">FNAL+MILC:2015B</a></td>
-        </tr>
-        <tr>
-            <td><tt>B->D::f_++f_0@HPQCD:2015A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B->D::f_+(q2)</tt><br/><tt>B->D::f_0(q2)</tt>
-        </span>
-    </a></td>
-            <td>MultivariateGaussian</td>
-            <td><a " href="https://arxiv.org/abs/1505.03925"">HPQCD:2015A</a></td>
-        </tr>
-        <tr>
-            <td><tt>B->D::f_+@FKKM:2008A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B->D::f_+(q2)</tt>
-        </span>
-    </a></td>
-            <td>Gaussian</td>
-            <td><a " href="https://arxiv.org/abs/0809.0222"">FKKM:2008A</a></td>
-        </tr>
-        <tr>
-            <td><tt>B->D^(*)::FormFactors[f_+,f_0,A_0,A_1,A_2,V,T_1,T_2,T_23]@GKvD:2018A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B->D^*::A_2(q2)</tt><br/><tt>B->D^*::V(q2)</tt><br/><tt>B->D^*::A_0(q2)</tt><br/><tt>B->D^*::T_2(q2)</tt><br/><tt>B->D::f_+(q2)</tt><br/><tt>B->D^*::A_1(q2)</tt><br/><tt>B->D::f_0(q2)</tt><br/><tt>B->D^*::T_1(q2)</tt><br/><tt>B->D^*::T_23(q2)</tt>
-        </span>
-    </a></td>
-            <td>MultivariateGaussian(Covariance)</td>
-            <td><a " href="https://arxiv.org/abs/1811.00983"">GKvD:2018A</a></td>
-        </tr>
-        <tr>
-            <td><tt>B->D^(*)::FormFactors[f_+,f_0,f_T,A_0,A_1,A_2,V,T_1,T_2,T_23]@GKvD:2018A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B->D^*::A_2(q2)</tt><br/><tt>B->D^*::V(q2)</tt><br/><tt>B->D^*::A_0(q2)</tt><br/><tt>B->D^*::T_2(q2)</tt><br/><tt>B->D::f_+(q2)</tt><br/><tt>B->D^*::A_1(q2)</tt><br/><tt>B->D::f_0(q2)</tt><br/><tt>B->D^*::T_1(q2)</tt><br/><tt>B->D::f_T(q2)</tt><br/><tt>B->D^*::T_23(q2)</tt>
-        </span>
-    </a></td>
-            <td>MultivariateGaussian(Covariance)</td>
-            <td><a " href="https://arxiv.org/abs/1811.00983"">GKvD:2018A</a></td>
-        </tr>
-        <tr>
-            <td><tt>B->D^(*)::FormFactors[parametric,LCSRLattice]@GKvD:2018A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B->D^*::alpha^T1_0@BSZ2015</tt><br/><tt>B->D::alpha^fT_0@BSZ2015</tt><br/><tt>B->D^*::alpha^T23_1@BSZ2015</tt><br/><tt>B->D^*::alpha^T23_2@BSZ2015</tt><br/><tt>B->D^*::alpha^T1_1@BSZ2015</tt><br/><tt>B->D^*::alpha^V_0@BSZ2015</tt><br/><tt>B->D^*::alpha^A1_0@BSZ2015</tt><br/><tt>B->D^*::alpha^A12_2@BSZ2015</tt><br/><tt>B->D^*::alpha^V_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A12_1@BSZ2015</tt><br/><tt>B->D^*::alpha^A0_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A0_1@BSZ2015</tt><br/><tt>B->D::alpha^f0_1@BSZ2015</tt><br/><tt>B->D::alpha^f+_0@BSZ2015</tt><br/><tt>B->D^*::alpha^T23_0@BSZ2015</tt><br/><tt>B->D^*::alpha^T2_2@BSZ2015</tt><br/><tt>B->D^*::alpha^T2_1@BSZ2015</tt><br/><tt>B->D^*::alpha^V_1@BSZ2015</tt><br/><tt>B->D::alpha^f0_2@BSZ2015</tt><br/><tt>B->D::alpha^fT_2@BSZ2015</tt><br/><tt>B->D::alpha^f+_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A1_2@BSZ2015</tt><br/><tt>B->D^*::alpha^T1_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A0_0@BSZ2015</tt><br/><tt>B->D::alpha^f+_1@BSZ2015</tt><br/><tt>B->D::alpha^fT_1@BSZ2015</tt><br/><tt>B->D^*::alpha^A1_1@BSZ2015</tt>
-        </span>
-    </a></td>
-            <td>MultivariateGaussian(Covariance)</td>
-            <td><a " href="https://arxiv.org/abs/1811.00983"">GKvD:2018A</a></td>
-        </tr>
-        <tr>
-            <td><tt>B->D^(*)::FormFactors[parametric,LCSR]@GKvD:2018A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B->D^*::alpha^T1_0@BSZ2015</tt><br/><tt>B->D::alpha^fT_0@BSZ2015</tt><br/><tt>B->D^*::alpha^T23_1@BSZ2015</tt><br/><tt>B->D^*::alpha^T23_2@BSZ2015</tt><br/><tt>B->D^*::alpha^T1_1@BSZ2015</tt><br/><tt>B->D^*::alpha^V_0@BSZ2015</tt><br/><tt>B->D^*::alpha^A1_0@BSZ2015</tt><br/><tt>B->D^*::alpha^A12_2@BSZ2015</tt><br/><tt>B->D^*::alpha^V_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A12_1@BSZ2015</tt><br/><tt>B->D^*::alpha^A0_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A0_1@BSZ2015</tt><br/><tt>B->D::alpha^f0_1@BSZ2015</tt><br/><tt>B->D::alpha^f+_0@BSZ2015</tt><br/><tt>B->D^*::alpha^T23_0@BSZ2015</tt><br/><tt>B->D^*::alpha^T2_2@BSZ2015</tt><br/><tt>B->D^*::alpha^T2_1@BSZ2015</tt><br/><tt>B->D^*::alpha^V_1@BSZ2015</tt><br/><tt>B->D::alpha^f0_2@BSZ2015</tt><br/><tt>B->D::alpha^fT_2@BSZ2015</tt><br/><tt>B->D::alpha^f+_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A1_2@BSZ2015</tt><br/><tt>B->D^*::alpha^T1_2@BSZ2015</tt><br/><tt>B->D^*::alpha^A0_0@BSZ2015</tt><br/><tt>B->D::alpha^f+_1@BSZ2015</tt><br/><tt>B->D::alpha^fT_1@BSZ2015</tt><br/><tt>B->D^*::alpha^A1_1@BSZ2015</tt>
-        </span>
-    </a></td>
-            <td>MultivariateGaussian(Covariance)</td>
-            <td><a " href="https://arxiv.org/abs/1811.00983"">GKvD:2018A</a></td>
-        </tr>
-        <tr>
-            <td><tt>B->D^(*)lnu::R_D^(*)@HFLAV:2019A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B->D^*lnu::R_D^*</tt><br/><tt>B->Dlnu::R_D</tt>
-        </span>
-    </a></td>
-            <td>MultivariateGaussian(Covariance)</td>
-            <td><a " href="https://arxiv.org/abs/1909.12524"">HFLAV:2019A</a></td>
-        </tr>
-        <tr>
-            <td><tt>B->D^*::A_1@FKKM:2008A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B->D^*::A_1(q2)</tt>
-        </span>
-    </a></td>
-            <td>Gaussian</td>
-            <td><a " href="https://arxiv.org/abs/0809.0222"">FKKM:2008A</a></td>
-        </tr>
-        <tr>
-            <td><tt>B->D^*::A_1[s_max]@FNAL+MILC:2014A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B->D^*::A_1(q2)</tt>
-        </span>
-    </a></td>
-            <td>Gaussian</td>
-            <td><a " href="https://arxiv.org/abs/1403.0635"">FNAL+MILC:2014A</a></td>
-        </tr>
-        <tr>
-            <td><tt>B->D^*::A_1[s_max]@HFLAV:2019A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B->D^*::A_1(q2)</tt>
-        </span>
-    </a></td>
-            <td>Gaussian</td>
-            <td><a " href="https://arxiv.org/abs/1909.12524"">HFLAV:2019A</a></td>
-        </tr>
-        <tr>
-            <td><tt>B->D^*::A_1[s_max]@HPQCD:2017A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B->D^*::A_1(q2)</tt>
-        </span>
-    </a></td>
-            <td>Gaussian</td>
-            <td><a " href="https://arxiv.org/abs/1711.11013"">HPQCD:2017A</a></td>
-        </tr>
-        <tr>
-            <td><tt>B->D^*::A_2@FKKM:2008A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B->D^*::A_2(q2)</tt>
-        </span>
-    </a></td>
-            <td>Gaussian</td>
-            <td><a " href="https://arxiv.org/abs/0809.0222"">FKKM:2008A</a></td>
-        </tr>
-        <tr>
-            <td><tt>B->D^*::FormFactors@FNAL+MILC:2021A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B->D^*::V(q2)</tt><br/><tt>B->D^*::A_12(q2)</tt><br/><tt>B->D^*::A_0(q2)</tt><br/><tt>B->D^*::A_1(q2)</tt>
-        </span>
-    </a></td>
-            <td>MultivariateGaussian(Covariance)</td>
-            <td><a " href="https://arxiv.org/abs/2105.14019"">FNAL+MILC:2021A</a></td>
-        </tr>
-        <tr>
-            <td><tt>B->D^*::FormFactors@HPQCD:2023A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B->D^*::T_23(q2)</tt><br/><tt>B->D^*::V(q2)</tt><br/><tt>B->D^*::A_0(q2)</tt><br/><tt>B->D^*::T_2(q2)</tt><br/><tt>B->D^*::T_1(q2)</tt><br/><tt>B->D^*::A_1(q2)</tt><br/><tt>B->D^*::A_12(q2)</tt>
-        </span>
-    </a></td>
-            <td>MultivariateGaussian(Covariance)</td>
-            <td><a " href="https://arxiv.org/abs/2304.03137"">HPQCD:2023A</a></td>
-        </tr>
-        <tr>
-            <td><tt>B->D^*::FormFactors@JLQCD:2023A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B->D^*::V(q2)</tt><br/><tt>B->D^*::A_12(q2)</tt><br/><tt>B->D^*::A_0(q2)</tt><br/><tt>B->D^*::A_1(q2)</tt>
-        </span>
-    </a></td>
-            <td>MultivariateGaussian(Covariance)</td>
-            <td><a " href="https://arxiv.org/abs/2306.05657"">JLQCD:2023A</a></td>
-        </tr>
-        <tr>
-            <td><tt>B->D^*::V@FKKM:2008A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B->D^*::V(q2)</tt>
-        </span>
-    </a></td>
-            <td>Gaussian</td>
-            <td><a " href="https://arxiv.org/abs/0809.0222"">FKKM:2008A</a></td>
-        </tr>
-        <tr>
-            <td><tt>B^-->D^*0l^-nu::BR@HFLAV:2021A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B->D^*lnu::BR</tt>
-        </span>
-    </a></td>
-            <td>Gaussian</td>
-            <td><a "">HFLAV:2021A</a></td>
-        </tr>
-        <tr>
-            <td><tt>B^0->D^*+l^-nu::BR@HFLAV:2021A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B->D^*lnu::BR</tt>
-        </span>
-    </a></td>
-            <td>Gaussian</td>
-            <td><a "">HFLAV:2021A</a></td>
-        </tr>
-        <tr>
-            <td><tt>B^0->D^*+l^-nu::KinematicDistribution[w]@Belle-II:2023C</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B->D^*lnu::P(w_min,w_max)</tt>
-        </span>
-    </a></td>
-            <td>MultivariateGaussian(Covariance)</td>
-            <td><a " href="https://arxiv.org/abs/2310.01170"">Belle-II:2023C</a></td>
-        </tr>
-        <tr>
             <td><tt>B^0->D^+e^-nu::BRs@Belle:2015A</tt></td>
             <td><a onclick="toggle_obs(this, 'con0-obs')">
         <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
@@ -403,193 +192,6 @@
             <td>MultivariateGaussian(Covariance)</td>
             <td><a " href="https://arxiv.org/abs/1510.03657"">Belle:2015A</a></td>
         </tr>
-        <tr>
-            <td><tt>B_(s)->D_(s)^(*)::BR@MvDV:2024A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B^0->D^*+K^-::BR</tt><br/><tt>B_s^0->D_s^+pi^-::BR</tt><br/><tt>B_s^0->D_s^*+pi^-::BR</tt><br/><tt>B^0->D^+K^-::BR</tt>
-        </span>
-    </a></td>
-            <td>MultivariateGaussian(Covariance)</td>
-            <td><a "">MvDV:2024A</a></td>
-        </tr>
-        <tr>
-            <td><tt>B_(s)->D_(s)^(*)::FormFactors[f_0(Mpi2),f_0(MK2),A_0(Mpi2),A_0(MK2)]@BGJvD:2019A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B->D^*K::A_0(MK2)</tt><br/><tt>B_s->D_spi::f_0(Mpi2)</tt><br/><tt>B->DK::f_0(MK2)</tt><br/><tt>B_s->D_s^*pi::A_0(Mpi2)</tt>
-        </span>
-    </a></td>
-            <td>MultivariateGaussian(Covariance)</td>
-            <td><a " href="https://arxiv.org/abs/1912.09335"">BGJvD:2019A</a></td>
-        </tr>
-        <tr>
-            <td><tt>B_s->D_s::f_++f_0@HPQCD:2019A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B_s->D_s::f_+(q2)</tt><br/><tt>B_s->D_s::f_0(q2)</tt>
-        </span>
-    </a></td>
-            <td>MultivariateGaussian(Covariance)</td>
-            <td><a "">HPQCD:2019A</a></td>
-        </tr>
-        <tr>
-            <td><tt>B_s->D_s^(*)::FormFactors[f_+,f_0,A_0,A_1,A_2,V,T_1,T_2,T_23]@BGJvD:2019A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B_s->D_s^*::A_2(q2)</tt><br/><tt>B_s->D_s::f_+(q2)</tt><br/><tt>B_s->D_s^*::T_1(q2)</tt><br/><tt>B_s->D_s^*::T_2(q2)</tt><br/><tt>B_s->D_s^*::A_1(q2)</tt><br/><tt>B_s->D_s::f_0(q2)</tt><br/><tt>B_s->D_s^*::T_23(q2)</tt><br/><tt>B_s->D_s^*::V(q2)</tt><br/><tt>B_s->D_s^*::A_0(q2)</tt>
-        </span>
-    </a></td>
-            <td>MultivariateGaussian(Covariance)</td>
-            <td><a " href="https://arxiv.org/abs/1912.09335"">BGJvD:2019A</a></td>
-        </tr>
-        <tr>
-            <td><tt>B_s->D_s^(*)::FormFactors[f_+,f_0,f_T,A_0,A_1,A_2,V,T_1,T_2,T_23]@BGJvD:2019A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B_s->D_s^*::A_2(q2)</tt><br/><tt>B_s->D_s::f_T(q2)</tt><br/><tt>B_s->D_s::f_+(q2)</tt><br/><tt>B_s->D_s^*::T_1(q2)</tt><br/><tt>B_s->D_s^*::T_2(q2)</tt><br/><tt>B_s->D_s^*::A_1(q2)</tt><br/><tt>B_s->D_s::f_0(q2)</tt><br/><tt>B_s->D_s^*::T_23(q2)</tt><br/><tt>B_s->D_s^*::V(q2)</tt><br/><tt>B_s->D_s^*::A_0(q2)</tt>
-        </span>
-    </a></td>
-            <td>MultivariateGaussian(Covariance)</td>
-            <td><a " href="https://arxiv.org/abs/1912.09335"">BGJvD:2019A</a></td>
-        </tr>
-        <tr>
-            <td><tt>B_s->D_s^(*)::FormFactors[parametric,LCSRLattice]@BGJvD:2019A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B_s->D_s^*::alpha^T23_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A1_0@BSZ2015</tt><br/><tt>B_s->D_s::alpha^fT_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^V_2@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f+_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T1_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A12_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T23_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A0_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A12_2@BSZ2015</tt><br/><tt>B_s->D_s::alpha^fT_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A0_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T2_2@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f+_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T23_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T1_2@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f+_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^V_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A0_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^V_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A1_2@BSZ2015</tt><br/><tt>B_s->D_s::alpha^fT_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T2_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A1_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T1_1@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f0_2@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f0_1@BSZ2015</tt>
-        </span>
-    </a></td>
-            <td>MultivariateGaussian(Covariance)</td>
-            <td><a " href="https://arxiv.org/abs/1912.09335"">BGJvD:2019A</a></td>
-        </tr>
-        <tr>
-            <td><tt>B_s->D_s^(*)::FormFactors[parametric,LCSR]@BGJvD:2019A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B_s->D_s^*::alpha^T23_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A1_0@BSZ2015</tt><br/><tt>B_s->D_s::alpha^fT_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^V_2@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f+_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T1_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A12_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T23_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A0_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A12_2@BSZ2015</tt><br/><tt>B_s->D_s::alpha^fT_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A0_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T2_2@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f+_2@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T23_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T1_2@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f+_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^V_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A0_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^V_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A1_2@BSZ2015</tt><br/><tt>B_s->D_s::alpha^fT_0@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T2_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^A1_1@BSZ2015</tt><br/><tt>B_s->D_s^*::alpha^T1_1@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f0_2@BSZ2015</tt><br/><tt>B_s->D_s::alpha^f0_1@BSZ2015</tt>
-        </span>
-    </a></td>
-            <td>MultivariateGaussian(Covariance)</td>
-            <td><a " href="https://arxiv.org/abs/1912.09335"">BGJvD:2019A</a></td>
-        </tr>
-        <tr>
-            <td><tt>B_s->D_s^*::A_1[s_max]@HPQCD:2017A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B_s->D_s^*::A_1(q2)</tt>
-        </span>
-    </a></td>
-            <td>Gaussian</td>
-            <td><a " href="https://arxiv.org/abs/1711.11013"">HPQCD:2017A</a></td>
-        </tr>
-        <tr>
-            <td><tt>B_s->D_s^*::A_1[s_max]@HPQCD:2019A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>B_s->D_s^*::A_1(q2)</tt>
-        </span>
-    </a></td>
-            <td>Gaussian</td>
-            <td><a "">HPQCD:2019A</a></td>
-        </tr>
-        <tr>
-            <td><tt>e^+e^-->D^+D^-::sigma@BES:2008A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>e^+e^-->D^+D^-::sigma(E)</tt>
-        </span>
-    </a></td>
-            <td>MultivariateGaussian(Covariance)</td>
-            <td><a "">BES:2008A</a></td>
-        </tr>
-        <tr>
-            <td><tt>e^+e^-->D^+D^-::sigma@BES:2017A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>e^+e^-->D^+D^-::sigma(E)</tt>
-        </span>
-    </a></td>
-            <td>MultivariateGaussian(Covariance)</td>
-            <td><a "">BES:2017A</a></td>
-        </tr>
-        <tr>
-            <td><tt>e^+e^-->D^+D^-::sigma@BaBar:2007B</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>e^+e^-->D^+D^-::sigma(E)</tt>
-        </span>
-    </a></td>
-            <td>MultivariateGaussian(Covariance)</td>
-            <td><a " href="https://arxiv.org/abs/0710.1371"">BaBar:2007B</a></td>
-        </tr>
-        <tr>
-            <td><tt>e^+e^-->D^+D^-::sigma@Belle:2008B</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>e^+e^-->D^+D^-::sigma(E)</tt>
-        </span>
-    </a></td>
-            <td>MultivariateGaussian(Covariance)</td>
-            <td><a " href="https://arxiv.org/abs/0708.0082"">Belle:2008B</a></td>
-        </tr>
-        <tr>
-            <td><tt>e^+e^-->D^0Dbar^0::sigma@BES:2008A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>e^+e^-->D^0Dbar^0::sigma(E)</tt>
-        </span>
-    </a></td>
-            <td>MultivariateGaussian(Covariance)</td>
-            <td><a "">BES:2008A</a></td>
-        </tr>
-        <tr>
-            <td><tt>e^+e^-->D^0Dbar^0::sigma@BES:2017A</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>e^+e^-->D^0Dbar^0::sigma(E)</tt>
-        </span>
-    </a></td>
-            <td>MultivariateGaussian(Covariance)</td>
-            <td><a "">BES:2017A</a></td>
-        </tr>
-        <tr>
-            <td><tt>e^+e^-->D^0Dbar^0::sigma@BaBar:2007B</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>e^+e^-->D^0Dbar^0::sigma(E)</tt>
-        </span>
-    </a></td>
-            <td>MultivariateGaussian(Covariance)</td>
-            <td><a " href="https://arxiv.org/abs/0710.1371"">BaBar:2007B</a></td>
-        </tr>
-        <tr>
-            <td><tt>e^+e^-->D^0Dbar^0::sigma@Belle:2008B</tt></td>
-            <td><a onclick="toggle_obs(this, 'con0-obs')">
-        <span class="dots"   id="con0-obs" style="display: inline; text-align: left">...</span>
-        <span class="values" id="con0-obs" style="display: none;   text-align: left">
-       <tt>e^+e^-->D^0Dbar^0::sigma(E)</tt>
-        </span>
-    </a></td>
-            <td>MultivariateGaussian(Covariance)</td>
-            <td><a " href="https://arxiv.org/abs/0708.0082"">Belle:2008B</a></td>
-        </tr>
     </table></div>
 </div>
 </section>
@@ -597,7 +199,7 @@
 <h2>Visualizing the built-in Constraints<a class="headerlink" href="#Visualizing-the-built-in-Constraints" title="Link to this heading"></a></h2>
 <p>For what follows we will use the two experimental constraints <code class="docutils literal notranslate"><span class="pre">B^0-&gt;D^+e^-nu::BRs&#64;Belle:2015A</span></code> and <code class="docutils literal notranslate"><span class="pre">B^0-&gt;D^+mu^-nu::BRs&#64;Belle:2015A</span></code>, to infer the CKM matrix element <span class="math notranslate nohighlight">\(|V_{cb}|\)</span>. We can readily display these two constraints, along with the default theory prediction (without any uncertainties), using the following code:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
@@ -635,134 +237,188 @@
         <span class="p">},</span>
     <span class="p">]</span>
 <span class="p">}</span>
-<span class="n">eos</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">plot_args</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">plot_args</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-(&lt;Figure size 640x480 with 1 Axes&gt;,
- &lt;Axes: xlabel=&#39;$q^2$\\,[$\\textnormal{GeV}^2$]&#39;, ylabel=&#39;$d\\mathcal{B}/dq^2$&#39;&gt;)
-</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/user-guide_inference_7_1.png" src="../_images/user-guide_inference_7_1.png" />
+<img alt="../_images/user-guide_inference_8_0.png" src="../_images/user-guide_inference_8_0.png" />
 </div>
 </div>
 </section>
-<section id="Defining-the-Statistical-Analysis">
-<h2>Defining the Statistical Analysis<a class="headerlink" href="#Defining-the-Statistical-Analysis" title="Link to this heading"></a></h2>
-<p>To define our statistical analysis for the inference of <span class="math notranslate nohighlight">\(|V_{cb}|\)</span> from measurements of the <span class="math notranslate nohighlight">\(\bar{B}\to D\ell^-\bar\nu\)</span> branching ratios, we must decide how to parametrize the hadronic form factors that emerge in semileptonic <span class="math notranslate nohighlight">\(\bar{B}\to D\)</span> transitions and how to constraint them. For what follows we will use the parameterization and constraints as in the example notebook on <a class="reference internal" href="predictions.html"><span class="doc">theory predictions and uncertainties</span></a>.</p>
-<p>We then create an <a class="reference internal" href="../reference/python.html#eos.Analysis"><span class="std std-ref">eos.Analysis</span></a> object as follows:</p>
+<section id="Defining-the-analysis">
+<h2>Defining the analysis<a class="headerlink" href="#Defining-the-analysis" title="Link to this heading"></a></h2>
+<p>To define our statistical analysis for the inference of <span class="math notranslate nohighlight">\(|V_{cb}|\)</span> from measurements of the <span class="math notranslate nohighlight">\(\bar{B}\to D\ell^-\bar\nu\)</span> branching ratios, we must decide how to parametrize the hadronic form factors that emerge in semileptonic <span class="math notranslate nohighlight">\(\bar{B}\to D\)</span> transitions and how to constraint them. On top of the theoretical constraints and form factor coefficient priors as in <code class="docutils literal notranslate"><span class="pre">predictions.yaml</span></code>, we must add a prior for varying the CKM element and experimental constraints from which to extract
+it. We only vary the absolute value of the CKM element <code class="docutils literal notranslate"><span class="pre">CKM::abs(V_cb)</span></code>, as the complex phase of the CKM element <code class="docutils literal notranslate"><span class="pre">CKM::arg(V_cb)</span></code> is not accessible from <span class="math notranslate nohighlight">\(b\to c \ell \bar \nu\)</span>. In order to use this parametrization of the CKM elements, we must use the model <code class="docutils literal notranslate"><span class="pre">CKM</span></code> in the analysis.</p>
+<p>These additions to the likelihood and priors, seen in the analysis file <code class="docutils literal notranslate"><span class="pre">inference.yaml</span></code>, look like</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">priors</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CKM</span>
+<span class="w">    </span><span class="nt">descriptions</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> parameter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;CKM::abs(V_cb)&#39;</span><span class="p p-Indicator">,</span><span class="nt">           min</span><span class="p">:</span><span class="w">  </span><span class="nv">38e-3</span><span class="p p-Indicator">,</span><span class="nt"> max</span><span class="p">:</span><span class="w">  </span><span class="nv">45e-3</span><span class="w"> </span><span class="p p-Indicator">,</span><span class="nt"> type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FF</span>
+<span class="w">    </span><span class="c1"># as in both predictions.yaml and inference.yaml</span>
+
+<span class="nt">likelihoods</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-to-D-l-nu</span>
+<span class="w">    </span><span class="nt">constraints</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;B^0-&gt;D^+e^-nu::BRs@Belle:2015A;form-factors=BSZ2015&#39;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;B^0-&gt;D^+mu^-nu::BRs@Belle:2015A;form-factors=BSZ2015&#39;</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FF-LQCD</span>
+<span class="w">    </span><span class="c1"># as in both predictions.yaml and inference.yaml</span>
+</pre></div>
+</div>
+</section>
+<section id="Sampling-from-the-posterior">
+<h2>Sampling from the posterior<a class="headerlink" href="#Sampling-from-the-posterior" title="Link to this heading"></a></h2>
+<p>EOS provides the means to draw and store Monte Carlo samples for a prior PDF <span class="math notranslate nohighlight">\(P_0(\vec\vartheta)\)</span>, a posterior PDF <span class="math notranslate nohighlight">\(P(\vec\vartheta|\text{data})\)</span>, and predictive distributions using eos.tasks.sample_nested. We store this data within a hierarchy of directories below a “base directory”. For the purpose of the following examples, we set this base directory to <code class="docutils literal notranslate"><span class="pre">./inference-data</span></code>, stored in a convenient global variable.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analysis_args</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;global_options&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;form-factors&#39;</span><span class="p">:</span> <span class="s1">&#39;BSZ2015&#39;</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="s1">&#39;CKM&#39;</span> <span class="p">},</span>
-    <span class="s1">&#39;priors&#39;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span> <span class="s1">&#39;parameter&#39;</span><span class="p">:</span> <span class="s1">&#39;CKM::abs(V_cb)&#39;</span><span class="p">,</span>           <span class="s1">&#39;min&#39;</span><span class="p">:</span>  <span class="mf">38e-3</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">:</span>  <span class="mf">45e-3</span> <span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uniform&#39;</span><span class="p">},</span>
-        <span class="p">{</span> <span class="s1">&#39;parameter&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;D::alpha^f+_0@BSZ2015&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">:</span>  <span class="mf">0.0</span><span class="p">,</span>   <span class="s1">&#39;max&#39;</span><span class="p">:</span>  <span class="mf">1.0</span>   <span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uniform&#39;</span><span class="p">},</span>
-        <span class="p">{</span> <span class="s1">&#39;parameter&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;D::alpha^f+_1@BSZ2015&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">4.0</span><span class="p">,</span>   <span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.0</span>   <span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uniform&#39;</span><span class="p">},</span>
-        <span class="p">{</span> <span class="s1">&#39;parameter&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;D::alpha^f+_2@BSZ2015&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">:</span> <span class="o">+</span><span class="mf">4.0</span><span class="p">,</span>   <span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="o">+</span><span class="mf">6.0</span>   <span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uniform&#39;</span><span class="p">},</span>
-        <span class="p">{</span> <span class="s1">&#39;parameter&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;D::alpha^f0_1@BSZ2015&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span>   <span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="o">+</span><span class="mf">2.0</span>   <span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uniform&#39;</span><span class="p">},</span>
-        <span class="p">{</span> <span class="s1">&#39;parameter&#39;</span><span class="p">:</span> <span class="s1">&#39;B-&gt;D::alpha^f0_2@BSZ2015&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">,</span>   <span class="s1">&#39;max&#39;</span><span class="p">:</span>  <span class="mf">0.0</span>   <span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uniform&#39;</span><span class="p">}</span>
-    <span class="p">],</span>
-    <span class="s1">&#39;likelihood&#39;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s1">&#39;B-&gt;D::f_++f_0@HPQCD:2015A&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;B-&gt;D::f_++f_0@FNAL+MILC:2015B&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;B^0-&gt;D^+e^-nu::BRs@Belle:2015A&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;B^0-&gt;D^+mu^-nu::BRs@Belle:2015A&#39;</span>
-    <span class="p">]</span>
-<span class="p">}</span>
-<span class="n">analysis</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Analysis</span><span class="p">(</span><span class="o">**</span><span class="n">analysis_args</span><span class="p">)</span>
-<span class="n">analysis</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;CKM::abs(V_cb)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mf">42.0e-3</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<p>In the above, the global options ensure that our choice of form factor parametrization is used throughout, and that for CKM matrix elements the <code class="docutils literal notranslate"><span class="pre">CKM</span></code> model is used. The latter provides parametric access to the <span class="math notranslate nohighlight">\(V_{cb}\)</span> matrix element through two parameters: the absolute value <code class="docutils literal notranslate"><span class="pre">CKM::abs(V_cb)</span></code> and the complex phase <code class="docutils literal notranslate"><span class="pre">CKM::arg(V_cb)</span></code>. The latter is not accessible from <span class="math notranslate nohighlight">\(b\to c\ell\bar\nu\)</span>. We provide the parameters in our analysis through the specifications of the Bayesian priors.
-In the above, each prior is a uniform prior that covers the range from <code class="docutils literal notranslate"><span class="pre">min</span></code> to <code class="docutils literal notranslate"><span class="pre">max</span></code>. The likelihood is defined through a list constraints, which in the above includes both the experimental measurements by the Belle collaboration as well as the theoretical lattice QCD results. Finally, we set the starting value of <code class="docutils literal notranslate"><span class="pre">CKM::abs(V_cb)</span></code> to a sensible value of <span class="math notranslate nohighlight">\(42\cdot 10^{-3}\)</span>.</p>
-<p>We can now proceed to optimize the log(posterior) through a call to <a class="reference internal" href="../reference/python.html#eos.Analysis.optimize"><span class="std std-ref">analysis.optimize</span></a>. In a Jupyter notebook, it is useful to display the return value of this method, which illustrates the best-fit point. We can further display a summary of fit quality using the <a class="reference internal" href="../reference/python.html#eos.Analysis.goodness_of_fit"><span class="std std-ref">analysis.goodness_of_fit</span></a> method.</p>
-<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bfp</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
-<span class="n">display</span><span class="p">(</span><span class="n">bfp</span><span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">analysis</span><span class="o">.</span><span class="n">goodness_of_fit</span><span class="p">())</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">EOS_BASE_DIRECTORY</span><span class="o">=</span><span class="s1">&#39;./inference-data&#39;</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area rendered_html docutils container">
-<table>
-<tr><th>parameter</th><th>value</th></tr>
-<tr><td>$|V_{cb}|$</td><td>0.0419</td></tr><tr><td>$\alpha_{+,0}^{B \to D,\mathrm{BSZ2015}}$</td><td>0.6668</td></tr><tr><td>$\alpha_{+,1}^{B \to D,\mathrm{BSZ2015}}$</td><td>-2.5411</td></tr><tr><td>$\alpha_{+,2}^{B \to D,\mathrm{BSZ2015}}$</td><td>4.7844</td></tr><tr><td>$\alpha_{0,1}^{B \to D,\mathrm{BSZ2015}}$</td><td>0.2558</td></tr><tr><td>$\alpha_{0,2}^{B \to D,\mathrm{BSZ2015}}$</td><td>-0.9263</td></tr></table></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area rendered_html docutils container">
-<table>
-<tr><th>constraint</th><th>&chi;<sup>2</sup></th><th>&plusmn;&chi;</th><th>d.o.f.</th><th>local p-value</th></tr>
-<tr style=""><td><tt>B->D::f_++f_0@FNAL+MILC:2015B</tt></td><td>3.5102</td><td>&mdash;</td><td>7</td><td>83.4146%</td></tr>
-<tr style=""><td><tt>B->D::f_++f_0@HPQCD:2015A</tt></td><td>3.0280</td><td>&mdash;</td><td>5</td><td>69.5675%</td></tr>
-<tr style="color: orange"><td><tt>B^0->D^+e^-nu::BRs@Belle:2015A</tt></td><td>11.8514</td><td>&mdash;</td><td>10</td><td>29.5127%</td></tr>
-<tr style=""><td><tt>B^0->D^+mu^-nu::BRs@Belle:2015A</tt></td><td>5.2417</td><td>&mdash;</td><td>10</td><td>87.4456%</td></tr>
-</table><br/>
-<table>
-<tr><th>total &chi;<sup>2</sup></th><td>23.6312</td></tr>
-<tr><th>total degrees of freedom</th><td>26</td></tr>
-<tr><th>p-value</th><td>59.7042%</td></tr>
-</table></div>
-</div>
-</section>
-<section id="Sampling-from-the-Posterior">
-<h2>Sampling from the Posterior<a class="headerlink" href="#Sampling-from-the-Posterior" title="Link to this heading"></a></h2>
-<p>To sample from the posterior, EOS provides the <a class="reference internal" href="../reference/python.html#eos.Analysis.sample"><span class="std std-ref">analysis.sample</span></a> method. Optionally, this can also produce posterior-predictive samples for a list of observables. We can use these samples to illustrate the results of our fit in comparison to the experimental constraints.</p>
-<p>For this example, we produce such posterior-predictive samples for the differential <span class="math notranslate nohighlight">\(\bar{B}\to D^+e^-\bar\nu\)</span> branching ratio in 40 points in the kinematical variable <span class="math notranslate nohighlight">\(q^2\)</span>; the square of the momentum transfer to the <span class="math notranslate nohighlight">\(e^-\bar\nu\)</span> pair. Due to the strong dependence of the branching ratio on <span class="math notranslate nohighlight">\(q^2\)</span>, we do not distribute the points equally across the full phase space. Instead, we equally distribute half of the points in the interval
-<span class="math notranslate nohighlight">\([0.02\,\text{GeV}^2, 1.00\,\text{GeV}^2]\)</span> and the other half in the remainder of the phase space.</p>
-<p>We produce <code class="docutils literal notranslate"><span class="pre">N</span></code> <span class="math notranslate nohighlight">\(= 20000\)</span> samples with a thinning factor (or <code class="docutils literal notranslate"><span class="pre">stride</span></code>) of <span class="math notranslate nohighlight">\(5\)</span>. This means that <code class="docutils literal notranslate"><span class="pre">stride</span> <span class="pre">*</span> <span class="pre">N</span></code> <span class="math notranslate nohighlight">\(= 100000\)</span> samples are produced, but only every <span class="math notranslate nohighlight">\(5\)</span>th sample is returned. This improves the quality of the samples by reducing the autocorrelation. Before the samples are produced, the Markov Chain self-adapts in a series of preruns, the number of which is governed by the <code class="docutils literal notranslate"><span class="pre">preprun</span></code> argument. In each prerun, <code class="docutils literal notranslate"><span class="pre">pre_N</span></code> samples are drawn before the adaptation
-step. The samples obtained as part of the preruns are discarded. To ensure efficient sampling, the chain is started in the best-fit point obtained earlier through optimization.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="n">e_q2values</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.02</span><span class="p">,</span>  <span class="mf">1.00</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1.00</span><span class="p">,</span> <span class="mf">11.60</span><span class="p">,</span> <span class="mi">20</span><span class="p">))))</span>
-<span class="n">e_obs</span>       <span class="o">=</span> <span class="p">[</span><span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span>
-                  <span class="s1">&#39;B-&gt;Dlnu::dBR/dq2&#39;</span><span class="p">,</span> <span class="n">analysis</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2</span><span class="o">=</span><span class="n">q2</span><span class="p">),</span>
-                  <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">({</span><span class="s1">&#39;form-factors&#39;</span><span class="p">:</span> <span class="s1">&#39;BSZ2015&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;q&#39;</span><span class="p">:</span> <span class="s1">&#39;d&#39;</span><span class="p">}))</span>
-              <span class="k">for</span> <span class="n">q2</span> <span class="ow">in</span> <span class="n">e_q2values</span><span class="p">]</span>
-<span class="n">parameter_samples</span><span class="p">,</span> <span class="n">log_posterior</span><span class="p">,</span> <span class="n">e_samples</span>  <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">20000</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pre_N</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span> <span class="n">preruns</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">start_point</span><span class="o">=</span><span class="n">bfp</span><span class="o">.</span><span class="n">point</span><span class="p">,</span> <span class="n">observables</span><span class="o">=</span><span class="n">e_obs</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">tasks</span><span class="o">.</span><span class="n">sample_nested</span><span class="p">(</span><span class="s1">&#39;inference.yaml&#39;</span><span class="p">,</span> <span class="s1">&#39;CKM&#39;</span><span class="p">,</span> <span class="n">base_directory</span><span class="o">=</span><span class="n">EOS_BASE_DIRECTORY</span><span class="p">,</span> <span class="n">nlive</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">dlogz</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "b6f620b3f2004dcdabb064385c51cb5f"}</script></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "68bc226353f64181a819a405b807ad1c"}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "0e4befd7dbaa440191ee09e2b5079f89"}</script></div>
 </div>
-<p>The values of the log(posterior) are stored in <code class="docutils literal notranslate"><span class="pre">log_posterior</span></code>. The posterior-preditive samples for the observables are stored in <code class="docutils literal notranslate"><span class="pre">e_samples</span></code>, and are only returned if the <code class="docutils literal notranslate"><span class="pre">observables</span></code> keyword argument is provided.</p>
-<p>We can plot our result using the <code class="docutils literal notranslate"><span class="pre">uncertainty</span></code> plot type. It expects a <code class="docutils literal notranslate"><span class="pre">data</span></code> item that contains the samples as well as the x-axis values used in the production of the samples. This plot type will interpolate between neighboring x-axis values, and display the <span class="math notranslate nohighlight">\(68\%\)</span> probability envelope along the median curve.</p>
+</section>
+<section id="Inferring-the-|V_{cb}|-parameter">
+<h2>Inferring the <span class="math notranslate nohighlight">\(|V_{cb}|\)</span> parameter<a class="headerlink" href="#Inferring-the-|V_{cb}|-parameter" title="Link to this heading"></a></h2>
+<p>The distribution of the parameter samples, here using <span class="math notranslate nohighlight">\(|V_{cb}|\)</span> as an example, can be inspected using regular histograms or a smooth histogram based on a kernel density estimate (KDE). The samples are automatically processed, when specifying the <code class="docutils literal notranslate"><span class="pre">data-file</span></code> directory and the <code class="docutils literal notranslate"><span class="pre">variable</span></code> as histogram plotting arguments. For the KDE, the parameter <code class="docutils literal notranslate"><span class="pre">bandwidth</span></code> regulates the smoothing. EOS applies a relative bandwidth factor with respect to SciPy’s best bandwidth estimate, i.e.,
+specifying <code class="docutils literal notranslate"><span class="pre">'bandwidth':</span> <span class="pre">2</span></code> doubles SciPy’s estimate for the bandwidth.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$|V_</span><span class="si">{cb}</span><span class="s1">|$&#39;</span><span class="p">,</span> <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">38e-3</span><span class="p">,</span> <span class="mf">47e-3</span><span class="p">]</span> <span class="p">},</span>
+        <span class="s1">&#39;legend&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="s1">&#39;upper left&#39;</span> <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;histogram&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;variable&#39;</span><span class="p">:</span> <span class="s1">&#39;CKM::abs(V_cb)&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;data-file&#39;</span><span class="p">:</span> <span class="n">EOS_BASE_DIRECTORY</span><span class="o">+</span><span class="s1">&#39;/CKM/samples&#39;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;kde&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;posterior&#39;</span><span class="p">,</span> <span class="s1">&#39;bandwidth&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">39e-3</span><span class="p">,</span> <span class="mf">45e-3</span><span class="p">],</span>
+            <span class="s1">&#39;variable&#39;</span><span class="p">:</span> <span class="s1">&#39;CKM::abs(V_cb)&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;data-file&#39;</span><span class="p">:</span> <span class="n">EOS_BASE_DIRECTORY</span><span class="o">+</span><span class="s1">&#39;/CKM/samples&#39;</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">plot_args</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/user-guide_inference_14_0.png" src="../_images/user-guide_inference_14_0.png" />
+</div>
+</div>
+<p>To extract further information from the parameter samples, we can load the sample values using <a class="reference internal" href="../reference/python.html#eos.data.ImportanceSamples"><span class="std std-ref">eos.data.ImportanceSamples</span></a>:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameter_samples</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">ImportanceSamples</span><span class="p">(</span><span class="n">EOS_BASE_DIRECTORY</span><span class="o">+</span><span class="s1">&#39;/CKM/samples&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>We can compute the mean value and its standard deviation using <code class="docutils literal notranslate"><span class="pre">numpy</span></code> methods, including the sample <code class="docutils literal notranslate"><span class="pre">weights</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">parameter_samples</span><span class="o">.</span><span class="n">samples</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">parameter_samples</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span>
+<span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">((</span><span class="n">parameter_samples</span><span class="o">.</span><span class="n">samples</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">mean</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">parameter_samples</span><span class="o">.</span><span class="n">weights</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;$|V_</span><span class="se">{{</span><span class="s1">cb</span><span class="se">}}</span><span class="s1">|$ = </span><span class="si">{</span><span class="n">mean</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"> +/- </span><span class="si">{</span><span class="n">std</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+$|V_{cb}|$ = 0.0420 +/- 0.0009
+</pre></div></div>
+</div>
+<p>We can also illustrate the correlation between <span class="math notranslate nohighlight">\(|V_{cb}|\)</span> and any form factor parameter. Here, we use the normalization of the form factors at <span class="math notranslate nohighlight">\(q^2 = 0\)</span> as an example. The <code class="docutils literal notranslate"><span class="pre">data</span></code> passed to the plotter consists of the 2d parameter samples and the corresponding sample weights. Contours of equal probability at the <span class="math notranslate nohighlight">\(68\%\)</span> and <span class="math notranslate nohighlight">\(95\%\)</span> levels can be generated using a KDE as follows:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$|V_</span><span class="si">{cb}</span><span class="s1">|$&#39;</span><span class="p">,</span> <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">38e-3</span><span class="p">,</span> <span class="mf">47e-3</span><span class="p">]</span> <span class="p">},</span>
+        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$f_+(0)$&#39;</span><span class="p">,</span>   <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">]</span> <span class="p">},</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;kde2D&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;posterior&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;levels&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">68</span><span class="p">,</span> <span class="mi">95</span><span class="p">],</span> <span class="s1">&#39;contours&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span><span class="s1">&#39;areas&#39;</span><span class="p">],</span> <span class="s1">&#39;bandwidth&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span>
+            <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">parameter_samples</span><span class="o">.</span><span class="n">samples</span><span class="p">[:,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)],</span>
+                <span class="s1">&#39;weights&#39;</span><span class="p">:</span> <span class="n">parameter_samples</span><span class="o">.</span><span class="n">weights</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">plot_args</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/user-guide_inference_20_0.png" src="../_images/user-guide_inference_20_0.png" />
+</div>
+</div>
+<p>Here the <code class="docutils literal notranslate"><span class="pre">bandwidth</span></code> parameter takes the same role as in the 1D histogram.</p>
+</section>
+<section id="Aside:-validating-the-posterior">
+<h2>Aside: validating the posterior<a class="headerlink" href="#Aside:-validating-the-posterior" title="Link to this heading"></a></h2>
+<p>As an additional step we can visualize the resulting theory prediction (with uncertainties), as was done in the beginning of this notebook. For further details, you can consult the <code class="docutils literal notranslate"><span class="pre">predictions.ipynb</span></code> notebook.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">predict_observables</span><span class="p">(</span><span class="s1">&#39;inference.yaml&#39;</span><span class="p">,</span><span class="s1">&#39;CKM&#39;</span><span class="p">,</span><span class="s1">&#39;B-to-D-e-nu&#39;</span><span class="p">,</span> <span class="n">base_directory</span><span class="o">=</span><span class="n">EOS_BASE_DIRECTORY</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "e4666c8cb36c44d985ae7a30fd9cbc60"}</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
@@ -773,8 +429,8 @@ step. The samples obtained as part of the preruns are discarded. To ensure effic
     <span class="p">},</span>
     <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
         <span class="p">{</span>
-          <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$\ell=\mu$&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uncertainty&#39;</span><span class="p">,</span> <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">11.60</span><span class="p">],</span>
-          <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">e_samples</span><span class="p">,</span> <span class="s1">&#39;xvalues&#39;</span><span class="p">:</span> <span class="n">e_q2values</span> <span class="p">}</span>
+          <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$\ell=e$&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;uncertainty&#39;</span><span class="p">,</span> <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">3.0e-7</span><span class="p">,</span> <span class="mf">11.60</span><span class="p">],</span>
+          <span class="s1">&#39;data-file&#39;</span><span class="p">:</span> <span class="n">EOS_BASE_DIRECTORY</span><span class="o">+</span><span class="s1">&#39;/CKM/pred-B-to-D-e-nu&#39;</span><span class="p">,</span>
         <span class="p">},</span>
         <span class="p">{</span>
             <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;Belle 2015 $\ell=e,\, q=d$&#39;</span><span class="p">,</span>
@@ -796,118 +452,7 @@ step. The samples obtained as part of the preruns are discarded. To ensure effic
         <span class="p">},</span>
     <span class="p">]</span>
 <span class="p">}</span>
-<span class="n">eos</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">plot_args</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-(&lt;Figure size 640x480 with 1 Axes&gt;,
- &lt;Axes: xlabel=&#39;$q^2$\\,[$\\textnormal{GeV}^2$]&#39;, ylabel=&#39;$d\\mathcal{B}/dq^2$&#39;&gt;)
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/user-guide_inference_19_1.png" src="../_images/user-guide_inference_19_1.png" />
-</div>
-</div>
-<p>The distribution of the parameter samples, here using <span class="math notranslate nohighlight">\(|V_{cb}|\)</span> as an example, can be inspected using regular histograms or a smooth histogram based on a kernel density estimate (KDE). For the latter, the parameter <code class="docutils literal notranslate"><span class="pre">bandwidth</span></code> regulates the smoothing. EOS applies a relative bandwidth factor with respect to SciPy’s best bandwidth estimate, i.e., specifying <code class="docutils literal notranslate"><span class="pre">'bandwidth':</span> <span class="pre">2</span></code> double SciPy’s estimate for the bandwidth.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$|V_</span><span class="si">{cb}</span><span class="s1">|$&#39;</span><span class="p">,</span> <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">38e-3</span><span class="p">,</span> <span class="mf">47e-3</span><span class="p">]</span> <span class="p">},</span>
-        <span class="s1">&#39;legend&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="s1">&#39;upper left&#39;</span> <span class="p">}</span>
-    <span class="p">},</span>
-    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span>
-            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;histogram&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">parameter_samples</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="p">}</span>
-        <span class="p">},</span>
-        <span class="p">{</span>
-            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;kde&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;posterior&#39;</span><span class="p">,</span> <span class="s1">&#39;bandwidth&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-            <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">40e-3</span><span class="p">,</span> <span class="mf">45e-3</span><span class="p">],</span>
-            <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">parameter_samples</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">]</span>
-<span class="p">}</span>
-<span class="n">eos</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">plot_args</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-(&lt;Figure size 640x480 with 1 Axes&gt;, &lt;Axes: xlabel=&#39;$|V_{cb}|$&#39;&gt;)
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/user-guide_inference_21_1.png" src="../_images/user-guide_inference_21_1.png" />
-</div>
-</div>
-<p>We can also illustrate the correlation between <span class="math notranslate nohighlight">\(|V_{cb}|\)</span> and any form factor parameter. Her, we use the normalization of the form factors at <span class="math notranslate nohighlight">\(q^2 = 0\)</span> as an example. Contours of equal probability at the <span class="math notranslate nohighlight">\(68\%\)</span> and <span class="math notranslate nohighlight">\(95\%\)</span> levels can be generated using a KDE as follows:</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_args</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;plot&#39;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$|V_</span><span class="si">{cb}</span><span class="s1">|$&#39;</span><span class="p">,</span> <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">38e-3</span><span class="p">,</span> <span class="mf">47e-3</span><span class="p">]</span> <span class="p">},</span>
-        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$f_+(0)$&#39;</span><span class="p">,</span>   <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">]</span> <span class="p">},</span>
-    <span class="p">},</span>
-    <span class="s1">&#39;contents&#39;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span>
-            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;kde2D&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;posterior&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;levels&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">68</span><span class="p">,</span> <span class="mi">95</span><span class="p">],</span> <span class="s1">&#39;contours&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span><span class="s1">&#39;areas&#39;</span><span class="p">],</span> <span class="s1">&#39;bandwidth&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span>
-            <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="n">parameter_samples</span><span class="p">[:,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span> <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">]</span>
-<span class="p">}</span>
-<span class="n">eos</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">plot_args</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-(&lt;Figure size 640x480 with 1 Axes&gt;,
- &lt;Axes: xlabel=&#39;$|V_{cb}|$&#39;, ylabel=&#39;$f_+(0)$&#39;&gt;)
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/user-guide_inference_23_1.png" src="../_images/user-guide_inference_23_1.png" />
-</div>
-</div>
-<p>Here the <code class="docutils literal notranslate"><span class="pre">bandwidth</span></code> parameter takes the same role as in the 1D histogram.</p>
-<p>We can compute the mean value and its standard deviation using <code class="docutils literal notranslate"><span class="pre">numpy</span></code> methods</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;$|V_{{cb}}|$ = </span><span class="si">{mean:.4f}</span><span class="s1"> +/- </span><span class="si">{std:.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-    <span class="n">mean</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">parameter_samples</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]),</span>
-    <span class="n">std</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">parameter_samples</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="p">))</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">plot_args</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -915,12 +460,19 @@ step. The samples obtained as part of the preruns are discarded. To ensure effic
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<div class="highlight"><pre>
-$|V_{cb}|$ = 0.0420 +/- 0.0009
-</pre></div></div>
+<img alt="../_images/user-guide_inference_24_0.png" src="../_images/user-guide_inference_24_0.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
 </div>
 <script type="application/vnd.jupyter.widget-state+json">
-{"state": {"c4f8a0a419c74e89bf2968da8fc96b7b": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "526ad81e0a704d50851a3e6e5de24999": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "e7cf72616cd84c17bb0fa94e8a7315ab": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "ProgressView", "bar_style": "", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_c4f8a0a419c74e89bf2968da8fc96b7b", "max": 5.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_526ad81e0a704d50851a3e6e5de24999", "tabbable": null, "tooltip": null, "value": 5.0}}, "d8252e293aa04996b2550510e3cbc42b": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "ebcb859546324f189ca0f3e59f514ef8": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "28f1dbc5ec114b86a3f5af361ac4a79d": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_d8252e293aa04996b2550510e3cbc42b", "placeholder": "\u200b", "style": "IPY_MODEL_ebcb859546324f189ca0f3e59f514ef8", "tabbable": null, "tooltip": null, "value": "Preruns:\u2007100%"}}, "ac1a40aaaca94a1680a17c384505efc3": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "122f445c71bf4bfebf493541652452f5": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "1c5458788e314843854bf0d52c0a0c58": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_ac1a40aaaca94a1680a17c384505efc3", "placeholder": "\u200b", "style": "IPY_MODEL_122f445c71bf4bfebf493541652452f5", "tabbable": null, "tooltip": null, "value": "\u20075/5\u2007[00:05&lt;00:00,\u2007\u20071.02s/it]"}}, "42f6fdc3c61148158257b0485945bfed": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": "hidden", "width": null}}, "b6f620b3f2004dcdabb064385c51cb5f": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_28f1dbc5ec114b86a3f5af361ac4a79d", "IPY_MODEL_e7cf72616cd84c17bb0fa94e8a7315ab", "IPY_MODEL_1c5458788e314843854bf0d52c0a0c58"], "layout": "IPY_MODEL_42f6fdc3c61148158257b0485945bfed", "tabbable": null, "tooltip": null}}, "da34bd6402944ceb90ec7635affb2145": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "49c441e6a82344a996050b1a34260588": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "06875c36732d4ecbbd7f3b5e85af1632": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "ProgressView", "bar_style": "", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_da34bd6402944ceb90ec7635affb2145", "max": 100.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_49c441e6a82344a996050b1a34260588", "tabbable": null, "tooltip": null, "value": 100.0}}, "e4908cafd1d54c7ca52cfdf6217a0482": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "4194a7cf1aae4062baffd22a4306832f": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "d7c43208f8fc4054ad65be67cb86e11f": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_e4908cafd1d54c7ca52cfdf6217a0482", "placeholder": "\u200b", "style": "IPY_MODEL_4194a7cf1aae4062baffd22a4306832f", "tabbable": null, "tooltip": null, "value": "Main\u2007run:\u2007100%"}}, "8ae0d51156e74e3a829459c482003706": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "471b9a1bddbf4a1c987b5d58cc2669db": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "00dc821d3f7148afa3465d66dc81ca27": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_8ae0d51156e74e3a829459c482003706", "placeholder": "\u200b", "style": "IPY_MODEL_471b9a1bddbf4a1c987b5d58cc2669db", "tabbable": null, "tooltip": null, "value": "\u2007100/100\u2007[00:30&lt;00:00,\u2007\u20073.35it/s]"}}, "ef16412c6e1f4b3eaa74867ca3ce7b99": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": "hidden", "width": null}}, "68bc226353f64181a819a405b807ad1c": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_d7c43208f8fc4054ad65be67cb86e11f", "IPY_MODEL_06875c36732d4ecbbd7f3b5e85af1632", "IPY_MODEL_00dc821d3f7148afa3465d66dc81ca27"], "layout": "IPY_MODEL_ef16412c6e1f4b3eaa74867ca3ce7b99", "tabbable": null, "tooltip": null}}}, "version_major": 2, "version_minor": 0}
+{"state": {"f8e31c2fb1ff439dbe9abd5e4c7a7002": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "200px", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": "auto", "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "f6f35919aef64bd996dc957bce009aee": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_f8e31c2fb1ff439dbe9abd5e4c7a7002", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stderr", "text": "\r0it [00:00, ?it/s]\r14it [00:00, 139.97it/s, batch: 0 | bound: 0 | nc: 2 | ncall: 15 | eff(%):  5.283 | loglstar:   -inf < -9326.532 <    inf | logz: -9332.803 +/-  0.158 | dlogz: 9605.916 >  0.500]\r140it [00:00, 798.71it/s, batch: 0 | bound: 0 | nc: 2 | ncall: 213 | eff(%): 30.238 | loglstar:   -inf < -2101.296 <    inf | logz: -2108.069 +/-  0.164 | dlogz: 2270.158 >  0.500]\r238it [00:00, 877.11it/s, batch: 0 | bound: 0 | nc: 4 | ncall: 424 | eff(%): 35.312 | loglstar:   -inf < -980.942 <    inf | logz: -987.811 +/-  0.160 | dlogz: 1175.069 >  0.500]  \r326it [00:00, 760.78it/s, batch: 0 | bound: 0 | nc: 5 | ncall: 719 | eff(%): 33.643 | loglstar:   -inf < -574.421 <    inf | logz: -581.937 +/-  0.173 | dlogz: 776.730 >  0.500] \r405it [00:00, 611.66it/s, batch: 0 | bound: 0 | nc: 3 | ncall: 1127 | eff(%): 29.412 | loglstar:   -inf < -326.434 <    inf | logz: -334.205 +/-  0.174 | dlogz: 522.217 >  0.500]\r471it [00:00, 481.75it/s, batch: 0 | bound: 0 | nc: 21 | ncall: 1610 | eff(%): 25.323 | loglstar:   -inf < -216.232 <    inf | logz: -223.932 +/-  0.166 | dlogz: 409.714 >  0.500]\r526it [00:01, 399.59it/s, batch: 0 | bound: 0 | nc: 8 | ncall: 2078 | eff(%): 22.595 | loglstar:   -inf < -121.996 <    inf | logz: -128.751 +/-  0.154 | dlogz: 313.318 >  0.500] \r572it [00:01, 353.04it/s, batch: 0 | bound: 0 | nc: 2 | ncall: 2505 | eff(%): 20.762 | loglstar:   -inf < -62.075 <    inf | logz: -70.028 +/-  0.169 | dlogz: 255.072 >  0.500]  \r611it [00:01, 302.53it/s, batch: 0 | bound: 0 | nc: 11 | ncall: 2955 | eff(%): 19.064 | loglstar:   -inf < -30.186 <    inf | logz: -37.898 +/-  0.165 | dlogz: 222.345 >  0.500]\r645it [00:01, 268.91it/s, batch: 0 | bound: 0 | nc: 14 | ncall: 3365 | eff(%): 17.842 | loglstar:   -inf < -8.533 <    inf | logz: -15.781 +/-  0.163 | dlogz: 199.875 >  0.500] \r674it [00:01, 242.77it/s, batch: 0 | bound: 0 | nc: 12 | ncall: 3748 | eff(%): 16.858 | loglstar:   -inf <  4.545 <    inf | logz: -2.459 +/-  0.161 | dlogz: 186.255 >  0.500] \r700it [00:01, 209.25it/s, batch: 0 | bound: 0 | nc: 2 | ncall: 4182 | eff(%): 15.794 | loglstar:   -inf < 16.104 <    inf | logz:  9.027 +/-  0.160 | dlogz: 174.651 >  0.500] \r722it [00:02, 196.51it/s, batch: 0 | bound: 0 | nc: 8 | ncall: 4505 | eff(%): 15.184 | loglstar:   -inf < 30.356 <    inf | logz: 22.328 +/-  0.168 | dlogz: 161.607 >  0.500]\r743it [00:02, 173.92it/s, batch: 0 | bound: 0 | nc: 11 | ncall: 4908 | eff(%): 14.405 | loglstar:   -inf < 41.189 <    inf | logz: 33.897 +/-  0.160 | dlogz: 149.591 >  0.500]\r761it [00:02, 164.19it/s, batch: 0 | bound: 0 | nc: 18 | ncall: 5217 | eff(%): 13.920 | loglstar:   -inf < 52.592 <    inf | logz: 44.948 +/-  0.169 | dlogz: 138.651 >  0.500]\r778it [00:02, 150.69it/s, batch: 0 | bound: 0 | nc: 12 | ncall: 5561 | eff(%): 13.388 | loglstar:   -inf < 60.394 <    inf | logz: 52.809 +/-  0.165 | dlogz: 130.660 >  0.500]\r794it [00:02, 135.69it/s, batch: 0 | bound: 0 | nc: 17 | ncall: 5937 | eff(%): 12.833 | loglstar:   -inf < 64.196 <    inf | logz: 57.312 +/-  0.158 | dlogz: 126.239 >  0.500]\r808it [00:02, 126.58it/s, batch: 0 | bound: 0 | nc: 24 | ncall: 6252 | eff(%): 12.427 | loglstar:   -inf < 69.266 <    inf | logz: 61.394 +/-  0.166 | dlogz: 122.419 >  0.500]\r821it [00:02, 115.91it/s, batch: 0 | bound: 0 | nc: 58 | ncall: 6589 | eff(%): 12.005 | loglstar:   -inf < 74.535 <    inf | logz: 66.686 +/-  0.166 | dlogz: 116.936 >  0.500]\r833it [00:03, 113.54it/s, batch: 0 | bound: 0 | nc: 34 | ncall: 6848 | eff(%): 11.736 | loglstar:   -inf < 79.841 <    inf | logz: 72.292 +/-  0.166 | dlogz: 111.243 >  0.500]\r845it [00:03, 105.07it/s, batch: 0 | bound: 0 | nc: 64 | ncall: 7177 | eff(%): 11.377 | loglstar:   -inf < 83.249 <    inf | logz: 75.332 +/-  0.163 | dlogz: 108.186 >  0.500]\r856it [00:03, 92.83it/s, batch: 0 | bound: 0 | nc: 18 | ncall: 7560 | eff(%): 10.960 | loglstar:   -inf < 85.925 <    inf | logz: 78.628 +/-  0.162 | dlogz: 104.726 >  0.500] \r868it [00:03, 92.03it/s, batch: 0 | bound: 0 | nc: 95 | ncall: 7867 | eff(%): 10.694 | loglstar:   -inf < 88.910 <    inf | logz: 81.318 +/-  0.161 | dlogz: 101.989 >  0.500]\r878it [00:03, 83.45it/s, batch: 0 | bound: 0 | nc: 16 | ncall: 8230 | eff(%): 10.354 | loglstar:   -inf < 90.938 <    inf | logz: 83.541 +/-  0.161 | dlogz: 99.723 >  0.500] \r887it [00:03, 72.59it/s, batch: 0 | bound: 0 | nc: 56 | ncall: 8636 | eff(%):  9.982 | loglstar:   -inf < 93.739 <    inf | logz: 85.739 +/-  0.164 | dlogz: 97.600 >  0.500]\r912it [00:03, 110.99it/s, batch: 0 | bound: 1 | nc: 9 | ncall: 8702 | eff(%): 10.188 | loglstar:   -inf < 103.484 <    inf | logz: 95.490 +/-  0.169 | dlogz: 87.739 >  0.500]\r987it [00:04, 260.27it/s, batch: 0 | bound: 1 | nc: 12 | ncall: 8915 | eff(%): 10.769 | loglstar:   -inf < 119.974 <    inf | logz: 112.403 +/-  0.164 | dlogz: 70.770 >  0.500]\r1019it [00:04, 268.42it/s, batch: 0 | bound: 2 | nc: 5 | ncall: 9022 | eff(%): 10.990 | loglstar:   -inf < 126.103 <    inf | logz: 118.294 +/-  0.167 | dlogz: 64.776 >  0.500]\r1089it [00:04, 380.32it/s, batch: 0 | bound: 2 | nc: 6 | ncall: 9228 | eff(%): 11.490 | loglstar:   -inf < 136.823 <    inf | logz: 128.862 +/-  0.168 | dlogz: 53.906 >  0.500]\r1140it [00:04, 376.00it/s, batch: 0 | bound: 3 | nc: 1 | ncall: 9394 | eff(%): 11.821 | loglstar:   -inf < 143.823 <    inf | logz: 135.889 +/-  0.168 | dlogz: 49.039 >  0.500]\r1211it [00:04, 457.59it/s, batch: 0 | bound: 3 | nc: 11 | ncall: 9611 | eff(%): 12.281 | loglstar:   -inf < 151.179 <    inf | logz: 143.134 +/-  0.168 | dlogz: 43.656 >  0.500]\r1260it [00:04, 379.61it/s, batch: 0 | bound: 4 | nc: 5 | ncall: 9872 | eff(%): 12.448 | loglstar:   -inf < 155.558 <    inf | logz: 147.709 +/-  0.166 | dlogz: 38.855 >  0.500] \r1303it [00:04, 366.60it/s, batch: 0 | bound: 4 | nc: 15 | ncall: 10151 | eff(%): 12.528 | loglstar:   -inf < 158.965 <    inf | logz: 150.873 +/-  0.168 | dlogz: 35.526 >  0.500]\r1343it [00:04, 366.60it/s, batch: 0 | bound: 5 | nc: 3 | ncall: 10252 | eff(%): 12.788 | loglstar:   -inf < 161.392 <    inf | logz: 153.338 +/-  0.168 | dlogz: 33.736 >  0.500] \r1408it [00:05, 437.90it/s, batch: 0 | bound: 5 | nc: 9 | ncall: 10449 | eff(%): 13.160 | loglstar:   -inf < 166.488 <    inf | logz: 158.074 +/-  0.171 | dlogz: 28.746 >  0.500]\r1455it [00:05, 407.71it/s, batch: 0 | bound: 6 | nc: 5 | ncall: 10605 | eff(%): 13.404 | loglstar:   -inf < 168.916 <    inf | logz: 160.768 +/-  0.171 | dlogz: 25.840 >  0.500]\r1529it [00:05, 492.38it/s, batch: 0 | bound: 6 | nc: 3 | ncall: 10814 | eff(%): 13.820 | loglstar:   -inf < 173.057 <    inf | logz: 164.473 +/-  0.175 | dlogz: 21.845 >  0.500]\r1582it [00:05, 449.80it/s, batch: 0 | bound: 7 | nc: 1 | ncall: 10984 | eff(%): 14.082 | loglstar:   -inf < 176.181 <    inf | logz: 167.328 +/-  0.177 | dlogz: 18.782 >  0.500]\r1657it [00:05, 521.02it/s, batch: 0 | bound: 7 | nc: 14 | ncall: 11201 | eff(%): 14.470 | loglstar:   -inf < 178.703 <    inf | logz: 170.044 +/-  0.175 | dlogz: 16.319 >  0.500]\r1712it [00:05, 491.72it/s, batch: 0 | bound: 8 | nc: 4 | ncall: 11340 | eff(%): 14.771 | loglstar:   -inf < 180.342 <    inf | logz: 171.596 +/-  0.175 | dlogz: 14.543 >  0.500] \r1778it [00:05, 534.23it/s, batch: 0 | bound: 8 | nc: 2 | ncall: 11552 | eff(%): 15.065 | loglstar:   -inf < 181.976 <    inf | logz: 173.211 +/-  0.176 | dlogz: 12.659 >  0.500]\r1834it [00:05, 478.15it/s, batch: 0 | bound: 9 | nc: 1 | ncall: 11745 | eff(%): 15.290 | loglstar:   -inf < 183.028 <    inf | logz: 174.221 +/-  0.176 | dlogz: 11.422 >  0.500]\r1885it [00:06, 375.00it/s, batch: 0 | bound: 10 | nc: 3 | ncall: 12083 | eff(%): 15.284 | loglstar:   -inf < 183.913 <    inf | logz: 175.031 +/-  0.176 | dlogz: 10.609 >  0.500]\r1929it [00:06, 387.75it/s, batch: 0 | bound: 10 | nc: 7 | ncall: 12305 | eff(%): 15.364 | loglstar:   -inf < 184.639 <    inf | logz: 175.675 +/-  0.177 | dlogz:  9.788 >  0.500]\r1972it [00:06, 361.99it/s, batch: 0 | bound: 11 | nc: 3 | ncall: 12482 | eff(%): 15.489 | loglstar:   -inf < 185.409 <    inf | logz: 176.278 +/-  0.178 | dlogz:  9.013 >  0.500]\r2041it [00:06, 438.85it/s, batch: 0 | bound: 11 | nc: 2 | ncall: 12692 | eff(%): 15.770 | loglstar:   -inf < 186.384 <    inf | logz: 177.142 +/-  0.179 | dlogz:  7.873 >  0.500]\r2089it [00:06, 399.87it/s, batch: 0 | bound: 12 | nc: 2 | ncall: 12879 | eff(%): 15.911 | loglstar:   -inf < 187.064 <    inf | logz: 177.679 +/-  0.180 | dlogz:  7.642 >  0.500]\r2142it [00:06, 427.66it/s, batch: 0 | bound: 12 | nc: 9 | ncall: 13103 | eff(%): 16.041 | loglstar:   -inf < 187.802 <    inf | logz: 178.268 +/-  0.182 | dlogz:  6.840 >  0.500]\r2188it [00:06, 395.98it/s, batch: 0 | bound: 13 | nc: 1 | ncall: 13258 | eff(%): 16.198 | loglstar:   -inf < 188.496 <    inf | logz: 178.752 +/-  0.183 | dlogz:  6.175 >  0.500]\r2256it [00:06, 466.64it/s, batch: 0 | bound: 13 | nc: 4 | ncall: 13467 | eff(%): 16.447 | loglstar:   -inf < 189.088 <    inf | logz: 179.381 +/-  0.185 | dlogz:  5.274 >  0.500]\r2306it [00:07, 420.79it/s, batch: 0 | bound: 14 | nc: 1 | ncall: 13651 | eff(%): 16.589 | loglstar:   -inf < 189.609 <    inf | logz: 179.773 +/-  0.186 | dlogz:  4.743 >  0.500]\r2370it [00:07, 475.15it/s, batch: 0 | bound: 14 | nc: 2 | ncall: 13862 | eff(%): 16.794 | loglstar:   -inf < 190.165 <    inf | logz: 180.207 +/-  0.186 | dlogz:  4.061 >  0.500]\r2421it [00:07, 419.42it/s, batch: 0 | bound: 15 | nc: 1 | ncall: 14079 | eff(%): 16.896 | loglstar:   -inf < 190.438 <    inf | logz: 180.506 +/-  0.187 | dlogz:  3.568 >  0.500]\r2478it [00:07, 453.05it/s, batch: 0 | bound: 15 | nc: 10 | ncall: 14291 | eff(%): 17.041 | loglstar:   -inf < 190.793 <    inf | logz: 180.783 +/-  0.188 | dlogz:  3.081 >  0.500]\r2527it [00:07, 418.87it/s, batch: 0 | bound: 16 | nc: 5 | ncall: 14471 | eff(%): 17.166 | loglstar:   -inf < 191.082 <    inf | logz: 180.994 +/-  0.188 | dlogz:  2.697 >  0.500] \r2582it [00:07, 450.54it/s, batch: 0 | bound: 16 | nc: 13 | ncall: 14687 | eff(%): 17.286 | loglstar:   -inf < 191.347 <    inf | logz: 181.198 +/-  0.189 | dlogz:  2.391 >  0.500]\r2630it [00:07, 363.25it/s, batch: 0 | bound: 17 | nc: 1 | ncall: 14999 | eff(%): 17.247 | loglstar:   -inf < 191.578 <    inf | logz: 181.353 +/-  0.189 | dlogz:  2.081 >  0.500] \r2671it [00:08, 344.03it/s, batch: 0 | bound: 18 | nc: 3 | ncall: 15159 | eff(%): 17.334 | loglstar:   -inf < 191.763 <    inf | logz: 181.470 +/-  0.189 | dlogz:  1.839 >  0.500]\r2712it [00:08, 357.01it/s, batch: 0 | bound: 18 | nc: 16 | ncall: 15376 | eff(%): 17.356 | loglstar:   -inf < 191.942 <    inf | logz: 181.578 +/-  0.190 | dlogz:  1.616 >  0.500]\r2750it [00:08, 336.93it/s, batch: 0 | bound: 19 | nc: 2 | ncall: 15520 | eff(%): 17.438 | loglstar:   -inf < 192.072 <    inf | logz: 181.669 +/-  0.190 | dlogz:  1.426 >  0.500] \r2826it [00:08, 441.29it/s, batch: 0 | bound: 19 | nc: 2 | ncall: 15728 | eff(%): 17.687 | loglstar:   -inf < 192.378 <    inf | logz: 181.831 +/-  0.191 | dlogz:  1.158 >  0.500]\r2874it [00:08, 417.29it/s, batch: 0 | bound: 20 | nc: 5 | ncall: 15880 | eff(%): 17.818 | loglstar:   -inf < 192.534 <    inf | logz: 181.918 +/-  0.191 | dlogz:  0.976 >  0.500]\r2929it [00:08, 450.08it/s, batch: 0 | bound: 20 | nc: 11 | ncall: 16096 | eff(%): 17.919 | loglstar:   -inf < 192.680 <    inf | logz: 182.004 +/-  0.192 | dlogz:  0.814 >  0.500]\r2977it [00:08, 405.13it/s, batch: 0 | bound: 21 | nc: 5 | ncall: 16289 | eff(%): 18.000 | loglstar:   -inf < 192.770 <    inf | logz: 182.068 +/-  0.192 | dlogz:  0.680 >  0.500] \r3026it [00:08, 425.31it/s, batch: 0 | bound: 21 | nc: 14 | ncall: 16507 | eff(%): 18.058 | loglstar:   -inf < 192.880 <    inf | logz: 182.124 +/-  0.192 | dlogz:  0.564 >  0.500]\r3071it [00:08, 413.05it/s, batch: 0 | bound: 22 | nc: 1 | ncall: 16638 | eff(%): 18.201 | loglstar:   -inf < 192.972 <    inf | logz: 182.170 +/-  0.192 | dlogz:  0.470 >  0.500] \r3306it [00:09, 427.80it/s, batch: 1 | bound: 0 | nc: 8 | ncall: 16873 | eff(%): 19.593 | loglstar: 193.673 < 193.481 <    inf | logz: 182.463 +/-  0.344 | stop:  9.293]          \r3353it [00:09, 433.46it/s, batch: 1 | bound: 2 | nc: 11 | ncall: 17086 | eff(%): 18.616 | loglstar: 193.673 < 193.029 <    inf | logz: 182.463 +/-  0.344 | stop:  9.293]\r3397it [00:09, 403.03it/s, batch: 1 | bound: 3 | nc: 1 | ncall: 17270 | eff(%): 18.670 | loglstar: 193.673 < 193.109 <    inf | logz: 182.463 +/-  0.344 | stop:  9.293] \r3475it [00:09, 473.71it/s, batch: 1 | bound: 3 | nc: 1 | ncall: 17477 | eff(%): 18.884 | loglstar: 193.673 < 193.263 <    inf | logz: 182.463 +/-  0.344 | stop:  9.293]\r3527it [00:10, 429.02it/s, batch: 1 | bound: 4 | nc: 1 | ncall: 17671 | eff(%): 18.966 | loglstar: 193.673 < 193.325 <    inf | logz: 182.463 +/-  0.344 | stop:  9.293]\r3598it [00:10, 486.78it/s, batch: 1 | bound: 4 | nc: 4 | ncall: 17884 | eff(%): 19.129 | loglstar: 193.673 < 193.392 <    inf | logz: 182.463 +/-  0.344 | stop:  9.293]\r3651it [00:10, 427.39it/s, batch: 1 | bound: 5 | nc: 3 | ncall: 18115 | eff(%): 19.175 | loglstar: 193.673 < 193.457 <    inf | logz: 182.463 +/-  0.344 | stop:  9.293]\r3698it [00:10, 432.46it/s, batch: 1 | bound: 5 | nc: 10 | ncall: 18336 | eff(%): 19.199 | loglstar: 193.673 < 193.506 <    inf | logz: 182.463 +/-  0.344 | stop:  9.293]\r3744it [00:10, 360.49it/s, batch: 1 | bound: 6 | nc: 1 | ncall: 18628 | eff(%): 19.148 | loglstar: 193.673 < 193.551 <    inf | logz: 182.463 +/-  0.344 | stop:  9.293] \r3784it [00:10, 337.04it/s, batch: 1 | bound: 7 | nc: 2 | ncall: 18811 | eff(%): 19.173 | loglstar: 193.673 < 193.583 <    inf | logz: 182.463 +/-  0.344 | stop:  9.293]\r3856it [00:10, 421.64it/s, batch: 1 | bound: 7 | nc: 7 | ncall: 19023 | eff(%): 19.330 | loglstar: 193.673 < 193.631 <    inf | logz: 182.463 +/-  0.344 | stop:  9.293]\r3903it [00:10, 386.53it/s, batch: 1 | bound: 8 | nc: 2 | ncall: 19223 | eff(%): 19.372 | loglstar: 193.673 < 193.661 <    inf | logz: 182.463 +/-  0.344 | stop:  9.293]\r3964it [00:11, 438.92it/s, batch: 1 | bound: 8 | nc: 2 | ncall: 19419 | eff(%): 19.485 | loglstar: 193.673 < 193.698 <    inf | logz: 182.463 +/-  0.344 | stop:  9.293]\r4012it [00:11, 413.92it/s, batch: 1 | bound: 9 | nc: 4 | ncall: 19576 | eff(%): 19.570 | loglstar: 193.673 < 193.716 <    inf | logz: 182.463 +/-  0.344 | stop:  9.293]\r4070it [00:11, 450.22it/s, batch: 1 | bound: 9 | nc: 12 | ncall: 19798 | eff(%): 19.640 | loglstar: 193.673 < 193.751 <    inf | logz: 182.463 +/-  0.344 | stop:  9.293]\r4118it [00:11, 429.95it/s, batch: 1 | bound: 10 | nc: 3 | ncall: 19941 | eff(%): 19.735 | loglstar: 193.673 < 193.771 <    inf | logz: 182.463 +/-  0.344 | stop:  9.293]\r4178it [00:11, 473.34it/s, batch: 1 | bound: 10 | nc: 2 | ncall: 20155 | eff(%): 19.820 | loglstar: 193.673 < 193.791 <    inf | logz: 182.463 +/-  0.344 | stop:  9.293]\r4228it [00:11, 438.88it/s, batch: 1 | bound: 11 | nc: 2 | ncall: 20318 | eff(%): 19.903 | loglstar: 193.673 < 193.811 <    inf | logz: 182.463 +/-  0.344 | stop:  9.293]\r4307it [00:11, 529.54it/s, batch: 1 | bound: 11 | nc: 4 | ncall: 20528 | eff(%): 20.076 | loglstar: 193.673 < 193.838 <    inf | logz: 182.463 +/-  0.344 | stop:  9.293]\r4363it [00:11, 485.42it/s, batch: 1 | bound: 12 | nc: 2 | ncall: 20695 | eff(%): 20.180 | loglstar: 193.673 < 193.856 <    inf | logz: 182.463 +/-  0.344 | stop:  9.293]\r4445it [00:12, 568.38it/s, batch: 1 | bound: 12 | nc: 6 | ncall: 20887 | eff(%): 20.379 | loglstar: 193.673 < 193.879 <    inf | logz: 182.463 +/-  0.344 | stop:  9.293]\r4505it [00:12, 523.21it/s, batch: 1 | bound: 13 | nc: 1 | ncall: 21043 | eff(%): 20.507 | loglstar: 193.673 < 193.895 <    inf | logz: 182.463 +/-  0.344 | stop:  9.293]\r4592it [00:12, 612.05it/s, batch: 1 | bound: 13 | nc: 1 | ncall: 21246 | eff(%): 20.712 | loglstar: 193.673 < 193.913 <    inf | logz: 182.463 +/-  0.344 | stop:  9.293]\r4887it [00:12, 592.37it/s, batch: 2 | bound: 0 | nc: 1 | ncall: 22319 | eff(%): 21.896 | loglstar: 190.713 < 192.641 < 192.752 | logz: 182.461 +/-  0.188 | stop:  6.988]\r4950it [00:12, 569.11it/s, batch: 2 | bound: 2 | nc: 7 | ncall: 22602 | eff(%): 21.345 | loglstar: 190.713 < 191.041 < 192.752 | logz: 182.461 +/-  0.188 | stop:  6.988]\r5008it [00:13, 508.84it/s, batch: 2 | bound: 3 | nc: 1 | ncall: 22829 | eff(%): 21.386 | loglstar: 190.713 < 191.347 < 192.752 | logz: 182.461 +/-  0.188 | stop:  6.988]\r5061it [00:13, 512.39it/s, batch: 2 | bound: 3 | nc: 7 | ncall: 23046 | eff(%): 21.414 | loglstar: 190.713 < 191.553 < 192.752 | logz: 182.461 +/-  0.188 | stop:  6.988]\r5113it [00:13, 465.79it/s, batch: 2 | bound: 4 | nc: 2 | ncall: 23237 | eff(%): 21.461 | loglstar: 190.713 < 191.773 < 192.752 | logz: 182.461 +/-  0.188 | stop:  6.988]\r5173it [00:13, 493.02it/s, batch: 2 | bound: 4 | nc: 15 | ncall: 23452 | eff(%): 21.518 | loglstar: 190.713 < 191.996 < 192.752 | logz: 182.461 +/-  0.188 | stop:  6.988]\r5224it [00:13, 451.06it/s, batch: 2 | bound: 5 | nc: 3 | ncall: 23630 | eff(%): 21.571 | loglstar: 190.713 < 192.234 < 192.752 | logz: 182.461 +/-  0.188 | stop:  6.988] \r5270it [00:13, 401.93it/s, batch: 2 | bound: 6 | nc: 1 | ncall: 23845 | eff(%): 21.569 | loglstar: 190.713 < 192.370 < 192.752 | logz: 182.461 +/-  0.188 | stop:  6.988]\r5332it [00:13, 447.71it/s, batch: 2 | bound: 6 | nc: 14 | ncall: 24065 | eff(%): 21.628 | loglstar: 190.713 < 192.563 < 192.752 | logz: 182.461 +/-  0.188 | stop:  6.988]\r5379it [00:13, 394.73it/s, batch: 2 | bound: 7 | nc: 13 | ncall: 24285 | eff(%): 21.626 | loglstar: 190.713 < 192.671 < 192.752 | logz: 182.461 +/-  0.188 | stop:  6.988]\r5639it [00:14, 905.93it/s, batch: 2 | bound: 7 | nc: 1 | ncall: 24670 | eff(%): 22.521 | loglstar: 190.713 < 193.559 < 192.752 | logz: 182.461 +/-  0.188 | stop:  6.988] \r5746it [00:14, 366.50it/s, batch: 3 | bound: 2 | nc: 7 | ncall: 25397 | eff(%): 21.816 | loglstar: 190.039 < 190.529 < 190.724 | logz: 182.437 +/-  0.153 | stop:  4.210]\r5826it [00:14, 406.33it/s, batch: 3 | bound: 3 | nc: 1 | ncall: 25556 | eff(%): 22.016 | loglstar: 190.039 < 190.944 < 190.724 | logz: 182.437 +/-  0.153 | stop:  4.210]\r6041it [00:15, 446.12it/s, batch: 4 | bound: 0 | nc: 3 | ncall: 26463 | eff(%): 22.828 | loglstar: 189.503 < 189.725 < 190.040 | logz: 182.403 +/-  0.144 | stop:  3.493]\r6109it [00:15, 461.87it/s, batch: 4 | bound: 2 | nc: 1 | ncall: 26719 | eff(%): 22.456 | loglstar: 189.503 < 189.985 < 190.040 | logz: 182.403 +/-  0.144 | stop:  3.493]\r6367it [00:15, 483.62it/s, batch: 5 | bound: 0 | nc: 4 | ncall: 27241 | eff(%): 23.373 | loglstar: 189.076 < 189.970 < 189.511 | logz: 182.406 +/-  0.137 | stop:  3.080]\r6427it [00:16, 490.09it/s, batch: 5 | bound: 2 | nc: 1 | ncall: 27465 | eff(%): 22.830 | loglstar: 189.076 < 189.597 < 189.511 | logz: 182.406 +/-  0.137 | stop:  3.080]\r6673it [00:16, 497.36it/s, batch: 6 | bound: 0 | nc: 8 | ncall: 28151 | eff(%): 23.704 | loglstar: 188.544 < 188.643 < 192.706 | logz: 182.397 +/-  0.133 | stop:  2.828]\r6729it [00:16, 501.56it/s, batch: 6 | bound: 2 | nc: 4 | ncall: 28368 | eff(%): 23.187 | loglstar: 188.544 < 188.975 < 192.706 | logz: 182.397 +/-  0.133 | stop:  2.828]\r6784it [00:16, 466.46it/s, batch: 6 | bound: 3 | nc: 2 | ncall: 28595 | eff(%): 23.196 | loglstar: 188.544 < 189.587 < 192.706 | logz: 182.397 +/-  0.133 | stop:  2.828]\r6833it [00:16, 465.83it/s, batch: 6 | bound: 3 | nc: 4 | ncall: 28825 | eff(%): 23.181 | loglstar: 188.544 < 189.886 < 192.706 | logz: 182.397 +/-  0.133 | stop:  2.828]\r6881it [00:17, 428.66it/s, batch: 6 | bound: 4 | nc: 1 | ncall: 29020 | eff(%): 23.190 | loglstar: 188.544 < 190.295 < 192.706 | logz: 182.397 +/-  0.133 | stop:  2.828]\r6941it [00:17, 459.51it/s, batch: 6 | bound: 4 | nc: 21 | ncall: 29241 | eff(%): 23.219 | loglstar: 188.544 < 190.658 < 192.706 | logz: 182.397 +/-  0.133 | stop:  2.828]\r6989it [00:17, 403.34it/s, batch: 6 | bound: 5 | nc: 5 | ncall: 29481 | eff(%): 23.194 | loglstar: 188.544 < 190.902 < 192.706 | logz: 182.397 +/-  0.133 | stop:  2.828] \r7031it [00:17, 360.10it/s, batch: 6 | bound: 6 | nc: 3 | ncall: 29698 | eff(%): 23.166 | loglstar: 188.544 < 191.127 < 192.706 | logz: 182.397 +/-  0.133 | stop:  2.828]\r7083it [00:17, 392.00it/s, batch: 6 | bound: 6 | nc: 8 | ncall: 29905 | eff(%): 23.180 | loglstar: 188.544 < 191.425 < 192.706 | logz: 182.397 +/-  0.133 | stop:  2.828]\r7125it [00:17, 354.04it/s, batch: 6 | bound: 7 | nc: 2 | ncall: 30102 | eff(%): 23.168 | loglstar: 188.544 < 191.654 < 192.706 | logz: 182.397 +/-  0.133 | stop:  2.828]\r7164it [00:17, 360.60it/s, batch: 6 | bound: 7 | nc: 7 | ncall: 30320 | eff(%): 23.131 | loglstar: 188.544 < 191.836 < 192.706 | logz: 182.397 +/-  0.133 | stop:  2.828]\r7202it [00:18, 306.92it/s, batch: 6 | bound: 8 | nc: 2 | ncall: 30552 | eff(%): 23.080 | loglstar: 188.544 < 192.015 < 192.706 | logz: 182.397 +/-  0.133 | stop:  2.828]\r7252it [00:18, 350.52it/s, batch: 6 | bound: 8 | nc: 8 | ncall: 30757 | eff(%): 23.089 | loglstar: 188.544 < 192.186 < 192.706 | logz: 182.397 +/-  0.133 | stop:  2.828]\r7290it [00:18, 341.47it/s, batch: 6 | bound: 9 | nc: 2 | ncall: 30873 | eff(%): 23.125 | loglstar: 188.544 < 192.312 < 192.706 | logz: 182.397 +/-  0.133 | stop:  2.828]\r7349it [00:18, 402.42it/s, batch: 6 | bound: 9 | nc: 4 | ncall: 31077 | eff(%): 23.162 | loglstar: 188.544 < 192.467 < 192.706 | logz: 182.397 +/-  0.133 | stop:  2.828]\r7392it [00:18, 385.26it/s, batch: 6 | bound: 10 | nc: 3 | ncall: 31218 | eff(%): 23.194 | loglstar: 188.544 < 192.567 < 192.706 | logz: 182.397 +/-  0.133 | stop:  2.828]\r7453it [00:18, 442.34it/s, batch: 6 | bound: 10 | nc: 3 | ncall: 31434 | eff(%): 23.228 | loglstar: 188.544 < 192.702 < 192.706 | logz: 182.397 +/-  0.133 | stop:  2.828]\r7704it [00:19, 484.74it/s, batch: 7 | bound: 0 | nc: 6 | ncall: 32092 | eff(%): 24.006 | loglstar: 188.135 < 189.889 < 192.345 | logz: 182.397 +/-  0.119 | stop:  2.147] \r7763it [00:19, 501.12it/s, batch: 7 | bound: 2 | nc: 4 | ncall: 32299 | eff(%): 23.561 | loglstar: 188.135 < 188.697 < 192.345 | logz: 182.397 +/-  0.119 | stop:  2.147]\r7814it [00:19, 458.84it/s, batch: 7 | bound: 3 | nc: 18 | ncall: 32497 | eff(%): 23.574 | loglstar: 188.135 < 189.242 < 192.345 | logz: 182.397 +/-  0.119 | stop:  2.147]\r7860it [00:19, 414.95it/s, batch: 7 | bound: 3 | nc: 16 | ncall: 32841 | eff(%): 23.470 | loglstar: 188.135 < 189.653 < 192.345 | logz: 182.397 +/-  0.119 | stop:  2.147]\r7901it [00:19, 382.32it/s, batch: 7 | bound: 4 | nc: 9 | ncall: 33016 | eff(%): 23.469 | loglstar: 188.135 < 190.063 < 192.345 | logz: 182.397 +/-  0.119 | stop:  2.147] \r7954it [00:19, 368.59it/s, batch: 7 | bound: 5 | nc: 3 | ncall: 33233 | eff(%): 23.476 | loglstar: 188.135 < 190.387 < 192.345 | logz: 182.397 +/-  0.119 | stop:  2.147]\r8026it [00:19, 441.78it/s, batch: 7 | bound: 5 | nc: 7 | ncall: 33441 | eff(%): 23.544 | loglstar: 188.135 < 190.851 < 192.345 | logz: 182.397 +/-  0.119 | stop:  2.147]\r8075it [00:20, 408.63it/s, batch: 7 | bound: 6 | nc: 4 | ncall: 33612 | eff(%): 23.569 | loglstar: 188.135 < 191.154 < 192.345 | logz: 182.397 +/-  0.119 | stop:  2.147]\r8123it [00:20, 420.62it/s, batch: 7 | bound: 6 | nc: 17 | ncall: 33817 | eff(%): 23.568 | loglstar: 188.135 < 191.326 < 192.345 | logz: 182.397 +/-  0.119 | stop:  2.147]\r8171it [00:20, 389.13it/s, batch: 7 | bound: 7 | nc: 2 | ncall: 33986 | eff(%): 23.592 | loglstar: 188.135 < 191.549 < 192.345 | logz: 182.397 +/-  0.119 | stop:  2.147] \r8220it [00:20, 411.53it/s, batch: 7 | bound: 7 | nc: 6 | ncall: 34201 | eff(%): 23.587 | loglstar: 188.135 < 191.745 < 192.345 | logz: 182.397 +/-  0.119 | stop:  2.147]\r8263it [00:20, 367.63it/s, batch: 7 | bound: 8 | nc: 4 | ncall: 34404 | eff(%): 23.573 | loglstar: 188.135 < 191.932 < 192.345 | logz: 182.397 +/-  0.119 | stop:  2.147]\r8327it [00:20, 431.82it/s, batch: 7 | bound: 8 | nc: 6 | ncall: 34621 | eff(%): 23.609 | loglstar: 188.135 < 192.147 < 192.345 | logz: 182.397 +/-  0.119 | stop:  2.147]\r8373it [00:20, 404.49it/s, batch: 7 | bound: 9 | nc: 4 | ncall: 34783 | eff(%): 23.631 | loglstar: 188.135 < 192.278 < 192.345 | logz: 182.397 +/-  0.119 | stop:  2.147]\r8646it [00:21, 437.12it/s, batch: 8 | bound: 0 | nc: 5 | ncall: 35480 | eff(%): 24.369 | loglstar: 187.656 < 190.059 < 188.136 | logz: 182.394 +/-  0.111 | stop:  1.771]\r8939it [00:21, 492.91it/s, batch: 9 | bound: 0 | nc: 1 | ncall: 36442 | eff(%): 24.529 | loglstar: 187.129 < 191.907 < 192.943 | logz: 182.384 +/-  0.110 | stop:  1.717]\r9010it [00:22, 516.10it/s, batch: 9 | bound: 2 | nc: 3 | ncall: 36646 | eff(%): 24.228 | loglstar: 187.129 < 188.027 < 192.943 | logz: 182.384 +/-  0.110 | stop:  1.717]\r9064it [00:22, 484.45it/s, batch: 9 | bound: 3 | nc: 12 | ncall: 36834 | eff(%): 24.250 | loglstar: 187.129 < 188.632 < 192.943 | logz: 182.384 +/-  0.110 | stop:  1.717]\r9125it [00:22, 503.02it/s, batch: 9 | bound: 3 | nc: 8 | ncall: 37042 | eff(%): 24.278 | loglstar: 187.129 < 189.224 < 192.943 | logz: 182.384 +/-  0.110 | stop:  1.717] \r9177it [00:22, 454.05it/s, batch: 9 | bound: 4 | nc: 5 | ncall: 37268 | eff(%): 24.271 | loglstar: 187.129 < 189.729 < 192.943 | logz: 182.384 +/-  0.110 | stop:  1.717]\r9240it [00:22, 486.66it/s, batch: 9 | bound: 4 | nc: 1 | ncall: 37480 | eff(%): 24.301 | loglstar: 187.129 < 190.313 < 192.943 | logz: 182.384 +/-  0.110 | stop:  1.717]\r9291it [00:22, 432.93it/s, batch: 9 | bound: 5 | nc: 5 | ncall: 37706 | eff(%): 24.291 | loglstar: 187.129 < 190.717 < 192.943 | logz: 182.384 +/-  0.110 | stop:  1.717]\r9337it [00:22, 367.22it/s, batch: 9 | bound: 6 | nc: 4 | ncall: 37999 | eff(%): 24.226 | loglstar: 187.129 < 191.001 < 192.943 | logz: 182.384 +/-  0.110 | stop:  1.717]\r9380it [00:23, 375.35it/s, batch: 9 | bound: 6 | nc: 31 | ncall: 38232 | eff(%): 24.191 | loglstar: 187.129 < 191.250 < 192.943 | logz: 182.384 +/-  0.110 | stop:  1.717]\r9420it [00:23, 360.48it/s, batch: 9 | bound: 7 | nc: 5 | ncall: 38369 | eff(%): 24.208 | loglstar: 187.129 < 191.427 < 192.943 | logz: 182.384 +/-  0.110 | stop:  1.717] \r9498it [00:23, 456.78it/s, batch: 9 | bound: 7 | nc: 1 | ncall: 38574 | eff(%): 24.281 | loglstar: 187.129 < 191.783 < 192.943 | logz: 182.384 +/-  0.110 | stop:  1.717]\r9548it [00:23, 418.93it/s, batch: 9 | bound: 8 | nc: 1 | ncall: 38747 | eff(%): 24.301 | loglstar: 187.129 < 191.988 < 192.943 | logz: 182.384 +/-  0.110 | stop:  1.717]\r9594it [00:23, 428.32it/s, batch: 9 | bound: 8 | nc: 4 | ncall: 38945 | eff(%): 24.296 | loglstar: 187.129 < 192.176 < 192.943 | logz: 182.384 +/-  0.110 | stop:  1.717]\r9640it [00:23, 379.57it/s, batch: 9 | bound: 9 | nc: 3 | ncall: 39148 | eff(%): 24.288 | loglstar: 187.129 < 192.350 < 192.943 | logz: 182.384 +/-  0.110 | stop:  1.717]\r9681it [00:23, 378.73it/s, batch: 9 | bound: 9 | nc: 1 | ncall: 39384 | eff(%): 24.247 | loglstar: 187.129 < 192.474 < 192.943 | logz: 182.384 +/-  0.110 | stop:  1.717]\r9721it [00:23, 354.27it/s, batch: 9 | bound: 10 | nc: 4 | ncall: 39543 | eff(%): 24.250 | loglstar: 187.129 < 192.590 < 192.943 | logz: 182.384 +/-  0.110 | stop:  1.717]\r9781it [00:24, 412.60it/s, batch: 9 | bound: 10 | nc: 10 | ncall: 39761 | eff(%): 24.268 | loglstar: 187.129 < 192.734 < 192.943 | logz: 182.384 +/-  0.110 | stop:  1.717]\r9825it [00:24, 376.88it/s, batch: 9 | bound: 11 | nc: 6 | ncall: 39927 | eff(%): 24.277 | loglstar: 187.129 < 192.828 < 192.943 | logz: 182.384 +/-  0.110 | stop:  1.717] \r9868it [00:24, 389.52it/s, batch: 9 | bound: 11 | nc: 3 | ncall: 40136 | eff(%): 24.258 | loglstar: 187.129 < 192.926 < 192.943 | logz: 182.384 +/-  0.110 | stop:  1.717]\r10124it [00:24, 459.22it/s, batch: 10 | bound: 0 | nc: 2 | ncall: 40710 | eff(%): 24.869 | loglstar: 186.473 < 186.807 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436]\r10170it [00:24, 455.88it/s, batch: 10 | bound: 2 | nc: 16 | ncall: 40926 | eff(%): 24.493 | loglstar: 186.473 < 187.059 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436]\r10214it [00:25, 416.30it/s, batch: 10 | bound: 3 | nc: 2 | ncall: 41116 | eff(%): 24.487 | loglstar: 186.473 < 187.633 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436] \r10290it [00:25, 481.06it/s, batch: 10 | bound: 3 | nc: 1 | ncall: 41303 | eff(%): 24.559 | loglstar: 186.473 < 188.443 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436]\r10341it [00:25, 440.72it/s, batch: 10 | bound: 4 | nc: 1 | ncall: 41474 | eff(%): 24.580 | loglstar: 186.473 < 188.905 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436]\r10392it [00:25, 454.57it/s, batch: 10 | bound: 4 | nc: 26 | ncall: 41692 | eff(%): 24.574 | loglstar: 186.473 < 189.312 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436]\r10439it [00:25, 416.80it/s, batch: 10 | bound: 5 | nc: 1 | ncall: 41871 | eff(%): 24.581 | loglstar: 186.473 < 189.689 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436] \r10511it [00:25, 487.11it/s, batch: 10 | bound: 5 | nc: 10 | ncall: 42079 | eff(%): 24.630 | loglstar: 186.473 < 190.166 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436]\r10563it [00:25, 431.00it/s, batch: 10 | bound: 6 | nc: 11 | ncall: 42299 | eff(%): 24.625 | loglstar: 186.473 < 190.556 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436]\r10613it [00:25, 446.46it/s, batch: 10 | bound: 6 | nc: 2 | ncall: 42507 | eff(%): 24.622 | loglstar: 186.473 < 190.837 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436] \r10660it [00:26, 367.57it/s, batch: 10 | bound: 7 | nc: 9 | ncall: 42794 | eff(%): 24.568 | loglstar: 186.473 < 191.072 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436]\r10701it [00:26, 325.87it/s, batch: 10 | bound: 8 | nc: 5 | ncall: 43018 | eff(%): 24.536 | loglstar: 186.473 < 191.286 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436]\r10761it [00:26, 385.78it/s, batch: 10 | bound: 8 | nc: 4 | ncall: 43228 | eff(%): 24.555 | loglstar: 186.473 < 191.575 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436]\r10804it [00:26, 358.97it/s, batch: 10 | bound: 9 | nc: 1 | ncall: 43395 | eff(%): 24.560 | loglstar: 186.473 < 191.737 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436]\r10855it [00:26, 394.12it/s, batch: 10 | bound: 9 | nc: 4 | ncall: 43592 | eff(%): 24.565 | loglstar: 186.473 < 191.901 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436]\r10898it [00:26, 374.07it/s, batch: 10 | bound: 10 | nc: 3 | ncall: 43745 | eff(%): 24.578 | loglstar: 186.473 < 192.085 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436]\r10946it [00:26, 399.25it/s, batch: 10 | bound: 10 | nc: 10 | ncall: 43955 | eff(%): 24.570 | loglstar: 186.473 < 192.288 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436]\r10991it [00:26, 371.44it/s, batch: 10 | bound: 11 | nc: 6 | ncall: 44121 | eff(%): 24.579 | loglstar: 186.473 < 192.395 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436] \r11039it [00:27, 398.01it/s, batch: 10 | bound: 11 | nc: 3 | ncall: 44330 | eff(%): 24.572 | loglstar: 186.473 < 192.516 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436]\r11081it [00:27, 340.51it/s, batch: 10 | bound: 12 | nc: 3 | ncall: 44562 | eff(%): 24.538 | loglstar: 186.473 < 192.632 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436]\r11135it [00:27, 387.24it/s, batch: 10 | bound: 12 | nc: 4 | ncall: 44781 | eff(%): 24.539 | loglstar: 186.473 < 192.751 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436]\r11177it [00:27, 353.46it/s, batch: 10 | bound: 13 | nc: 2 | ncall: 44961 | eff(%): 24.534 | loglstar: 186.473 < 192.843 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436]\r11226it [00:27, 384.78it/s, batch: 10 | bound: 13 | nc: 25 | ncall: 45170 | eff(%): 24.529 | loglstar: 186.473 < 192.938 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436]\r11267it [00:27, 363.31it/s, batch: 10 | bound: 14 | nc: 2 | ncall: 45317 | eff(%): 24.540 | loglstar: 186.473 < 193.011 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436] \r11338it [00:27, 450.65it/s, batch: 10 | bound: 14 | nc: 5 | ncall: 45522 | eff(%): 24.585 | loglstar: 186.473 < 193.116 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436]\r11386it [00:27, 405.12it/s, batch: 10 | bound: 15 | nc: 3 | ncall: 45713 | eff(%): 24.587 | loglstar: 186.473 < 193.178 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436]\r11438it [00:28, 433.85it/s, batch: 10 | bound: 15 | nc: 4 | ncall: 45912 | eff(%): 24.594 | loglstar: 186.473 < 193.270 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436]\r11484it [00:28, 393.77it/s, batch: 10 | bound: 16 | nc: 1 | ncall: 46081 | eff(%): 24.603 | loglstar: 186.473 < 193.322 < 193.383 | logz: 182.397 +/-  0.102 | stop:  1.436]\r11778it [00:28, 487.12it/s, batch: 11 | bound: 0 | nc: 2 | ncall: 46777 | eff(%): 25.179 | loglstar: 185.783 < 186.073 < 192.942 | logz: 182.359 +/-  0.093 | stop:  1.182] \r11827it [00:28, 486.57it/s, batch: 11 | bound: 2 | nc: 3 | ncall: 46986 | eff(%): 24.875 | loglstar: 185.783 < 186.473 < 192.942 | logz: 182.359 +/-  0.093 | stop:  1.182]\r11874it [00:29, 439.12it/s, batch: 11 | bound: 3 | nc: 20 | ncall: 47204 | eff(%): 24.860 | loglstar: 185.783 < 187.166 < 192.942 | logz: 182.359 +/-  0.093 | stop:  1.182]\r11916it [00:29, 418.94it/s, batch: 11 | bound: 3 | nc: 6 | ncall: 47474 | eff(%): 24.807 | loglstar: 185.783 < 187.730 < 192.942 | logz: 182.359 +/-  0.093 | stop:  1.182] \r11956it [00:29, 391.09it/s, batch: 11 | bound: 4 | nc: 3 | ncall: 47619 | eff(%): 24.816 | loglstar: 185.783 < 188.263 < 192.942 | logz: 182.359 +/-  0.093 | stop:  1.182]\r12019it [00:29, 437.27it/s, batch: 11 | bound: 4 | nc: 15 | ncall: 47841 | eff(%): 24.832 | loglstar: 185.783 < 188.832 < 192.942 | logz: 182.359 +/-  0.093 | stop:  1.182]\r12063it [00:29, 367.72it/s, batch: 11 | bound: 5 | nc: 6 | ncall: 48110 | eff(%): 24.785 | loglstar: 185.783 < 189.365 < 192.942 | logz: 182.359 +/-  0.093 | stop:  1.182] \r12101it [00:29, 321.71it/s, batch: 11 | bound: 6 | nc: 8 | ncall: 48352 | eff(%): 24.740 | loglstar: 185.783 < 189.769 < 192.942 | logz: 182.359 +/-  0.093 | stop:  1.182]\r12140it [00:29, 335.80it/s, batch: 11 | bound: 6 | nc: 4 | ncall: 48569 | eff(%): 24.710 | loglstar: 185.783 < 190.089 < 192.942 | logz: 182.359 +/-  0.093 | stop:  1.182]\r12175it [00:29, 312.98it/s, batch: 11 | bound: 7 | nc: 1 | ncall: 48722 | eff(%): 24.705 | loglstar: 185.783 < 190.388 < 192.942 | logz: 182.359 +/-  0.093 | stop:  1.182]\r12233it [00:30, 370.21it/s, batch: 11 | bound: 7 | nc: 18 | ncall: 48948 | eff(%): 24.709 | loglstar: 185.783 < 190.776 < 192.942 | logz: 182.359 +/-  0.093 | stop:  1.182]\r12272it [00:30, 350.49it/s, batch: 11 | bound: 8 | nc: 2 | ncall: 49096 | eff(%): 24.714 | loglstar: 185.783 < 190.996 < 192.942 | logz: 182.359 +/-  0.093 | stop:  1.182] \r12313it [00:30, 364.80it/s, batch: 11 | bound: 8 | nc: 11 | ncall: 49297 | eff(%): 24.697 | loglstar: 185.783 < 191.181 < 192.942 | logz: 182.359 +/-  0.093 | stop:  1.182]\r12351it [00:30, 331.25it/s, batch: 11 | bound: 9 | nc: 7 | ncall: 49476 | eff(%): 24.684 | loglstar: 185.783 < 191.398 < 192.942 | logz: 182.359 +/-  0.093 | stop:  1.182] \r12409it [00:30, 393.62it/s, batch: 11 | bound: 9 | nc: 2 | ncall: 49689 | eff(%): 24.695 | loglstar: 185.783 < 191.633 < 192.942 | logz: 182.359 +/-  0.093 | stop:  1.182]\r12451it [00:30, 354.04it/s, batch: 11 | bound: 10 | nc: 7 | ncall: 49875 | eff(%): 24.687 | loglstar: 185.783 < 191.841 < 192.942 | logz: 182.359 +/-  0.093 | stop:  1.182]\r12512it [00:30, 414.77it/s, batch: 11 | bound: 10 | nc: 15 | ncall: 50096 | eff(%): 24.700 | loglstar: 185.783 < 192.053 < 192.942 | logz: 182.359 +/-  0.093 | stop:  1.182]\r12556it [00:30, 372.43it/s, batch: 11 | bound: 11 | nc: 5 | ncall: 50287 | eff(%): 24.694 | loglstar: 185.783 < 192.211 < 192.942 | logz: 182.359 +/-  0.093 | stop:  1.182] \r12606it [00:31, 403.52it/s, batch: 11 | bound: 11 | nc: 1 | ncall: 50505 | eff(%): 24.686 | loglstar: 185.783 < 192.356 < 192.942 | logz: 182.359 +/-  0.093 | stop:  1.182]\r12649it [00:31, 366.13it/s, batch: 11 | bound: 12 | nc: 1 | ncall: 50698 | eff(%): 24.677 | loglstar: 185.783 < 192.497 < 192.942 | logz: 182.359 +/-  0.093 | stop:  1.182]\r12692it [00:31, 382.04it/s, batch: 11 | bound: 12 | nc: 1 | ncall: 50910 | eff(%): 24.659 | loglstar: 185.783 < 192.612 < 192.942 | logz: 182.359 +/-  0.093 | stop:  1.182]\r12732it [00:31, 366.94it/s, batch: 11 | bound: 13 | nc: 1 | ncall: 51042 | eff(%): 24.673 | loglstar: 185.783 < 192.704 < 192.942 | logz: 182.359 +/-  0.093 | stop:  1.182]\r12786it [00:31, 409.50it/s, batch: 11 | bound: 13 | nc: 8 | ncall: 51263 | eff(%): 24.672 | loglstar: 185.783 < 192.807 < 192.942 | logz: 182.359 +/-  0.093 | stop:  1.182]\r12829it [00:31, 393.46it/s, batch: 11 | bound: 14 | nc: 2 | ncall: 51392 | eff(%): 24.694 | loglstar: 185.783 < 192.888 < 192.942 | logz: 182.359 +/-  0.093 | stop:  1.182]\r13104it [00:32, 410.63it/s, batch: 12 | bound: 0 | nc: 2 | ncall: 52034 | eff(%): 25.184 | loglstar: 185.082 < 186.744 < 192.942 | logz: 182.369 +/-  0.088 | stop:  1.038] \r13159it [00:32, 428.53it/s, batch: 12 | bound: 2 | nc: 3 | ncall: 52241 | eff(%): 24.818 | loglstar: 185.082 < 186.018 < 192.942 | logz: 182.369 +/-  0.088 | stop:  1.038]\r13204it [00:32, 400.31it/s, batch: 12 | bound: 3 | nc: 1 | ncall: 52414 | eff(%): 24.822 | loglstar: 185.082 < 186.524 < 192.942 | logz: 182.369 +/-  0.088 | stop:  1.038]\r13265it [00:32, 436.83it/s, batch: 12 | bound: 3 | nc: 4 | ncall: 52613 | eff(%): 24.844 | loglstar: 185.082 < 187.189 < 192.942 | logz: 182.369 +/-  0.088 | stop:  1.038]\r13318it [00:32, 413.56it/s, batch: 12 | bound: 4 | nc: 1 | ncall: 52789 | eff(%): 24.861 | loglstar: 185.082 < 187.897 < 192.942 | logz: 182.369 +/-  0.088 | stop:  1.038]\r13384it [00:32, 463.53it/s, batch: 12 | bound: 4 | nc: 5 | ncall: 52995 | eff(%): 24.888 | loglstar: 185.082 < 188.529 < 192.942 | logz: 182.369 +/-  0.088 | stop:  1.038]\r13434it [00:33, 427.19it/s, batch: 12 | bound: 5 | nc: 4 | ncall: 53171 | eff(%): 24.900 | loglstar: 185.082 < 189.197 < 192.942 | logz: 182.369 +/-  0.088 | stop:  1.038]\r13493it [00:33, 463.25it/s, batch: 12 | bound: 5 | nc: 3 | ncall: 53387 | eff(%): 24.910 | loglstar: 185.082 < 189.759 < 192.942 | logz: 182.369 +/-  0.088 | stop:  1.038]\r13543it [00:33, 411.97it/s, batch: 12 | bound: 6 | nc: 7 | ncall: 53590 | eff(%): 24.908 | loglstar: 185.082 < 190.125 < 192.942 | logz: 182.369 +/-  0.088 | stop:  1.038]\r13594it [00:33, 432.90it/s, batch: 12 | bound: 6 | nc: 13 | ncall: 53801 | eff(%): 24.906 | loglstar: 185.082 < 190.435 < 192.942 | logz: 182.369 +/-  0.088 | stop:  1.038]\r13640it [00:33, 408.62it/s, batch: 12 | bound: 7 | nc: 1 | ncall: 53946 | eff(%): 24.924 | loglstar: 185.082 < 190.709 < 192.942 | logz: 182.369 +/-  0.088 | stop:  1.038] \r13710it [00:33, 480.57it/s, batch: 12 | bound: 7 | nc: 5 | ncall: 54157 | eff(%): 24.955 | loglstar: 185.082 < 191.086 < 192.942 | logz: 182.369 +/-  0.088 | stop:  1.038]\r13761it [00:33, 433.37it/s, batch: 12 | bound: 8 | nc: 6 | ncall: 54352 | eff(%): 24.960 | loglstar: 185.082 < 191.374 < 192.942 | logz: 182.369 +/-  0.088 | stop:  1.038]\r13810it [00:33, 445.94it/s, batch: 12 | bound: 8 | nc: 3 | ncall: 54571 | eff(%): 24.949 | loglstar: 185.082 < 191.635 < 192.942 | logz: 182.369 +/-  0.088 | stop:  1.038]\r13857it [00:34, 377.92it/s, batch: 12 | bound: 9 | nc: 1 | ncall: 54811 | eff(%): 24.926 | loglstar: 185.082 < 191.832 < 192.942 | logz: 182.369 +/-  0.088 | stop:  1.038]\r13903it [00:34, 395.81it/s, batch: 12 | bound: 9 | nc: 12 | ncall: 55032 | eff(%): 24.910 | loglstar: 185.082 < 191.994 < 192.942 | logz: 182.369 +/-  0.088 | stop:  1.038]\r13946it [00:34, 361.88it/s, batch: 12 | bound: 10 | nc: 2 | ncall: 55204 | eff(%): 24.910 | loglstar: 185.082 < 192.167 < 192.942 | logz: 182.369 +/-  0.088 | stop:  1.038]\r13993it [00:34, 387.16it/s, batch: 12 | bound: 10 | nc: 5 | ncall: 55423 | eff(%): 24.897 | loglstar: 185.082 < 192.276 < 192.942 | logz: 182.369 +/-  0.088 | stop:  1.038]\r14034it [00:34, 372.56it/s, batch: 12 | bound: 11 | nc: 10 | ncall: 55553 | eff(%): 24.912 | loglstar: 185.082 < 192.427 < 192.942 | logz: 182.369 +/-  0.088 | stop:  1.038]\r14073it [00:34, 367.65it/s, batch: 12 | bound: 11 | nc: 1 | ncall: 55796 | eff(%): 24.874 | loglstar: 185.082 < 192.556 < 192.942 | logz: 182.369 +/-  0.088 | stop:  1.038] \r14111it [00:34, 360.38it/s, batch: 12 | bound: 12 | nc: 1 | ncall: 55901 | eff(%): 24.895 | loglstar: 185.082 < 192.639 < 192.942 | logz: 182.369 +/-  0.088 | stop:  1.038]\r14170it [00:34, 419.35it/s, batch: 12 | bound: 12 | nc: 10 | ncall: 56099 | eff(%): 24.912 | loglstar: 185.082 < 192.747 < 192.942 | logz: 182.369 +/-  0.088 | stop:  1.038]\r14213it [00:34, 391.71it/s, batch: 12 | bound: 13 | nc: 3 | ncall: 56247 | eff(%): 24.923 | loglstar: 185.082 < 192.840 < 192.942 | logz: 182.369 +/-  0.088 | stop:  1.038] \r14283it [00:35, 474.23it/s, batch: 12 | bound: 13 | nc: 1 | ncall: 56464 | eff(%): 24.955 | loglstar: 185.082 < 192.959 < 192.942 | logz: 182.369 +/-  0.088 | stop:  1.038]\r14523it [00:35, 906.24it/s, batch: 12 | bound: 13 | nc: 1 | ncall: 56704 | eff(%): 25.374 | loglstar: 185.082 < 193.963 < 192.942 | logz: 182.369 +/-  0.088 | stop:  0.922]\r14523it [00:35, 412.32it/s, batch: 12 | bound: 13 | nc: 1 | ncall: 56704 | eff(%): 25.374 | loglstar: 185.082 < 193.963 < 192.942 | logz: 182.369 +/-  0.088 | stop:  0.922]\n"}], "tabbable": null, "tooltip": null}}, "99369629edc34ff0852855c85e6bdb86": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "0e4befd7dbaa440191ee09e2b5079f89": {"model_name": "AccordionModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "AccordionModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "AccordionView", "box_style": "", "children": ["IPY_MODEL_f6f35919aef64bd996dc957bce009aee"], "layout": "IPY_MODEL_99369629edc34ff0852855c85e6bdb86", "selected_index": null, "tabbable": null, "titles": ["CKM/nested"], "tooltip": null}}, "e223b5dfcd5d4a2d8749239bfb37faf9": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "200px", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": "auto", "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "97cc0999fed74683a44dbc6d562400d1": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_e223b5dfcd5d4a2d8749239bfb37faf9", "msg_id": "", "outputs": [{"output_type": "display_data", "metadata": {}, "data": {"text/plain": "  0%|          | 0/14523 [00:00<?, ?it/s]", "application/vnd.jupyter.widget-view+json": {"version_major": 2, "version_minor": 0, "model_id": "e32aa047b21549af8348483badadfb95"}}}], "tabbable": null, "tooltip": null}}, "17351d1842414cb9bd5f6195ad51fc5b": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "e4666c8cb36c44d985ae7a30fd9cbc60": {"model_name": "AccordionModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "AccordionModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "AccordionView", "box_style": "", "children": ["IPY_MODEL_97cc0999fed74683a44dbc6d562400d1"], "layout": "IPY_MODEL_17351d1842414cb9bd5f6195ad51fc5b", "selected_index": null, "tabbable": null, "titles": ["CKM/pred-B-to-D-e-nu"], "tooltip": null}}, "74b99e40567e4851b70503c2323a037b": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "9bec4d240e27478787bc6caa3daecfaa": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "93a5d7675985469e85821c249ba333e9": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_74b99e40567e4851b70503c2323a037b", "max": 14523.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_9bec4d240e27478787bc6caa3daecfaa", "tabbable": null, "tooltip": null, "value": 14523.0}}, "a14e2d257f7b4ded890c2cd465d3262c": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "43048700eb0b489cba1854024ca92106": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "e88e3b43d2964cb5a4a963f5176e2a2c": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_a14e2d257f7b4ded890c2cd465d3262c", "placeholder": "\u200b", "style": "IPY_MODEL_43048700eb0b489cba1854024ca92106", "tabbable": null, "tooltip": null, "value": "100%"}}, "38f899a8d58447d8be42e1782041d8b0": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "1e98036c879144a99858c5091c60861b": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "3809406ac6bf4db7926eb32360245153": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_38f899a8d58447d8be42e1782041d8b0", "placeholder": "\u200b", "style": "IPY_MODEL_1e98036c879144a99858c5091c60861b", "tabbable": null, "tooltip": null, "value": "\u200714523/14523\u2007[00:01&lt;00:00,\u200710746.37it/s]"}}, "8298cbde8e004039a08eefb749febc86": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "e32aa047b21549af8348483badadfb95": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_e88e3b43d2964cb5a4a963f5176e2a2c", "IPY_MODEL_93a5d7675985469e85821c249ba333e9", "IPY_MODEL_3809406ac6bf4db7926eb32360245153"], "layout": "IPY_MODEL_8298cbde8e004039a08eefb749febc86", "tabbable": null, "tooltip": null}}}, "version_major": 2, "version_minor": 0}
 </script></section>
 </section>
 
