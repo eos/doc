@@ -1,0 +1,398 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Parameter Inference"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "EOS can infer parameters based on a database of experimental or theoretical constraints and its built-in observables.\n",
+    "The examples in this notebook illustrate how to find a specific constraint from the list of all built-in observables,\n",
+    "include them in an analysis file,\n",
+    "and infer mean value and standard deviation of a list of parameters through sampling methods."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import eos\n",
+    "import numpy as np"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Listing the built-in Constraints"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The full list of built-in constraints for the most-recent EOS release is available online [here](https://eos.github.io/doc/reference/constraints). You can also show this list using the [eos.Constraints](../reference/python.rst#eos.Constraints) class.  Searching for a specific constraint is possible by filtering for specific strings in the constraint name’s *prefix*, *name*, or *suffix* parts. The following example only shows constraints that contain a `'->D'` in the prefix part:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2021-10-21T13:15:08.490501Z",
+     "start_time": "2021-10-21T13:15:07.686555Z"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "eos.Constraints(prefix='B^0->D^+')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Visualizing the built-in Constraints"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "For what follows we will use the two experimental constraints ``B^0->D^+e^-nu::BRs@Belle:2015A``\n",
+    "and ``B^0->D^+mu^-nu::BRs@Belle:2015A``, to infer the CKM matrix element $|V_{cb}|$. We can readily\n",
+    "display these two constraints, along with the default theory prediction (without any uncertainties),\n",
+    "using the following code:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "ExecuteTime": {
+     "end_time": "2021-10-21T13:15:11.112132Z",
+     "start_time": "2021-10-21T13:15:08.493463Z"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "plot_args = {\n",
+    "    'plot': {\n",
+    "        'x': { 'label': r'$q^2$', 'unit': r'$\\textnormal{GeV}^2$', 'range': [0.0, 11.63] },\n",
+    "        'y': { 'label': r'$d\\mathcal{B}/dq^2$',                    'range': [0.0,  5e-3] },\n",
+    "        'legend': { 'location': 'lower left' }\n",
+    "    },\n",
+    "    'contents': [\n",
+    "        {\n",
+    "            'label': r'$\\ell=e$',\n",
+    "            'type': 'observable',\n",
+    "            'observable': 'B->Dlnu::dBR/dq2;l=e,q=d',\n",
+    "            'variable': 'q2',\n",
+    "            'color': 'black',\n",
+    "            'range': [0.02, 11.63],\n",
+    "        },\n",
+    "        {\n",
+    "            'label': r'Belle 2015 $\\ell=e,\\, q=d$',\n",
+    "            'type': 'constraint',\n",
+    "            'color': 'C0',\n",
+    "            'constraints': 'B^0->D^+e^-nu::BRs@Belle:2015A',\n",
+    "            'observable': 'B->Dlnu::BR',\n",
+    "            'variable': 'q2',\n",
+    "            'rescale-by-width': True\n",
+    "        },\n",
+    "        {\n",
+    "            'label': r'Belle 2015 $\\ell=\\mu,\\,q=d$',\n",
+    "            'type': 'constraint',\n",
+    "            'color': 'C1',\n",
+    "            'constraints': 'B^0->D^+mu^-nu::BRs@Belle:2015A',\n",
+    "            'observable': 'B->Dlnu::BR',\n",
+    "            'variable': 'q2',\n",
+    "            'rescale-by-width': True\n",
+    "        },\n",
+    "    ]\n",
+    "}\n",
+    "_ = eos.plot.Plotter(plot_args).plot()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Defining the analysis\n",
+    "\n",
+    "To define our statistical analysis for the inference of $|V_{cb}|$ from measurements\n",
+    "of the $\\bar{B}\\to D\\ell^-\\bar\\nu$ branching ratios, we must decide how to parametrize\n",
+    "the hadronic form factors that emerge in semileptonic $\\bar{B}\\to D$ transitions and\n",
+    "how to constraint them. On top of the theoretical constraints and form factor coefficient priors as in `predictions.yaml`, we must add a prior for varying the CKM element and experimental constraints from which to extract it.\n",
+    "We only vary the absolute value of the CKM element `CKM::abs(V_cb)`, as the complex phase of the CKM element `CKM::arg(V_cb)` is not accessible from $b\\to c \\ell \\bar \\nu$.\n",
+    "In order to use this parametrization of the CKM elements, we must use the model `CKM` in the analysis.\n",
+    "\n",
+    "These additions to the likelihood and priors, seen in the analysis file `inference.yaml`, look like\n",
+    "```yaml\n",
+    "priors:\n",
+    "  - name: CKM\n",
+    "    descriptions:\n",
+    "      - { parameter: 'CKM::abs(V_cb)',           min:  38e-3, max:  45e-3 , type: 'uniform' }\n",
+    "\n",
+    "  - name: FF\n",
+    "    # as in both predictions.yaml and inference.yaml\n",
+    "\n",
+    "likelihoods:\n",
+    "  - name: B-to-D-l-nu\n",
+    "    constraints:\n",
+    "      - 'B^0->D^+e^-nu::BRs@Belle:2015A;form-factors=BSZ2015'\n",
+    "      - 'B^0->D^+mu^-nu::BRs@Belle:2015A;form-factors=BSZ2015'\n",
+    "\n",
+    "  - name: FF-LQCD\n",
+    "    # as in both predictions.yaml and inference.yaml\n",
+    "```\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Sampling from the posterior\n",
+    "\n",
+    "EOS provides the means to draw and store Monte Carlo samples for a prior PDF $P_0(\\vec\\vartheta)$, a posterior PDF $P(\\vec\\vartheta|\\text{data})$, and predictive distributions using [eos.tasks.sample_nested](../reference/python.rst#eos.tasks.sample_nested). We store this data within a hierarchy of directories below a \"base directory\". For the purpose of the following examples, we set this base directory to ``./inference-data``, stored in a convenient global variable."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "EOS_BASE_DIRECTORY='./inference-data'"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "eos.tasks.sample_nested('inference.yaml', 'CKM', base_directory=EOS_BASE_DIRECTORY, nlive=250, dlogz=0.5, seed=42)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Inferring the $|V_{cb}|$ parameter\n",
+    "\n",
+    "The distribution of the parameter samples, here using $|V_{cb}|$ as an example, can be inspected using regular histograms or a smooth histogram based on a kernel density estimate (KDE). The samples are automatically processed, when specifying the ``data-file`` directory and the ``variable`` as histogram plotting arguments. For the KDE, the parameter ``bandwidth`` regulates the smoothing. EOS applies a relative bandwidth factor with respect to SciPy's best bandwidth estimate, i.e., specifying `'bandwidth': 2` doubles SciPy's estimate for the bandwidth."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "plot_args = {\n",
+    "    'plot': {\n",
+    "        'x': { 'label': r'$|V_{cb}|$', 'range': [38e-3, 47e-3] },\n",
+    "        'legend': { 'location': 'upper left' }\n",
+    "    },\n",
+    "    'contents': [\n",
+    "        {\n",
+    "            'type': 'histogram',\n",
+    "            'variable': 'CKM::abs(V_cb)',\n",
+    "            'data-file': EOS_BASE_DIRECTORY+'/CKM/samples'\n",
+    "        },\n",
+    "        {\n",
+    "            'type': 'kde', 'color': 'C0', 'label': 'posterior', 'bandwidth': 2,\n",
+    "            'range': [39e-3, 45e-3],\n",
+    "            'variable': 'CKM::abs(V_cb)',\n",
+    "            'data-file': EOS_BASE_DIRECTORY+'/CKM/samples'\n",
+    "        }\n",
+    "    ]\n",
+    "}\n",
+    "_ = eos.plot.Plotter(plot_args).plot()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "To extract further information from the parameter samples, we can load the sample values using [eos.data.ImportanceSamples](../reference/python.rst#eos.data.ImportanceSamples):"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "parameter_samples = eos.data.ImportanceSamples(EOS_BASE_DIRECTORY+'/CKM/samples')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can compute the mean value and its standard deviation using ``numpy`` methods, including the sample ``weights``."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "mean = np.average(parameter_samples.samples[:,0], weights = parameter_samples.weights)\n",
+    "std = np.sqrt(np.average((parameter_samples.samples[:,0]-mean)**2, weights = parameter_samples.weights))\n",
+    "\n",
+    "print(f'$|V_{{cb}}|$ = {mean:.4f} +/- {std:.4f}')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can also illustrate the correlation between $|V_{cb}|$ and any form factor parameter. Here, we use the normalization of the form factors at $q^2 = 0$ as an example. The ``data`` passed to the plotter consists of the 2d parameter samples and the corresponding sample weights.\n",
+    "Contours of equal probability at the $68\\%$ and $95\\%$ levels can be generated using a KDE as follows:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "plot_args = {\n",
+    "    'plot': {\n",
+    "        'x': { 'label': r'$|V_{cb}|$', 'range': [38e-3, 47e-3] },\n",
+    "        'y': { 'label': r'$f_+(0)$',   'range': [0.6, 0.75] },\n",
+    "    },\n",
+    "    'contents': [\n",
+    "        {\n",
+    "            'type': 'kde2D', 'color': 'C1', 'label': 'posterior',\n",
+    "            'levels': [68, 95], 'contours': ['lines','areas'], 'bandwidth':3,\n",
+    "            'data': {\n",
+    "                'samples': parameter_samples.samples[:, (0,1)],\n",
+    "                'weights': parameter_samples.weights\n",
+    "            }\n",
+    "        }\n",
+    "    ]\n",
+    "}\n",
+    "_ = eos.plot.Plotter(plot_args).plot()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Here the `bandwidth` parameter takes the same role as in the 1D histogram."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Aside: validating the posterior\n",
+    "\n",
+    "As an additional step we can visualize the resulting theory prediction (with uncertainties), as was done in the beginning of this notebook. For further details, you can consult the ``predictions.ipynb`` notebook."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "eos.predict_observables('inference.yaml','CKM','B-to-D-e-nu', base_directory=EOS_BASE_DIRECTORY)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "plot_args = {\n",
+    "    'plot': {\n",
+    "        'x': { 'label': r'$q^2$', 'unit': r'$\\textnormal{GeV}^2$', 'range': [0.0, 11.63] },\n",
+    "        'y': { 'label': r'$d\\mathcal{B}/dq^2$',                    'range': [0.0,  5e-3] },\n",
+    "        'legend': { 'location': 'lower left' }\n",
+    "    },\n",
+    "    'contents': [\n",
+    "        {\n",
+    "          'label': r'$\\ell=e$', 'type': 'uncertainty', 'range': [3.0e-7, 11.60],\n",
+    "          'data-file': EOS_BASE_DIRECTORY+'/CKM/pred-B-to-D-e-nu',\n",
+    "        },\n",
+    "        {\n",
+    "            'label': r'Belle 2015 $\\ell=e,\\, q=d$',\n",
+    "            'type': 'constraint',\n",
+    "            'color': 'C0',\n",
+    "            'constraints': 'B^0->D^+e^-nu::BRs@Belle:2015A',\n",
+    "            'observable': 'B->Dlnu::BR',\n",
+    "            'variable': 'q2',\n",
+    "            'rescale-by-width': True\n",
+    "        },\n",
+    "        {\n",
+    "            'label': r'Belle 2015 $\\ell=\\mu,\\,q=d$',\n",
+    "            'type': 'constraint',\n",
+    "            'color': 'C1',\n",
+    "            'constraints': 'B^0->D^+mu^-nu::BRs@Belle:2015A',\n",
+    "            'observable': 'B->Dlnu::BR',\n",
+    "            'variable': 'q2',\n",
+    "            'rescale-by-width': True\n",
+    "        },\n",
+    "    ]\n",
+    "}\n",
+    "_ = eos.plot.Plotter(plot_args).plot()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.10.12"
+  },
+  "toc": {
+   "base_numbering": 1,
+   "nav_menu": {},
+   "number_sections": true,
+   "sideBar": true,
+   "skip_h1_title": false,
+   "title_cell": "Table of Contents",
+   "title_sidebar": "Contents",
+   "toc_cell": false,
+   "toc_position": {},
+   "toc_section_display": true,
+   "toc_window_display": false
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
