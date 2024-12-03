@@ -259,6 +259,28 @@ At the top level, the format includes the following YAML keys:</p>
 <span class="w">          </span><span class="nt">q2_e_min</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0e-7</span>
 <span class="w">          </span><span class="nt">q2_tau_min</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.3</span>
 <span class="w">          </span><span class="nt">q2_max</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">25.0</span>
+
+<span class="nt">steps</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Sample</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">CKM-all</span><span class="nv"> </span><span class="s">posterior&#39;</span>
+<span class="w">    </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;CKM-all.sample&#39;</span>
+<span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
+<span class="w">    </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;sample-nested&#39;</span>
+<span class="w">        </span><span class="nt">arguments</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">posterior</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;CKM-all&#39;</span>
+<span class="w">          </span><span class="nt">bound</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;multi&#39;</span>
+<span class="w">          </span><span class="nt">nlive</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
+<span class="w">          </span><span class="nt">dlogz</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9.0</span>
+<span class="w">          </span><span class="nt">maxiter</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4000</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Create</span><span class="nv"> </span><span class="s">corner</span><span class="nv"> </span><span class="s">plot</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">CKM-all</span><span class="nv"> </span><span class="s">posterior&#39;</span>
+<span class="w">    </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;CKM-all.corner-plot&#39;</span>
+<span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;CKM-all.sample&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;corner-plot&#39;</span>
+<span class="w">        </span><span class="nt">arguments</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">posterior</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;CKM-all&#39;</span>
+<span class="w">          </span><span class="nt">format</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;pdf&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;png&#39;</span><span class="p p-Indicator">]</span>
 </pre></div>
 </div>
 </div>
