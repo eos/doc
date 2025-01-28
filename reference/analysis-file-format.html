@@ -70,6 +70,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#observables">Observables</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#parameters">Parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#predictions">Predictions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#steps">Steps</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="constraints.html">List of Constraints</a></li>
@@ -123,6 +124,7 @@ At the top level, the format includes the following YAML keys:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">observables</span></code> (<strong>optional</strong>) — The list of custom observables defined for the scope of the analysis.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">parameters</span></code> (<strong>optional</strong>) — The list of new parameters defined for the scope of the analysis.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">predictions</span></code> (<strong>optional</strong>) — The list of theory predictions within the analysis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">steps</span></code> (<strong>optional</strong>) — The list of steps to be executed in the analysis.</p></li>
 </ul>
 </div></blockquote>
 <p>The following example illustrates the analysis file format at the hand of a real-world example.</p>
@@ -263,7 +265,6 @@ At the top level, the format includes the following YAML keys:</p>
 <span class="nt">steps</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Sample</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">CKM-all</span><span class="nv"> </span><span class="s">posterior&#39;</span>
 <span class="w">    </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;CKM-all.sample&#39;</span>
-<span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
 <span class="w">    </span><span class="nt">tasks</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;sample-nested&#39;</span>
 <span class="w">        </span><span class="nt">arguments</span><span class="p">:</span>
@@ -273,20 +274,36 @@ At the top level, the format includes the following YAML keys:</p>
 <span class="w">          </span><span class="nt">dlogz</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9.0</span>
 <span class="w">          </span><span class="nt">maxiter</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4000</span>
 
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Sample</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">WET-all</span><span class="nv"> </span><span class="s">posterior&#39;</span>
+<span class="w">    </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;WET-all.sample&#39;</span>
+<span class="w">    </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;sample-nested&#39;</span>
+<span class="w">        </span><span class="nt">arguments</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">posterior</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;WET-all&#39;</span>
+<span class="w">          </span><span class="nt">bound</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;multi&#39;</span>
+<span class="w">          </span><span class="nt">nlive</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
+<span class="w">          </span><span class="nt">dlogz</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9.0</span>
+<span class="w">          </span><span class="nt">maxiter</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4000</span>
+
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Create</span><span class="nv"> </span><span class="s">corner</span><span class="nv"> </span><span class="s">plot</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">CKM-all</span><span class="nv"> </span><span class="s">posterior&#39;</span>
 <span class="w">    </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;CKM-all.corner-plot&#39;</span>
-<span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;CKM-all.sample&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;CKM-all.sample&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;WET-all.sample&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">default_arguments</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">corner-plot</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">format</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;pdf&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;png&#39;</span><span class="p p-Indicator">]</span>
 <span class="w">    </span><span class="nt">tasks</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;corner-plot&#39;</span>
 <span class="w">        </span><span class="nt">arguments</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">posterior</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;CKM-all&#39;</span>
-<span class="w">          </span><span class="nt">format</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;pdf&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;png&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;corner-plot&#39;</span>
+<span class="w">        </span><span class="nt">arguments</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">posterior</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;WET-all&#39;</span>
 </pre></div>
 </div>
 </div>
 <section id="priors">
 <h2>Priors<a class="headerlink" href="#priors" title="Link to this heading"></a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">priors</span></code> key contains a list of <em>named</em> priors. Each prior has one mandatory key:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">priors</span></code> key contains a list of <em>named</em> priors. Each prior has two mandatory keys:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (<strong>mandatory</strong>) — The unique name of this prior.</p></li>
@@ -319,7 +336,7 @@ For example, the following code create two named priors <code class="docutils li
 </pre></div>
 </div>
 <p>For a correlated multivariate prior, <code class="docutils literal notranslate"><span class="pre">descriptions</span></code> contains a single element consisting of a key/value pair.
-The mandatorys key is <code class="docutils literal notranslate"><span class="pre">constraint</span></code> and the value is the qualified name of an EOS constraint.
+The mandatory key is <code class="docutils literal notranslate"><span class="pre">constraint</span></code> and the value is the qualified name of an EOS constraint.
 The following example illustrates the organisation of a correlated multivariate prior.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">priors</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FF-rho</span>
@@ -458,7 +475,7 @@ The recognized <code class="docutils literal notranslate"><span class="pre">pred
 Options can be specified in the observable name following the syntax of <a class="reference internal" href="python.html#eos.QualifiedName" title="eos.QualifiedName"><code class="xref py py-class docutils literal notranslate"><span class="pre">QualifiedName</span></code></a>.
 A warning will be raised if the observable option override the global options defined above.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">kinematics</span></code> (<strong>optional</strong>) The dictionary of kinematics specifications for the observables.
-For brevety, a list of kinematic specification can be provided. In this case, one observable per specification will be created.</p></li>
+For brevity, a list of kinematic specifications can be provided. In this case, one observable per specification will be created.</p></li>
 </ul>
 </dd>
 </dl>
@@ -486,6 +503,58 @@ For brevety, a list of kinematic specification can be provided. In this case, on
 <span class="w">                    </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w"> </span><span class="nv">16.0</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w"> </span><span class="nv">17.0</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w"> </span><span class="nv">18.0</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w"> </span><span class="nv">19.0</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w"> </span><span class="nv">20.0</span><span class="w"> </span><span class="p p-Indicator">},</span>
 <span class="w">                    </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w"> </span><span class="nv">21.0</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w"> </span><span class="nv">22.0</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w"> </span><span class="nv">23.0</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w"> </span><span class="nv">24.0</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w"> </span><span class="nv">25.0</span><span class="w"> </span><span class="p p-Indicator">},</span>
 <span class="w">                    </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w"> </span><span class="nv">26.0</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w"> </span><span class="nv">27.0</span><span class="w"> </span><span class="p p-Indicator">}</span><span class="w"> </span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+</section>
+<section id="steps">
+<h2>Steps<a class="headerlink" href="#steps" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">steps</span></code> key contains a list of pre-defined tasks that allow an analysis to be fully reproduced. Each step has three mandatory keys, and two optional keys:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">title</span></code> (<strong>mandatory</strong>) — The title of this step.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">id</span></code> (<strong>mandatory</strong>) — The unique identifier of this step.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">depends_on</span></code> (<strong>optional</strong>) — A list of step <code class="docutils literal notranslate"><span class="pre">id</span></code>s that need to be executed prior to this step.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">default_arguments</span></code> (<strong>optional</strong>) — A dictionary of tasks and default arguments, for any of the tasks in this step.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tasks</span></code> (<strong>mandatory</strong>) — The list of tasks that are part of this step.</p></li>
+</ul>
+</div></blockquote>
+<p>The following example illustrates the description of two nested sampling steps, followed by plotting of the results.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Sample</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">CKM-all</span><span class="nv"> </span><span class="s">posterior&#39;</span>
+<span class="w">    </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;CKM-all.sample&#39;</span>
+<span class="w">    </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;sample-nested&#39;</span>
+<span class="w">        </span><span class="nt">arguments</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">posterior</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;CKM-all&#39;</span>
+<span class="w">          </span><span class="nt">bound</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;multi&#39;</span>
+<span class="w">          </span><span class="nt">nlive</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
+<span class="w">          </span><span class="nt">dlogz</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9.0</span>
+<span class="w">          </span><span class="nt">maxiter</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4000</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Sample</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">WET-all</span><span class="nv"> </span><span class="s">posterior&#39;</span>
+<span class="w">    </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;CKM-all.sample&#39;</span>
+<span class="w">    </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;sample-nested&#39;</span>
+<span class="w">        </span><span class="nt">arguments</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">posterior</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;WET-all&#39;</span>
+<span class="w">          </span><span class="nt">bound</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;multi&#39;</span>
+<span class="w">          </span><span class="nt">nlive</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
+<span class="w">          </span><span class="nt">dlogz</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9.0</span>
+<span class="w">          </span><span class="nt">maxiter</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4000</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Create</span><span class="nv"> </span><span class="s">corner</span><span class="nv"> </span><span class="s">plot</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">CKM-all</span><span class="nv"> </span><span class="s">posterior&#39;</span>
+<span class="w">    </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;CKM-all.corner-plot&#39;</span>
+<span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;CKM-all.sample&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;WET-all.sample&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">default_arguments</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">corner-plot</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">format</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;pdf&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;png&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">tasks</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;corner-plot&#39;</span>
+<span class="w">        </span><span class="nt">arguments</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">posterior</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;CKM-all&#39;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;corner-plot&#39;</span>
+<span class="w">        </span><span class="nt">arguments</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">posterior</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;WET-all&#39;</span>
 </pre></div>
 </div>
 </section>
