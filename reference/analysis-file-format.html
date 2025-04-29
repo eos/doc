@@ -71,6 +71,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#parameters">Parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#predictions">Predictions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#steps">Steps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#masks">Masks</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="constraints.html">List of Constraints</a></li>
@@ -125,6 +126,7 @@ At the top level, the format includes the following YAML keys:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">parameters</span></code> (<strong>optional</strong>) — The list of new parameters defined for the scope of the analysis.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">predictions</span></code> (<strong>optional</strong>) — The list of theory predictions within the analysis.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">steps</span></code> (<strong>optional</strong>) — The list of steps to be executed in the analysis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">masks</span></code> (<strong>optional</strong>) — The list of masks for filtering samples defined for the analysis.</p></li>
 </ul>
 </div></blockquote>
 <p>The following example illustrates the analysis file format at the hand of a real-world example.</p>
@@ -555,6 +557,40 @@ For brevity, a list of kinematic specifications can be provided. In this case, o
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;corner-plot&#39;</span>
 <span class="w">        </span><span class="nt">arguments</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">posterior</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;WET-all&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="masks">
+<h2>Masks<a class="headerlink" href="#masks" title="Link to this heading"></a></h2>
+<p>In some analyses, the resulting posterior is multi-modal, and it is useful to be able to define within the analysis file a filter, or mask, that selects a subset of the posterior samples.
+The masks section allows to define a mask as a set of (pseudo-)observables, and filtering on any or all (pseudo-)observables being &gt; 0.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">masks</span></code> key contains a list of <em>named</em> masks. Each mask contains two mandatory keys:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> (<strong>mandatory</strong>) — The unique name of this mask.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">description</span></code> (<strong>mandatory</strong>) — A list of expressions that define the mask.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">logical_combination</span></code> (<strong>optional</strong>) — The logical combination to take of the expressions in the mask. The options are <code class="docutils literal notranslate"><span class="pre">and</span></code> and <code class="docutils literal notranslate"><span class="pre">or</span></code>, defaults to <code class="docutils literal notranslate"><span class="pre">and</span></code>.</p></li>
+</ul>
+</div></blockquote>
+<p>The <code class="docutils literal notranslate"><span class="pre">descriptions</span></code> block contains a list of either existing EOS observable names, ,new observable names and valid expressions, or the name of a previously defined mask.
+An example is shown below:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">masks</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fplus-arg-large</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;0-&gt;pipi::Arg{f_+}(2)&#39;</span>
+<span class="w">        </span><span class="nt">expression</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;&lt;&lt;0-&gt;pipi::Arg{f_+}(q2)&gt;&gt;[q2=2]</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">4.5&#39;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">abs-b3-large</span>
+<span class="w">    </span><span class="nt">logical_combination</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;or&#39;</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0-&gt;pipi::b3positive</span>
+<span class="w">        </span><span class="nt">expression</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;[[0-&gt;pipi::b_(+,1)^3@KKRvD2024]]</span><span class="nv"> </span><span class="s">+</span><span class="nv"> </span><span class="s">0.1&#39;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0-&gt;pipi::b3negative</span>
+<span class="w">        </span><span class="nt">expression</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;-[[0-&gt;pipi::b_(+,1)^4@KKRvD2024]]</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">0.1&#39;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fplus-arg-large-or-abs-b3-large</span>
+<span class="w">    </span><span class="nt">logical_combination</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;or&#39;</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">mask_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fplus-arg-large</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">mask_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">abs-b3-large</span>
 </pre></div>
 </div>
 </section>

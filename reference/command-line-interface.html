@@ -77,6 +77,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#validate">validate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#list-steps">list-steps</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#list-step-dependencies">list-step-dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-mask">create-mask</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#report">report</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#run">run</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#init">init</a></li>
@@ -152,7 +153,7 @@ Similarly, verbosity can be set for an individual command using the <code class=
 (for descriptions and small numerical datasets) and Numpy datafiles (for samples).
 The datafiles can be access with the classes documented as part of the <code class="xref py py-obj docutils literal notranslate"><span class="pre">eos.data</span></code> module.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span>
-                    <span class="p">{</span><span class="nb">list</span><span class="o">-</span><span class="n">priors</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">likelihoods</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">posteriors</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">predictions</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">mcmc</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">pmc</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">nested</span><span class="p">,</span><span class="n">plot</span><span class="o">-</span><span class="n">samples</span><span class="p">,</span><span class="n">find</span><span class="o">-</span><span class="n">mode</span><span class="p">,</span><span class="n">mixture</span><span class="o">-</span><span class="n">product</span><span class="p">,</span><span class="n">find</span><span class="o">-</span><span class="n">clusters</span><span class="p">,</span><span class="n">predict</span><span class="o">-</span><span class="n">observables</span><span class="p">,</span><span class="n">corner</span><span class="o">-</span><span class="n">plot</span><span class="p">,</span><span class="n">validate</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">steps</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">step</span><span class="o">-</span><span class="n">dependencies</span><span class="p">,</span><span class="n">report</span><span class="p">,</span><span class="n">run</span><span class="p">,</span><span class="n">init</span><span class="p">}</span>
+                    <span class="p">{</span><span class="nb">list</span><span class="o">-</span><span class="n">priors</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">likelihoods</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">posteriors</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">predictions</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">mcmc</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">pmc</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">nested</span><span class="p">,</span><span class="n">plot</span><span class="o">-</span><span class="n">samples</span><span class="p">,</span><span class="n">find</span><span class="o">-</span><span class="n">mode</span><span class="p">,</span><span class="n">mixture</span><span class="o">-</span><span class="n">product</span><span class="p">,</span><span class="n">find</span><span class="o">-</span><span class="n">clusters</span><span class="p">,</span><span class="n">predict</span><span class="o">-</span><span class="n">observables</span><span class="p">,</span><span class="n">corner</span><span class="o">-</span><span class="n">plot</span><span class="p">,</span><span class="n">validate</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">steps</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">step</span><span class="o">-</span><span class="n">dependencies</span><span class="p">,</span><span class="n">create</span><span class="o">-</span><span class="n">mask</span><span class="p">,</span><span class="n">report</span><span class="p">,</span><span class="n">run</span><span class="p">,</span><span class="n">init</span><span class="p">}</span>
                     <span class="o">...</span>
 </pre></div>
 </div>
@@ -460,7 +461,7 @@ can be iterated to increase the accuracy of the result. The output will be store
 EOS_BASE_DIRECTORY/posterior/mode-LABEL.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">find</span><span class="o">-</span><span class="n">mode</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OPTIMIZATIONS</span><span class="p">]</span>
                        <span class="p">[</span><span class="o">-</span><span class="n">c</span> <span class="n">CHAIN</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">S</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="n">START_POINT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">s</span> <span class="n">SEED</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">L</span> <span class="n">LABEL</span><span class="p">]</span>
-                       <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+                       <span class="p">[</span><span class="o">-</span><span class="n">M</span> <span class="n">MASK</span><span class="o">-</span><span class="n">NAME</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
                        <span class="n">POSTERIOR</span>
 </pre></div>
 </div>
@@ -498,6 +499,9 @@ EOS_BASE_DIRECTORY/posterior/mode-LABEL.</p>
 </dd>
 <dt><kbd>-L, --label</kbd></dt>
 <dd><p>The label used for the generated data file.</p>
+</dd>
+<dt><kbd>-M, --mask-name</kbd></dt>
+<dd><p>The name of the mask to apply to the importance samples.</p>
 </dd>
 <dt><kbd>-b, --base-directory</kbd></dt>
 <dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
@@ -588,7 +592,7 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/clusters.</p>
 <p>The input files are expected in EOS_BASE_DIRECTORY/POSTERIOR/samples.
 The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pred-PREDICTION.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">predict</span><span class="o">-</span><span class="n">observables</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">B</span> <span class="n">BEGIN</span><span class="p">]</span>
-                                 <span class="p">[</span><span class="o">-</span><span class="n">E</span> <span class="n">END</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+                                 <span class="p">[</span><span class="o">-</span><span class="n">E</span> <span class="n">END</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">M</span> <span class="n">MASK</span><span class="o">-</span><span class="n">NAME</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
                                  <span class="n">POSTERIOR</span> <span class="n">PREDICTION</span>
 </pre></div>
 </div>
@@ -618,6 +622,9 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pred-PREDICTION.
 <dt><kbd>-E, --end-index</kbd></dt>
 <dd><p>The index beyond the last sample to use for the predictions.</p>
 </dd>
+<dt><kbd>-M, --mask-name</kbd></dt>
+<dd><p>The name of the mask to apply to the samples.</p>
+</dd>
 <dt><kbd>-b, --base-directory</kbd></dt>
 <dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
 </dd>
@@ -630,7 +637,7 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pred-PREDICTION.
 <p>The input files are expected in EOS_BASE_DIRECTORY/POSTERIOR/samples.
 The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/plots.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">corner</span><span class="o">-</span><span class="n">plot</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">B</span> <span class="n">BEGIN</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">E</span> <span class="n">END</span><span class="p">]</span>
-                         <span class="p">[</span><span class="o">-</span><span class="n">F</span> <span class="n">FORMAT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+                         <span class="p">[</span><span class="o">-</span><span class="n">F</span> <span class="n">FORMAT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">M</span> <span class="n">MASK</span><span class="o">-</span><span class="n">NAME</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
                          <span class="n">POSTERIOR</span>
 </pre></div>
 </div>
@@ -659,6 +666,9 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/plots.</p>
 </dd>
 <dt><kbd>-F, --format</kbd></dt>
 <dd><p>The plot output format. Can be a comma separated list of formats.</p>
+</dd>
+<dt><kbd>-M, --mask-name</kbd></dt>
+<dd><p>The name of the mask to apply to the samples.</p>
 </dd>
 <dt><kbd>-b, --base-directory</kbd></dt>
 <dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
@@ -728,6 +738,39 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/plots.</p>
 </dl>
 </section>
 </section>
+<section id="create-mask">
+<h3>create-mask<a class="headerlink" href="#create-mask" title="Link to this heading"></a></h3>
+<p>Create a mask that can be applied to samples from a named posterior based on a set of observables.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">create</span><span class="o">-</span><span class="n">mask</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+                         <span class="n">POSTERIOR</span> <span class="n">MASK</span><span class="o">-</span><span class="n">NAME</span>
+</pre></div>
+</div>
+<section id="positional-arguments_repeat10">
+<h4>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat10" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>POSTERIOR</kbd></dt>
+<dd><p>The name of the posterior PDF from which to draw the samples.</p>
+</dd>
+<dt><kbd>MASK-NAME</kbd></dt>
+<dd><p>The name of the mask to create.</p>
+</dd>
+</dl>
+</section>
+<section id="named-arguments_repeat16">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat16" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘analysis.yaml’.</p>
+</dd>
+<dt><kbd>-b, --base-directory</kbd></dt>
+<dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
+</dd>
+</dl>
+</section>
+</section>
 <section id="report">
 <h3>report<a class="headerlink" href="#report" title="Link to this heading"></a></h3>
 <p>Generates a report of the analysis based on the analysis file and the recorded results.</p>
@@ -736,16 +779,16 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/plots.</p>
                     <span class="n">TEMPLATE</span>
 </pre></div>
 </div>
-<section id="positional-arguments_repeat10">
-<h4>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat10" title="Link to this heading"></a></h4>
+<section id="positional-arguments_repeat11">
+<h4>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat11" title="Link to this heading"></a></h4>
 <dl class="option-list">
 <dt><kbd>TEMPLATE</kbd></dt>
 <dd><p>The file name of the template that is used to generate the report.</p>
 </dd>
 </dl>
 </section>
-<section id="named-arguments_repeat16">
-<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat16" title="Link to this heading"></a></h4>
+<section id="named-arguments_repeat17">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat17" title="Link to this heading"></a></h4>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
@@ -768,16 +811,16 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/plots.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">run</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="p">]</span> <span class="n">ID</span>
 </pre></div>
 </div>
-<section id="positional-arguments_repeat11">
-<h4>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat11" title="Link to this heading"></a></h4>
+<section id="positional-arguments_repeat12">
+<h4>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat12" title="Link to this heading"></a></h4>
 <dl class="option-list">
 <dt><kbd>ID</kbd></dt>
 <dd><p>The id of the step to run.</p>
 </dd>
 </dl>
 </section>
-<section id="named-arguments_repeat17">
-<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat17" title="Link to this heading"></a></h4>
+<section id="named-arguments_repeat18">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat18" title="Link to this heading"></a></h4>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
@@ -800,8 +843,8 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/plots.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">init</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span>
 </pre></div>
 </div>
-<section id="named-arguments_repeat18">
-<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat18" title="Link to this heading"></a></h4>
+<section id="named-arguments_repeat19">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat19" title="Link to this heading"></a></h4>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
