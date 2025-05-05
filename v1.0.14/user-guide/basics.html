@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basics &mdash; EOS 1.0.14 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/contentui.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=67e44365" />
+
+  
+    <link rel="canonical" href="https://eos.github.io/doc/user-guide/basics.html" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=cb0f6c17"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/contentui.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Theory Predictions and their Uncertainties" href="predictions.html" />
+    <link rel="prev" title="User Guide" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            EOS
+              <img src="../_static/github-eos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">User Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Basics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Importing-the-module">Importing the module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#(Almost)-Everything-can-be-a-Parameter">(Almost) Everything can be a Parameter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Kinematics-and-kinematic-variables">Kinematics and kinematic variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Options-and-what-they-impact">Options and what they impact</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Applying-what-we-learned:-creating-our-first-Observable">Applying what we learned: creating our first Observable</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="predictions.html">Theory Predictions and their Uncertainties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inference.html">Parameter Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation.html">Simulation of Pseudo Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis-organisation.html">Analysis Organisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tasks.html">Common Tasks in Phenomenological Analyses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reproducible-analyses.html">Setting up a fully reproducible analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">EOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">User Guide</a></li>
+      <li class="breadcrumb-item active">Basics</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Basics">
+<h1>Basics<a class="headerlink" href="#Basics" title="Link to this heading"></a></h1>
+<p>This notebook will introduce you to the basic data types and operations that are needed to use EOS.</p>
+<section id="Importing-the-module">
+<h2>Importing the module<a class="headerlink" href="#Importing-the-module" title="Link to this heading"></a></h2>
+<p>Before you can begin using EOS, you need to load it into your Python interpreter. We achieve this with the <code class="docutils literal notranslate"><span class="pre">import</span></code> keyword.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">eos</span>
+</pre></div>
+</div>
+</div>
+<p>The import statement should go through without any error messages. If there are errors, they might be related to the following issues:</p>
+<ul class="simple">
+<li><p>missing Python packages (try to run <code class="docutils literal notranslate"><span class="pre">!pip3</span> <span class="pre">install</span> <span class="pre">-U</span> <span class="pre">matplotlib</span> <span class="pre">numpy</span> <span class="pre">scipy</span></code>);</p></li>
+<li><p>you might have forgotten to tell the Python interpreter where you installed EOS to ( this should only happen if you have <strong>not</strong> installed EOS using <code class="docutils literal notranslate"><span class="pre">pip</span></code>)</p></li>
+</ul>
+</section>
+<section id="(Almost)-Everything-can-be-a-Parameter">
+<h2>(Almost) Everything can be a Parameter<a class="headerlink" href="#(Almost)-Everything-can-be-a-Parameter" title="Link to this heading"></a></h2>
+<p>In EOS we make a lot of use of the <a class="reference internal" href="../reference/python.html#eos.Parameter"><span class="std std-ref">eos.Parameter</span></a> class. It provides access to one real-valued and scalar parameter, among a diverse and large set of parameters. You cannot create an object of type <a class="reference internal" href="../reference/python.html#eos.Parameter"><span class="std std-ref">eos.Parameter</span></a> yourself. Instead, you can create a new set of parameters of the class <a class="reference internal" href="../reference/python.html#eos.Parameters"><span class="std std-ref">eos.Parameters</span></a>, from which the parameter of interest can be extracted, inspected, and
+altered.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Parameters</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>The variable <code class="docutils literal notranslate"><span class="pre">parameters</span></code> now contains all of your parameters. You can use <code class="docutils literal notranslate"><span class="pre">display(parameters)</span></code> to see the full list, which is rather lengthy. Let’s have a look at something more manageable: the parameter for the muon mass:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;mass::mu&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+    <tr>
+        <th>$$m_\mu$$</th>
+        <td>(eos.Parameter)</td>
+    </tr>
+    <tr>
+        <th>current value</th>
+        <td><tt>0.105658</tt></td>
+    </tr>
+    <tr>
+        <th>default value</th>
+        <td><tt>0.105658</tt></td>
+    </tr>
+</table></div>
+</div>
+<p>Let’s highlight some aspects of this output:</p>
+<ul class="simple">
+<li><p>Parameters have a rigid naming scheme, and must contain at least two parts: the <em>prefix</em> part, which is separated by <code class="docutils literal notranslate"><span class="pre">::</span></code> from the <em>name part</em>.</p></li>
+<li><p>The masses of all fields, elementary or composite, are collected in the <code class="docutils literal notranslate"><span class="pre">mass</span></code> namespace.</p></li>
+<li><p>EOS uses Giga electron Volt (GeV) for all masses, momenta and energies.</p></li>
+<li><p>A parameter has a current value, and a default value. Both are shown, which makes it easy to see if a parameter has been modified.</p></li>
+</ul>
+<p>Let’s do just that: we can modify the value of the muon mass. This is unlikely to be necessary, since it has been measured to such a high precision, but useful to illustrate how to work with parameters.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m_mu</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;mass::mu&#39;</span><span class="p">]</span>
+<span class="n">m_mu</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mf">1.779</span><span class="p">)</span>  <span class="c1"># we just made the muon as heavy as the tauon!</span>
+<span class="n">display</span><span class="p">(</span><span class="n">m_mu</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+    <tr>
+        <th>$$m_\mu$$</th>
+        <td>(eos.Parameter)</td>
+    </tr>
+    <tr>
+        <th>current value</th>
+        <td><tt>1.779</tt></td>
+    </tr>
+    <tr>
+        <th>default value</th>
+        <td><tt>0.105658</tt></td>
+    </tr>
+</table></div>
+</div>
+<blockquote>
+<div><p>Caution: If you evaluate <code class="docutils literal notranslate"><span class="pre">m_mu</span> <span class="pre">=</span> <span class="pre">1.779</span></code>, you will just make <code class="docutils literal notranslate"><span class="pre">m_mu</span></code> a double instead of an <code class="docutils literal notranslate"><span class="pre">eos.Parameter</span></code></p>
+</div></blockquote>
+<p>It’s important to understand that the object is not living in “isolation”, it is still part of the same parameter set (<code class="docutils literal notranslate"><span class="pre">parameters</span></code>). Accessing the muon mass through parameters again will therefore show the same information as <code class="docutils literal notranslate"><span class="pre">m_mu</span></code>, but this time the modified mass value will be included as “current value” .</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;mass::mu&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+    <tr>
+        <th>$$m_\mu$$</th>
+        <td>(eos.Parameter)</td>
+    </tr>
+    <tr>
+        <th>current value</th>
+        <td><tt>1.779</tt></td>
+    </tr>
+    <tr>
+        <th>default value</th>
+        <td><tt>0.105658</tt></td>
+    </tr>
+</table></div>
+</div>
+<p>Brilliant! But what about if we want or need to have two independent sets of parameters? This could be needed, for example, to compare theory predictions for two different choices of parameters.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">more_parameters</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Parameters</span><span class="p">()</span>
+<span class="n">more_parameters</span><span class="p">[</span><span class="s1">&#39;mass::mu&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+    <tr>
+        <th>$$m_\mu$$</th>
+        <td>(eos.Parameter)</td>
+    </tr>
+    <tr>
+        <th>current value</th>
+        <td><tt>0.105658</tt></td>
+    </tr>
+    <tr>
+        <th>default value</th>
+        <td><tt>0.105658</tt></td>
+    </tr>
+</table></div>
+</div>
+<p>Very good! We see that each call to <a class="reference internal" href="../reference/python.html#eos.Parameters"><span class="std std-ref">eos.Parameters</span></a> creates an independent set of parameters, which start out with the defaults. You can browse the full list of parameters known to EOS by running <code class="docutils literal notranslate"><span class="pre">display(eos.Parameters())</span></code> or by going online to the <a class="reference external" href="https://eos.github.io/doc/reference/parameters">EOS documentation</a>.</p>
+<p>You can access a parameter’s name and LaTeX representation using the <code class="docutils literal notranslate"><span class="pre">name</span></code> or <code class="docutils literal notranslate"><span class="pre">latex</span></code> method seen below. The value is obtained using the <code class="docutils literal notranslate"><span class="pre">evaluate</span></code> method.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">m_mu</span><span class="o">.</span><span class="n">name</span><span class="p">())</span>
+<span class="n">display</span><span class="p">(</span><span class="n">m_mu</span><span class="o">.</span><span class="n">latex</span><span class="p">())</span>
+<span class="n">display</span><span class="p">(</span><span class="n">m_mu</span><span class="o">.</span><span class="n">evaluate</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;mass::mu&#39;
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;$m_\\mu$&#39;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1.779
+</pre></div></div>
+</div>
+<p>You can also treat a Parameter object just like any other Python object. It can be part of a <code class="docutils literal notranslate"><span class="pre">list</span></code>, a <code class="docutils literal notranslate"><span class="pre">dict</span></code>, or a <code class="docutils literal notranslate"><span class="pre">tuple</span></code>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lepton_masses</span> <span class="o">=</span> <span class="p">[</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;mass::&#39;</span> <span class="o">+</span> <span class="n">l</span><span class="p">]</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;mu&#39;</span><span class="p">,</span> <span class="s1">&#39;tau&#39;</span><span class="p">]]</span>
+<span class="p">[</span><span class="n">display</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">lepton_masses</span><span class="p">]</span>
+<span class="n">translation</span> <span class="o">=</span> <span class="p">{</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">():</span> <span class="n">p</span><span class="o">.</span><span class="n">latex</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">lepton_masses</span><span class="p">}</span>
+<span class="n">display</span><span class="p">(</span><span class="n">translation</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+    <tr>
+        <th>$$m_e$$</th>
+        <td>(eos.Parameter)</td>
+    </tr>
+    <tr>
+        <th>current value</th>
+        <td><tt>0.000510999</tt></td>
+    </tr>
+    <tr>
+        <th>default value</th>
+        <td><tt>0.000510999</tt></td>
+    </tr>
+</table></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+    <tr>
+        <th>$$m_\mu$$</th>
+        <td>(eos.Parameter)</td>
+    </tr>
+    <tr>
+        <th>current value</th>
+        <td><tt>1.779</tt></td>
+    </tr>
+    <tr>
+        <th>default value</th>
+        <td><tt>0.105658</tt></td>
+    </tr>
+</table></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+    <tr>
+        <th>$$m_\tau$$</th>
+        <td>(eos.Parameter)</td>
+    </tr>
+    <tr>
+        <th>current value</th>
+        <td><tt>1.77682</tt></td>
+    </tr>
+    <tr>
+        <th>default value</th>
+        <td><tt>1.77682</tt></td>
+    </tr>
+</table></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;mass::e&#39;: &#39;$m_e$&#39;, &#39;mass::mu&#39;: &#39;$m_\\mu$&#39;, &#39;mass::tau&#39;: &#39;$m_\\tau$&#39;}
+</pre></div></div>
+</div>
+<p>These properties make it possible to bind a function to an arbitrary number of parameters, let the function evaluate these parameters in a computationally efficient way, and let the user change these parameters at a whim. Parameters are meant to be <strong>shared</strong>, i.e., a single set of parameters is meant to be used by arbitrary number of functions. The sharing of parameters is cause for the versatility in the EOS use cases.</p>
+</section>
+<section id="Kinematics-and-kinematic-variables">
+<h2>Kinematics and kinematic variables<a class="headerlink" href="#Kinematics-and-kinematic-variables" title="Link to this heading"></a></h2>
+<p>EOS makes also plentiful use of the <a class="reference internal" href="../reference/python.html#eos.Kinematics"><span class="std std-ref">eos.Kinematics</span></a> class. Objects of this class are used to store a set of real-valued and scalar kinematic variables by name. Contrary to the parameters, there are no default variables or values. This would not make much sense: kinematic variables pertain to a single process. Consequently, naming of kinematic variables does not require a distinction by any sort of <code class="docutils literal notranslate"><span class="pre">prefix</span></code>. We will see what kinematic variables a
+process requires in a later section. You can create an empty set of kinematic variables as follows:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kinematics</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>We can populate this object with a choice of kinematic variables:</p>
+<ul class="simple">
+<li><p>We generally use <code class="docutils literal notranslate"><span class="pre">q2</span></code> or <code class="docutils literal notranslate"><span class="pre">p2</span></code> to denote the square of four momentum <code class="docutils literal notranslate"><span class="pre">q</span></code> or <code class="docutils literal notranslate"><span class="pre">p</span></code>.</p></li>
+<li><p>We generally use <code class="docutils literal notranslate"><span class="pre">E_pi</span></code> or <code class="docutils literal notranslate"><span class="pre">E_gamma</span></code> for the energy of a final state in the rest frame of the respective initial state.</p></li>
+<li><p>We usually parametrize helicity angles via their cosines, e.g., <code class="docutils literal notranslate"><span class="pre">cos(theta_l)</span></code> or <code class="docutils literal notranslate"><span class="pre">cos(theta_pi)</span></code>. As for parameters, we use powers of GeV as units.</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">k1</span> <span class="o">=</span> <span class="n">kinematics</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;q2&#39;</span><span class="p">,</span>             <span class="mf">1.0</span><span class="p">)</span>   <span class="c1"># 1 GeV^2</span>
+<span class="n">k2</span> <span class="o">=</span> <span class="n">kinematics</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;E_pi&#39;</span><span class="p">,</span>           <span class="mf">0.139</span><span class="p">)</span> <span class="c1"># 139 MeV, a pion at rest!</span>
+<span class="n">k3</span> <span class="o">=</span> <span class="n">kinematics</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;cos(theta_pi)&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>   <span class="c1"># negative values are OK!</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">kinematics</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<tr><th><tt style="color:grey">q2</tt></th><td>1.0</td></tr>
+<tr><th><tt style="color:grey">E_pi</tt></th><td>0.139</td></tr>
+<tr><th><tt style="color:grey">cos(theta_pi)</tt></th><td>-1.0</td></tr>
+</table></div>
+</div>
+<p>There are two ways to directly create the <a class="reference internal" href="../reference/python.html#eos.Kinematics"><span class="std std-ref">eos.Kinematics</span></a> object populated with the variables you need. The first way works if all your kinematic variables names are also valid Python identifiers. (In the above example, <code class="docutils literal notranslate"><span class="pre">cos(...)</span></code> is <strong>not</strong> a valid identifier.)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kinematics</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">E_pi</span><span class="o">=</span><span class="mf">0.139</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">kinematics</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<tr><th><tt style="color:grey">q2</tt></th><td>1.0</td></tr>
+<tr><th><tt style="color:grey">E_pi</tt></th><td>0.139</td></tr>
+</table></div>
+</div>
+<p>The second way works also for variable names that are not valid identifiers. It uses Python “keyword arguments”:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kinematics</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">({</span>
+    <span class="s1">&#39;q2&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;E_pi&#39;</span><span class="p">:</span> <span class="mf">0.139</span><span class="p">,</span> <span class="s1">&#39;cos(theta_l)&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.0</span>
+<span class="p">})</span>
+<span class="n">display</span><span class="p">(</span><span class="n">kinematics</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<tr><th><tt style="color:grey">q2</tt></th><td>1.0</td></tr>
+<tr><th><tt style="color:grey">E_pi</tt></th><td>0.139</td></tr>
+<tr><th><tt style="color:grey">cos(theta_l)</tt></th><td>-1.0</td></tr>
+</table></div>
+</div>
+<p>We can extract a kinematic variable from the set using the <code class="docutils literal notranslate"><span class="pre">[...]</span></code> operator:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">k1</span> <span class="o">=</span> <span class="n">kinematics</span><span class="p">[</span><span class="s1">&#39;q2&#39;</span><span class="p">]</span>
+<span class="n">display</span><span class="p">(</span><span class="n">k1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+    <tr>
+        <th>q2</th>
+        <td>(eos.KinematicVariable)</td>
+    </tr>
+    <tr>
+        <th>current value</th>
+        <td><tt>1.0</tt></td>
+    </tr>
+</table></div>
+</div>
+<p>We can also modify the set by setting the value of an individual kinematic variable:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">k1</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mf">16.0</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">kinematics</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<tr><th><tt style="color:grey">q2</tt></th><td>16.0</td></tr>
+<tr><th><tt style="color:grey">E_pi</tt></th><td>0.139</td></tr>
+<tr><th><tt style="color:grey">cos(theta_l)</tt></th><td>-1.0</td></tr>
+</table></div>
+</div>
+<p>Kinematic variables and their naming <em>usually</em> pertain to only a single observable. When creating observables, we therefore <em>usually</em> create an independet set of kinematic variables per observable. Nevertheless, it is possible to create observables that have a common set of kinematic variables. This makes it possible to investigate correlations among observables that share a kinematic variable (e.g., LFU ratios such as <span class="math notranslate nohighlight">\(R_K\)</span> as a functions of the lower dilepton momentum cut-off).</p>
+</section>
+<section id="Options-and-what-they-impact">
+<h2>Options and what they impact<a class="headerlink" href="#Options-and-what-they-impact" title="Link to this heading"></a></h2>
+<p>EOS allows us to modify the behaviour of processes through objects of the <a class="reference internal" href="../reference/python.html#eos.Options"><span class="std std-ref">eos.Options</span></a> class. In many cases, the processes have a default set of options, e.g., the process’ default choice of hadronic form factors, its default choice of BSM model, and so on. In some cases, it does not make sense to have a default choice, e.g., when evaluating a single hadronic form factor. In such cases, you will see an error expressed through a Python exception if the
+mandatory option is not specified by you!</p>
+<p>Contrary to parameters and kinematic variables, EOS does not permit to change a process’ options after the creation. To make this abundantly clear: if you change an <a class="reference internal" href="../reference/python.html#eos.Options"><span class="std std-ref">eos.Options</span></a> object after it has been used (in, e.g. an observable), none of your modifications to the options will have any effect on the user (again, e.g. an observable)</p>
+<p>You can create a new and empty set of options as follows:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">options</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>We can now populate this object with individual options. Options are pairs of strings. Within each pair, we refer to the first element as the <strong>key</strong> and to the second element as the <strong>value</strong>. Typical keys include:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">model</span></code>, to select a BSM model;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">form-factors</span></code>, to select the parametrization of the hadronic form factors in semileptonic decays;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">l</span></code>, to select a lepton flavor;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">q</span></code>, to select a quark flavor (typically for a spectator quark).</p></li>
+</ul>
+<p>Option values are specific to both the process and the option key:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">model</span></code> can typically take values such as <code class="docutils literal notranslate"><span class="pre">SM</span></code> (for the Standard Model), <code class="docutils literal notranslate"><span class="pre">CKM</span></code> (to parametrize each CKM matrix element and fit for absolute value or complex phase), and <code class="docutils literal notranslate"><span class="pre">WET</span></code> (to parametrize the Wilson coefficients of the Weak Effective Theory);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">form-factors</span></code> can typically take values that identify a single parametrization (e.g. <code class="docutils literal notranslate"><span class="pre">BSZ2015</span></code> for a parametrization used in Bharucha, Straub, Zwicky 2015);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">l</span></code> can typically take values <code class="docutils literal notranslate"><span class="pre">e</span></code>, <code class="docutils literal notranslate"><span class="pre">mu</span></code> and <code class="docutils literal notranslate"><span class="pre">tau</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">q</span></code> can typically take values <code class="docutils literal notranslate"><span class="pre">u</span></code>, <code class="docutils literal notranslate"><span class="pre">d</span></code>, <code class="docutils literal notranslate"><span class="pre">s</span></code>, and <code class="docutils literal notranslate"><span class="pre">c</span></code>.</p></li>
+</ul>
+<p>Option keys are specific to a process. Within a Jupyter notebook, EOS displays the known option keys in the rich display of <a class="reference internal" href="../reference/python.html#eos.Observables"><span class="std std-ref">eos.Observables</span></a>. For each option, we also display the permitted option values.</p>
+<p>Adding options to the set can be achieved by the following:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="s1">&#39;CKM&#39;</span><span class="p">)</span>
+<span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;form-factors&#39;</span><span class="p">,</span> <span class="s1">&#39;BSZ2015&#39;</span><span class="p">)</span>
+<span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;l&#39;</span><span class="p">,</span> <span class="s1">&#39;mu&#39;</span><span class="p">)</span>                 <span class="c1"># Since we are all so &quot;cautiously excited&quot;!</span>
+<span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">options</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<tr><th><tt style="color:grey">form-factors</tt></th><td>BSZ2015</td></tr>
+<tr><th><tt style="color:grey">l</tt></th><td>mu</td></tr>
+<tr><th><tt style="color:grey">model</tt></th><td>CKM</td></tr>
+<tr><th><tt style="color:grey">q</tt></th><td>s</td></tr>
+</table></div>
+</div>
+<p>There are two ways to directly create an <a class="reference internal" href="../reference/python.html#eos.Options"><span class="std std-ref">eos.Options</span></a> object populated with the options you need. The first way works if all your option keys are also valid Python identifiers. (In the above example <code class="docutils literal notranslate"><span class="pre">form-factors</span></code> is not a valid identifier.)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">options</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="s1">&#39;mu&#39;</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;CKM&#39;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<tr><th><tt style="color:grey">l</tt></th><td>mu</td></tr>
+<tr><th><tt style="color:grey">model</tt></th><td>CKM</td></tr>
+<tr><th><tt style="color:grey">q</tt></th><td>s</td></tr>
+</table></div>
+</div>
+<p>The second way works also for option keys that are not valid identifiers. It uses Python “keyword arguments”:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">options</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">({</span>
+    <span class="s1">&#39;form-factors&#39;</span><span class="p">:</span> <span class="s1">&#39;BSZ2015&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="s1">&#39;WET&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;tau&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;q&#39;</span><span class="p">:</span> <span class="s1">&#39;s&#39;</span>
+<span class="p">})</span>
+<span class="n">display</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<tr><th><tt style="color:grey">form-factors</tt></th><td>BSZ2015</td></tr>
+<tr><th><tt style="color:grey">l</tt></th><td>tau</td></tr>
+<tr><th><tt style="color:grey">model</tt></th><td>WET</td></tr>
+<tr><th><tt style="color:grey">q</tt></th><td>s</td></tr>
+</table></div>
+</div>
+</section>
+<section id="Applying-what-we-learned:-creating-our-first-Observable">
+<h2>Applying what we learned: creating our first Observable<a class="headerlink" href="#Applying-what-we-learned:-creating-our-first-Observable" title="Link to this heading"></a></h2>
+<p>EOS uses the class <a class="reference internal" href="../reference/python.html#eos.Observable"><span class="std std-ref">eos.Observable</span></a> to provide theory predictions for a variety of processes and their associated observables. A list of all observables known to EOS is available online in the documentation, or via:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> <span class="c1"># The list is rather long; uncomment the following line by removing the leading &#39;#&#39;</span>
+ <span class="c1"># eos.Observables()</span>
+</pre></div>
+</div>
+</div>
+<p>To create an observable, we require:</p>
+<ul class="simple">
+<li><p>its name,</p></li>
+<li><p>a set of parameters that it will be bound to,</p></li>
+<li><p>a set of kinematic variables that it will be bound to,</p></li>
+<li><p>a set of options.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">observable1</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;B_q-&gt;ll::BR@Untagged&#39;</span><span class="p">,</span>
+        <span class="n">eos</span><span class="o">.</span><span class="n">Parameters</span><span class="p">(),</span>
+        <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(),</span>
+        <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s1">&#39;WET&#39;</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="s1">&#39;mu&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">observable1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;----&#39;</span><span class="p">)</span>
+<span class="n">observable2</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;B-&gt;D^*lnu::A_FB&#39;</span><span class="p">,</span>
+        <span class="n">eos</span><span class="o">.</span><span class="n">Parameters</span><span class="p">(),</span>
+        <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2_min</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">q2_max</span><span class="o">=</span><span class="mf">10.67</span><span class="p">),</span>
+        <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="s1">&#39;mu&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">observable2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+        <table>
+            <tr>
+                <th>B_q->ll::BR@Untagged</th>
+                <td colspan="2">(eos.Observable)</td>
+            </tr>
+            <tr>
+                <th rowspan="1">kinematics</th>
+                <td colspan=2>none</td>
+            </tr>
+
+            <tr>
+                <th rowspan="3">options</th>
+                <th>l</th><td>mu</td>
+            </tr>
+            <tr><th>model</th><td>WET</td></tr>
+<tr><th>q</th><td>s</td></tr>
+            <tr>
+                <th>current value</th>
+                <td colspan="2"><tt>3.576e-09</tt></td>
+            </tr>
+        </table></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+----
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+    <tr>
+        <th>B->D^*lnu::A_FB</th>
+        <td colspan="2">(eos.Observable)</td>
+    </tr>
+    <tr>
+        <th rowspan="2">kinematics</th>
+        <th>q2_min</th><td>0.02</td>
+    </tr>
+    <tr><th>q2_max</th><td>10.67</td></tr>
+    <tr>
+        <th rowspan="1">options</th>
+        <th>l</th><td>mu</td>
+    </tr>
+
+    <tr>
+        <th>current value</th>
+        <td colspan="2"><tt>0.1674</tt></td>
+    </tr>
+</table></div>
+</div>
+<p>You can access an observable’s set of parameters through the <a class="reference internal" href="../reference/python.html#eos.Observable.parameters"><span class="std std-ref">parameters</span></a> method:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">observable1</span><span class="o">.</span><span class="n">parameters</span><span class="p">()</span> <span class="o">==</span> <span class="n">observable2</span><span class="o">.</span><span class="n">parameters</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+False
+</pre></div></div>
+</div>
+<p>As you can see, the two observables do not share a common set of parameters, even though all their parameter values are identical. Changes to the parameters of <code class="docutils literal notranslate"><span class="pre">observable1</span></code> do not affect <code class="docutils literal notranslate"><span class="pre">observable2</span></code>.</p>
+<p>You can also access the set of kinematic variables through the <a class="reference internal" href="../reference/python.html#eos.Observable.kinematics"><span class="std std-ref">kinematics</span></a> method:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">observable2</span><span class="o">.</span><span class="n">kinematics</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<tr><th><tt style="color:grey">q2_min</tt></th><td>0.02</td></tr>
+<tr><th><tt style="color:grey">q2_max</tt></th><td>10.67</td></tr>
+</table></div>
+</div>
+<p>Finally, you can access the set of options with which an <a class="reference internal" href="../reference/python.html#eos.Observable"><span class="std std-ref">eos.Observable</span></a> has been constructed through the <a class="reference internal" href="../reference/python.html#eos.Observable.options"><span class="std std-ref">options</span></a> method:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">observable1</span><span class="o">.</span><span class="n">options</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<tr><th><tt style="color:grey">l</tt></th><td>mu</td></tr>
+<tr><th><tt style="color:grey">model</tt></th><td>WET</td></tr>
+<tr><th><tt style="color:grey">q</tt></th><td>s</td></tr>
+</table></div>
+</div>
+<p>An observable can be handled just like any other Python object. For example, we can readily create a list of observables that differ only by one of their kinematic variables, e.g. to plot an observable as a function of one of its kinematic variable.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
+
+<span class="n">parameters</span>  <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Parameters</span><span class="p">()</span>
+<span class="n">observables</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;B-&gt;D^*lnu::A_FB(q2)&#39;</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2</span><span class="o">=</span><span class="n">q2</span><span class="p">),</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">q2</span> <span class="ow">in</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1.00</span><span class="p">,</span> <span class="mf">10.67</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">evaluate</span><span class="p">()</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">observables</span><span class="p">]</span>
+<span class="n">display</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[0.07568167619600391,
+ 0.14540687361030025,
+ 0.18550212944207706,
+ 0.20752414012171227,
+ 0.2160779168296866,
+ 0.21324089622890913,
+ 0.19946563045552954,
+ 0.1733830961870223,
+ 0.12940814736260467,
+ 0.017723854042111166]
+</pre></div></div>
+</div>
+<p>With this knowledge, you can now proceed to look at the example use cases in the documentation and the other interactive notebook examples.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="User Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="predictions.html" class="btn btn-neutral float-right" title="Theory Predictions and their Uncertainties" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2024, The EOS Authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
