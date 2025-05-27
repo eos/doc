@@ -75,11 +75,13 @@
 <li class="toctree-l4"><a class="reference internal" href="#predict-observables">predict-observables</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#corner-plot">corner-plot</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#validate">validate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#list-figures">list-figures</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#list-steps">list-steps</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#list-step-dependencies">list-step-dependencies</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#create-mask">create-mask</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#report">report</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#run">run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#draw-figure">draw-figure</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#init">init</a></li>
 </ul>
 </li>
@@ -87,6 +89,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="defining-observables.html">Defining Observables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="analysis-file-format.html">Analysis File Format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="figure-format.html">Figure Description Format</a></li>
 <li class="toctree-l2"><a class="reference internal" href="constraints.html">List of Constraints</a></li>
 <li class="toctree-l2"><a class="reference internal" href="observables.html">List of Observables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="parameters.html">List of Parameters</a></li>
@@ -153,7 +156,7 @@ Similarly, verbosity can be set for an individual command using the <code class=
 (for descriptions and small numerical datasets) and Numpy datafiles (for samples).
 The datafiles can be access with the classes documented as part of the <code class="xref py py-obj docutils literal notranslate"><span class="pre">eos.data</span></code> module.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span>
-                    <span class="p">{</span><span class="nb">list</span><span class="o">-</span><span class="n">priors</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">likelihoods</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">posteriors</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">predictions</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">mcmc</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">pmc</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">nested</span><span class="p">,</span><span class="n">plot</span><span class="o">-</span><span class="n">samples</span><span class="p">,</span><span class="n">find</span><span class="o">-</span><span class="n">mode</span><span class="p">,</span><span class="n">mixture</span><span class="o">-</span><span class="n">product</span><span class="p">,</span><span class="n">find</span><span class="o">-</span><span class="n">clusters</span><span class="p">,</span><span class="n">predict</span><span class="o">-</span><span class="n">observables</span><span class="p">,</span><span class="n">corner</span><span class="o">-</span><span class="n">plot</span><span class="p">,</span><span class="n">validate</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">steps</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">step</span><span class="o">-</span><span class="n">dependencies</span><span class="p">,</span><span class="n">create</span><span class="o">-</span><span class="n">mask</span><span class="p">,</span><span class="n">report</span><span class="p">,</span><span class="n">run</span><span class="p">,</span><span class="n">init</span><span class="p">}</span>
+                    <span class="p">{</span><span class="nb">list</span><span class="o">-</span><span class="n">priors</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">likelihoods</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">posteriors</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">predictions</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">mcmc</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">pmc</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">nested</span><span class="p">,</span><span class="n">plot</span><span class="o">-</span><span class="n">samples</span><span class="p">,</span><span class="n">find</span><span class="o">-</span><span class="n">mode</span><span class="p">,</span><span class="n">mixture</span><span class="o">-</span><span class="n">product</span><span class="p">,</span><span class="n">find</span><span class="o">-</span><span class="n">clusters</span><span class="p">,</span><span class="n">predict</span><span class="o">-</span><span class="n">observables</span><span class="p">,</span><span class="n">corner</span><span class="o">-</span><span class="n">plot</span><span class="p">,</span><span class="n">validate</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">figures</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">steps</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">step</span><span class="o">-</span><span class="n">dependencies</span><span class="p">,</span><span class="n">create</span><span class="o">-</span><span class="n">mask</span><span class="p">,</span><span class="n">report</span><span class="p">,</span><span class="n">run</span><span class="p">,</span><span class="n">draw</span><span class="o">-</span><span class="n">figure</span><span class="p">,</span><span class="n">init</span><span class="p">}</span>
                     <span class="o">...</span>
 </pre></div>
 </div>
@@ -694,14 +697,32 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/plots.</p>
 </dl>
 </section>
 </section>
+<section id="list-figures">
+<h3>list-figures<a class="headerlink" href="#list-figures" title="Link to this heading"></a></h3>
+<p>Lists the figures defined within the analysis file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="nb">list</span><span class="o">-</span><span class="n">figures</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span>
+</pre></div>
+</div>
+<section id="named-arguments_repeat14">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat14" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘analysis.yaml’.</p>
+</dd>
+</dl>
+</section>
+</section>
 <section id="list-steps">
 <h3>list-steps<a class="headerlink" href="#list-steps" title="Link to this heading"></a></h3>
 <p>Lists the steps defined within the analysis file.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="nb">list</span><span class="o">-</span><span class="n">steps</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span>
 </pre></div>
 </div>
-<section id="named-arguments_repeat14">
-<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat14" title="Link to this heading"></a></h4>
+<section id="named-arguments_repeat15">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat15" title="Link to this heading"></a></h4>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
@@ -726,8 +747,8 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/plots.</p>
 </dd>
 </dl>
 </section>
-<section id="named-arguments_repeat15">
-<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat15" title="Link to this heading"></a></h4>
+<section id="named-arguments_repeat16">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat16" title="Link to this heading"></a></h4>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
@@ -756,8 +777,8 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/plots.</p>
 </dd>
 </dl>
 </section>
-<section id="named-arguments_repeat16">
-<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat16" title="Link to this heading"></a></h4>
+<section id="named-arguments_repeat17">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat17" title="Link to this heading"></a></h4>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
@@ -787,8 +808,8 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/plots.</p>
 </dd>
 </dl>
 </section>
-<section id="named-arguments_repeat17">
-<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat17" title="Link to this heading"></a></h4>
+<section id="named-arguments_repeat18">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat18" title="Link to this heading"></a></h4>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
@@ -819,8 +840,8 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/plots.</p>
 </dd>
 </dl>
 </section>
-<section id="named-arguments_repeat18">
-<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat18" title="Link to this heading"></a></h4>
+<section id="named-arguments_repeat19">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat19" title="Link to this heading"></a></h4>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
@@ -837,14 +858,48 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/plots.</p>
 </dl>
 </section>
 </section>
+<section id="draw-figure">
+<h3>draw-figure<a class="headerlink" href="#draw-figure" title="Link to this heading"></a></h3>
+<p>Draws a figure based on the specification in the analysis file and the recorded results.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">draw</span><span class="o">-</span><span class="n">figure</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+                         <span class="p">[</span><span class="o">-</span><span class="n">F</span> <span class="n">FORMAT</span><span class="p">]</span>
+                         <span class="n">FIGURE</span>
+</pre></div>
+</div>
+<section id="positional-arguments_repeat13">
+<h4>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat13" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>FIGURE</kbd></dt>
+<dd><p>The name of the figure that shall be drawn.</p>
+</dd>
+</dl>
+</section>
+<section id="named-arguments_repeat20">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat20" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘analysis.yaml’.</p>
+</dd>
+<dt><kbd>-b, --base-directory</kbd></dt>
+<dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
+</dd>
+<dt><kbd>-F, --format</kbd></dt>
+<dd><p>The additional formats in which the figure should be saved. Defaults to PDF only.</p>
+</dd>
+</dl>
+</section>
+</section>
 <section id="init">
 <h3>init<a class="headerlink" href="#init" title="Link to this heading"></a></h3>
 <p>Initializes a new analysis directory based on the EOS analysis template.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">init</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span>
 </pre></div>
 </div>
-<section id="named-arguments_repeat19">
-<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat19" title="Link to this heading"></a></h4>
+<section id="named-arguments_repeat21">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat21" title="Link to this heading"></a></h4>
 <dl class="option-list">
 <dt><kbd>-v, --verbose</kbd></dt>
 <dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
