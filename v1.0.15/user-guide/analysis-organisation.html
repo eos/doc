@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analysis Organisation &mdash; EOS 1.0.15 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/contentui.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=67e44365" />
+
+  
+    <link rel="canonical" href="https://eos.github.io/doc/user-guide/analysis-organisation.html" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=6f77e80e"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/contentui.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Common Tasks in Phenomenological Analyses" href="tasks.html" />
+    <link rel="prev" title="Simulation of Pseudo Events" href="simulation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            EOS
+              <img src="../_static/github-eos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="basics.html">Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="predictions.html">Theory Predictions and their Uncertainties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inference.html">Parameter Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation.html">Simulation of Pseudo Events</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Analysis Organisation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Defining-the-Building-Blocks">Defining the Building Blocks</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Defining-parameters">Defining parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Defining-priors">Defining priors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Defining-likelihoods">Defining likelihoods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Defining-posteriors">Defining posteriors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Defining-observables">Defining observables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Defining-predictions">Defining predictions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Defining-steps">Defining steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Displaying-the-analysis-file">Displaying the analysis file</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Running-Frequent-Tasks">Running Frequent Tasks</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Sampling-from-a-Posterior">Sampling from a Posterior</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tasks.html">Common Tasks in Phenomenological Analyses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reproducible-analyses.html">Setting up a fully reproducible analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">EOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">User Guide</a></li>
+      <li class="breadcrumb-item active">Analysis Organisation</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Analysis-Organisation">
+<h1>Analysis Organisation<a class="headerlink" href="#Analysis-Organisation" title="Link to this heading"></a></h1>
+<p>This notebook illustrates how to organise your analysis or analyses. This presentation is based on the physical example of the analysis of <span class="math notranslate nohighlight">\(b \to u \ell \nu\)</span> exclusive decays. The analysis properties are encoded in a companion file named <code class="docutils literal notranslate"><span class="pre">b-to-u-l-nu.yaml</span></code>, which fully describes a number of individual priors and likelihoods. These objects serve as the building blocks to construct individual posteriors, which are then available for the overall analysis.</p>
+<section id="Defining-the-Building-Blocks">
+<h2>Defining the Building Blocks<a class="headerlink" href="#Defining-the-Building-Blocks" title="Link to this heading"></a></h2>
+<p>The analysis file is loaded via <a class="reference internal" href="../reference/python.html#eos.AnalysisFile"><span class="std std-ref">eos.AnalysisFile</span></a>. In our case the file defines two posteriors <code class="docutils literal notranslate"><span class="pre">CKM-all</span></code> and <code class="docutils literal notranslate"><span class="pre">WET-all</span></code>, and a few priors and likelihoods, which are used to define the two posteriors. The file format is YAML.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">eos</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Markdown</span> <span class="k">as</span> <span class="n">md</span>
+
+<span class="n">af</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">AnalysisFile</span><span class="p">(</span><span class="s1">&#39;./b-to-u-l-nu.yaml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Inserting custom observables ...
+[ObservableEntries.insert_or_assign] Entry for observable B-&gt;pilnu::R_pi has been replaced.
+Inserted observable: B-&gt;pilnu::R_pi
+... finished inserting 1 custom observables
+Declaring custom parameters ...
+Declared parameter: ublnul::Re{cVL}
+Created parameter alias: ubenue::Re{cVL} -&gt; ublnul::Re{cVL}
+Created parameter alias: ubmunumu::Re{cVL} -&gt; ublnul::Re{cVL}
+Created parameter alias: ubtaunutau::Re{cVL} -&gt; ublnul::Re{cVL}
+Declared parameter: ublnul::Re{cVR}
+Created parameter alias: ubenue::Re{cVR} -&gt; ublnul::Re{cVR}
+Created parameter alias: ubmunumu::Re{cVR} -&gt; ublnul::Re{cVR}
+Created parameter alias: ubtaunutau::Re{cVR} -&gt; ublnul::Re{cVR}
+... finished declaring 2 custom parameters
+Task &#39;sample-nested&#39; has a default value for argument &#39;seed&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;sample-nested&#39; has a default value for argument &#39;sample&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;sample-nested&#39; has a default value for argument &#39;miniter&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;sample-nested&#39; has a default value for argument &#39;seed&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;sample-nested&#39; has a default value for argument &#39;sample&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;sample-nested&#39; has a default value for argument &#39;miniter&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;corner-plot&#39; has a default value for argument &#39;distribution&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;corner-plot&#39; has a default value for argument &#39;mask_name&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;corner-plot&#39; has a default value for argument &#39;end&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;corner-plot&#39; has a default value for argument &#39;begin&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;corner-plot&#39; has a default value for argument &#39;format&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;corner-plot&#39; has a default value for argument &#39;distribution&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;corner-plot&#39; has a default value for argument &#39;mask_name&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;corner-plot&#39; has a default value for argument &#39;end&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;corner-plot&#39; has a default value for argument &#39;begin&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;corner-plot&#39; has a default value for argument &#39;format&#39;, which can change across versions; consider providing a value explicitly
+</pre></div></div>
+</div>
+<section id="Defining-parameters">
+<h3>Defining parameters<a class="headerlink" href="#Defining-parameters" title="Link to this heading"></a></h3>
+<p>The parametrization in EOS strives to be as specific as possible. Hence, EOS treats the Wilson coefficients as lepton flavor specific. To restore lepton flavor universality, we create a new set of lepton flavor universal parameters and alias the existing parameters for the lepton specific Wilson coefficients to the new set.</p>
+<p>Looking at the <code class="docutils literal notranslate"><span class="pre">b-&gt;u</span></code> parameters available in EOS, we see that all available Wilson coefficients are lepton flavor dependent:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">eos</span><span class="o">.</span><span class="n">Parameters</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;ub&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Re</span><span class="si">{cVL}</span><span class="s1">&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+        <table>
+            <colgroup>
+                <col width="25%" id="qn"      style="min-width: 200px">
+                <col width="20%" id="symbol"  style="min-width: 200px">
+                <col width="5%"  id="unit"    style="min-width:  50px">
+                <col width="10%" id="value"   style="min-width: 100px">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>qualified name</th>
+                    <th>symbol</th>
+                    <th>unit</th>
+                    <th>value</th>
+                </tr>
+            </thead>
+
+              <tr><th style="text-align:left" colspan=4><big>Standard Model and Effective Field Theory Parameters</big></th></tr>
+                    <tr><th style="text-align:left" colspan=4>$\bar{u}b\bar{\ell}\nu$ WET Parameters</th></tr>
+                    <tr><td style="text-align:left" colspan=4>The list of parameters describing the Wilson coefficients of $\bar{u}b\bar{\ell}\nu$ operators in the effective Lagrangian
+\begin{equation}
+  \mathcal{H}^{\bar{u}b\bar{\ell}\nu}_\mathrm{eff}
+  = \frac{4 G_F}{\sqrt{2}} V_{ub} \sum_i \mathcal{C}^{\bar{u}b\bar{\ell}\nu}_i \mathcal{O}^{\bar{u}b\bar{\ell}\nu}_i\,.
+\end{equation}
+The operators read:
+\begin{align}
+  \mathcal{O}_{V_{L(R)}} & = [\bar{u} \gamma^\mu P_{L(R)} b]\, [\bar{\ell} \gamma_\mu P_L \nu_\ell]\\
+  \mathcal{O}_{S_{L(R)}} & = [\bar{u} P_{L(R)} b]\, [\bar{\ell} P_L \nu_\ell]\\
+  \mathcal{O}_{T}        & = [\bar{u} \sigma^{\mu\nu} b]\, [\bar{\ell} \sigma_{\mu\nu} P_L \nu_\ell]
+\end{align}
+</td></tr>
+                        <tbody>
+                            <tr>
+                                <th><tt style="color:grey">ubenue::Re{cVL}</tt></th>
+                                <td style="text-align:left">$$\mathrm{Re}\, \mathcal{C}^{\bar{u}b\bar{e}\nu_e}_{V_L}$$</td>
+                                <td style="text-align:left">&mdash;</td>
+                                <td style="text-align:right">1.0</td>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <tr>
+                                <th><tt style="color:grey">ubmunumu::Re{cVL}</tt></th>
+                                <td style="text-align:left">$$\mathrm{Re}\, \mathcal{C}^{\bar{u}b\bar{\mu}\nu_\mu}_{V_L}$$</td>
+                                <td style="text-align:left">&mdash;</td>
+                                <td style="text-align:right">1.0</td>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <tr>
+                                <th><tt style="color:grey">ubtaunutau::Re{cVL}</tt></th>
+                                <td style="text-align:left">$$\mathrm{Re}\, \mathcal{C}^{\bar{u}b\bar{\tau}\nu_\tau}_{V_L}$$</td>
+                                <td style="text-align:left">&mdash;</td>
+                                <td style="text-align:right">1.0</td>
+                            </tr>
+                        </tbody>
+            </table></div>
+</div>
+<p>Here we show how to define a new parameter which is an alias to all three lepton flavor dependent left-handed vector Wilson coefficients:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">parameters</span><span class="p">:</span>
+<span class="w">  </span><span class="s">&#39;ublnul::Re{cVL}&#39;</span><span class="w"> </span><span class="p p-Indicator">:</span>
+<span class="w">      </span><span class="nt">alias_of</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="s">&#39;ubenue::Re{cVL}&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;ubmunumu::Re{cVL}&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;ubtaunutau::Re{cVL}&#39;</span><span class="w"> </span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">central</span><span class="p">:</span><span class="w">   </span><span class="l l-Scalar l-Scalar-Plain">1.0</span>
+<span class="w">      </span><span class="nt">min</span><span class="p">:</span><span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">-2.0</span>
+<span class="w">      </span><span class="nt">max</span><span class="p">:</span><span class="w">       </span><span class="l l-Scalar l-Scalar-Plain">2.0</span>
+<span class="w">      </span><span class="nt">unit</span><span class="p">:</span><span class="w">     </span><span class="s">&#39;1&#39;</span>
+<span class="w">      </span><span class="nt">latex</span><span class="p">:</span><span class="w">    </span><span class="s">&#39;$\mathrm{Re}\,</span><span class="nv"> </span><span class="s">\mathcal{C}^{\bar{u}b\bar{\nu}_\ell\ell}_{V_L}$&#39;</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">alias_of</span></code> key is a list of existing EOS parameters (by qualified name). In the <code class="docutils literal notranslate"><span class="pre">b-to-u-l-nu.yaml</span></code> analysis file we similarly do so for scalar and tensor Wilson coefficients.</p>
+</section>
+<section id="Defining-priors">
+<h3>Defining priors<a class="headerlink" href="#Defining-priors" title="Link to this heading"></a></h3>
+<p>All priors are contained within a list associated with the top-level key <code class="docutils literal notranslate"><span class="pre">priors</span></code>. In the example, the <code class="docutils literal notranslate"><span class="pre">WET</span></code> prior is defined as follows:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">priors</span><span class="p">:</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">- name</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WET</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">descriptions</span><span class="p p-Indicator">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;parameter&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;ublnul::Re{cVL}&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;min&#39;</span><span class="p p-Indicator">:</span><span class="w">  </span><span class="nv">0.9</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;max&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">1.2</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;type&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+</pre></div>
+</div>
+<p>The definition associates a list of all parameters varied as part of this prior with the key <code class="docutils literal notranslate"><span class="pre">descriptions</span></code>. Each element of the list is a dictionary representing a single parameter. It provides the parameter’s full name as <code class="docutils literal notranslate"><span class="pre">parameter</span></code>, lists the <code class="docutils literal notranslate"><span class="pre">min</span></code>/<code class="docutils literal notranslate"><span class="pre">max</span></code> interval, and specifies the <code class="docutils literal notranslate"><span class="pre">type</span></code> of prior distribution. This format reflects the expectations of the <code class="docutils literal notranslate"><span class="pre">prior</span></code> keyword argument of <a class="reference internal" href="../reference/python.html#eos.Analysis"><span class="std std-ref">eos.Analysis</span></a>.</p>
+<p>In addition to the <code class="docutils literal notranslate"><span class="pre">descriptions</span></code> key one can also pass manual constraints via the <code class="docutils literal notranslate"><span class="pre">manual_constraints</span></code> key or <code class="docutils literal notranslate"><span class="pre">pyhf</span></code> constraints via the <code class="docutils literal notranslate"><span class="pre">pyhf</span></code> key.</p>
+</section>
+<section id="Defining-likelihoods">
+<h3>Defining likelihoods<a class="headerlink" href="#Defining-likelihoods" title="Link to this heading"></a></h3>
+<p>All likelihoods are contained within a list associated with the top-level key <code class="docutils literal notranslate"><span class="pre">likelihoods</span></code>. In the EOS convention, theoretical and experimental likelihoods should be defined separately from each other and their names prefixed with <code class="docutils literal notranslate"><span class="pre">TH-</span></code> and <code class="docutils literal notranslate"><span class="pre">EXP-</span></code>, respectively. In the example file, the <code class="docutils literal notranslate"><span class="pre">TH-pi</span></code> likelihoods is defined as follows:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">likelihoods</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TH-pi</span>
+<span class="w">    </span><span class="nt">constraints</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;B-&gt;pi::form-factors[f_+,f_0,f_T]@LMvD:2021A;form-factors=BCL2008-4&#39;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;B-&gt;pi::f_++f_0+f_T@FNAL+MILC:2015C;form-factors=BCL2008-4&#39;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;B-&gt;pi::f_++f_0@RBC+UKQCD:2015A;form-factors=BCL2008-4&#39;</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+</pre></div>
+</div>
+<p>The definition associates a list of constraints with the key <code class="docutils literal notranslate"><span class="pre">constraints</span></code>. Each element of the list is a string referring to one of the built-in <a class="reference external" href="https://eos.github.io/doc/reference/constraints">EOS constraints</a>. This format reflects the expectations of the <code class="docutils literal notranslate"><span class="pre">constraints</span></code> keyword argument of <a class="reference internal" href="../reference/python.html#eos.Analysis"><span class="std std-ref">eos.Analysis</span></a>.</p>
+</section>
+<section id="Defining-posteriors">
+<h3>Defining posteriors<a class="headerlink" href="#Defining-posteriors" title="Link to this heading"></a></h3>
+<p>We define a posterior based on predefined likelihoods and priors within a list associated with the top-level key <code class="docutils literal notranslate"><span class="pre">posteriors</span></code> as</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">posteriors</span><span class="p">:</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">- name</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WET-all</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">global_options</span><span class="p p-Indicator">:</span>
+<span class="w">      </span><span class="nt">model</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WET</span>
+<span class="w">  </span><span class="w w-Error">  </span><span class="nt">fixed_parameters</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">CKM::abs(V_ub)</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.67e-3</span>
+<span class="w">    </span><span class="nt">prior</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WET</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DC-Bu</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FF-pi</span>
+<span class="w">    </span><span class="nt">likelihood</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TH-pi</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">EXP-pi</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">EXP-leptonic</span>
+</pre></div>
+</div>
+<p>The specification of global options ensures that we use the <code class="docutils literal notranslate"><span class="pre">CKM</span> <span class="pre">model</span></code> for CKM matrix elements and that we focus on electrons in our final state. Using the <code class="docutils literal notranslate"><span class="pre">fixed_parameters</span></code> key we fix <span class="math notranslate nohighlight">\(|V_{ub}|\)</span> here.</p>
+<p>In the analysis file we add two posteriors, for the <code class="docutils literal notranslate"><span class="pre">CKM</span> <span class="pre">model</span></code> and the <code class="docutils literal notranslate"><span class="pre">WET</span> <span class="pre">model</span></code>. Below we sample from both posteriors.</p>
+</section>
+<section id="Defining-observables">
+<h3>Defining observables<a class="headerlink" href="#Defining-observables" title="Link to this heading"></a></h3>
+<p>By defining and using custom observables in this way, you can tailor your analysis to include specific quantities of interest and ensure that they are properly accounted for in your results. To define custom observables, one can add an entry to the <code class="docutils literal notranslate"><span class="pre">observables</span></code> part of the analysis file. Mandatory fields include the name of the observable, the <code class="docutils literal notranslate"><span class="pre">latex</span></code> expression, its <code class="docutils literal notranslate"><span class="pre">unit</span></code> and an <code class="docutils literal notranslate"><span class="pre">expression</span></code> for the observable. The <code class="docutils literal notranslate"><span class="pre">expression</span></code> is constructed as documented
+<a class="reference internal" href="../reference/defining-observables.html"><span class="doc">here</span></a>.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">observables</span><span class="p">:</span>
+<span class="w">  </span><span class="s">&quot;B-&gt;pilnu::R_pi&quot;</span><span class="p p-Indicator">:</span>
+<span class="w">    </span><span class="nt">latex</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;$R_{\\pi}$&quot;</span>
+<span class="w">    </span><span class="nt">unit</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;1&#39;</span>
+<span class="w">    </span><span class="nt">options</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">    </span><span class="nt">expression</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&lt;&lt;B-&gt;pilnu::BR;l=tau&gt;&gt;[q2_min=&gt;q2_tau_min]</span><span class="nv"> </span><span class="s">/</span><span class="nv"> </span><span class="s">&lt;&lt;B-&gt;pilnu::BR;l=e&gt;&gt;[q2_min=&gt;q2_e_min]&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="Defining-predictions">
+<h3>Defining predictions<a class="headerlink" href="#Defining-predictions" title="Link to this heading"></a></h3>
+<p>To finally produce posterior predictive distributions for some observables, we can add them via the <code class="docutils literal notranslate"><span class="pre">predictions</span></code> key:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">predictions</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">leptonic-BR-CKM</span>
+<span class="w">    </span><span class="nt">global_options</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">model</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CKM</span>
+<span class="w">    </span><span class="nt">observables</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B_u-&gt;lnu::BR;l=e</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B_u-&gt;lnu::BR;l=mu</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B_u-&gt;lnu::BR;l=tau</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+</pre></div>
+</div>
+<p>Here we add the total branching ratio of <span class="math notranslate nohighlight">\(\bar{B} \to \ell^- \bar{\nu}\)</span> for <span class="math notranslate nohighlight">\(l=e, \mu, \tau\)</span> as prediction.</p>
+<p>Similarly, we can add a prediction for our custom observable, defined above:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name </span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">R_pi</span>
+<span class="w">  </span><span class="nt">global_options</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">model</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WET</span>
+<span class="w">  </span><span class="nt">observables</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pilnu::R_pi</span>
+<span class="w">      </span><span class="nt">kinematics</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">q2_e_min</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0e-7</span>
+<span class="w">        </span><span class="nt">q2_tau_min</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.3</span>
+<span class="w">        </span><span class="nt">q2_max</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">25.0</span>
+</pre></div>
+</div>
+<p>If interested, the differential branching ratio <code class="docutils literal notranslate"><span class="pre">B-&gt;pilnu::dBR/dq2</span></code> is also defined in the analysis file.</p>
+</section>
+<section id="Defining-steps">
+<h3>Defining steps<a class="headerlink" href="#Defining-steps" title="Link to this heading"></a></h3>
+<p>Finally the analysis file can contain a <code class="docutils literal notranslate"><span class="pre">steps</span></code> key, which is used to define the analysis in terms of tasks, which are described below.</p>
+</section>
+<section id="Displaying-the-analysis-file">
+<h3>Displaying the analysis file<a class="headerlink" href="#Displaying-the-analysis-file" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">display</span></code> command outputs the structure of the analysis file.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">af</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+    <table style="width: 80%">
+        <colgroup>
+            <col width="40%" style="min-width: 160px">
+            <col width="15%" style="min-width:  80px">
+            <col width="15%" style="min-width:  80px">
+            <col width="30%" style="min-width:  80px">
+        </colgroup>
+        <thead>
+            <tr>
+                <th colspan="4" style="text-align: center">PRIORS</th>
+            </tr>
+        </thead>
+
+        <thead>
+            <tr>
+                <th colspan="4" style="text-align: left">CKM</th>
+            </tr>
+            <tr>
+                <th style="text-align: center">qualified name</th>
+                <th style="text-align: center">min</th>
+                <th style="text-align: center">max</th>
+                <th style="text-align: center">type</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td style="text-align: center"><code>CKM::abs(V_ub)</code></td>
+                <td style="text-align: center">0.003</td>
+                <td style="text-align: center">0.0045</td>
+                <td style="text-align: center">uniform</td>
+            </tr>
+
+        <thead>
+            <tr>
+                <th colspan="4" style="text-align: left">WET</th>
+            </tr>
+            <tr>
+                <th style="text-align: center">qualified name</th>
+                <th style="text-align: center">min</th>
+                <th style="text-align: center">max</th>
+                <th style="text-align: center">type</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td style="text-align: center"><code>ublnul::Re{cVL}</code></td>
+                <td style="text-align: center">0.5</td>
+                <td style="text-align: center">1.5</td>
+                <td style="text-align: center">uniform</td>
+            </tr>
+
+            <tr>
+                <td style="text-align: center"><code>ublnul::Re{cVR}</code></td>
+                <td style="text-align: center">-0.5</td>
+                <td style="text-align: center">0.5</td>
+                <td style="text-align: center">uniform</td>
+            </tr>
+
+        <thead>
+            <tr>
+                <th colspan="4" style="text-align: left">DC-Bu</th>
+            </tr>
+            <tr>
+                <th style="text-align: center">qualified name</th>
+                <th style="text-align: center">min</th>
+                <th style="text-align: center">max</th>
+                <th style="text-align: center">type</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td style="text-align: center"><code>decay-constant::B_u</code></td>
+                <td style="text-align: center">None</td>
+                <td style="text-align: center">None</td>
+                <td style="text-align: center">gaussian</td>
+            </tr>
+
+        <thead>
+            <tr>
+                <th colspan="4" style="text-align: left">FF-pi</th>
+            </tr>
+            <tr>
+                <th style="text-align: center">qualified name</th>
+                <th style="text-align: center">min</th>
+                <th style="text-align: center">max</th>
+                <th style="text-align: center">type</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td style="text-align: center"><code>B->pi::f_+(0)@BCL2008</code></td>
+                <td style="text-align: center">0.21</td>
+                <td style="text-align: center">0.32</td>
+                <td style="text-align: center">uniform</td>
+            </tr>
+
+            <tr>
+                <td style="text-align: center"><code>B->pi::b_+^1@BCL2008</code></td>
+                <td style="text-align: center">-2.96</td>
+                <td style="text-align: center">-0.6</td>
+                <td style="text-align: center">uniform</td>
+            </tr>
+
+            <tr>
+                <td style="text-align: center"><code>B->pi::b_+^2@BCL2008</code></td>
+                <td style="text-align: center">-3.98</td>
+                <td style="text-align: center">4.38</td>
+                <td style="text-align: center">uniform</td>
+            </tr>
+
+            <tr>
+                <td style="text-align: center"><code>B->pi::b_+^3@BCL2008</code></td>
+                <td style="text-align: center">-18.3</td>
+                <td style="text-align: center">9.27</td>
+                <td style="text-align: center">uniform</td>
+            </tr>
+
+            <tr>
+                <td style="text-align: center"><code>B->pi::b_0^1@BCL2008</code></td>
+                <td style="text-align: center">-0.1</td>
+                <td style="text-align: center">1.35</td>
+                <td style="text-align: center">uniform</td>
+            </tr>
+
+            <tr>
+                <td style="text-align: center"><code>B->pi::b_0^2@BCL2008</code></td>
+                <td style="text-align: center">-2.08</td>
+                <td style="text-align: center">4.65</td>
+                <td style="text-align: center">uniform</td>
+            </tr>
+
+            <tr>
+                <td style="text-align: center"><code>B->pi::b_0^3@BCL2008</code></td>
+                <td style="text-align: center">-4.73</td>
+                <td style="text-align: center">9.07</td>
+                <td style="text-align: center">uniform</td>
+            </tr>
+
+            <tr>
+                <td style="text-align: center"><code>B->pi::b_0^4@BCL2008</code></td>
+                <td style="text-align: center">-60.0</td>
+                <td style="text-align: center">38.0</td>
+                <td style="text-align: center">uniform</td>
+            </tr>
+
+            <tr>
+                <td style="text-align: center"><code>B->pi::f_T(0)@BCL2008</code></td>
+                <td style="text-align: center">0.18</td>
+                <td style="text-align: center">0.32</td>
+                <td style="text-align: center">uniform</td>
+            </tr>
+
+            <tr>
+                <td style="text-align: center"><code>B->pi::b_T^1@BCL2008</code></td>
+                <td style="text-align: center">-3.91</td>
+                <td style="text-align: center">-0.33</td>
+                <td style="text-align: center">uniform</td>
+            </tr>
+
+            <tr>
+                <td style="text-align: center"><code>B->pi::b_T^2@BCL2008</code></td>
+                <td style="text-align: center">-4.32</td>
+                <td style="text-align: center">2.0</td>
+                <td style="text-align: center">uniform</td>
+            </tr>
+
+            <tr>
+                <td style="text-align: center"><code>B->pi::b_T^3@BCL2008</code></td>
+                <td style="text-align: center">-7.39</td>
+                <td style="text-align: center">10.6</td>
+                <td style="text-align: center">uniform</td>
+            </tr>
+
+    </tbody>
+    </table>
+    <br>
+    <table style="width: 80%">
+    <thead>
+        <tr>
+            <th style="text-align: center">LIKELIHOODS</th>
+        </tr>
+    </thead>
+
+        <thead>
+            <tr>
+                <th style="text-align: left">TH-pi</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td style="text-align: left"><code>B->pi::form-factors[f_+,f_0,f_T]@LMvD:2021A;form-factors=BCL2008-4</code></td>
+            </tr>
+
+            <tr>
+                <td style="text-align: left"><code>B->pi::f_++f_0+f_T@FNAL+MILC:2015C;form-factors=BCL2008-4</code></td>
+            </tr>
+
+            <tr>
+                <td style="text-align: left"><code>B->pi::f_++f_0@RBC+UKQCD:2015A;form-factors=BCL2008-4</code></td>
+            </tr>
+
+        <thead>
+            <tr>
+                <th style="text-align: left">EXP-pi</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td style="text-align: left"><code>B^0->pi^-l^+nu::BR@HFLAV:2019A;form-factors=BCL2008-4</code></td>
+            </tr>
+
+        <thead>
+            <tr>
+                <th style="text-align: left">EXP-leptonic</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td style="text-align: left"><code>B^+->tau^+nu::BR@Belle:2014A;form-factors=BCL2008-4</code></td>
+            </tr>
+
+    </tbody>
+    </table>
+    <br>
+    <table style="width: 80%">
+    <colgroup>
+        <col width="25%" id="priors"            style="min-width: 100px">
+        <col width="25%" id="likelihoods"       style="min-width: 100px">
+        <col width="25%" id="global_options"    style="min-width: 100px">
+        <col width="25%" id="fixed_parameters"  style="min-width: 100px">
+    </colgroup>
+    <thead>
+        <tr>
+            <th colspan="4" style="text-align: center">POSTERIORS</th>
+        </tr>
+    </thead>
+
+        <thead>
+            <tr>
+                <th colspan="4" style="text-align: left">CKM-all</th>
+            </tr>
+            <tr>
+                <th style="text-align: center">priors</th>
+                <th style="text-align: center">likelihoods</th>
+                <th style="text-align: center">global options</th>
+                <th style="text-align: center">fixed parameters</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="text-align: center">CKM, DC-Bu, FF-pi</td>
+                <td style="text-align: center">TH-pi, EXP-pi, EXP-leptonic</td>
+                <td style="text-align: center">model = CKM</td>
+                <td style="text-align: center"></td>
+            </tr>
+        </tbody>
+
+        <thead>
+            <tr>
+                <th colspan="4" style="text-align: left">WET-all</th>
+            </tr>
+            <tr>
+                <th style="text-align: center">priors</th>
+                <th style="text-align: center">likelihoods</th>
+                <th style="text-align: center">global options</th>
+                <th style="text-align: center">fixed parameters</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="text-align: center">WET, DC-Bu, FF-pi</td>
+                <td style="text-align: center">TH-pi, EXP-pi, EXP-leptonic</td>
+                <td style="text-align: center">model = WET</td>
+                <td style="text-align: center">CKM::abs(V_ub) = 0.00367</td>
+            </tr>
+        </tbody>
+
+        </tbody>
+        </table>
+        <br>
+        <table style="width: 80%">
+        <colgroup>
+            <col width="33%" id="observables"       style="min-width: 133px">
+            <col width="33%" id="global_options"    style="min-width: 133px">
+            <col width="33%" id="fixed_parameters"  style="min-width: 133px">
+        </colgroup>
+        <thead>
+            <tr>
+                <th colspan="3" style="text-align: center">PREDICTIONS</th>
+            </tr>
+        </thead>
+
+            <thead>
+                <tr>
+                    <th colspan="3" style="text-align: left">leptonic-BR-CKM</th>
+                </tr>
+                <tr>
+                    <th style="text-align: center">observables</th>
+                    <th style="text-align: center">global options</th>
+                    <th style="text-align: center">fixed parameters</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="text-align: center">B_u->lnu::BR;l=tau, B_u->lnu::BR;l=mu, B_u->lnu::BR;l=e</td>
+                    <td style="text-align: center">model = CKM</td>
+                    <td style="text-align: center"></td>
+                </tr>
+            </tbody>
+
+            <thead>
+                <tr>
+                    <th colspan="3" style="text-align: left">leptonic-BR-WET</th>
+                </tr>
+                <tr>
+                    <th style="text-align: center">observables</th>
+                    <th style="text-align: center">global options</th>
+                    <th style="text-align: center">fixed parameters</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="text-align: center">B_u->lnu::BR;l=tau, B_u->lnu::BR;l=mu, B_u->lnu::BR;l=e</td>
+                    <td style="text-align: center">model = WET</td>
+                    <td style="text-align: center"></td>
+                </tr>
+            </tbody>
+
+            <thead>
+                <tr>
+                    <th colspan="3" style="text-align: left">pi-dBR-CKM</th>
+                </tr>
+                <tr>
+                    <th style="text-align: center">observables</th>
+                    <th style="text-align: center">global options</th>
+                    <th style="text-align: center">fixed parameters</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="text-align: center">B->pilnu::dBR/dq2</td>
+                    <td style="text-align: center">model = CKM, form-factors = BCL2008</td>
+                    <td style="text-align: center"></td>
+                </tr>
+            </tbody>
+
+            <thead>
+                <tr>
+                    <th colspan="3" style="text-align: left">R_pi</th>
+                </tr>
+                <tr>
+                    <th style="text-align: center">observables</th>
+                    <th style="text-align: center">global options</th>
+                    <th style="text-align: center">fixed parameters</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="text-align: center">B->pilnu::R_pi</td>
+                    <td style="text-align: center">model = WET</td>
+                    <td style="text-align: center"></td>
+                </tr>
+            </tbody>
+
+        </tbody>
+        </table>
+        <br>
+        <table style="width: 80%">
+        <colgroup>
+            <col width="25%" style="min-width:  100px">
+            <col width="25%" style="min-width:  100px">
+            <col width="25%" style="min-width:  100px">
+            <col width="25%" style="min-width:  100px">
+        </colgroup>
+        <thead>
+            <tr>
+                <th colspan="4" style="text-align: center">OBSERVABLES</th>
+            </tr>
+        </thead>
+
+            <thead>
+                <tr>
+                    <th colspan="1" style="text-align: left">B->pilnu::R_pi</th>
+                    <th colspan="2" style="text-align: left">$R_{\pi}$</th>
+                    <th colspan="1" style="text-align: left">unit: 1</th>
+                </tr>
+                <tr>
+                    <th colspan="2" style="text-align: center">expression</th>
+                    <th colspan="2" style="text-align: center">options</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="2" style="text-align: center"><<B->pilnu::BR;l=tau>>[q2_min=>q2_tau_min] / <<B->pilnu::BR;l=e>>[q2_min=>q2_e_min]</td>
+                    <td colspan="2" style="text-align: center"></td>
+                </tr>
+            </tbody>
+
+        </tbody>
+        </table>
+        <br>
+        <table style="width: 80%">
+        <colgroup>
+            <col width="20%" style="min-width:  80px">
+            <col width="20%" style="min-width:  80px">
+            <col width="20%" style="min-width:  80px">
+            <col width="40%" style="min-width: 160px">
+        </colgroup>
+        <thead>
+            <tr>
+                <th colspan="4" style="text-align: center">PARAMETERS</th>
+            </tr>
+        </thead>
+
+            <thead>
+                <tr>
+                    <th colspan="1" style="text-align: left">ublnul::Re{cVL}</th>
+                    <th colspan="2" style="text-align: left">$\mathrm{Re}\, \mathcal{C}^{\bar{u}b\bar{\nu}_\ell\ell}_{V_L}$</th>
+                    <th colspan="1" style="text-align: left">unit: 1</th>
+                </tr>
+                <tr>
+                    <th style="text-align: center">central</th>
+                    <th style="text-align: center">min</th>
+                    <th style="text-align: center">max</th>
+                    <th style="text-align: center">alias</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="text-align: center">1.0</td>
+                    <td style="text-align: center">-2.0</td>
+                    <td style="text-align: center">2.0</td>
+                    <td style="text-align: center">ubenue::Re{cVL}, ubmunumu::Re{cVL}, ubtaunutau::Re{cVL}</td>
+                </tr>
+            </tbody>
+
+            <thead>
+                <tr>
+                    <th colspan="1" style="text-align: left">ublnul::Re{cVR}</th>
+                    <th colspan="2" style="text-align: left">$\mathrm{Re}\, \mathcal{C}^{\bar{u}b\bar{\nu}_\ell\ell}_{V_R}$</th>
+                    <th colspan="1" style="text-align: left">unit: 1</th>
+                </tr>
+                <tr>
+                    <th style="text-align: center">central</th>
+                    <th style="text-align: center">min</th>
+                    <th style="text-align: center">max</th>
+                    <th style="text-align: center">alias</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="text-align: center">0.0</td>
+                    <td style="text-align: center">-2.0</td>
+                    <td style="text-align: center">2.0</td>
+                    <td style="text-align: center">ubenue::Re{cVR}, ubmunumu::Re{cVR}, ubtaunutau::Re{cVR}</td>
+                </tr>
+            </tbody>
+
+        </tbody>
+        </table>
+        <br>
+        <table style="width: 80%">
+        <colgroup>
+            <col width="15%" style="min-width:  60px">
+            <col width="15%" style="min-width:  60px">
+            <col width="15%" style="min-width:  60px">
+            <col width="15%" style="min-width:  60px">
+            <col width="40%" style="min-width: 160px">
+        </colgroup>
+        <thead>
+            <tr>
+                <th colspan="5" style="text-align: center">STEPS</th>
+            </tr>
+        </thead>
+
+            <thead>
+                <tr>
+                    <th colspan="5" style="text-align: left">Sample from CKM-all posterior</th>
+                </tr>
+                <tr>
+                    <th rowspan="2", style="text-align: center">id</th>
+                    <th rowspan="2", style="text-align: center">depends on</th>
+                    <th rowspan="2", style="text-align: center">default arguments</th>
+                    <th colspan="2", style="text-align: center">tasks</th>
+                </tr>
+                <tr>
+                    <td style="text-align: center">name</td>
+                    <td style="text-align: center">arguments</td>
+                </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+                <td rowspan="1", style="text-align: center">CKM-all.sample</td>
+                <td rowspan="1", style="text-align: center"></td>
+                <td rowspan="1", style="text-align: center"></td>
+
+                    <td style="text-align: center">sample-nested</td>
+                    <td style="text-align: center">{'posterior': 'CKM-all', 'bound': 'multi', 'nlive': 100, 'dlogz': 9.0, 'maxiter': 4000}</td>
+                </tr>
+                <tr>
+
+            </tr>
+
+            <thead>
+                <tr>
+                    <th colspan="5" style="text-align: left">Sample from WET-all posterior</th>
+                </tr>
+                <tr>
+                    <th rowspan="2", style="text-align: center">id</th>
+                    <th rowspan="2", style="text-align: center">depends on</th>
+                    <th rowspan="2", style="text-align: center">default arguments</th>
+                    <th colspan="2", style="text-align: center">tasks</th>
+                </tr>
+                <tr>
+                    <td style="text-align: center">name</td>
+                    <td style="text-align: center">arguments</td>
+                </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+                <td rowspan="1", style="text-align: center">WET-all.sample</td>
+                <td rowspan="1", style="text-align: center"></td>
+                <td rowspan="1", style="text-align: center"></td>
+
+                    <td style="text-align: center">sample-nested</td>
+                    <td style="text-align: center">{'posterior': 'WET-all', 'bound': 'multi', 'nlive': 100, 'dlogz': 9.0, 'maxiter': 4000}</td>
+                </tr>
+                <tr>
+
+            </tr>
+
+            <thead>
+                <tr>
+                    <th colspan="5" style="text-align: left">Create corner plot for CKM-all posterior</th>
+                </tr>
+                <tr>
+                    <th rowspan="2", style="text-align: center">id</th>
+                    <th rowspan="2", style="text-align: center">depends on</th>
+                    <th rowspan="2", style="text-align: center">default arguments</th>
+                    <th colspan="2", style="text-align: center">tasks</th>
+                </tr>
+                <tr>
+                    <td style="text-align: center">name</td>
+                    <td style="text-align: center">arguments</td>
+                </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+                <td rowspan="2", style="text-align: center">CKM-all.corner-plot</td>
+                <td rowspan="2", style="text-align: center">CKM-all.sample, WET-all.sample</td>
+                <td rowspan="2", style="text-align: center">corner-plot = {'format': ['pdf', 'png']}</td>
+
+                    <td style="text-align: center">corner-plot</td>
+                    <td style="text-align: center">{'posterior': 'CKM-all'}</td>
+                </tr>
+                <tr>
+
+                    <td style="text-align: center">corner-plot</td>
+                    <td style="text-align: center">{'posterior': 'WET-all'}</td>
+                </tr>
+                <tr>
+
+            </tr>
+
+</table></div>
+</div>
+</section>
+</section>
+<section id="Running-Frequent-Tasks">
+<h2>Running Frequent Tasks<a class="headerlink" href="#Running-Frequent-Tasks" title="Link to this heading"></a></h2>
+<p>Most analyses that use <code class="docutils literal notranslate"><span class="pre">EOS</span></code> follow a pattern: 1. Define the priors, likelihoods, and posteriors. 2. Sample from the posteriors. 3. Inspect the posterior distributions for the analysis’ parameters and plot them. 4. Produce posterior-predictive distributions, e.g., for observables that have not yet been measured or that can not yet be used as part of a likelihood.</p>
+<p>To facilitate running such analyses, <code class="docutils literal notranslate"><span class="pre">EOS</span></code> provides a number of repeated tasks within the <code class="docutils literal notranslate"><span class="pre">eos.tasks</span></code> module. All tasks follow a simple pattern: they are functions that expect an <code class="docutils literal notranslate"><span class="pre">eos.AnalysisFile</span></code> (or its name) as their first argument, and at least one posterior as their second argument. Tasks can be run from within a Jupyter notebook or using the <code class="docutils literal notranslate"><span class="pre">eos-analysis</span></code> command-line program. Tasks store intermediate and final results within a hierarchy of directories. It is recommended to
+provide <code class="docutils literal notranslate"><span class="pre">EOS</span></code> with a base directory in which these data are stored. The command-line program inspects the <code class="docutils literal notranslate"><span class="pre">EOS_BASE_DIRECTORY</span></code> environment variable for this purpose.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">BASE_DIRECTORY</span><span class="o">=</span><span class="s1">&#39;./&#39;</span>
+</pre></div>
+</div>
+</div>
+<section id="Sampling-from-a-Posterior">
+<h3>Sampling from a Posterior<a class="headerlink" href="#Sampling-from-a-Posterior" title="Link to this heading"></a></h3>
+<p>Markov Chain Monte Carlo (MCMC), as discussed in the previous examples, provides reasonable access to posterior samples for many low-dimensional parameter spaces. However, for high-dimensional parameter space or in the presence of multiple (local) modes of the posterior, other methods perform better. <code class="docutils literal notranslate"><span class="pre">EOS</span></code> provides the <code class="docutils literal notranslate"><span class="pre">sample_nested</span></code> tasks, which uses the <code class="docutils literal notranslate"><span class="pre">dynesty</span></code> software to sample the posterior and compute its evidence using dynamic nested sampling.</p>
+<p>Inputs to this sampling algorithm are - <code class="docutils literal notranslate"><span class="pre">nlive</span></code>: the number of live points; - <code class="docutils literal notranslate"><span class="pre">dlogz</span></code>: the maximal value for the remaining evidence; - <code class="docutils literal notranslate"><span class="pre">maxiter</span></code>: the maximal number of iterations; and - <code class="docutils literal notranslate"><span class="pre">bound</span></code>: the method to generate new live points.</p>
+<p>For detailed information, see the <code class="docutils literal notranslate"><span class="pre">EOS</span></code> API and the <code class="docutils literal notranslate"><span class="pre">dynesty</span></code> documentation.</p>
+<p>First, we sample from the <code class="docutils literal notranslate"><span class="pre">CKM</span> <span class="pre">model</span></code>. The task is then run as follows:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">tasks</span><span class="o">.</span><span class="n">sample_nested</span><span class="p">(</span><span class="n">af</span><span class="p">,</span> <span class="s1">&#39;CKM-all&#39;</span><span class="p">,</span> <span class="n">base_directory</span><span class="o">=</span><span class="n">BASE_DIRECTORY</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s1">&#39;multi&#39;</span><span class="p">,</span> <span class="n">nlive</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">dlogz</span><span class="o">=</span><span class="mf">9.0</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">4000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "345403d9d228447b9e7cac3fe52f5971"}</script></div>
+</div>
+<p>Note that the above command uses an unreasonably large value for <code class="docutils literal notranslate"><span class="pre">dlogz</span></code> (9.0) and small values for <code class="docutils literal notranslate"><span class="pre">maxiter</span></code> (4000), which is only done for the sake of this example. In practice, you should use a smaller value for <code class="docutils literal notranslate"><span class="pre">dlogz</span></code> at about 1% of the log-evidence. For <code class="docutils literal notranslate"><span class="pre">maxiter</span></code>, you should use a value that is large enough to ensure that the sampler has converged. Ideally, no value for <code class="docutils literal notranslate"><span class="pre">maxiter</span></code> should be required.</p>
+<p>We can access our results using the <code class="docutils literal notranslate"><span class="pre">eos.data</span></code> module. In the results summary we get an estimate for the log-evidence as the <code class="docutils literal notranslate"><span class="pre">logz</span></code> entry.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIRECTORY</span><span class="p">,</span> <span class="s1">&#39;CKM-all&#39;</span><span class="p">,</span> <span class="s1">&#39;nested&#39;</span><span class="p">)</span>
+<span class="n">ns_results</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DynestyResults</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+<span class="c1"># Obtain dynesty results object</span>
+<span class="n">dyn_results</span> <span class="o">=</span> <span class="n">ns_results</span><span class="o">.</span><span class="n">results</span>
+<span class="c1"># this can be used, for example, for a quick summary</span>
+<span class="n">dyn_results</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Summary
+=======
+niter: 4025
+ncall: 110448
+eff(%):  3.255
+logz: 225.315 +/-  0.363
+</pre></div></div>
+</div>
+<p>Finally, we can visualize our results using the <code class="docutils literal notranslate"><span class="pre">corner_plot</span></code> task:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">tasks</span><span class="o">.</span><span class="n">corner_plot</span><span class="p">(</span><span class="n">analysis_file</span><span class="o">=</span><span class="n">af</span><span class="p">,</span> <span class="n">posterior</span><span class="o">=</span><span class="s1">&#39;CKM-all&#39;</span><span class="p">,</span> <span class="n">base_directory</span><span class="o">=</span><span class="n">BASE_DIRECTORY</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;pdf&#39;</span><span class="p">,</span> <span class="s1">&#39;png&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "b2653ee19c80480e876f3b90c5f2a984"}</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/user-guide_analysis-organisation_23_1.png" src="../_images/user-guide_analysis-organisation_23_1.png" />
+</div>
+</div>
+<p>To repeat this process for the <code class="docutils literal notranslate"><span class="pre">WET-all</span></code> posterior, we simply specify this in the task:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">af</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">AnalysisFile</span><span class="p">(</span><span class="s1">&#39;./b-to-u-l-nu.yaml&#39;</span><span class="p">)</span>
+
+<span class="n">eos</span><span class="o">.</span><span class="n">tasks</span><span class="o">.</span><span class="n">sample_nested</span><span class="p">(</span><span class="n">af</span><span class="p">,</span> <span class="s1">&#39;WET-all&#39;</span><span class="p">,</span> <span class="n">base_directory</span><span class="o">=</span><span class="n">BASE_DIRECTORY</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s1">&#39;multi&#39;</span><span class="p">,</span> <span class="n">nlive</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">dlogz</span><span class="o">=</span><span class="mf">9.0</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">4000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Inserting custom observables ...
+[ObservableEntries.insert_or_assign] Entry for observable B-&gt;pilnu::R_pi has been replaced.
+Inserted observable: B-&gt;pilnu::R_pi
+... finished inserting 1 custom observables
+Declaring custom parameters ...
+Declared parameter: ublnul::Re{cVL}
+Created parameter alias: ubenue::Re{cVL} -&gt; ublnul::Re{cVL}
+Created parameter alias: ubmunumu::Re{cVL} -&gt; ublnul::Re{cVL}
+Created parameter alias: ubtaunutau::Re{cVL} -&gt; ublnul::Re{cVL}
+Declared parameter: ublnul::Re{cVR}
+Created parameter alias: ubenue::Re{cVR} -&gt; ublnul::Re{cVR}
+Created parameter alias: ubmunumu::Re{cVR} -&gt; ublnul::Re{cVR}
+Created parameter alias: ubtaunutau::Re{cVR} -&gt; ublnul::Re{cVR}
+... finished declaring 2 custom parameters
+Task &#39;sample-nested&#39; has a default value for argument &#39;seed&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;sample-nested&#39; has a default value for argument &#39;sample&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;sample-nested&#39; has a default value for argument &#39;miniter&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;sample-nested&#39; has a default value for argument &#39;seed&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;sample-nested&#39; has a default value for argument &#39;sample&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;sample-nested&#39; has a default value for argument &#39;miniter&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;corner-plot&#39; has a default value for argument &#39;distribution&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;corner-plot&#39; has a default value for argument &#39;mask_name&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;corner-plot&#39; has a default value for argument &#39;end&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;corner-plot&#39; has a default value for argument &#39;begin&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;corner-plot&#39; has a default value for argument &#39;format&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;corner-plot&#39; has a default value for argument &#39;distribution&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;corner-plot&#39; has a default value for argument &#39;mask_name&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;corner-plot&#39; has a default value for argument &#39;end&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;corner-plot&#39; has a default value for argument &#39;begin&#39;, which can change across versions; consider providing a value explicitly
+Task &#39;corner-plot&#39; has a default value for argument &#39;format&#39;, which can change across versions; consider providing a value explicitly
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "7ea833edd7c44e7caf59373e094e4726"}</script></div>
+</div>
+<p>We can access our results using the <code class="docutils literal notranslate"><span class="pre">eos.data</span></code> module, as above:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIRECTORY</span><span class="p">,</span> <span class="s1">&#39;WET-all&#39;</span><span class="p">,</span> <span class="s1">&#39;nested&#39;</span><span class="p">)</span>
+<span class="n">ns_results</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DynestyResults</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+<span class="c1"># Obtain dynesty results object</span>
+<span class="n">dyn_results</span> <span class="o">=</span> <span class="n">ns_results</span><span class="o">.</span><span class="n">results</span>
+<span class="c1"># this can be used, for example, for a quick summary</span>
+<span class="n">dyn_results</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Summary
+=======
+niter: 4065
+ncall: 117370
+eff(%):  3.104
+logz: 224.641 +/-  0.373
+</pre></div></div>
+</div>
+<p>We can plot only part of the posterior by passing the <code class="docutils literal notranslate"><span class="pre">start</span></code> and <code class="docutils literal notranslate"><span class="pre">end</span></code> arguments to <code class="docutils literal notranslate"><span class="pre">eos.tasks.corner_plot</span></code>. Here we plot a marginal posterior for the Wilson coefficients.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">tasks</span><span class="o">.</span><span class="n">corner_plot</span><span class="p">(</span><span class="n">analysis_file</span><span class="o">=</span><span class="n">af</span><span class="p">,</span> <span class="n">posterior</span><span class="o">=</span><span class="s1">&#39;WET-all&#39;</span><span class="p">,</span> <span class="n">base_directory</span><span class="o">=</span><span class="n">BASE_DIRECTORY</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;pdf&#39;</span><span class="p">,</span> <span class="s1">&#39;png&#39;</span><span class="p">],</span> <span class="n">end</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "2dbe498dc4fe49e39b04595aa7a05b56"}</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/user-guide_analysis-organisation_29_1.png" src="../_images/user-guide_analysis-organisation_29_1.png" />
+</div>
+</div>
+<p>We can also generate posterior-predictive samples. Here we produce samples for the branching ratio of the leptonic decay <span class="math notranslate nohighlight">\(\bar{B} \to \ell^- \bar{\nu}\)</span>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">tasks</span><span class="o">.</span><span class="n">predict_observables</span><span class="p">(</span>
+    <span class="n">analysis_file</span><span class="o">=</span><span class="n">af</span><span class="p">,</span> <span class="n">posterior</span><span class="o">=</span><span class="s1">&#39;CKM-all&#39;</span><span class="p">,</span>
+    <span class="n">prediction</span><span class="o">=</span><span class="s1">&#39;leptonic-BR-CKM&#39;</span><span class="p">,</span>
+    <span class="n">base_directory</span><span class="o">=</span><span class="n">BASE_DIRECTORY</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "7d3d132119cf41799b777da1af8a40bb"}</script></div>
+</div>
+<p>These samples can be analyzed as described in the <a class="reference internal" href="inference.html"><span class="doc">inference</span></a> notebook, e.g. with:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Prediction</span><span class="p">(</span><span class="s1">&#39;./CKM-all/pred-leptonic-BR-CKM&#39;</span><span class="p">)</span>
+<span class="n">lo</span><span class="p">,</span> <span class="n">mi</span><span class="p">,</span> <span class="n">up</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Plotter</span><span class="o">.</span><span class="n">_weighted_quantiles</span><span class="p">(</span>
+        <span class="n">predictions</span><span class="o">.</span><span class="n">samples</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="c1"># Here 0 gives access to the prediction with the option l = e</span>
+        <span class="p">[</span><span class="mf">0.15865</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.84135</span><span class="p">],</span>
+        <span class="n">predictions</span><span class="o">.</span><span class="n">weights</span>
+        <span class="p">)</span>
+
+<span class="n">md</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;$</span><span class="se">\\</span><span class="s2">mathcal</span><span class="se">{{</span><span class="s2">B</span><span class="se">}}</span><span class="s2">(</span><span class="se">\\</span><span class="s2">bar</span><span class="se">{{</span><span class="s2">B</span><span class="se">}}</span><span class="s2"> </span><span class="se">\\</span><span class="s2">to e^- </span><span class="se">\\</span><span class="s2">bar</span><span class="se">{{\\</span><span class="s2">nu</span><span class="se">}}</span><span class="s2">_e) = </span><span class="se">\</span>
+<span class="s2">        </span><span class="si">{</span><span class="mi">10</span><span class="o">**</span><span class="mi">12</span><span class="o">*</span><span class="n">mi</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> ^ </span><span class="se">{{</span><span class="s2">+</span><span class="si">{</span><span class="mi">10</span><span class="o">**</span><span class="mi">12</span><span class="o">*</span><span class="p">(</span><span class="n">up</span><span class="o">-</span><span class="n">mi</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="se">}}</span><span class="si">}</span><span class="s2"> _ </span><span class="se">{{</span><span class="si">{</span><span class="mi">10</span><span class="o">**</span><span class="mi">12</span><span class="o">*</span><span class="p">(</span><span class="n">lo</span><span class="o">-</span><span class="n">mi</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="se">}}</span><span class="si">}</span><span class="s2"> </span><span class="se">\\</span><span class="s2">times 10^</span><span class="se">{{</span><span class="s2">-12</span><span class="se">}}</span><span class="s2">$</span>
+<span class="s2">        (from a naive sampling)&quot;&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<p><span class="math notranslate nohighlight">\(\mathcal{B}(\bar{B} \to e^- \bar{\nu}_e) = 9.82 ^ {+0.74} _ {-0.69} \times 10^{-12}\)</span> (from a naive sampling)</p>
+</div>
+</div>
+<p>Similarly, for the <code class="docutils literal notranslate"><span class="pre">WET-all</span></code> posterior:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">tasks</span><span class="o">.</span><span class="n">predict_observables</span><span class="p">(</span>
+    <span class="n">analysis_file</span><span class="o">=</span><span class="n">af</span><span class="p">,</span> <span class="n">posterior</span><span class="o">=</span><span class="s1">&#39;WET-all&#39;</span><span class="p">,</span>
+    <span class="n">prediction</span><span class="o">=</span><span class="s1">&#39;leptonic-BR-WET&#39;</span><span class="p">,</span>
+    <span class="n">base_directory</span><span class="o">=</span><span class="n">BASE_DIRECTORY</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "ea03873cfb0c402483dc767ffb60e2c5"}</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Prediction</span><span class="p">(</span><span class="s1">&#39;./WET-all/pred-leptonic-BR-WET&#39;</span><span class="p">)</span>
+<span class="n">lo</span><span class="p">,</span> <span class="n">mi</span><span class="p">,</span> <span class="n">up</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Plotter</span><span class="o">.</span><span class="n">_weighted_quantiles</span><span class="p">(</span>
+        <span class="n">predictions</span><span class="o">.</span><span class="n">samples</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="c1"># Here 0 gives access to the prediction with the option l = e</span>
+        <span class="p">[</span><span class="mf">0.15865</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.84135</span><span class="p">],</span>
+        <span class="n">predictions</span><span class="o">.</span><span class="n">weights</span>
+        <span class="p">)</span>
+
+<span class="n">md</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;$</span><span class="se">\\</span><span class="s2">mathcal</span><span class="se">{{</span><span class="s2">B</span><span class="se">}}</span><span class="s2">(</span><span class="se">\\</span><span class="s2">bar</span><span class="se">{{</span><span class="s2">B</span><span class="se">}}</span><span class="s2"> </span><span class="se">\\</span><span class="s2">to e^- </span><span class="se">\\</span><span class="s2">bar</span><span class="se">{{\\</span><span class="s2">nu</span><span class="se">}}</span><span class="s2">_e) = </span><span class="se">\</span>
+<span class="s2">        </span><span class="si">{</span><span class="mi">10</span><span class="o">**</span><span class="mi">12</span><span class="o">*</span><span class="n">mi</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> ^ </span><span class="se">{{</span><span class="s2">+</span><span class="si">{</span><span class="mi">10</span><span class="o">**</span><span class="mi">12</span><span class="o">*</span><span class="p">(</span><span class="n">up</span><span class="o">-</span><span class="n">mi</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="se">}}</span><span class="si">}</span><span class="s2"> _ </span><span class="se">{{</span><span class="si">{</span><span class="mi">10</span><span class="o">**</span><span class="mi">12</span><span class="o">*</span><span class="p">(</span><span class="n">lo</span><span class="o">-</span><span class="n">mi</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="se">}}</span><span class="si">}</span><span class="s2"> </span><span class="se">\\</span><span class="s2">times 10^</span><span class="se">{{</span><span class="s2">-12</span><span class="se">}}</span><span class="s2">$</span>
+<span class="s2">        (from a naive sampling)&quot;&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<p><span class="math notranslate nohighlight">\(\mathcal{B}(\bar{B} \to e^- \bar{\nu}_e) = 12.42 ^ {+4.06} _ {-3.89} \times 10^{-12}\)</span> (from a naive sampling)</p>
+</div>
+</div>
+<p>Lastly, we can also make a prediction for our custom <code class="docutils literal notranslate"><span class="pre">R_pi</span></code> observable. Since this observable is constructed as the ratio of two branching ratios, which have the same functional form and parameter dependence, the uncertainties cancel almost exactly.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">tasks</span><span class="o">.</span><span class="n">predict_observables</span><span class="p">(</span>
+    <span class="n">analysis_file</span><span class="o">=</span><span class="n">af</span><span class="p">,</span> <span class="n">posterior</span><span class="o">=</span><span class="s1">&#39;CKM-all&#39;</span><span class="p">,</span>
+    <span class="n">prediction</span><span class="o">=</span><span class="s1">&#39;R_pi&#39;</span><span class="p">,</span>
+    <span class="n">base_directory</span><span class="o">=</span><span class="n">BASE_DIRECTORY</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "d5f4b319707c43399ac4d2b67e6d4d42"}</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Prediction</span><span class="p">(</span><span class="s1">&#39;./CKM-all/pred-R_pi&#39;</span><span class="p">)</span>
+<span class="n">lo</span><span class="p">,</span> <span class="n">mi</span><span class="p">,</span> <span class="n">up</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Plotter</span><span class="o">.</span><span class="n">_weighted_quantiles</span><span class="p">(</span>
+        <span class="n">predictions</span><span class="o">.</span><span class="n">samples</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="c1"># Here 0 gives access to the prediction with the option l = e</span>
+        <span class="p">[</span><span class="mf">0.15865</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.84135</span><span class="p">],</span>
+        <span class="n">predictions</span><span class="o">.</span><span class="n">weights</span>
+        <span class="p">)</span>
+
+<span class="n">md</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;$</span><span class="se">\\</span><span class="s2">mathcal</span><span class="se">{{</span><span class="s2">R</span><span class="se">}}</span><span class="s2">_\pi = </span><span class="se">\</span>
+<span class="s2">        </span><span class="si">{</span><span class="n">mi</span><span class="si">:</span><span class="s2">.2g</span><span class="si">}</span><span class="s2"> ^ </span><span class="se">{{</span><span class="s2">+</span><span class="si">{</span><span class="p">(</span><span class="n">up</span><span class="o">-</span><span class="n">mi</span><span class="p">)</span><span class="si">:</span><span class="s2">.2g</span><span class="se">}}</span><span class="si">}</span><span class="s2"> _ </span><span class="se">{{</span><span class="si">{</span><span class="p">(</span><span class="n">lo</span><span class="o">-</span><span class="n">mi</span><span class="p">)</span><span class="si">:</span><span class="s2">.2g</span><span class="se">}}</span><span class="si">}</span><span class="s2">$</span>
+<span class="s2">        (from a naive sampling)&quot;&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<p><span class="math notranslate nohighlight">\(\mathcal{R}_\pi = 0.74 ^ {+1.1e-16} _ {-1.1e-16}\)</span> (from a naive sampling)</p>
+</div>
+</div>
+<p>All these tasks can be fully described (and hence made automatic) through the <code class="docutils literal notranslate"><span class="pre">steps</span></code> key in the analysis file, and this is the subject of the <a class="reference internal" href="reproducible-analyses.html"><span class="doc">next section</span></a>.</p>
+<script type="application/vnd.jupyter.widget-state+json">
+{"state": {"d6516f0e5bfa422d9941d64a88503817": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "200px", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": "auto", "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "7ff22f1f67ae42aa9d6e0825dddeac00": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_d6516f0e5bfa422d9941d64a88503817", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stderr", "text": "Creating analysis with 14 priors, 5 EOS-wide constraints, 1 global options, 0 manually-entered constraints and 0 fixed parameters.\nlikelihood probably depends on 58 parameter(s) that do not appear in the prior; check prior?\niteration 2023 | batch: 1 | bound: 16 | nc: 34 | ncall: 55580 | eff(%):  3.430 | loglstar: 243.507 < 241.555 <    inf | logz: 224.481 +/-  2.845 | stop: 2006.825\niteration 3526 | batch: 2 | bound: 15 | nc: 34 | ncall: 106682 | eff(%):  3.203 | loglstar: 245.031 < 246.965 < 247.655 | logz: 225.478 +/-  0.460 | stop: 10.617\nFinished sampling with 4025 samples and evidence estimate 225.31 +/- 0.36\n"}], "tabbable": null, "tooltip": null}}, "07924d884f294225b82a03992bf3e4e0": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "345403d9d228447b9e7cac3fe52f5971": {"model_name": "AccordionModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "AccordionModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "AccordionView", "box_style": "", "children": ["IPY_MODEL_7ff22f1f67ae42aa9d6e0825dddeac00"], "layout": "IPY_MODEL_07924d884f294225b82a03992bf3e4e0", "selected_index": null, "tabbable": null, "titles": ["CKM-all/nested"], "tooltip": null}}, "eae67d6e3dda4b0285a1d303ae8951d7": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "200px", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": "auto", "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "df27f7c8e19f4385bb7cf335975adc80": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_eae67d6e3dda4b0285a1d303ae8951d7", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stderr", "text": "Creating analysis with 14 priors, 5 EOS-wide constraints, 1 global options, 0 manually-entered constraints and 0 fixed parameters.\nlikelihood probably depends on 58 parameter(s) that do not appear in the prior; check prior?\n"}], "tabbable": null, "tooltip": null}}, "9a58a830cbf84419bbc2c25ae8aa44e8": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "b2653ee19c80480e876f3b90c5f2a984": {"model_name": "AccordionModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "AccordionModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "AccordionView", "box_style": "", "children": ["IPY_MODEL_df27f7c8e19f4385bb7cf335975adc80"], "layout": "IPY_MODEL_9a58a830cbf84419bbc2c25ae8aa44e8", "selected_index": null, "tabbable": null, "titles": ["CKM-all/plots"], "tooltip": null}}, "78ff870f557545eeb44985b9f8346742": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "200px", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": "auto", "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "e912ff78914d495596f2cc5e20cf8a69": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_78ff870f557545eeb44985b9f8346742", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stderr", "text": "Creating analysis with 15 priors, 5 EOS-wide constraints, 1 global options, 0 manually-entered constraints and 1 fixed parameters.\nlikelihood probably depends on 343 parameter(s) that do not appear in the prior; check prior?\niteration 1754 | batch: 1 | bound: 4 | nc: 35 | ncall: 50085 | eff(%):  3.273 | loglstar: 239.331 < 233.633 <    inf | logz: 221.290 +/-  2.709 | stop: 1692.385\niteration 3007 | batch: 1 | bound: 89 | nc: 35 | ncall: 93940 | eff(%):  3.086 | loglstar: 239.331 < 250.150 <    inf | logz: 221.290 +/-  2.709 | stop: 1692.385\nFinished sampling with 4065 samples and evidence estimate 224.64 +/- 0.37\n"}], "tabbable": null, "tooltip": null}}, "329b026043e243158103b0bea78311b2": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "7ea833edd7c44e7caf59373e094e4726": {"model_name": "AccordionModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "AccordionModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "AccordionView", "box_style": "", "children": ["IPY_MODEL_e912ff78914d495596f2cc5e20cf8a69"], "layout": "IPY_MODEL_329b026043e243158103b0bea78311b2", "selected_index": null, "tabbable": null, "titles": ["WET-all/nested"], "tooltip": null}}, "3ea41ec491f746478a821f4685c996c7": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "200px", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": "auto", "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "eab8405dca994e238da2f55288dc30b4": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_3ea41ec491f746478a821f4685c996c7", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stderr", "text": "Creating analysis with 15 priors, 5 EOS-wide constraints, 1 global options, 0 manually-entered constraints and 1 fixed parameters.\nlikelihood probably depends on 343 parameter(s) that do not appear in the prior; check prior?\n"}], "tabbable": null, "tooltip": null}}, "338ba9af39924503b399fd8c0120511f": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "2dbe498dc4fe49e39b04595aa7a05b56": {"model_name": "AccordionModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "AccordionModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "AccordionView", "box_style": "", "children": ["IPY_MODEL_eab8405dca994e238da2f55288dc30b4"], "layout": "IPY_MODEL_338ba9af39924503b399fd8c0120511f", "selected_index": null, "tabbable": null, "titles": ["WET-all/plots"], "tooltip": null}}, "ce083ef236174d82b969c3b7581ea45a": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "200px", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": "auto", "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "8153149b06fa4315b6e017311c82f934": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_ce083ef236174d82b969c3b7581ea45a", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stderr", "text": "Creating analysis with 14 priors, 5 EOS-wide constraints, 1 global options, 0 manually-entered constraints and 0 fixed parameters.\nlikelihood probably depends on 58 parameter(s) that do not appear in the prior; check prior?\nPredicting observables from set 'leptonic-BR-CKM' for 4025 samples\n"}, {"output_type": "display_data", "metadata": {}, "data": {"text/plain": "  0%|          | 0/4025 [00:00<?, ?it/s]", "application/vnd.jupyter.widget-view+json": {"version_major": 2, "version_minor": 0, "model_id": "0a6e970746804f1cb3cf2c353de23566"}}}, {"output_type": "stream", "name": "stderr", "text": "... done\n"}], "tabbable": null, "tooltip": null}}, "e48dc6d843c14209b4ac7e5685ac9074": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "7d3d132119cf41799b777da1af8a40bb": {"model_name": "AccordionModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "AccordionModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "AccordionView", "box_style": "", "children": ["IPY_MODEL_8153149b06fa4315b6e017311c82f934"], "layout": "IPY_MODEL_e48dc6d843c14209b4ac7e5685ac9074", "selected_index": null, "tabbable": null, "titles": ["CKM-all/pred-leptonic-BR-CKM"], "tooltip": null}}, "1a4e20daeae8468a990ce570fb695ffd": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "f85ecebf7a334105bfc5e01cba656a4f": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "d20a8a39ff03490088a95657831d893b": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_1a4e20daeae8468a990ce570fb695ffd", "max": 4025.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_f85ecebf7a334105bfc5e01cba656a4f", "tabbable": null, "tooltip": null, "value": 4025.0}}, "e9e0e1fc3e8243deadd656d7d349244e": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "df94777602b24f168dee4e53c45240d0": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "59c5aa3f776f411a8f98aebb1faa2db6": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_e9e0e1fc3e8243deadd656d7d349244e", "placeholder": "\u200b", "style": "IPY_MODEL_df94777602b24f168dee4e53c45240d0", "tabbable": null, "tooltip": null, "value": "100%"}}, "58ae80799d794eb4aef6c333ae1ea170": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "8c294e00738f42f795ffe05005f754c6": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "f8ef61d4ebee4e699b91fccb4733732c": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_58ae80799d794eb4aef6c333ae1ea170", "placeholder": "\u200b", "style": "IPY_MODEL_8c294e00738f42f795ffe05005f754c6", "tabbable": null, "tooltip": null, "value": "\u20074025/4025\u2007[00:00&lt;00:00,\u200716848.78it/s]"}}, "790583368d1d43558466e9f1a2375781": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "0a6e970746804f1cb3cf2c353de23566": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_59c5aa3f776f411a8f98aebb1faa2db6", "IPY_MODEL_d20a8a39ff03490088a95657831d893b", "IPY_MODEL_f8ef61d4ebee4e699b91fccb4733732c"], "layout": "IPY_MODEL_790583368d1d43558466e9f1a2375781", "tabbable": null, "tooltip": null}}, "f0fc1b0f1f894ceb83886b98093b4a1e": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "200px", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": "auto", "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "69b25f1b397b4de5a612e964e7d6fe5d": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_f0fc1b0f1f894ceb83886b98093b4a1e", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stderr", "text": "Creating analysis with 15 priors, 5 EOS-wide constraints, 1 global options, 0 manually-entered constraints and 1 fixed parameters.\nlikelihood probably depends on 343 parameter(s) that do not appear in the prior; check prior?\nPredicting observables from set 'leptonic-BR-WET' for 4065 samples\n"}, {"output_type": "display_data", "metadata": {}, "data": {"text/plain": "  0%|          | 0/4065 [00:00<?, ?it/s]", "application/vnd.jupyter.widget-view+json": {"version_major": 2, "version_minor": 0, "model_id": "e693476755c54ae0bb195f180bceee86"}}}, {"output_type": "stream", "name": "stderr", "text": "... done\n"}], "tabbable": null, "tooltip": null}}, "8600dee494a1482da8b69909903c17c6": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "ea03873cfb0c402483dc767ffb60e2c5": {"model_name": "AccordionModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "AccordionModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "AccordionView", "box_style": "", "children": ["IPY_MODEL_69b25f1b397b4de5a612e964e7d6fe5d"], "layout": "IPY_MODEL_8600dee494a1482da8b69909903c17c6", "selected_index": null, "tabbable": null, "titles": ["WET-all/pred-leptonic-BR-WET"], "tooltip": null}}, "e05ebff6aaa04af3a6732f9064e2082a": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "e0ce70cdb9d9424ea4bd63566ac92769": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "61c80a8c130945b5970e8607aa5ff743": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_e05ebff6aaa04af3a6732f9064e2082a", "max": 4065.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_e0ce70cdb9d9424ea4bd63566ac92769", "tabbable": null, "tooltip": null, "value": 4065.0}}, "b9be88cebf44453a824102a9aa72220a": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "3a5e0deee50147069187907482d98d6b": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "bbd4230525fd4fdda379cf94aef0cf4a": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_b9be88cebf44453a824102a9aa72220a", "placeholder": "\u200b", "style": "IPY_MODEL_3a5e0deee50147069187907482d98d6b", "tabbable": null, "tooltip": null, "value": "100%"}}, "1cb61477932a451aa931ef23c094eea3": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "3d8722105a8e4d65831c14d82df74c0f": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "9a4fd1f45b764cbd889cb6cdee3d3585": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_1cb61477932a451aa931ef23c094eea3", "placeholder": "\u200b", "style": "IPY_MODEL_3d8722105a8e4d65831c14d82df74c0f", "tabbable": null, "tooltip": null, "value": "\u20074065/4065\u2007[00:00&lt;00:00,\u200716090.21it/s]"}}, "4d35f391f2664d4ca69ddd5daf04e83a": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "e693476755c54ae0bb195f180bceee86": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_bbd4230525fd4fdda379cf94aef0cf4a", "IPY_MODEL_61c80a8c130945b5970e8607aa5ff743", "IPY_MODEL_9a4fd1f45b764cbd889cb6cdee3d3585"], "layout": "IPY_MODEL_4d35f391f2664d4ca69ddd5daf04e83a", "tabbable": null, "tooltip": null}}, "d3a73632ea984ec6835bc1f59486b20c": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "200px", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": "auto", "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "cb47f84156854c65bd26afe185f20ba2": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_d3a73632ea984ec6835bc1f59486b20c", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stderr", "text": "Creating analysis with 14 priors, 5 EOS-wide constraints, 1 global options, 0 manually-entered constraints and 0 fixed parameters.\nlikelihood probably depends on 58 parameter(s) that do not appear in the prior; check prior?\nPredicting observables from set 'R_pi' for 4025 samples\n"}, {"output_type": "display_data", "metadata": {}, "data": {"text/plain": "  0%|          | 0/4025 [00:00<?, ?it/s]", "application/vnd.jupyter.widget-view+json": {"version_major": 2, "version_minor": 0, "model_id": "ce6d7d8d5ce5494a8ba6d1d35e8bf6c3"}}}, {"output_type": "stream", "name": "stderr", "text": "... done\n"}], "tabbable": null, "tooltip": null}}, "08d5eb173fe24b81a761a3fa26771b2a": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "d5f4b319707c43399ac4d2b67e6d4d42": {"model_name": "AccordionModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "AccordionModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "AccordionView", "box_style": "", "children": ["IPY_MODEL_cb47f84156854c65bd26afe185f20ba2"], "layout": "IPY_MODEL_08d5eb173fe24b81a761a3fa26771b2a", "selected_index": null, "tabbable": null, "titles": ["CKM-all/pred-R_pi"], "tooltip": null}}, "0a2a2b8807a4410593f86c11e2bfba11": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "127b37db7a524e028de7c650f0d1b9ac": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "0b7a7c39f6ed49d3b092ae8fb4be665b": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_0a2a2b8807a4410593f86c11e2bfba11", "max": 4025.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_127b37db7a524e028de7c650f0d1b9ac", "tabbable": null, "tooltip": null, "value": 4025.0}}, "f4d98dbbcdbf4c9c9f12fed6f2342a4c": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "6297279cfb8d42ec92010a615d0465d8": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "c832373346824a7ab501cab376bf234b": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_f4d98dbbcdbf4c9c9f12fed6f2342a4c", "placeholder": "\u200b", "style": "IPY_MODEL_6297279cfb8d42ec92010a615d0465d8", "tabbable": null, "tooltip": null, "value": "100%"}}, "ed282b96cf00445a8010481ed89eca30": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "1b2c507444bd4adcb6d8c1ea6478ed17": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "c8a435c1422443f88b224173bac4eb12": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_ed282b96cf00445a8010481ed89eca30", "placeholder": "\u200b", "style": "IPY_MODEL_1b2c507444bd4adcb6d8c1ea6478ed17", "tabbable": null, "tooltip": null, "value": "\u20074025/4025\u2007[00:00&lt;00:00,\u200713361.00it/s]"}}, "f83ebbcf777c4b89a9b8aa7b126344bc": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "ce6d7d8d5ce5494a8ba6d1d35e8bf6c3": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_c832373346824a7ab501cab376bf234b", "IPY_MODEL_0b7a7c39f6ed49d3b092ae8fb4be665b", "IPY_MODEL_c8a435c1422443f88b224173bac4eb12"], "layout": "IPY_MODEL_f83ebbcf777c4b89a9b8aa7b126344bc", "tabbable": null, "tooltip": null}}}, "version_major": 2, "version_minor": 0}
+</script></section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="simulation.html" class="btn btn-neutral float-left" title="Simulation of Pseudo Events" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tasks.html" class="btn btn-neutral float-right" title="Common Tasks in Phenomenological Analyses" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2024, The EOS Authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

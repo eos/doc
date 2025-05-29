@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Summary of the Physics Conventions &mdash; EOS 1.0.15 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../_static/contentui.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=67e44365" />
+
+  
+    <link rel="canonical" href="https://eos.github.io/doc/reference/physics-conventions.html" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=6f77e80e"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/contentui.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Python API" href="python.html" />
+    <link rel="prev" title="Reference" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            EOS
+              <img src="../_static/github-eos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/index.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Summary of the Physics Conventions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#units">Units</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#weak-effective-theory">Weak Effective Theory</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#semileptonic-charged-current-operators">Semileptonic Charged-Current Operators</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#hadronic-matrix-elements">Hadronic Matrix Elements</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#definition-of-decay-constants">Definition of Decay Constants</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#definition-of-semileptonic-form-factors">Definition of Semileptonic Form Factors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parametrisation-of-semileptonic-form-factors">Parametrisation of Semileptonic Form Factors</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="python.html">Python API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command-line-interface.html">Command-Line Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="defining-observables.html">Defining Observables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis-file-format.html">Analysis File Format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="figure-format.html">Figure Description Format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="constraints.html">List of Constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="observables.html">List of Observables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parameters.html">List of Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="signal-pdfs.html">List of Signal PDFs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">EOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Reference</a></li>
+      <li class="breadcrumb-item active">Summary of the Physics Conventions</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="summary-of-the-physics-conventions">
+<h1>Summary of the Physics Conventions<a class="headerlink" href="#summary-of-the-physics-conventions" title="Link to this heading"></a></h1>
+<p>EOS implicitly uses the following conventions in the predictions of flavour physics observables.</p>
+<section id="units">
+<h2>Units<a class="headerlink" href="#units" title="Link to this heading"></a></h2>
+<p>EOS uses natural units <span class="math notranslate nohighlight">\((\hbar = c =1)\)</span> and, with the exceptions of lifetimes that are expressed in seconds, all quantities are expressed in powers of GeV.
+Units are specified in the definition of observables and parameters.
+They can be found in this documentation (<a class="reference external" href="constraints.html">here</a> and <a class="reference external" href="parameters.html">here</a> respectively),
+or directly from python, as described in the <a class="reference external" href="../user-guide/basics.html">basic examples</a>.</p>
+</section>
+<section id="weak-effective-theory">
+<h2>Weak Effective Theory<a class="headerlink" href="#weak-effective-theory" title="Link to this heading"></a></h2>
+<p>We follow the conventions of the WCxf format for the Wilson coefficients of the effective Hamiltonian at mass dimension six.
+Each sector of the effective Hamiltonian is defined by a unique name, corresponding to the flavour quantum numbers
+of the fermion fields.</p>
+<section id="semileptonic-charged-current-operators">
+<h3>Semileptonic Charged-Current Operators<a class="headerlink" href="#semileptonic-charged-current-operators" title="Link to this heading"></a></h3>
+<p>We use the Bern class-III notation for the semileptonic charged-current operators.
+For down-type (<span class="math notranslate nohighlight">\(D\)</span>) to up-type (<span class="math notranslate nohighlight">\(U\)</span>) semileptonic decays, the sector of the effective theory is described by the Lagrangian:</p>
+<div class="math notranslate nohighlight">
+\begin{align*}
+   \mathcal{L}^{UD\ell\nu}
+     = -\frac{4 G_\text{F}}{\sqrt{2}} V_{UD} \sum_{i} \mathcal{C}_i^{UD\ell\nu}(\mu) \, \mathcal{O}_i + \text{h.c.}\,,
+\end{align*}</div><p>where <span class="math notranslate nohighlight">\(V_{UD}\)</span> is the CKM matrix element, <span class="math notranslate nohighlight">\(G_\text{F}\)</span> is the Fermi constant. The operator basis <span class="math notranslate nohighlight">\(\mathcal{O}_i\)</span> reads:</p>
+<div class="math notranslate nohighlight">
+\begin{align*}
+   \mathcal{O}_{VL}^{UD\ell\nu} &amp; = [\bar{U} \gamma_\mu      P_L D] [\bar{\ell} \gamma^\mu      P_L \nu]\,, &amp;
+   \mathcal{O}_{VR}^{UD\ell\nu} &amp; = [\bar{U} \gamma_\mu      P_R D] [\bar{\ell} \gamma^\mu      P_L \nu]\,, \\
+   \mathcal{O}_{SL}^{UD\ell\nu} &amp; = [\bar{U}                 P_L D] [\bar{\ell}                 P_L \nu]\,, &amp;
+   \mathcal{O}_{SR}^{UD\ell\nu} &amp; = [\bar{U}                 P_R D] [\bar{\ell}                 P_L \nu]\,, \\
+   \mathcal{O}_{T}^{UD\ell\nu}  &amp; = [\bar{U} \sigma_{\mu\nu}     D] [\bar{\ell} \sigma^{\mu\nu} P_L \nu]\,.
+\end{align*}</div><p>The Wilson coefficients <span class="math notranslate nohighlight">\(\mathcal{C}_i^{UD\ell\nu}(\mu)\)</span> are defined at the sector-specific scale <span class="math notranslate nohighlight">\(\mu^{UD\ell\nu}\)</span> and are dimensionless.
+Their parameters use the prefix <code class="docutils literal notranslate"><span class="pre">UDlnul</span></code>, where <code class="docutils literal notranslate"><span class="pre">U</span></code>, <code class="docutils literal notranslate"><span class="pre">D</span></code>, and <code class="docutils literal notranslate"><span class="pre">l</span></code> are understood as metavariables.</p>
+</section>
+</section>
+<section id="hadronic-matrix-elements">
+<h2>Hadronic Matrix Elements<a class="headerlink" href="#hadronic-matrix-elements" title="Link to this heading"></a></h2>
+<section id="definition-of-decay-constants">
+<h3>Definition of Decay Constants<a class="headerlink" href="#definition-of-decay-constants" title="Link to this heading"></a></h3>
+<p>EOS uses meson to vacuum elements for the decay of both pseudoscalar (<span class="math notranslate nohighlight">\(P\)</span>) and vector (<span class="math notranslate nohighlight">\(V\)</span>) mesons.
+The decay constants are defined as:</p>
+<div class="math notranslate nohighlight">
+\begin{align*}
+ \braket{0 | \bar{q}_1 \gamma^\mu \gamma_5 q_2 | P(p)} &amp; = i f_P p^\mu, \\
+ \braket{0 | \bar{q}_1 \gamma^\mu q_2 | V(p, \epsilon)} &amp; = f_V m_V \epsilon^\mu, &amp;
+ \braket{0 | \bar{q}_1 \sigma^{\mu\nu} q_2 | V(p, \epsilon)} &amp; = i f_V^T \left( \epsilon^\mu p^\nu - \epsilon^\nu p^\mu \right),
+\end{align*}</div><p>Here <span class="math notranslate nohighlight">\(q_1\)</span> and <span class="math notranslate nohighlight">\(q_2\)</span> are the quark fields, <span class="math notranslate nohighlight">\(p\)</span> is the momentum of the initial-state meson,
+and <span class="math notranslate nohighlight">\(\epsilon\)</span> is the polarization vector of the vector meson.</p>
+<p>The parameters describing these decay constants use the prefix <code class="docutils literal notranslate"><span class="pre">decay-constant</span></code>.</p>
+</section>
+<section id="definition-of-semileptonic-form-factors">
+<h3>Definition of Semileptonic Form Factors<a class="headerlink" href="#definition-of-semileptonic-form-factors" title="Link to this heading"></a></h3>
+<p>EOS uses the following definitions for semileptonic form factors.</p>
+<p>In the case of the decay of a pseudoscalar meson (<span class="math notranslate nohighlight">\(P_1\)</span>) to another pseudoscalar meson (<span class="math notranslate nohighlight">\(P_2\)</span>), the form factors are defined as:</p>
+<div class="math notranslate nohighlight">
+\begin{align*}
+   \braket{P_2(k) | \bar{q}_1 \gamma^\mu q_2 | P_1(p)}
+      &amp; = f_+^{P_1 \to P_2}(q^2) \left[ \left(p + k\right)^\mu - \frac{M_{P_1}^2 - M_{P_2}^2}{q^2} q^\mu\right]
+        + f_0^{P_1 \to P_2}(q^2) \frac{M_{P_1}^2 - M_{P_2}^2}{q^2} q^\mu\,, \\
+   \braket{P_2(k) | \bar{q}_1 \sigma^{\mu\nu} q_2 | P_1(p)}
+      &amp; = \frac{i f_T^{P_1 \to P_2}(q^2)}{M_{P_1} + M_{P_2}} \left[ (p + k)^\mu q^\nu - q^\mu (p + k)^\nu\right]\,.
+\end{align*}</div><p>Here, <span class="math notranslate nohighlight">\(q = p - k\)</span> is the momentum transfer.</p>
+<p>In the case of the decay of a pseudoscalar meson (<span class="math notranslate nohighlight">\(P\)</span>) to a vector meson (<span class="math notranslate nohighlight">\(V\)</span>), the form factors are defined as:</p>
+<div class="math notranslate nohighlight">
+\begin{align*}
+   \braket{V(k, \eta) | \bar{q}_1 \gamma^\mu q_2 | P(p)}
+      &amp; = \frac{2 V^{P \to V}(q^2)}{M_P + M_V} \varepsilon^{\mu\nu\alpha\beta} \eta^*_\nu p_\alpha k_\beta\,, \\
+   \braket{V(k, \eta) | \bar{q}_1 \gamma^\mu \gamma_5 q_2 | P(p)}
+      &amp; = i \eta_\nu^* \left[ A_1^{P \to V}(q^2) (M_B + M_V) g^{\mu\nu} - A_2^{P \to V}(q^2) \frac{(p + k)^\mu q_\nu}{M_B + M_V} - (A_3 - A_0) \frac{2 M_V q^\mu q^\nu}{q^2}\right]\,, \\
+   \braket{V(k, \eta) | \bar{q}_1 \sigma^{\mu\nu} q_2 | P(p)}
+      &amp; = 2 T_1^{P \to V} \varepsilon^{\mu\nu\alpha\beta} \eta^*_\nu p_\alpha k_\beta\,, \\
+   \braket{V(k, \eta) | \bar{q}_1 \sigma^{\mu\nu} \gamma_5 q_2 | P(p)}
+      &amp; = i \eta^*_\nu \left[ T_2^{P \to V} \left( (M_P^2 - M_V^2) g^{\mu\nu} - (p + k)^\mu q^\nu \right) + T_3^{P \to V} \left(q^\mu - \frac{q^2}{M_P^2 - M_V^2} (p + k)^\mu\right) q^\nu\right]\,,
+\end{align*}</div><p>where we abbreviate:</p>
+<div class="math notranslate nohighlight">
+\begin{equation*}
+   A_3^{P \to V}(q^2) = A_1^{P \to V}(q^2) \frac{M_B + M_V}{2 M_V} - A_2^{P \to V}(q^2) \frac{M_B - M_V}{2 M_V}\,.
+\end{equation*}</div><p>Here, <span class="math notranslate nohighlight">\(\eta\)</span> is the polarization vector of the vector meson, and again <span class="math notranslate nohighlight">\(q = p - k\)</span> is the momentum transfer.</p>
+</section>
+<section id="parametrisation-of-semileptonic-form-factors">
+<h3>Parametrisation of Semileptonic Form Factors<a class="headerlink" href="#parametrisation-of-semileptonic-form-factors" title="Link to this heading"></a></h3>
+<p>EOS provides one general-purpose parametrisation of all semileptonic form factors. It is referred to as the <code class="docutils literal notranslate"><span class="pre">BSZ2015</span></code> parametrisation.
+For a generic form factor <span class="math notranslate nohighlight">\(F(q^2)\)</span>, it reads:</p>
+<div class="math notranslate nohighlight">
+\begin{equation*}
+   F(q^2) = \frac{1}{q^2 - M_F^2} \left[\sum_{i=0}^N \alpha^{(F)}_{i} z^i(q^2) \right]\,.
+\end{equation*}</div><p>Here <span class="math notranslate nohighlight">\(M_R\)</span> correspond to the mass of the first resonance seen by that form factor and <span class="math notranslate nohighlight">\(\alpha_i^{(F)}\)</span> are free parameters.
+We use the conformal mapping <span class="math notranslate nohighlight">\(q^2 \mapsto z(q^2) = z(q^2; t_+, t_0)\)</span>, which reads</p>
+<div class="math notranslate nohighlight">
+\begin{equation*}
+   z(q^2; t_+, t_0) = \frac{\sqrt{t_+ - q^2} - \sqrt{t_+ - t_0}}{\sqrt{t_+ - q^2} - \sqrt{t_+ - t_0}}\,.
+\end{equation*}</div><p>In the above, <span class="math notranslate nohighlight">\(t_+ \equiv (M_1 + M_2)^2\)</span> represents the two-body threshold for the respective form factor for a reaction with hadron masses <span class="math notranslate nohighlight">\(M_{1,2}\)</span>,
+and <span class="math notranslate nohighlight">\(t_0 &lt; (M_1 - M_2)^2\)</span> is a free parameter.
+Examples for accessing the parameters <span class="math notranslate nohighlight">\(\alpha_i^{(F)}\)</span> are:</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>Transition</p></td>
+<td><p>Form Factor</p></td>
+<td><p>Parameter</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(B\to K\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(f_+\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">B-&gt;K::alpha^f+_0&#64;BSZ2015</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(D\to K\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(f_0\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">D-&gt;K::alpha^f0_2&#64;BSZ2015</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(B\to K^*\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(V\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">B-&gt;K^*::alpha^V_1&#64;BZS2015</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="python.html" class="btn btn-neutral float-right" title="Python API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2024, The EOS Authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
