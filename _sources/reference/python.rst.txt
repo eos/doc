@@ -736,11 +736,8 @@ Example:
 
 
 ****************
-Creating Figures
+Plotting Classes
 ****************
-
-EOS also provides a new plotting framework with a different interface, which will replace
-the existing framework as soon as it is feature complete.
 
 .. note::
 
@@ -752,78 +749,239 @@ the existing framework as soon as it is feature complete.
    so for this to work latex needs to be available on your system.
 
 
-Figures
-=======
+EOS also provides a new plotting framework with a different interface, which will replace
+the existing framework as soon as it is feature complete. Within the new framework, Figures
+are created using the :py:class:`eos.figure.FigureFactory` class, which returns an object
+of a class descended by :py:class:`eos.figure.Figure`. The figure is responsible for creating
+and managing the `matplotlib <https://matplotlib.org/>`_ figure object. It also creates the
+plot or plots that are contained in the figure as objects of classes descended from
+:py:class:`eos.figure.plot.Plot`. These objects manage the axes of the figure and
+the individual plot items that are contained in the plot. The actual contents are created using
+the :py:class:`eos.figure.ItemFactory` class, which returns an object of a class descended from
+:py:class:`eos.figure.items.Item`. The item is responsible for creating the actual
+plot item, such as the curve of an EOS observable, a scatter plot of parameters, a histogram
+or a kernel density estimate, to name some of the options.
 
-.. automodule:: eos.figure
+
+`Figure` and Related Classes
+============================
+
+
+.. autoclass:: eos.figure.Figure
+   :members:
+
+   .. note::
+
+      The :py:class:`eos.figure.plot.Plot` class is the base class for all plot items.
+      It is not intended to be used directly. To create a a concrete plot, use the :class:`PlotFactory <eos.figure.PlotFactory>` class.
+
+
+.. autoclass:: eos.figure.FigureFactory
+   :members:
+
+   The list of available figure types is as follows:
+
+
+   .. list-table::
+      :widths: auto
+      :header-rows: 1
+
+      * - figure type
+        - Python class
+        - description
+      * - ``single``
+        - :py:class:`eos.figure.SingleFigure`
+        - Produces a figure with a single plot.
+      * - ``inset``
+        - :py:class:`eos.figure.InsetFigure`
+        - Produces an inset figure with a main plot and a smaller inset plot.
+      * - ``grid``
+        - :py:class:`eos.figure.GridFigure`
+        - Produces a figure with a configurable number of plots, arranged in a grid.
+      * - ``corner``
+        - :py:class:`eos.figure.CornerFigure`
+        - Produces a corner figure, i.e., a figure with a triangular arrangement of 1D and 2D marginal PDFs.
+
+.. autoclass:: eos.figure.SingleFigure
+   :members:
+
+.. autoclass:: eos.figure.InsetFigure
+   :members:
+
+.. autoclass:: eos.figure.GridFigure
+   :members:
+
+.. autoclass:: eos.figure.CornerFigure
    :members:
 
 
-Plot types
-----------
 
-Below we list the available plot types.
-Each key ``plot_type`` corresponds to a class which is instantiated in the background.
-The user can supply keyword arguments which are documented under :py:mod:`eos.figure.plot`.
-
-.. list-table::
-   :widths: auto
-   :header-rows: 1
-
-   * - ``plot_type``
-     - class
-     - description
-   * - ``2D``
-     - :py:class:`eos.figure.plot.TwoDimensionalPlot`
-     - Draws a 2D plot along a single set of axes.
-   * - ``empty``
-     - :py:class:`eos.figure.plot.EmptyPlot`
-     - Draws an empty plot.
-
-The classes including the arguments the user can pass are documented in detail below.
-
-.. automodule:: eos.figure.plot
+.. autoclass:: eos.figure.Inset
    :members:
 
 
-Item types
-----------
+`Plot` and Related Classes
+==========================
 
-Below we list the available item types.
-Each key ``item_type`` corresponds to a class which is instantiated in the background.
-The user can supply keyword arguments which are documented under :py:mod:`eos.figure.item`.
 
-.. list-table::
-   :widths: auto
-   :header-rows: 1
+.. autoclass:: eos.figure.Plot
+   :members:
 
-   * - ``item_type``
-     - class
-     - description
-   * - ``observable``
-     - :py:class:`eos.figure.item.ObservableItem`
-     - Plots an observables from the EOS library of builtin observables
-   * - ``uncertainty``
-     - :py:class:`eos.figure.item.UncertaintyBandItem`
-     - Plots an uncertainty band as a function of one kinematic variable or one parameter.
-   * - ``constraint``
-     - :py:class:`eos.figure.item.ConstraintItem`
-     - Plots statistical constraints from the EOS library of experimental and theoretical likelihoods
-   * - ``histogram1D``
-     - :py:class:`eos.figure.item.OneDimensionalHistogramItem`
-     - Plots a one-dimensional histogram.
-   * - ``histogram2D``
-     - :py:class:`eos.figure.item.TwoDimensionalHistogramItem`
-     - Plots a two-dimensional histogram.
-   * - ``kde1D``
-     - :py:class:`eos.figure.item.OneDimensionalKernelDensityEstimateItem`
-     - Plotting a one-dimensional kernel density estimate (KDE).
-   * - ``kde2D``
-     - :py:class:`eos.figure.item.TwoDimensionalKernelDensityEstimateItem`
-     - Plots a two-dimensional kernel density estimate (KDE).
+   .. note::
 
-The classes including the arguments the user can pass are documented in detail below.
+      The :py:class:`eos.figure.Plot` class is the base class for all plot items.
+      It is not intended to be used directly. To create a a concrete plot, use the :class:`PlotFactory <eos.figure.PlotFactory>` class.
 
-.. automodule:: eos.figure.item
-   :exclude-members: Item
+
+.. autoclass:: eos.figure.PlotFactory
+   :members:
+
+
+   The list of available plot types is as follows:
+
+   .. list-table::
+      :widths: auto
+      :header-rows: 1
+
+      * - plot type
+        - Python class
+        - description
+      * - ``2D``
+        - :py:class:`eos.figure.TwoDimensionalPlot`
+        - Draws a 2D plot along a single set of axes.
+      * - ``empty``
+        - :py:class:`eos.figure.EmptyPlot`
+        - Draws an empty plot.
+
+
+.. autoclass:: eos.figure.TwoDimensionalPlot
+   :members:
+
+.. autoclass:: eos.figure.EmptyPlot
+   :members:
+
+
+
+.. autoclass:: eos.figure.Grid
+   :members:
+
+
+.. autoclass:: eos.figure.Legend
+   :members:
+
+
+.. autoclass:: eos.figure.XAxis
+   :members:
+
+
+.. autoclass:: eos.figure.XTicks
+   :members:
+
+
+.. autoclass:: eos.figure.YAxis
+   :members:
+
+
+.. autoclass:: eos.figure.YTicks
+
+
+`Item` and Related Classes
+==========================
+
+
+.. autoclass:: eos.figure.item.Item
+   :members:
+
+   .. note::
+
+      The :py:class:`eos.figure.item.Item` class is the base class for all plot items.
+      It is not intended to be used directly. To create a a concrete plot item, use the :class:`ItemFactory <eos.figure.ItemFactory>` class.
+
+
+.. autoclass:: eos.figure.item.ItemFactory
+   :members:
+
+   The list of available item types is as follows:
+
+
+   .. list-table::
+      :widths: auto
+      :header-rows: 1
+
+      * - item type
+        - Python class
+        - description
+      * - ``observable``
+        - :py:class:`ObservableItem`
+        - Plots an observables from the EOS library of builtin observables.
+      * - ``uncertainty``
+        - :py:class:`UncertaintyBandItem`
+        - Plots the 68% uncertainty band as a function of one kinematic variable or one parameter.
+      * - ``uncertainty-binned``
+        - :py:class:`BinnedUncertaintyItem`
+        - Plots one or more uncertainty band integrated over one kinematic variable.
+      * - ``constraint``
+        - :py:class:`ConstraintItem`
+        - Plots statistical constraints from the EOS library of experimental and theoretical likelihoods.
+      * - ``histogram1D``
+        - :py:class:`OneDimensionalHistogramItem`
+        - Plots a one-dimensional histogram.
+      * - ``histogram2D``
+        - :py:class:`TwoDimensionalHistogramItem`
+        - Plots a two-dimensional histogram.
+      * - ``kde1D``
+        - :py:class:`OneDimensionalKernelDensityEstimateItem`
+        - Plotting a one-dimensional kernel density estimate (KDE).
+      * - ``kde2D``
+        - :py:class:`TwoDimensionalKernelDensityEstimateItem`
+        - Plots a two-dimensional kernel density estimate (KDE).
+      * - ``band``
+        - :py:class:`BandItem`
+        - Plots a shaded band.
+      * - ``signal-pdf``
+        - :py:class:`SignalPDFItem`
+        - Plots a single EOS signal PDF w/o uncertainties as a function of one kinematic variable
+
+
+.. autoclass:: eos.figure.item.ObservableItem
+   :members:
+
+.. autoclass:: eos.figure.item.UncertaintyBandItem
+   :members:
+
+.. autoclass:: eos.figure.item.BinnedUncertaintyItem
+   :members:
+
+.. autoclass:: eos.figure.item.ConstraintItem
+   :members:
+
+.. autoclass:: eos.figure.item.OneDimensionalHistogramItem
+   :members:
+
+.. autoclass:: eos.figure.item.TwoDimensionalHistogramItem
+   :members:
+
+.. autoclass:: eos.figure.item.OneDimensionalKernelDensityEstimateItem
+   :members:
+
+.. autoclass:: eos.figure.item.TwoDimensionalKernelDensityEstimateItem
+   :members:
+
+.. autoclass:: eos.figure.item.BandItem
+   :members:
+
+.. autoclass:: eos.figure.item.SignalPDFItem
+   :members:
+
+
+
+Utility Classes
+===============
+
+
+.. autoclass:: eos.figure.DataFile
+   :members:
+
+
+.. autoclass:: eos.figure.Watermark
    :members:
