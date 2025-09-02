@@ -96,6 +96,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#eos.mixture_product"><code class="docutils literal notranslate"><span class="pre">mixture_product()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#eos.predict_observables"><code class="docutils literal notranslate"><span class="pre">predict_observables()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#eos.report"><code class="docutils literal notranslate"><span class="pre">report()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.run"><code class="docutils literal notranslate"><span class="pre">run()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#eos.sample_mcmc"><code class="docutils literal notranslate"><span class="pre">sample_mcmc()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#eos.sample_nested"><code class="docutils literal notranslate"><span class="pre">sample_nested()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#eos.sample_pmc"><code class="docutils literal notranslate"><span class="pre">sample_pmc()</span></code></a></li>
@@ -1147,7 +1148,11 @@ distance to the lower and upper end of the 68% probability interval.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.Analysis.optimize">
 <span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_point=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng=&lt;module</span> <span class="pre">'numpy.random.mtrand'</span> <span class="pre">from</span> <span class="pre">'/opt/venv/lib/python3.10/site-packages/numpy/random/mtrand.cpython-310-x86_64-linux-gnu.so'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.Analysis.optimize" title="Link to this definition"></a></dt>
-<dd><p>Optimize the log(posterior) and returns a best-fit-point summary.</p>
+<dd><p>Optimize the log(posterior) and returns a best-fit-point summary.
+Optimization is performed using the scipy SLSQP method by default since the varied parameters are usually bounded.
+However, other bounded algorithms (such as Nelder-Mead, L-BFGS-B, TNC, SLSQP, Powell or trust-constr) sometimes perform better.
+The most significant performance improvement is usually achieved by selecting an appropriate initial point,
+for example, one taken from importance samples.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1506,11 +1511,11 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/clusters.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="eos.find_mode">
 <span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">find_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chain</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">importance_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'default'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.find_mode" title="Link to this definition"></a></dt>
-<dd><p>Finds the mode of the named posterior.</p>
+<dd><p>Finds the mode of the named posterior using scipy SLSQP method by default.</p>
 <p>The optimization process can be initialized either with a random point,
 a provided parameter point, or by extracting the point with the largest posterior
-from among previously obtained MCMC or importance samples. The optimization can be iterated to
-increase the accuracy of the result.</p>
+from among previously obtained MCMC or importance samples. The latter possibility usually gives the better performence.
+The optimization can also be iterated to increase the accuracy of the result.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1606,6 +1611,31 @@ The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pred-PREDICTION.
 <dt class="sig sig-object py" id="eos.report">
 <span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.report" title="Link to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="eos.run">
+<span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dry_run</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.run" title="Link to this definition"></a></dt>
+<dd><p>Runs one out of a list of predefined steps recorded in the analysis file.</p>
+<dl class="simple">
+<dt>Each step corresponds to a call to one or more of the common tasks, e.g.,</dt><dd><ul class="simple">
+<li><p>sample-mcmc</p></li>
+<li><p>find-cluster</p></li>
+<li><p>sample-pmc</p></li>
+<li><p>predict-observables</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>analysis_file</strong> (str or <cite>eos.AnalysisFile</cite>) – The name of the analysis file that describes the named posterior, or an object of class <cite>eos.AnalysisFile</cite>.</p></li>
+<li><p><strong>id</strong> (<em>str</em>) – The id of the step to run.</p></li>
+<li><p><strong>base_directory</strong> (<em>str</em><em>, </em><em>optional</em>) – The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p></li>
+<li><p><strong>dry_run</strong> (<em>bool</em><em>, </em><em>optional</em>) – The flag that disables execution and instead prints the full information on the tasks that would be run to standard output. Defaults to <cite>False</cite>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="eos.sample_mcmc">
