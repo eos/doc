@@ -1,0 +1,948 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Command-Line Interface &mdash; EOS 1.0.17 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/contentui.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=67e44365" />
+
+  
+    <link rel="canonical" href="https://eos.github.io/doc/reference/command-line-interface.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=fcf7e67d"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/contentui.js"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Defining Observables" href="defining-observables.html" />
+    <link rel="prev" title="Python API" href="python.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            EOS
+              <img src="../_static/github-eos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/index.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="physics-conventions.html">Summary of the Physics Conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python.html">Python API</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Command-Line Interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Sub-commands">Sub-commands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#list-priors">list-priors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#list-likelihoods">list-likelihoods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#list-posteriors">list-posteriors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#list-predictions">list-predictions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sample-mcmc">sample-mcmc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sample-pmc">sample-pmc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sample-nested">sample-nested</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plot-samples">plot-samples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#find-mode">find-mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mixture-product">mixture-product</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#find-clusters">find-clusters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#predict-observables">predict-observables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#corner-plot">corner-plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#validate">validate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#list-figures">list-figures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#list-steps">list-steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#list-step-dependencies">list-step-dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-mask">create-mask</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#report">report</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#run">run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#draw-figure">draw-figure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#init">init</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="defining-observables.html">Defining Observables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis-file-format.html">Analysis File Format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="figure-format.html">Figure Description Format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="constraints.html">List of Constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="observables.html">List of Observables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parameters.html">List of Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="signal-pdfs.html">List of Signal PDFs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">EOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Reference</a></li>
+      <li class="breadcrumb-item active">Command-Line Interface</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="command-line-interface">
+<h1>Command-Line Interface<a class="headerlink" href="#command-line-interface" title="Link to this heading"></a></h1>
+<div class="admonition note" id="cli">
+<p class="admonition-title">Note</p>
+<p>The EOS command-line interface is completely optional and does not provide any functionality beyond the interactive Python interface.</p>
+</div>
+<p>Although using EOS within an interactive Jupyter notebook on your personal computer or laptop
+is useful to prototype an analysis, this approach sometimes suffers from limited computing power.
+To circumvent this problem, you can alternatively</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>use EOS in Jupyter interactively on a remote workstation computer via an SSH tunnel (see the <a class="reference external" href="../faq">FAQ</a>);</p></li>
+<li><p>use EOS on remote workstations or compute clusters via the command-line interface.</p></li>
+</ul>
+</div></blockquote>
+<p>Working in the command-line interface requires that all analyses are defined within an analysis file.
+For an example of an analysis file see the corresponding <a class="reference external" href="../user-guide/analysis-organisation.html">section in the user guide</a>.
+For the description of the file format see the corresponding <a class="reference external" href="analysis-file-format.html">section in the reference</a>.
+The following provide a documentation of the command-line interface, which is available through a single script called <code class="docutils literal notranslate"><span class="pre">eos-analysis</span></code>.</p>
+<p>Note that the CLI verbosity can be changed using the EOS_VERBOSITY environment variable that ranges between 0 (show only errors) to 5 (show all messages).
+Similarly, verbosity can be set for an individual command using the <code class="docutils literal notranslate"><span class="pre">-v</span></code> or <code class="docutils literal notranslate"><span class="pre">--verbose</span></code> argument.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">eos-analysis</span></code> script provides several subcommands that</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>inspect the analysis file;</p></li>
+<li><p>sample from a posterior density with a variety of methods, including Metroplis-Hastings, Population Monte Carlos, and nested sampling;</p></li>
+<li><p>perform auxiliary tasks on intermediate results.</p></li>
+</ul>
+</div></blockquote>
+<p>The output of these commands are stored on disk as directories filled with YAML files
+(for descriptions and small numerical datasets) and Numpy datafiles (for samples).
+The datafiles can be access with the classes documented as part of the <code class="xref py py-obj docutils literal notranslate"><span class="pre">eos.data</span></code> module.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span>
+                    <span class="p">{</span><span class="nb">list</span><span class="o">-</span><span class="n">priors</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">likelihoods</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">posteriors</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">predictions</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">mcmc</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">pmc</span><span class="p">,</span><span class="n">sample</span><span class="o">-</span><span class="n">nested</span><span class="p">,</span><span class="n">plot</span><span class="o">-</span><span class="n">samples</span><span class="p">,</span><span class="n">find</span><span class="o">-</span><span class="n">mode</span><span class="p">,</span><span class="n">mixture</span><span class="o">-</span><span class="n">product</span><span class="p">,</span><span class="n">find</span><span class="o">-</span><span class="n">clusters</span><span class="p">,</span><span class="n">predict</span><span class="o">-</span><span class="n">observables</span><span class="p">,</span><span class="n">corner</span><span class="o">-</span><span class="n">plot</span><span class="p">,</span><span class="n">validate</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">figures</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">steps</span><span class="p">,</span><span class="nb">list</span><span class="o">-</span><span class="n">step</span><span class="o">-</span><span class="n">dependencies</span><span class="p">,</span><span class="n">create</span><span class="o">-</span><span class="n">mask</span><span class="p">,</span><span class="n">report</span><span class="p">,</span><span class="n">run</span><span class="p">,</span><span class="n">draw</span><span class="o">-</span><span class="n">figure</span><span class="p">,</span><span class="n">init</span><span class="p">}</span>
+                    <span class="o">...</span>
+</pre></div>
+</div>
+<section id="Sub-commands">
+<h2>Sub-commands<a class="headerlink" href="#Sub-commands" title="Link to this heading"></a></h2>
+<section id="list-priors">
+<h3>list-priors<a class="headerlink" href="#list-priors" title="Link to this heading"></a></h3>
+<p>Lists the named prior PDFs defined within the scope of this analysis file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="nb">list</span><span class="o">-</span><span class="n">priors</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span>
+</pre></div>
+</div>
+<section id="named-arguments">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘analysis.yaml’.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="list-likelihoods">
+<h3>list-likelihoods<a class="headerlink" href="#list-likelihoods" title="Link to this heading"></a></h3>
+<p>Lists the named likelihoods defined within the scope of this analysis file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="nb">list</span><span class="o">-</span><span class="n">likelihoods</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="p">]</span>
+</pre></div>
+</div>
+<section id="named-arguments_repeat1">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat1" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘analysis.yaml’.</p>
+</dd>
+<dt><kbd>-d, --display-details</kbd></dt>
+<dd><p>Whether to display further details for each likelihood.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="list-posteriors">
+<h3>list-posteriors<a class="headerlink" href="#list-posteriors" title="Link to this heading"></a></h3>
+<p>Lists the named posterior PDFs defined within the scope of this analysis file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="nb">list</span><span class="o">-</span><span class="n">posteriors</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span>
+</pre></div>
+</div>
+<section id="named-arguments_repeat2">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat2" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘analysis.yaml’.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="list-predictions">
+<h3>list-predictions<a class="headerlink" href="#list-predictions" title="Link to this heading"></a></h3>
+<p>Lists the named prediction sets defined within the scope of this analysis file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="nb">list</span><span class="o">-</span><span class="n">predictions</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span>
+</pre></div>
+</div>
+<section id="named-arguments_repeat3">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat3" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘analysis.yaml’.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="sample-mcmc">
+<h3>sample-mcmc<a class="headerlink" href="#sample-mcmc" title="Link to this heading"></a></h3>
+<p>Samples from a named posterior PDF using Markov Chain Monte Carlo (MCMC) methods.</p>
+<p>The output file will be stored in EOS_BASE_DIRECTORY/POSTERIOR/mcmc-IDX.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">sample</span><span class="o">-</span><span class="n">mcmc</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">N</span> <span class="n">N</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">S</span> <span class="n">STRIDE</span><span class="p">]</span>
+                         <span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="n">PRERUNS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">n</span> <span class="n">PRE_N</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">s</span> <span class="n">START_POINT</span><span class="p">]</span>
+                         <span class="p">[</span><span class="o">-</span><span class="n">c</span> <span class="n">COV_SCALE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+                         <span class="n">POSTERIOR</span> <span class="n">CHAIN</span><span class="o">-</span><span class="n">IDX</span>
+</pre></div>
+</div>
+<section id="positional-arguments">
+<h4>Positional Arguments<a class="headerlink" href="#positional-arguments" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>POSTERIOR</kbd></dt>
+<dd><p>The name of the posterior PDF from which to draw the samples.</p>
+</dd>
+<dt><kbd>CHAIN-IDX</kbd></dt>
+<dd><p>The index assigned to the Markov chain. This value is used to seed the RNG for a reproducible analysis.</p>
+</dd>
+</dl>
+</section>
+<section id="named-arguments_repeat4">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat4" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘analysis.yaml’.</p>
+</dd>
+<dt><kbd>-N, --number-of-samples</kbd></dt>
+<dd><p>The number of samples to be stored in the output file.</p>
+</dd>
+<dt><kbd>-S, --stride</kbd></dt>
+<dd><p>The ratio of samples drawn over samples stored. For every S samples, S - 1 will be discarded.</p>
+</dd>
+<dt><kbd>-p, --number-of-preruns</kbd></dt>
+<dd><p>The number of prerun steps, which are used to adapt the MCMC proposal to the posterior.</p>
+</dd>
+<dt><kbd>-n, --number-of-prerun-samples</kbd></dt>
+<dd><p>The number of samples to be used for an adaptation in each prerun steps. These samples will be discarded.</p>
+</dd>
+<dt><kbd>-s, --start-point</kbd></dt>
+<dd><p>Optional starting point for the chain; a comma separated list of floats</p>
+</dd>
+<dt><kbd>-c, --cov-scale</kbd></dt>
+<dd><p>Scale factor for the initial guess of the covariance matrix.</p>
+</dd>
+<dt><kbd>-b, --base-directory</kbd></dt>
+<dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="sample-pmc">
+<h3>sample-pmc<a class="headerlink" href="#sample-pmc" title="Link to this heading"></a></h3>
+<p>Samples from a named posterior using the Population Monte Carlo (PMC) methods.</p>
+<p>The results of the find-cluster command are expected in EOS_BASE_DIRECTORY/POSTERIOR/clusters.
+The output will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pmc.
+In addition, an ImportanceSamples object is exported to EOS_BASE_DIRECTORY/POSTERIOR/samples.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">sample</span><span class="o">-</span><span class="n">pmc</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">n</span> <span class="n">STEP_N</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">s</span> <span class="n">STEPS</span><span class="p">]</span>
+                        <span class="p">[</span><span class="o">-</span><span class="n">t</span> <span class="n">PERPLEXITY_THRESHOLD</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">w</span> <span class="n">WEIGHT_THRESHOLD</span><span class="p">]</span>
+                        <span class="p">[</span><span class="o">-</span><span class="n">N</span> <span class="n">FINAL_N</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">pmc_iterations</span> <span class="n">PMC_ITERATIONS</span><span class="p">]</span>
+                        <span class="p">[</span><span class="o">--</span><span class="n">pmc</span><span class="o">-</span><span class="n">rel</span><span class="o">-</span><span class="n">tol</span> <span class="n">PMC_REL_TOL</span><span class="p">]</span>
+                        <span class="p">[</span><span class="o">--</span><span class="n">pmc</span><span class="o">-</span><span class="nb">abs</span><span class="o">-</span><span class="n">tol</span> <span class="n">PMC_ABS_TOL</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">l</span> <span class="n">PMC_LOOKBACK</span><span class="p">]</span>
+                        <span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="n">INITIAL_PROPOSAL</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">S</span> <span class="n">SIGMA_TEST_STAT</span><span class="p">]</span>
+                        <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+                        <span class="n">POSTERIOR</span>
+</pre></div>
+</div>
+<section id="positional-arguments_repeat1">
+<h4>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat1" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>POSTERIOR</kbd></dt>
+<dd><p>The name of the posterior PDF from which to draw the samples.</p>
+</dd>
+</dl>
+</section>
+<section id="named-arguments_repeat5">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat5" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘analysis.yaml’.</p>
+</dd>
+<dt><kbd>-n, --number-of-adaptation-samples</kbd></dt>
+<dd><p>The number of samples to be used in each adaptation step. These samples will be discarded.</p>
+</dd>
+<dt><kbd>-s, --number-of-adaptation-steps</kbd></dt>
+<dd><p>The number of adaptation steps, which are used to adapt the PMC proposal to the posterior.</p>
+</dd>
+<dt><kbd>-t, --perplexity-threshold</kbd></dt>
+<dd><p>The threshold for the perplexity in the last step after which further adaptation steps are to be skipped.</p>
+</dd>
+<dt><kbd>-w, --weight-threshold</kbd></dt>
+<dd><p>Mixture components with a weight smaller than this threshold are pruned.</p>
+</dd>
+<dt><kbd>-N, --number-of-final-samples</kbd></dt>
+<dd><p>The number of samples to be stored in the output file.</p>
+</dd>
+<dt><kbd>--pmc_iterations</kbd></dt>
+<dd><p>The maximum number of update of the PMC, changing this value may make the update unstable</p>
+</dd>
+<dt><kbd>--pmc-rel-tol</kbd></dt>
+<dd><p>Relative tolerance of the PMC update.</p>
+</dd>
+<dt><kbd>--pmc-abs-tol</kbd></dt>
+<dd><p>Absolute tolerance of the PMC update.</p>
+</dd>
+<dt><kbd>-l, --pmc-lookback</kbd></dt>
+<dd><p>The number of previous steps whose samples are used to update the PMC. 1 (default) means that only last step is used ; 0 means that all available steps are used.</p>
+</dd>
+<dt><kbd>-p, --initial-proposal</kbd></dt>
+<dd><dl class="simple">
+<dt>Specify where the initial proposal should be taken from; ‘clusters’ (default): use the proposal obtained using <cite>find-clusters</cite>;</dt><dd><p>‘product’: use the proposal obtained from <cite>mixture_product</cite>; ‘pmc’: continue sampling from the previous <cite>sample-pmc</cite> results.</p>
+</dd>
+</dl>
+</dd>
+<dt><kbd>-S, --sigma-test-stat</kbd></dt>
+<dd><p>If provided, the inverse CDF of -2*log(PDF) will be evaluated, using the provided values as the respective significance.</p>
+</dd>
+<dt><kbd>-b, --base-directory</kbd></dt>
+<dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="sample-nested">
+<h3>sample-nested<a class="headerlink" href="#sample-nested" title="Link to this heading"></a></h3>
+<p>Samples from a likelihood associated with a named posterior using dynamic nested sampling.</p>
+<p>The output will be stored in EOS_BASE_DIRECTORY/POSTERIOR/nested.
+In addition, an ImportanceSamples object is exported to EOS_BASE_DIRECTORY/POSTERIOR/samples.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">sample</span><span class="o">-</span><span class="n">nested</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">B</span> <span class="n">BOUND</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">n</span> <span class="n">NLIVE</span><span class="p">]</span>
+                           <span class="p">[</span><span class="o">-</span><span class="n">d</span> <span class="n">DLOGZ</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">m</span> <span class="n">MAXITER</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">l</span> <span class="n">MINITER</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">s</span> <span class="n">SEED</span><span class="p">]</span>
+                           <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">M</span> <span class="n">SAMPLE</span><span class="p">]</span>
+                           <span class="n">POSTERIOR</span>
+</pre></div>
+</div>
+<section id="positional-arguments_repeat2">
+<h4>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat2" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>POSTERIOR</kbd></dt>
+<dd><p>The name of the posterior PDF from which to draw the samples.</p>
+</dd>
+</dl>
+</section>
+<section id="named-arguments_repeat6">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat6" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘analysis.yaml’.</p>
+</dd>
+<dt><kbd>-B, --target-bound</kbd></dt>
+<dd><p>The method used to approximately bound the prior using the current set of live points. Conditions the sampling methods used to propose new live points. For valid values, see the dynesty documentation.</p>
+</dd>
+<dt><kbd>-n, --number-of-live-points</kbd></dt>
+<dd><p>The number of live points.</p>
+</dd>
+<dt><kbd>-d, --evidence-tolerance</kbd></dt>
+<dd><p>The relative tolerance for the remaining evidence.</p>
+</dd>
+<dt><kbd>-m, --max-number-iterations</kbd></dt>
+<dd><p>The maximum number of iterations. Iterations may stop earlier if the termination condition is reached.</p>
+</dd>
+<dt><kbd>-l, --min-number-iterations</kbd></dt>
+<dd><p>The minimum number of iterations. If not provided, the sampler will run until the termination condition is reached.</p>
+</dd>
+<dt><kbd>-s, --use-random-seed</kbd></dt>
+<dd><p>The seed used to initialize the Mersenne Twister pseudo-random number generator.</p>
+</dd>
+<dt><kbd>-b, --base-directory</kbd></dt>
+<dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
+</dd>
+<dt><kbd>-M, --sampling-method</kbd></dt>
+<dd><p>The method used for sampling within the likelihood constraints. For valid values, see dynesty documentation.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="plot-samples">
+<h3>plot-samples<a class="headerlink" href="#plot-samples" title="Link to this heading"></a></h3>
+<p>Plots all samples obtained for a named posterior.</p>
+<p>The results of either the sample-mcmc or the sample-pmc command are expected in
+EOS_BASE_DIRECTORY/POSTERIOR/mcmc-* or EOS_BASE_DIRECTORY/POSTERIOR/pmc, respectively.
+The plots will be stored as PDF files within the respective sample inputs.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">plot</span><span class="o">-</span><span class="n">samples</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">B</span> <span class="n">BINS</span><span class="p">]</span>
+                          <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+                          <span class="n">POSTERIOR</span>
+</pre></div>
+</div>
+<section id="positional-arguments_repeat3">
+<h4>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat3" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>POSTERIOR</kbd></dt>
+<dd><p>The name of the posterior PDF from which to draw the samples.</p>
+</dd>
+</dl>
+</section>
+<section id="named-arguments_repeat7">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat7" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘analysis.yaml’.</p>
+</dd>
+<dt><kbd>-B, --bins</kbd></dt>
+<dd><p>The number of bins per histogram.</p>
+</dd>
+<dt><kbd>-b, --base-directory</kbd></dt>
+<dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="find-mode">
+<h3>find-mode<a class="headerlink" href="#find-mode" title="Link to this heading"></a></h3>
+<p>Finds the mode of the named posterior.</p>
+<p>The optimization process can be initialised either by a provided parameter point or previously obtained
+importance samples (recommended), a random point (default), or from a pre-existing Markov chain with provided index (deprecated). The optimization
+can be iterated to increase the accuracy of the result. The output will be stored in
+EOS_BASE_DIRECTORY/posterior/mode-LABEL.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">find</span><span class="o">-</span><span class="n">mode</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OPTIMIZATIONS</span><span class="p">]</span>
+                       <span class="p">[</span><span class="o">-</span><span class="n">c</span> <span class="n">CHAIN</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">S</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="n">START_POINT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">s</span> <span class="n">SEED</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">L</span> <span class="n">LABEL</span><span class="p">]</span>
+                       <span class="p">[</span><span class="o">-</span><span class="n">M</span> <span class="n">MASK</span><span class="o">-</span><span class="n">NAME</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+                       <span class="n">POSTERIOR</span>
+</pre></div>
+</div>
+<section id="positional-arguments_repeat4">
+<h4>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat4" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>POSTERIOR</kbd></dt>
+<dd><p>The name of the posterior PDF that will be maximized.</p>
+</dd>
+</dl>
+</section>
+<section id="named-arguments_repeat8">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat8" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘analysis.yaml’.</p>
+</dd>
+<dt><kbd>-o, --optimizations</kbd></dt>
+<dd><p>The number of calls to the optimization algorithm.</p>
+</dd>
+<dt><kbd>-c, --from-mcmc</kbd></dt>
+<dd><p>The chain index of an MCMC data file from which the maximization is started, this is now deprecated.</p>
+</dd>
+<dt><kbd>-S, --from-samples</kbd></dt>
+<dd><p>If specified, the optimization will start from the importance samples stored in posterior/samples.</p>
+</dd>
+<dt><kbd>-p, --from-point</kbd></dt>
+<dd><p>The point from which the minimization is started; a comma separated list of floats.</p>
+</dd>
+<dt><kbd>-s, --use-random-seed</kbd></dt>
+<dd><p>The seed used to generate the random starting point of the minimization.</p>
+</dd>
+<dt><kbd>-L, --label</kbd></dt>
+<dd><p>The label used for the generated data file.</p>
+</dd>
+<dt><kbd>-M, --mask-name</kbd></dt>
+<dd><p>The name of the mask to apply to the importance samples.</p>
+</dd>
+<dt><kbd>-b, --base-directory</kbd></dt>
+<dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="mixture-product">
+<h3>mixture-product<a class="headerlink" href="#mixture-product" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>Compute the cartesian product of the densities listed in posteriors. Note that this product is not commutative.</p>
+<p>The input densities are read from EOS_BASE_DIRECTORY/POSTERIOR_i/pmc, where POSTERIOR_i is listed in posteriors.
+The output density will be stored in EOS_BASE_DIRECTORY/POSTERIOR/product.</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">mixture</span><span class="o">-</span><span class="n">product</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+                             <span class="n">POSTERIOR</span> <span class="n">POSTERIORS</span>
+</pre></div>
+</div>
+<section id="positional-arguments_repeat5">
+<h4>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat5" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>POSTERIOR</kbd></dt>
+<dd><p>The name of the posterior PDF for which the product is computed</p>
+</dd>
+<dt><kbd>POSTERIORS</kbd></dt>
+<dd><p>The list of name of the posteriors PDF that will be concatenated.</p>
+</dd>
+</dl>
+</section>
+<section id="named-arguments_repeat9">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat9" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘analysis.yaml’.</p>
+</dd>
+<dt><kbd>-b, --base-directory</kbd></dt>
+<dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="find-clusters">
+<h3>find-clusters<a class="headerlink" href="#find-clusters" title="Link to this heading"></a></h3>
+<p>Finds clusters among posterior MCMC samples, grouped by Gelman-Rubin R value, and creates a Gaussian mixture density.</p>
+<p>Finding clusters and creating a Gaussian mixture density is a necessary intermediate step before using the sample-pmc subcommand.
+The input files are expected in EOS_BASE_DIRECTORY/POSTERIOR/mcmc-<a href="#system-message-1"><span class="problematic" id="problematic-1">*</span></a>. All MCMC input files present will be used in the clustering.
+The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/clusters.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">find</span><span class="o">-</span><span class="n">clusters</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">t</span> <span class="n">THRESHOLD</span><span class="p">]</span>
+                           <span class="p">[</span><span class="o">-</span><span class="n">c</span> <span class="n">K_G</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+                           <span class="n">POSTERIOR</span>
+</pre></div>
+</div>
+<section id="positional-arguments_repeat6">
+<h4>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat6" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>POSTERIOR</kbd></dt>
+<dd><p>The name of the posterior PDF from which MCMC samples have previously been drawn.</p>
+</dd>
+</dl>
+</section>
+<section id="named-arguments_repeat10">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat10" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘analysis.yaml’.</p>
+</dd>
+<dt><kbd>-t, --threshold</kbd></dt>
+<dd><p>The R value threshold. If two sample subsets have an R value larger than this threshold, they will be treated as two distinct clusters. (default: 2.0)</p>
+</dd>
+<dt><kbd>-c, --clusters-per-group</kbd></dt>
+<dd><p>The number of mixture components per cluster. (default: 1)</p>
+</dd>
+<dt><kbd>-b, --base-directory</kbd></dt>
+<dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="predict-observables">
+<h3>predict-observables<a class="headerlink" href="#predict-observables" title="Link to this heading"></a></h3>
+<p>Predicts a set of observables based on previously obtained importance samples.</p>
+<p>The input files are expected in EOS_BASE_DIRECTORY/POSTERIOR/samples.
+The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/pred-PREDICTION.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">predict</span><span class="o">-</span><span class="n">observables</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">B</span> <span class="n">BEGIN</span><span class="p">]</span>
+                                 <span class="p">[</span><span class="o">-</span><span class="n">E</span> <span class="n">END</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">M</span> <span class="n">MASK</span><span class="o">-</span><span class="n">NAME</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+                                 <span class="n">POSTERIOR</span> <span class="n">PREDICTION</span>
+</pre></div>
+</div>
+<section id="positional-arguments_repeat7">
+<h4>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat7" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>POSTERIOR</kbd></dt>
+<dd><p>The name of the posterior PDF from which to draw the samples.</p>
+</dd>
+<dt><kbd>PREDICTION</kbd></dt>
+<dd><p>The name of the set of observables to predict.</p>
+</dd>
+</dl>
+</section>
+<section id="named-arguments_repeat11">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat11" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘analysis.yaml’.</p>
+</dd>
+<dt><kbd>-B, --begin-index</kbd></dt>
+<dd><p>The index of the first sample to use for the predictions.</p>
+</dd>
+<dt><kbd>-E, --end-index</kbd></dt>
+<dd><p>The index beyond the last sample to use for the predictions.</p>
+</dd>
+<dt><kbd>-M, --mask-name</kbd></dt>
+<dd><p>The name of the mask to apply to the samples.</p>
+</dd>
+<dt><kbd>-b, --base-directory</kbd></dt>
+<dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="corner-plot">
+<h3>corner-plot<a class="headerlink" href="#corner-plot" title="Link to this heading"></a></h3>
+<p>Generate a corner plot of the 1-D and 2-D marginalized posteriors.</p>
+<p>The input files are expected in EOS_BASE_DIRECTORY/POSTERIOR/samples.
+The output files will be stored in EOS_BASE_DIRECTORY/POSTERIOR/plots.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">corner</span><span class="o">-</span><span class="n">plot</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">B</span> <span class="n">BEGIN</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">E</span> <span class="n">END</span><span class="p">]</span>
+                         <span class="p">[</span><span class="o">-</span><span class="n">F</span> <span class="n">FORMAT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">M</span> <span class="n">MASK</span><span class="o">-</span><span class="n">NAME</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+                         <span class="n">POSTERIOR</span>
+</pre></div>
+</div>
+<section id="positional-arguments_repeat8">
+<h4>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat8" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>POSTERIOR</kbd></dt>
+<dd><p>The name of the posterior PDF from which the samples were drawn.</p>
+</dd>
+</dl>
+</section>
+<section id="named-arguments_repeat12">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat12" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘analysis.yaml’.</p>
+</dd>
+<dt><kbd>-B, --begin-parameter</kbd></dt>
+<dd><p>The index of the first parameter to plot.</p>
+</dd>
+<dt><kbd>-E, --end-parameter</kbd></dt>
+<dd><p>The index beyond the last parameter to plot.</p>
+</dd>
+<dt><kbd>-F, --format</kbd></dt>
+<dd><p>The plot output format. Can be a comma separated list of formats.</p>
+</dd>
+<dt><kbd>-M, --mask-name</kbd></dt>
+<dd><p>The name of the mask to apply to the samples.</p>
+</dd>
+<dt><kbd>-b, --base-directory</kbd></dt>
+<dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="validate">
+<h3>validate<a class="headerlink" href="#validate" title="Link to this heading"></a></h3>
+<p>Validates the analysis file by checking that all posteriors and all prediction sets can be created.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">validate</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span>
+</pre></div>
+</div>
+<section id="named-arguments_repeat13">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat13" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘analysis.yaml’.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="list-figures">
+<h3>list-figures<a class="headerlink" href="#list-figures" title="Link to this heading"></a></h3>
+<p>Lists the figures defined within the analysis file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="nb">list</span><span class="o">-</span><span class="n">figures</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span>
+</pre></div>
+</div>
+<section id="named-arguments_repeat14">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat14" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘analysis.yaml’.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="list-steps">
+<h3>list-steps<a class="headerlink" href="#list-steps" title="Link to this heading"></a></h3>
+<p>Lists the steps defined within the analysis file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="nb">list</span><span class="o">-</span><span class="n">steps</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span>
+</pre></div>
+</div>
+<section id="named-arguments_repeat15">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat15" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘analysis.yaml’.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="list-step-dependencies">
+<h3>list-step-dependencies<a class="headerlink" href="#list-step-dependencies" title="Link to this heading"></a></h3>
+<p>Lists the dependencies of a step defined within the analysis file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="nb">list</span><span class="o">-</span><span class="n">step</span><span class="o">-</span><span class="n">dependencies</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="n">ID</span>
+</pre></div>
+</div>
+<section id="positional-arguments_repeat9">
+<h4>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat9" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>ID</kbd></dt>
+<dd><p>The id of the step for which to list the dependencies.</p>
+</dd>
+</dl>
+</section>
+<section id="named-arguments_repeat16">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat16" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘analysis.yaml’.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="create-mask">
+<h3>create-mask<a class="headerlink" href="#create-mask" title="Link to this heading"></a></h3>
+<p>Create a mask that can be applied to samples from a named posterior based on a set of observables.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">create</span><span class="o">-</span><span class="n">mask</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+                         <span class="n">POSTERIOR</span> <span class="n">MASK</span><span class="o">-</span><span class="n">NAME</span>
+</pre></div>
+</div>
+<section id="positional-arguments_repeat10">
+<h4>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat10" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>POSTERIOR</kbd></dt>
+<dd><p>The name of the posterior PDF from which to draw the samples.</p>
+</dd>
+<dt><kbd>MASK-NAME</kbd></dt>
+<dd><p>The name of the mask to create.</p>
+</dd>
+</dl>
+</section>
+<section id="named-arguments_repeat17">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat17" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘analysis.yaml’.</p>
+</dd>
+<dt><kbd>-b, --base-directory</kbd></dt>
+<dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="report">
+<h3>report<a class="headerlink" href="#report" title="Link to this heading"></a></h3>
+<p>Generates a report of the analysis based on the analysis file and the recorded results.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">report</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+                    <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT_FILE</span><span class="p">]</span>
+                    <span class="n">TEMPLATE</span>
+</pre></div>
+</div>
+<section id="positional-arguments_repeat11">
+<h4>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat11" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>TEMPLATE</kbd></dt>
+<dd><p>The file name of the template that is used to generate the report.</p>
+</dd>
+</dl>
+</section>
+<section id="named-arguments_repeat18">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat18" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘analysis.yaml’.</p>
+</dd>
+<dt><kbd>-b, --base-directory</kbd></dt>
+<dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
+</dd>
+<dt><kbd>-o, --output-file</kbd></dt>
+<dd><p>The file name of the output report. If not provided, the report will be printed to the console.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="run">
+<h3>run<a class="headerlink" href="#run" title="Link to this heading"></a></h3>
+<p>Runs one out of a list of steps recorded within an analysis file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">run</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">d</span><span class="p">]</span> <span class="n">ID</span>
+</pre></div>
+</div>
+<section id="positional-arguments_repeat12">
+<h4>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat12" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>ID</kbd></dt>
+<dd><p>The id of the step to run.</p>
+</dd>
+</dl>
+</section>
+<section id="named-arguments_repeat19">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat19" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘analysis.yaml’.</p>
+</dd>
+<dt><kbd>-b, --base-directory</kbd></dt>
+<dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
+</dd>
+<dt><kbd>-d, --dry-run</kbd></dt>
+<dd><p>Perform a dry run only. Outputs the list of subcommands that would be run instead of running them.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="draw-figure">
+<h3>draw-figure<a class="headerlink" href="#draw-figure" title="Link to this heading"></a></h3>
+<p>Draws a figure based on the specification in the analysis file and the recorded results.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">draw</span><span class="o">-</span><span class="n">figure</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BASE_DIRECTORY</span><span class="p">]</span>
+                         <span class="p">[</span><span class="o">-</span><span class="n">F</span> <span class="n">FORMAT</span><span class="p">]</span>
+                         <span class="n">FIGURE</span>
+</pre></div>
+</div>
+<section id="positional-arguments_repeat13">
+<h4>Positional Arguments<a class="headerlink" href="#positional-arguments_repeat13" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>FIGURE</kbd></dt>
+<dd><p>The name of the figure that shall be drawn.</p>
+</dd>
+</dl>
+</section>
+<section id="named-arguments_repeat20">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat20" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘analysis.yaml’.</p>
+</dd>
+<dt><kbd>-b, --base-directory</kbd></dt>
+<dd><p>The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p>
+</dd>
+<dt><kbd>-F, --format</kbd></dt>
+<dd><p>The additional formats in which the figure should be saved. Defaults to PDF only.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="init">
+<h3>init<a class="headerlink" href="#init" title="Link to this heading"></a></h3>
+<p>Initializes a new analysis directory based on the EOS analysis template.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">-</span><span class="n">analysis</span> <span class="n">init</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">ANALYSIS_FILE</span><span class="p">]</span>
+</pre></div>
+</div>
+<section id="named-arguments_repeat21">
+<h4>Named Arguments<a class="headerlink" href="#named-arguments_repeat21" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Increases the verbosity of the script. Can also be set via the EOS_VERBOSITY environment variable.</p>
+</dd>
+<dt><kbd>-f, --analysis-file</kbd></dt>
+<dd><p>The analysis file. Defaults to ‘analysis.yaml’.</p>
+</dd>
+</dl>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="python.html" class="btn btn-neutral float-left" title="Python API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="defining-observables.html" class="btn btn-neutral float-right" title="Defining Observables" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2024, The EOS Authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

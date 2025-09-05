@@ -1,0 +1,244 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Defining Observables &mdash; EOS 1.0.17 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/contentui.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=67e44365" />
+
+  
+    <link rel="canonical" href="https://eos.github.io/doc/reference/defining-observables.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=fcf7e67d"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/contentui.js"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Analysis File Format" href="analysis-file-format.html" />
+    <link rel="prev" title="Command-Line Interface" href="command-line-interface.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            EOS
+              <img src="../_static/github-eos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/index.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="physics-conventions.html">Summary of the Physics Conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python.html">Python API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command-line-interface.html">Command-Line Interface</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Defining Observables</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#syntax">Syntax</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#arithmetic-expressions">Arithmetic Expressions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dealing-with-kinematic-variables">Dealing with Kinematic Variables</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#making-a-new-observable-known">Making a new Observable known</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="analysis-file-format.html">Analysis File Format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="figure-format.html">Figure Description Format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="constraints.html">List of Constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="observables.html">List of Observables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parameters.html">List of Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="signal-pdfs.html">List of Signal PDFs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">EOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Reference</a></li>
+      <li class="breadcrumb-item active">Defining Observables</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="defining-observables">
+<h1>Defining Observables<a class="headerlink" href="#defining-observables" title="Link to this heading"></a></h1>
+<p id="id1">A user can define new observables for their analyses by combining existing observables, parameters, and kinematic variables within an arithmetic expression.
+Observables defined in this way benefit from the same optimizations as all built-in observables, including multi-threaded evaluation and caching.
+This section describes and exemplifies the syntax of the expression parser that interprets user defined python strings as new EOS observables.</p>
+<section id="syntax">
+<h2>Syntax<a class="headerlink" href="#syntax" title="Link to this heading"></a></h2>
+<section id="arithmetic-expressions">
+<h3>Arithmetic Expressions<a class="headerlink" href="#arithmetic-expressions" title="Link to this heading"></a></h3>
+<p>Basic rules are used to parse the input string</p>
+<blockquote>
+<div><ul>
+<li><p>Whitespaces such as spaces and tabs do not have semantic meaning and are ignored when parsing the expression.
+Hence, they can be added arbitrarily for readability.</p></li>
+<li><p>Expressions are built upon the arithmetic operations</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>addition <code class="docutils literal notranslate"><span class="pre">+</span></code>,</p></li>
+<li><p>subtraction <code class="docutils literal notranslate"><span class="pre">-</span></code>,</p></li>
+<li><p>multiplication <code class="docutils literal notranslate"><span class="pre">*</span></code>,</p></li>
+<li><p>division <code class="docutils literal notranslate"><span class="pre">/</span></code>,</p></li>
+<li><p>and exponentiation <code class="docutils literal notranslate"><span class="pre">^</span></code>.</p></li>
+</ul>
+</div></blockquote>
+<p>Parentheses are recognized in expressions, and the usual precedence rules of arithmetics apply.</p>
+</li>
+<li><p>Expressions can refer to existing EOS objects</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Observables are referenced by their <code class="code docutils literal notranslate"><span class="pre">eos.QualifiedName</span></code> and must be encapsulated by two chevrons: <code class="docutils literal notranslate"><span class="pre">&lt;&lt;...&gt;&gt;</span></code>.
+All features of a qualified name are supported, including specifying option.
+Examples for a reference to an observable are <code class="docutils literal notranslate"><span class="pre">&lt;&lt;B_u-&gt;lnu::BR&gt;&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;&lt;B-&gt;Kll::dBR/dq2;q=u&gt;&gt;</span></code>.</p></li>
+<li><p>Parameters are also referenced by their <code class="code docutils literal notranslate"><span class="pre">eos.QualifiedName</span></code>, but these must be enclosed in square brackets: <code class="docutils literal notranslate"><span class="pre">[[...]]</span></code>.
+For example, <code class="docutils literal notranslate"><span class="pre">[[mass::mu]]</span></code> is a valid expression.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Expressions usually depend on kinematic variables.
+These variables are implicitly inherited from the called observables (see the following section for details),
+but inherited and new kinematic variables can also be explicitly used in the expression.
+In this case, the name of the variable must be enclosed in braces: <code class="docutils literal notranslate"><span class="pre">{...}</span></code>.
+Examples of a kinematic variable are <code class="docutils literal notranslate"><span class="pre">{q2}</span></code> or <code class="docutils literal notranslate"><span class="pre">{E_gamma}</span></code>.</p></li>
+</ul>
+</div></blockquote>
+<p>The following strings are valid observable expressions</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">([[mass::B_d]]^2</span> <span class="pre">-</span> <span class="pre">4</span> <span class="pre">*</span> <span class="pre">[[mass::mu]]^2)</span> <span class="pre">^</span> <span class="pre">0.5</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">1.0</span> <span class="pre">/</span> <span class="pre">&lt;&lt;B_u-&gt;lnu::BR;l=mu&gt;&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;&lt;B-&gt;K::f_+(q2)&gt;&gt;</span> <span class="pre">*</span> <span class="pre">(1</span> <span class="pre">-</span> <span class="pre">{q2}</span> <span class="pre">/</span> <span class="pre">[[mass::B_d^*]]^2)</span></code></p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="dealing-with-kinematic-variables">
+<h3>Dealing with Kinematic Variables<a class="headerlink" href="#dealing-with-kinematic-variables" title="Link to this heading"></a></h3>
+<p>By default, a referenced observable’s dependence on a kinematic variables is transferred to the newly defined observable.
+For example, the observable defined by the expression <code class="docutils literal notranslate"><span class="pre">1.0</span> <span class="pre">/</span> <span class="pre">&lt;&lt;B-&gt;pilnu::dBR/dq2&gt;&gt;</span></code> depends on the kinematic variable
+<code class="docutils literal notranslate"><span class="pre">q2</span></code>, since the reference observable <code class="docutils literal notranslate"><span class="pre">B-&gt;pilnu::dBR/dq2</span></code> does.
+When more than one observable appears in the expression, it is sometimes useful or even essential to rename kinematic variables,
+i.e., create an alias for the name of the kinematic variable.
+For example, when defining a lepton-flavour universality observable such as the ratio of branching fractions <code class="docutils literal notranslate"><span class="pre">&lt;&lt;B-&gt;Dlnu::BR;l=tau&gt;&gt;</span> <span class="pre">/</span> <span class="pre">&lt;&lt;B-&gt;Dlnu::BR;l=mu&gt;&gt;</span></code>,
+the kinematic variable <code class="docutils literal notranslate"><span class="pre">q2</span></code> should be renamed to <code class="docutils literal notranslate"><span class="pre">q2_tau</span></code> and <code class="docutils literal notranslate"><span class="pre">q2_mu</span></code> for the two observables, respectively, to avoid any ambiguity.
+Moreover, phenomenological application sometimes involve the evaluation of an observable at a fixed value of a kinematic variable.
+Both types of modification to the kinematic variables of a referenced observable are supported.
+They are achieved by appending a kinematic specification to the reference of an EOS observable: <code class="docutils literal notranslate"><span class="pre">&lt;&lt;...&gt;&gt;[...]</span></code>.</p>
+<p>Two types of kinematics specification are supported</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>the <code class="docutils literal notranslate"><span class="pre">=&gt;</span></code> operator renames the kinematic variable on its left-hand side to the name on its right-hand side.
+For example, the expression <code class="docutils literal notranslate"><span class="pre">&lt;&lt;B_u-&gt;lnu::BR&#64;l=mu&gt;&gt;[q2=&gt;q2_mu]</span> <span class="pre">/</span> <span class="pre">&lt;&lt;B_u-&gt;lnu::BR&#64;l=e&gt;&gt;[q2=&gt;q2_e]</span></code> expects
+two kinematic variable: <code class="docutils literal notranslate"><span class="pre">q2_mu</span></code> and <code class="docutils literal notranslate"><span class="pre">q2_e</span></code>. The value of the former is only used in the evaluation of the numerator;
+the value of the latter is only used in the evaluation of the denominator.</p></li>
+<li><p>the <code class="docutils literal notranslate"><span class="pre">=</span></code> operator fixes a kinematic variable to a given value.
+For example, the expression <code class="docutils literal notranslate"><span class="pre">&lt;&lt;B-&gt;pilnu::BR&gt;&gt;[q2_min=0.1]</span></code> expects only one kinematic variable <code class="docutils literal notranslate"><span class="pre">q2_max</span></code>.
+The kinematic variable <code class="docutils literal notranslate"><span class="pre">q2_min</span></code> that the references observable <code class="docutils literal notranslate"><span class="pre">B-&gt;pilnu::BR</span></code> also depends on is
+fixed to the value <code class="docutils literal notranslate"><span class="pre">0.1</span></code>. The same kinematic variable can be set to different values in a single expression, i.e.
+<code class="docutils literal notranslate"><span class="pre">&lt;&lt;B-&gt;pi::f_+(q2)&gt;&gt;[q2=1.0]</span> <span class="pre">+</span>&#160; <span class="pre">&lt;&lt;B-&gt;pi::f_0(q2)&gt;&gt;[q2=2.0]</span></code> is also a valid expression.</p></li>
+</ul>
+</div></blockquote>
+<p>Note that both types of specifications can be combined in comma-separated list in an arbitrary order, for example <code class="docutils literal notranslate"><span class="pre">[q2_min=1.0,q2_max=&gt;q2_max_mu]</span></code>.</p>
+</section>
+</section>
+<section id="making-a-new-observable-known">
+<h2>Making a new Observable known<a class="headerlink" href="#making-a-new-observable-known" title="Link to this heading"></a></h2>
+<p>To make a new observable known to EOS, it must be added to the list of observables.
+This can be done using the <a class="reference internal" href="python.html#eos.Observables.insert" title="eos.Observables.insert"><code class="xref py py-meth docutils literal notranslate"><span class="pre">eos.Observables.insert()</span></code></a> method.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">Observables</span><span class="p">()</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">latex</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">expression</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here the arguments <code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">latex</span></code> and <code class="docutils literal notranslate"><span class="pre">unit</span></code> are the qualified name, the latex representation, and the unit of the new observable, respectively.
+For the list of valid units, see <a class="reference external" href="physics-conventions.html#units">here</a>.</p>
+<p>The argument <code class="docutils literal notranslate"><span class="pre">options</span></code> takes an <a class="reference internal" href="python.html#eos.Options" title="eos.Options"><code class="xref py py-class docutils literal notranslate"><span class="pre">eos.Options</span></code></a> object and allows to specify <em>global</em> options (i.e. applied to all observables in the expression),
+for the newly defined observable.
+The argument <code class="docutils literal notranslate"><span class="pre">expression</span></code> is Python string that is parsed as described above.</p>
+<p>We conclude with a concrete example for the definition of the lepton-flavour universality observable <span class="math notranslate nohighlight">\(R_K\)</span>:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">Observables</span><span class="p">()</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">&#39;B-&gt;Kll::R_K_example&#39;</span><span class="p">,</span> <span class="sa">R</span><span class="s1">&#39;(R_K)&#39;</span><span class="p">,</span> <span class="n">eos</span><span class="o">.</span><span class="n">Unit</span><span class="o">.</span><span class="n">Unity</span><span class="p">(),</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(),</span>
+                         <span class="s1">&#39;( &lt;&lt;B-&gt;Kll::BR;l=mu&gt;&gt;[q2_max=6, q2_min=&gt;q2_mu_min] / &lt;&lt;B-&gt;Kll::BR;l=e&gt;&gt;[q2_max=6,q2_min=&gt;q2_e_min] )&#39;</span><span class="p">)</span>
+
+<span class="n">R_K</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;B-&gt;Kll::R_K_example&#39;</span><span class="p">,</span> <span class="n">eos</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">Defaults</span><span class="p">(),</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2_e_min</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">q2_mu_min</span><span class="o">=</span><span class="mf">1.1</span><span class="p">),</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;tag&#39;</span><span class="p">:</span><span class="s1">&#39;BFS2004&#39;</span><span class="p">}))</span>
+
+<span class="n">R_K</span><span class="o">.</span><span class="n">evaluate</span><span class="p">()</span>   <span class="c1"># should yield ~1</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="command-line-interface.html" class="btn btn-neutral float-left" title="Command-Line Interface" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="analysis-file-format.html" class="btn btn-neutral float-right" title="Analysis File Format" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2024, The EOS Authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
