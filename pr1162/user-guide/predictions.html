@@ -1,0 +1,1386 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Theory Predictions and their Uncertainties &mdash; EOS 1.0.20 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/contentui.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=67e44365" />
+
+  
+    <link rel="canonical" href="https://eos.github.io/doc/user-guide/predictions.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=9a2e067c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/contentui.js"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Parameter Inference" href="inference.html" />
+    <link rel="prev" title="Basics" href="basics.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            EOS
+              <img src="../_static/github-eos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="basics.html">Basics</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Theory Predictions and their Uncertainties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Listing-the-built-in-Observables">Listing the built-in Observables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Constructing-and-Evaluating-an-Observable">Constructing and Evaluating an Observable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Estimating-Theory-Uncertainties">Estimating Theory Uncertainties</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="inference.html">Parameter Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation.html">Simulation of Pseudo Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis-organisation.html">Analysis Organisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tasks.html">Common Tasks in Phenomenological Analyses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reproducible-analyses.html">Setting up a fully reproducible analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">EOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">User Guide</a></li>
+      <li class="breadcrumb-item active">Theory Predictions and their Uncertainties</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Theory-Predictions-and-their-Uncertainties">
+<h1>Theory Predictions and their Uncertainties<a class="headerlink" href="#Theory-Predictions-and-their-Uncertainties" title="Link to this heading"></a></h1>
+<p>EOS can produce theory predictions for any of its built-in observables. The examples following in this section illustrate</p>
+<ol class="arabic simple">
+<li><p>how to find a specific observable from the list of all built-in observables;</p></li>
+<li><p>manually construct an <a class="reference internal" href="../reference/python.html#eos.Observable"><span class="std std-ref">eos.Observable</span></a> object and evaluate it to predict the observables (basic);</p></li>
+<li><p>use an <a class="reference internal" href="../reference/analysis-file-format.html"><span class="doc">analysis file</span></a> to estimate the theoretical uncertainties associated with one or more observables (advanced).</p></li>
+</ol>
+<section id="Listing-the-built-in-Observables">
+<h2>Listing the built-in Observables<a class="headerlink" href="#Listing-the-built-in-Observables" title="Link to this heading"></a></h2>
+<p>The full list of built-in observables for the most-recent EOS release is available online <a class="reference external" href="https://eos.github.io/doc/reference/observables">here</a>. You can also show this list using the <a class="reference internal" href="../reference/python.html#eos.Observables"><span class="std std-ref">eos.Observables</span></a> class. Searching for a specific observable is possible by filtering for specific strings in the observable name’s <em>prefix</em>, <em>name</em>, or <em>suffix</em> parts. The following example only shows observables that contain a <code class="docutils literal notranslate"><span class="pre">'B_c'</span></code> in the prefix part and
+<code class="docutils literal notranslate"><span class="pre">'BR'</span></code> in the name part.</p>
+<p>You might need to click on the highlighted group heading “Observables in <span class="math notranslate nohighlight">\(B^-\to\ell^-\bar\nu\)</span> decays” to expand it.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">eos</span>
+<span class="n">eos</span><span class="o">.</span><span class="n">Observables</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;B_c&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;BR&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<script>
+    function toggle_group(group_title, id) {
+        var table = group_title.parentNode.parentNode.parentNode.parentNode
+        var query = 'tbody[id="' + id + '"]'
+        var group = table.querySelector(query)
+        if (group.style.visibility == "collapse") {
+            group.style.visibility = "visible"
+        } else {
+            group.style.visibility = "collapse"
+        }
+    }
+    function toggle_av(opt_anchor, id) {
+        var query_dots   = 'span.dots[id="' + id + '"]'
+        var query_values = 'span.values[id="' + id + '"]'
+        var dots   = opt_anchor.querySelector(query_dots)
+        var values = opt_anchor.querySelector(query_values)
+        if (dots.style.display == "none") {
+            dots.style.display   = "inline"
+            values.style.display = "none"
+        } else {
+            dots.style.display   = "none"
+            values.style.display = "inline"
+        }
+    }
+</script>
+<style>
+    td.qn     { text-align: left;   }
+    td.sym    { text-align: center; }
+    td.unit   { text-align: right;  }
+    td.optkey { text-align: left;   }
+    td.optav  { text-align: left;   }
+    td.optdef { text-align: left;   }
+</style>
+<table>
+    <colgroup>
+        <col width="25%" id="qn"          style="min-width: 200px; text-align: left">
+        <col width="20%" id="symbol"      style="min-width: 200px">
+        <col width="5%"  id="unit"        style="min-width:  50px">
+        <col width="20%" id="kv"          style="min-width: 200px">
+        <col width="10%" id="opt-key"     style="min-width:  75px">
+        <col width="10%" id="opt-allowed" style="min-width:  75px">
+        <col width="10%" id="opt-default" style="min-width:  75px">
+    </colgroup>
+    <thead>
+        <tr>
+            <th rowspan="2">qualified name</th>
+            <th rowspan="2">symbol</th>
+            <th rowspan="2">unit</th>
+            <th rowspan="2">kinematic<br> variables</th>
+            <th colspan=3>options</th>
+        </tr>
+        <tr>
+            <th>key</th>
+            <th>values</th>
+            <th>default</th>
+        </tr>
+    </thead>
+
+        <tr>
+            <th style="text-align:left" colspan=8><big>Observables in (semi)leptonic $b$-hadron decays</big></th>
+        </tr>
+            <tbody>
+                <tr>
+                    <th style="text-align:left" colspan=8>
+                        <a style="text-decoration: none" onclick="toggle_group(this, 'grp0')">Observables in $B^-\to \ell^-\bar\nu$ decays</a>
+                    </th>
+                </tr>
+            </tbody>
+
+            <tbody style="visibility:collapse" id="grp0">
+            <tr>
+                <td style="text-align:left" colspan=8>The option "l" selects the charged lepton flavor.</td>
+            </tr>
+
+                <tr>
+                    <th class="qn"     rowspan="4"><tt>B_c->lnu::BR</tt></th>
+                    <td class="sym"    rowspan="4">$$\mathcal{B}(B_c^- \to \ell^-\bar\nu)$$</td>
+                    <td class="unit"   rowspan="4">&mdash;</td>
+                    <td class="kv"     rowspan="4">&mdash;</td>
+                    <td class="optkey" rowspan="1"><tt>model</tt></td>
+                    <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp0-obs0-opt0')">
+                    <span class="dots"   id="grp0-obs0-opt0" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp0-obs0-opt0" style="display: none;   text-align: left">
+                   <tt>CKM</tt><br/><tt>SM</tt><br/><tt>WET</tt><br/><tt>WET-SMEFT</tt>
+                    </span>
+                </a></td>
+                    <td class="optdef" rowspan="1"><tt>SM</tt></td>
+                </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>cp-conjugate</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp0-obs0-opt1')">
+                    <span class="dots"   id="grp0-obs0-opt1" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp0-obs0-opt1" style="display: none;   text-align: left">
+                   <tt>true</tt><br/><tt>false</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>false</tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>l</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp0-obs0-opt2')">
+                    <span class="dots"   id="grp0-obs0-opt2" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp0-obs0-opt2" style="display: none;   text-align: left">
+                   <tt>e</tt><br/><tt>mu</tt><br/><tt>tau</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>mu</tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>q</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp0-obs0-opt3')">
+                    <span class="dots"   id="grp0-obs0-opt3" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp0-obs0-opt3" style="display: none;   text-align: left">
+                   <tt>c</tt><br/><tt>u</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>c</tt></td>
+                    </tr>
+                    </tbody>
+            <tbody>
+                <tr>
+                    <th style="text-align:left" colspan=8>
+                        <a style="text-decoration: none" onclick="toggle_group(this, 'grp14')">Observables in $\bar{B}_c\to J/\psi \ell^-\bar\nu$ decays</a>
+                    </th>
+                </tr>
+            </tbody>
+
+            <tbody style="visibility:collapse" id="grp14">
+            <tr>
+                <td style="text-align:left" colspan=8>The option "l" selects the charged lepton flavor.The option "form-factors" selects the form factor parametrization.</td>
+            </tr>
+
+                <tr>
+                    <th class="qn"     rowspan="6"><tt>B_c->J/psilnu::BR</tt></th>
+                    <td class="sym"    rowspan="6">$$\mathcal{B}(\bar{B}_c\to J/\psi\ell^-\bar\nu)$$</td>
+                    <td class="unit"   rowspan="6">&mdash;</td>
+                    <td class="kv"     rowspan="6"><tt>q2_min</tt><br><tt>q2_max</tt></td>
+                    <td class="optkey" rowspan="1"><tt>model</tt></td>
+                    <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp14-obs1-opt0')">
+                    <span class="dots"   id="grp14-obs1-opt0" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp14-obs1-opt0" style="display: none;   text-align: left">
+                   <tt>CKM</tt><br/><tt>SM</tt><br/><tt>WET</tt><br/><tt>WET-SMEFT</tt>
+                    </span>
+                </a></td>
+                    <td class="optdef" rowspan="1"><tt>SM</tt></td>
+                </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>form-factors</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp14-obs1-opt1')">
+                    <span class="dots"   id="grp14-obs1-opt1" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp14-obs1-opt1" style="display: none;   text-align: left">
+                   <tt>B-LCSR</tt><br/><tt>BFW2010</tt><br/><tt>BGJvD2019</tt><br/><tt>BGL1997</tt><br/><tt>BSZ2015</tt><br/><tt>G2026</tt><br/><tt>KMPW2010</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt></tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>V</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp14-obs1-opt2')">
+                    <span class="dots"   id="grp14-obs1-opt2" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp14-obs1-opt2" style="display: none;   text-align: left">
+                   <tt>D^*</tt><br/><tt>D_s^*</tt><br/><tt>rho</tt><br/><tt>omega</tt><br/><tt>K^*</tt><br/><tt>J/psi</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt></tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>cp-conjugate</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp14-obs1-opt3')">
+                    <span class="dots"   id="grp14-obs1-opt3" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp14-obs1-opt3" style="display: none;   text-align: left">
+                   <tt>true</tt><br/><tt>false</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>false</tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>l</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp14-obs1-opt4')">
+                    <span class="dots"   id="grp14-obs1-opt4" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp14-obs1-opt4" style="display: none;   text-align: left">
+                   <tt>e</tt><br/><tt>mu</tt><br/><tt>tau</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>mu</tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>q</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp14-obs1-opt5')">
+                    <span class="dots"   id="grp14-obs1-opt5" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp14-obs1-opt5" style="display: none;   text-align: left">
+                   <tt>u</tt><br/><tt>d</tt><br/><tt>s</tt><br/><tt>c</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>d</tt></td>
+                    </tr>
+
+                <tr>
+                    <th class="qn"     rowspan="6"><tt>B_c->J/psilnu::dBR/dq2</tt></th>
+                    <td class="sym"    rowspan="6">$$d\mathcal{B}(\bar{B}_c\to J/\psi\ell^-\bar\nu)/dq^2$$</td>
+                    <td class="unit"   rowspan="6">$$\left[ \textrm{GeV}^{-2} \right]$$</td>
+                    <td class="kv"     rowspan="6"><tt>q2</tt></td>
+                    <td class="optkey" rowspan="1"><tt>model</tt></td>
+                    <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp14-obs2-opt0')">
+                    <span class="dots"   id="grp14-obs2-opt0" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp14-obs2-opt0" style="display: none;   text-align: left">
+                   <tt>CKM</tt><br/><tt>SM</tt><br/><tt>WET</tt><br/><tt>WET-SMEFT</tt>
+                    </span>
+                </a></td>
+                    <td class="optdef" rowspan="1"><tt>SM</tt></td>
+                </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>form-factors</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp14-obs2-opt1')">
+                    <span class="dots"   id="grp14-obs2-opt1" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp14-obs2-opt1" style="display: none;   text-align: left">
+                   <tt>B-LCSR</tt><br/><tt>BFW2010</tt><br/><tt>BGJvD2019</tt><br/><tt>BGL1997</tt><br/><tt>BSZ2015</tt><br/><tt>G2026</tt><br/><tt>KMPW2010</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt></tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>V</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp14-obs2-opt2')">
+                    <span class="dots"   id="grp14-obs2-opt2" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp14-obs2-opt2" style="display: none;   text-align: left">
+                   <tt>D^*</tt><br/><tt>D_s^*</tt><br/><tt>rho</tt><br/><tt>omega</tt><br/><tt>K^*</tt><br/><tt>J/psi</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt></tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>cp-conjugate</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp14-obs2-opt3')">
+                    <span class="dots"   id="grp14-obs2-opt3" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp14-obs2-opt3" style="display: none;   text-align: left">
+                   <tt>true</tt><br/><tt>false</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>false</tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>l</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp14-obs2-opt4')">
+                    <span class="dots"   id="grp14-obs2-opt4" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp14-obs2-opt4" style="display: none;   text-align: left">
+                   <tt>e</tt><br/><tt>mu</tt><br/><tt>tau</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>mu</tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>q</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp14-obs2-opt5')">
+                    <span class="dots"   id="grp14-obs2-opt5" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp14-obs2-opt5" style="display: none;   text-align: left">
+                   <tt>u</tt><br/><tt>d</tt><br/><tt>s</tt><br/><tt>c</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>d</tt></td>
+                    </tr>
+
+                <tr>
+                    <th class="qn"     rowspan="6"><tt>B_c->J/psilnu::normBR</tt></th>
+                    <td class="sym"    rowspan="6">$$\mathcal{B}(\bar{B}_c\to J/\psi\ell^-\bar\nu)_{|V_{cb}|=1}$$</td>
+                    <td class="unit"   rowspan="6">&mdash;</td>
+                    <td class="kv"     rowspan="6"><tt>q2_min</tt><br><tt>q2_max</tt></td>
+                    <td class="optkey" rowspan="1"><tt>model</tt></td>
+                    <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp14-obs3-opt0')">
+                    <span class="dots"   id="grp14-obs3-opt0" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp14-obs3-opt0" style="display: none;   text-align: left">
+                   <tt>CKM</tt><br/><tt>SM</tt><br/><tt>WET</tt><br/><tt>WET-SMEFT</tt>
+                    </span>
+                </a></td>
+                    <td class="optdef" rowspan="1"><tt>SM</tt></td>
+                </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>form-factors</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp14-obs3-opt1')">
+                    <span class="dots"   id="grp14-obs3-opt1" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp14-obs3-opt1" style="display: none;   text-align: left">
+                   <tt>B-LCSR</tt><br/><tt>BFW2010</tt><br/><tt>BGJvD2019</tt><br/><tt>BGL1997</tt><br/><tt>BSZ2015</tt><br/><tt>G2026</tt><br/><tt>KMPW2010</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt></tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>V</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp14-obs3-opt2')">
+                    <span class="dots"   id="grp14-obs3-opt2" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp14-obs3-opt2" style="display: none;   text-align: left">
+                   <tt>D^*</tt><br/><tt>D_s^*</tt><br/><tt>rho</tt><br/><tt>omega</tt><br/><tt>K^*</tt><br/><tt>J/psi</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt></tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>cp-conjugate</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp14-obs3-opt3')">
+                    <span class="dots"   id="grp14-obs3-opt3" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp14-obs3-opt3" style="display: none;   text-align: left">
+                   <tt>true</tt><br/><tt>false</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>false</tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>l</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp14-obs3-opt4')">
+                    <span class="dots"   id="grp14-obs3-opt4" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp14-obs3-opt4" style="display: none;   text-align: left">
+                   <tt>e</tt><br/><tt>mu</tt><br/><tt>tau</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>mu</tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>q</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp14-obs3-opt5')">
+                    <span class="dots"   id="grp14-obs3-opt5" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp14-obs3-opt5" style="display: none;   text-align: left">
+                   <tt>u</tt><br/><tt>d</tt><br/><tt>s</tt><br/><tt>c</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>d</tt></td>
+                    </tr>
+                    </tbody></table></div>
+</div>
+<p>The next example looks for <code class="docutils literal notranslate"><span class="pre">'B-&gt;Dlnu'</span></code> in the prefix part and <code class="docutils literal notranslate"><span class="pre">'BR'</span></code> in the name part.</p>
+<p>Again, you might need to click on the highlighted group heading “Observables in <span class="math notranslate nohighlight">\(B\to \bar{D}\ell^-\bar\nu\)</span> decays” to see the observables.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">Observables</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;B-&gt;Dlnu&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;BR&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<script>
+    function toggle_group(group_title, id) {
+        var table = group_title.parentNode.parentNode.parentNode.parentNode
+        var query = 'tbody[id="' + id + '"]'
+        var group = table.querySelector(query)
+        if (group.style.visibility == "collapse") {
+            group.style.visibility = "visible"
+        } else {
+            group.style.visibility = "collapse"
+        }
+    }
+    function toggle_av(opt_anchor, id) {
+        var query_dots   = 'span.dots[id="' + id + '"]'
+        var query_values = 'span.values[id="' + id + '"]'
+        var dots   = opt_anchor.querySelector(query_dots)
+        var values = opt_anchor.querySelector(query_values)
+        if (dots.style.display == "none") {
+            dots.style.display   = "inline"
+            values.style.display = "none"
+        } else {
+            dots.style.display   = "none"
+            values.style.display = "inline"
+        }
+    }
+</script>
+<style>
+    td.qn     { text-align: left;   }
+    td.sym    { text-align: center; }
+    td.unit   { text-align: right;  }
+    td.optkey { text-align: left;   }
+    td.optav  { text-align: left;   }
+    td.optdef { text-align: left;   }
+</style>
+<table>
+    <colgroup>
+        <col width="25%" id="qn"          style="min-width: 200px; text-align: left">
+        <col width="20%" id="symbol"      style="min-width: 200px">
+        <col width="5%"  id="unit"        style="min-width:  50px">
+        <col width="20%" id="kv"          style="min-width: 200px">
+        <col width="10%" id="opt-key"     style="min-width:  75px">
+        <col width="10%" id="opt-allowed" style="min-width:  75px">
+        <col width="10%" id="opt-default" style="min-width:  75px">
+    </colgroup>
+    <thead>
+        <tr>
+            <th rowspan="2">qualified name</th>
+            <th rowspan="2">symbol</th>
+            <th rowspan="2">unit</th>
+            <th rowspan="2">kinematic<br> variables</th>
+            <th colspan=3>options</th>
+        </tr>
+        <tr>
+            <th>key</th>
+            <th>values</th>
+            <th>default</th>
+        </tr>
+    </thead>
+
+        <tr>
+            <th style="text-align:left" colspan=8><big>Observables in (semi)leptonic $b$-hadron decays</big></th>
+        </tr>
+            <tbody>
+                <tr>
+                    <th style="text-align:left" colspan=8>
+                        <a style="text-decoration: none" onclick="toggle_group(this, 'grp3')">Observables in $\bar{B}\to D \ell^-\bar\nu$ decays</a>
+                    </th>
+                </tr>
+            </tbody>
+
+            <tbody style="visibility:collapse" id="grp3">
+            <tr>
+                <td style="text-align:left" colspan=8>The option "l" selects the charged lepton flavor. The option "q" selects the spectator quark flavor. The option "form-factors" selects the form factor parametrization.</td>
+            </tr>
+
+                <tr>
+                    <th class="qn"     rowspan="6"><tt>B->Dlnu::BR</tt></th>
+                    <td class="sym"    rowspan="6">$$\mathcal{B}(\bar{B}\to D\ell^-\bar\nu)$$</td>
+                    <td class="unit"   rowspan="6">&mdash;</td>
+                    <td class="kv"     rowspan="6"><tt>q2_min</tt><br><tt>q2_max</tt></td>
+                    <td class="optkey" rowspan="1"><tt>model</tt></td>
+                    <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs0-opt0')">
+                    <span class="dots"   id="grp3-obs0-opt0" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs0-opt0" style="display: none;   text-align: left">
+                   <tt>CKM</tt><br/><tt>SM</tt><br/><tt>WET</tt><br/><tt>WET-SMEFT</tt>
+                    </span>
+                </a></td>
+                    <td class="optdef" rowspan="1"><tt>SM</tt></td>
+                </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>form-factors</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs0-opt1')">
+                    <span class="dots"   id="grp3-obs0-opt1" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs0-opt1" style="display: none;   text-align: left">
+                   <tt>B-LCSR</tt><br/><tt>BCL2008</tt><br/><tt>BCL2008-4</tt><br/><tt>BCL2008-5</tt><br/><tt>BFW2010</tt><br/><tt>BGJvD2019</tt><br/><tt>BGL1997</tt><br/><tt>BSZ2015</tt><br/><tt>DKMMO2008</tt><br/><tt>G2026</tt><br/><tt>KMPW2010</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt></tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>P</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs0-opt2')">
+                    <span class="dots"   id="grp3-obs0-opt2" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs0-opt2" style="display: none;   text-align: left">
+                   <tt>D</tt><br/><tt>D_s</tt><br/><tt>pi</tt><br/><tt>K</tt><br/><tt>eta</tt><br/><tt>eta_prime</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt></tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>cp-conjugate</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs0-opt3')">
+                    <span class="dots"   id="grp3-obs0-opt3" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs0-opt3" style="display: none;   text-align: left">
+                   <tt>true</tt><br/><tt>false</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>false</tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>l</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs0-opt4')">
+                    <span class="dots"   id="grp3-obs0-opt4" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs0-opt4" style="display: none;   text-align: left">
+                   <tt>e</tt><br/><tt>mu</tt><br/><tt>tau</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>mu</tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>q</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs0-opt5')">
+                    <span class="dots"   id="grp3-obs0-opt5" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs0-opt5" style="display: none;   text-align: left">
+                   <tt>u</tt><br/><tt>d</tt><br/><tt>s</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>d</tt></td>
+                    </tr>
+
+                <tr>
+                    <th class="qn"     rowspan="6"><tt>B->Dlnu::dBR/dq2</tt></th>
+                    <td class="sym"    rowspan="6">$$d\mathcal{B}(\bar{B}\to D\ell^-\bar\nu)/dq^2$$</td>
+                    <td class="unit"   rowspan="6">$$\left[ \textrm{GeV}^{-2} \right]$$</td>
+                    <td class="kv"     rowspan="6"><tt>q2</tt></td>
+                    <td class="optkey" rowspan="1"><tt>model</tt></td>
+                    <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs1-opt0')">
+                    <span class="dots"   id="grp3-obs1-opt0" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs1-opt0" style="display: none;   text-align: left">
+                   <tt>CKM</tt><br/><tt>SM</tt><br/><tt>WET</tt><br/><tt>WET-SMEFT</tt>
+                    </span>
+                </a></td>
+                    <td class="optdef" rowspan="1"><tt>SM</tt></td>
+                </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>form-factors</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs1-opt1')">
+                    <span class="dots"   id="grp3-obs1-opt1" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs1-opt1" style="display: none;   text-align: left">
+                   <tt>B-LCSR</tt><br/><tt>BCL2008</tt><br/><tt>BCL2008-4</tt><br/><tt>BCL2008-5</tt><br/><tt>BFW2010</tt><br/><tt>BGJvD2019</tt><br/><tt>BGL1997</tt><br/><tt>BSZ2015</tt><br/><tt>DKMMO2008</tt><br/><tt>G2026</tt><br/><tt>KMPW2010</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt></tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>P</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs1-opt2')">
+                    <span class="dots"   id="grp3-obs1-opt2" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs1-opt2" style="display: none;   text-align: left">
+                   <tt>D</tt><br/><tt>D_s</tt><br/><tt>pi</tt><br/><tt>K</tt><br/><tt>eta</tt><br/><tt>eta_prime</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt></tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>cp-conjugate</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs1-opt3')">
+                    <span class="dots"   id="grp3-obs1-opt3" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs1-opt3" style="display: none;   text-align: left">
+                   <tt>true</tt><br/><tt>false</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>false</tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>l</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs1-opt4')">
+                    <span class="dots"   id="grp3-obs1-opt4" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs1-opt4" style="display: none;   text-align: left">
+                   <tt>e</tt><br/><tt>mu</tt><br/><tt>tau</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>mu</tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>q</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs1-opt5')">
+                    <span class="dots"   id="grp3-obs1-opt5" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs1-opt5" style="display: none;   text-align: left">
+                   <tt>u</tt><br/><tt>d</tt><br/><tt>s</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>d</tt></td>
+                    </tr>
+
+                <tr>
+                    <th class="qn"     rowspan="6"><tt>B->Dlnu::d^2BR/dq2/dcos(theta_l)</tt></th>
+                    <td class="sym"    rowspan="6">$$d^2\mathcal{B}(\bar{B}\to D\ell^-\bar\nu)/dq^2/d\cos(\theta_l)$$</td>
+                    <td class="unit"   rowspan="6">$$\left[ \textrm{GeV}^{-2} \right]$$</td>
+                    <td class="kv"     rowspan="6"><tt>q2</tt><br><tt>cos(theta_l)</tt></td>
+                    <td class="optkey" rowspan="1"><tt>model</tt></td>
+                    <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs2-opt0')">
+                    <span class="dots"   id="grp3-obs2-opt0" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs2-opt0" style="display: none;   text-align: left">
+                   <tt>CKM</tt><br/><tt>SM</tt><br/><tt>WET</tt><br/><tt>WET-SMEFT</tt>
+                    </span>
+                </a></td>
+                    <td class="optdef" rowspan="1"><tt>SM</tt></td>
+                </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>form-factors</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs2-opt1')">
+                    <span class="dots"   id="grp3-obs2-opt1" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs2-opt1" style="display: none;   text-align: left">
+                   <tt>B-LCSR</tt><br/><tt>BCL2008</tt><br/><tt>BCL2008-4</tt><br/><tt>BCL2008-5</tt><br/><tt>BFW2010</tt><br/><tt>BGJvD2019</tt><br/><tt>BGL1997</tt><br/><tt>BSZ2015</tt><br/><tt>DKMMO2008</tt><br/><tt>G2026</tt><br/><tt>KMPW2010</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt></tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>P</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs2-opt2')">
+                    <span class="dots"   id="grp3-obs2-opt2" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs2-opt2" style="display: none;   text-align: left">
+                   <tt>D</tt><br/><tt>D_s</tt><br/><tt>pi</tt><br/><tt>K</tt><br/><tt>eta</tt><br/><tt>eta_prime</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt></tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>cp-conjugate</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs2-opt3')">
+                    <span class="dots"   id="grp3-obs2-opt3" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs2-opt3" style="display: none;   text-align: left">
+                   <tt>true</tt><br/><tt>false</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>false</tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>l</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs2-opt4')">
+                    <span class="dots"   id="grp3-obs2-opt4" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs2-opt4" style="display: none;   text-align: left">
+                   <tt>e</tt><br/><tt>mu</tt><br/><tt>tau</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>mu</tt></td>
+                    </tr>
+
+                    <tr>
+                        <td class="optkey" rowspan="1"><tt>q</tt></td>
+                        <td class="optav"  rowspan="1"><a onclick="toggle_av(this, 'grp3-obs2-opt5')">
+                    <span class="dots"   id="grp3-obs2-opt5" style="display: inline; text-align: left">...</span>
+                    <span class="values" id="grp3-obs2-opt5" style="display: none;   text-align: left">
+                   <tt>u</tt><br/><tt>d</tt><br/><tt>s</tt>
+                    </span>
+                </a></td>
+                        <td class="optdef" rowspan="1"><tt>d</tt></td>
+                    </tr>
+                    </tbody></table></div>
+</div>
+</section>
+<section id="Constructing-and-Evaluating-an-Observable">
+<h2>Constructing and Evaluating an Observable<a class="headerlink" href="#Constructing-and-Evaluating-an-Observable" title="Link to this heading"></a></h2>
+<p>The following is an example on how to interact with EOS at the most basic level. In the process, a few concepts will become clear. For a more elaborate example using Monte Carlo sampling techniques, see the next section.</p>
+<p>To make theory predictions of any observable, EOS requires its full name, its <a class="reference internal" href="../reference/python.html#eos.Parameters"><span class="std std-ref">eos.Parameters</span></a> object, its <a class="reference internal" href="../reference/python.html#eos.Kinematics"><span class="std std-ref">eos.Kinematics</span></a> object, and its <a class="reference internal" href="../reference/python.html#eos.Options"><span class="std std-ref">eos.Options</span></a> object. As a first example, we will use a very simple observable: the branching ratio of <span class="math notranslate nohighlight">\(B_c^-\to \ell^-\bar\nu\)</span>, which is represented by the name <code class="docutils literal notranslate"><span class="pre">B_c-&gt;lnu::BR</span></code>, which was uncovered earlier. The
+<code class="docutils literal notranslate"><span class="pre">B_c-&gt;lnu::BR</span></code> is a well formed <a class="reference internal" href="../reference/python.html#eos.QualifiedName"><span class="std std-ref">eos.QualifiedName</span></a>, which is used throughout EOS to address observables and other objects. Additional information about any given observable can be obtained by displaying the full database entry, which also contains information about the kinematic variables required:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">Observables</span><span class="p">()[</span><span class="s1">&#39;B_c-&gt;lnu::BR&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<tr><th>QualifedName</th><td><tt style="color:grey">B_c->lnu::BR</tt></td></tr><tr><th>Description</th><td>$$\mathcal{B}(B_c^- \to \ell^-\bar\nu)$$</td></tr></table></div>
+</div>
+<p>Note that in the above we display a single observable by name using the <code class="docutils literal notranslate"><span class="pre">[]</span></code> operator.</p>
+<p>From the above output we understand that the observable <code class="docutils literal notranslate"><span class="pre">B_c-&gt;lnu::BR</span></code> expects no kinematic variables (since none is listed). We proceed to create an <a class="reference internal" href="../reference/python.html#eos.Observable"><span class="std std-ref">eos.Observable</span></a> object for <code class="docutils literal notranslate"><span class="pre">B_c-&gt;lnu::BR</span></code> with the default set of parameters and options, and then display it:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">Defaults</span><span class="p">()</span>
+<span class="n">obs</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;B_c-&gt;lnu::BR&#39;</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(),</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">())</span>
+<span class="n">display</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+    <tr>
+        <th>B_c->lnu::BR</th>
+        <td colspan="2">(eos.Observable)</td>
+    </tr>
+    <tr>
+        <th rowspan="1">kinematics</th>
+        <td colspan=2>none</td>
+    </tr>
+
+    <tr>
+        <th rowspan="1">options</th>
+        <th>q</th><td>c</td>
+    </tr>
+
+    <tr>
+        <th>current value</th>
+        <td colspan="2"><tt>9.883e-05</tt></td>
+    </tr>
+</table></div>
+</div>
+<p>The default option <code class="docutils literal notranslate"><span class="pre">l=mu</span></code> select <span class="math notranslate nohighlight">\(\ell=\mu\)</span> as the lepton flavour. The value of the observable is shown to be about <span class="math notranslate nohighlight">\(9.8\cdot 10^{-5}\)</span>; unfortunately, no experiment has been able to see this decay to date.</p>
+<p>By setting the <code class="docutils literal notranslate"><span class="pre">l</span></code> option to the value <code class="docutils literal notranslate"><span class="pre">tau</span></code>, we create a different observable representing the <span class="math notranslate nohighlight">\(B_c^-\to \tau^-\bar\nu\)</span> branching ratio:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">obs</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;B_c-&gt;lnu::BR&#39;</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(),</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="s1">&#39;tau&#39;</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+    <tr>
+        <th>B_c->lnu::BR</th>
+        <td colspan="2">(eos.Observable)</td>
+    </tr>
+    <tr>
+        <th rowspan="1">kinematics</th>
+        <td colspan=2>none</td>
+    </tr>
+
+    <tr>
+        <th rowspan="2">options</th>
+        <th>l</th><td>tau</td>
+    </tr>
+    <tr><th>q</th><td>c</td></tr>
+    <tr>
+        <th>current value</th>
+        <td colspan="2"><tt>0.02366</tt></td>
+    </tr>
+</table></div>
+</div>
+<p>The new observable yields a value of <span class="math notranslate nohighlight">\(2.4\%\)</span>.</p>
+<p>So far we have only evaluated an observable without kinematic dependence. To change this up, we will now transition to the second example, the differential branching fraction for <span class="math notranslate nohighlight">\(\bar{B}\to D\ell^-\bar\nu\)</span> accessible through the name <code class="docutils literal notranslate"><span class="pre">B-&gt;Dlnu::dBR/dq2</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">Observables</span><span class="p">()[</span><span class="s1">&#39;B-&gt;Dlnu::dBR/dq2&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+<tr><th>QualifedName</th><td><tt style="color:grey">B->Dlnu::dBR/dq2</tt></td></tr><tr><th>Description</th><td>$$d\mathcal{B}(\bar{B}\to D\ell^-\bar\nu)/dq^2$$</td></tr><tr><th rowspan=1>Kinematic Variables</th><td>q2</td></tr></table></div>
+</div>
+<p>The differential branching fraction is accessible just as we did before, with the exception of providing the kinematic variables through an <a class="reference internal" href="../reference/python.html#eos.Kinematics"><span class="std std-ref">eos.Kinematics</span></a> object.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">obs</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;B-&gt;Dlnu::dBR/dq2&#39;</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2</span><span class="o">=</span><span class="mf">4.0</span><span class="p">),</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="s1">&#39;tau&#39;</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">obs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+    <tr>
+        <th>B->Dlnu::dBR/dq2</th>
+        <td colspan="2">(eos.Observable)</td>
+    </tr>
+    <tr>
+        <th rowspan="1">kinematics</th>
+        <th>q2</th><td>4.0</td>
+    </tr>
+
+    <tr>
+        <th rowspan="2">options</th>
+        <th>P</th><td>D</td>
+    </tr>
+    <tr><th>l</th><td>tau</td></tr>
+    <tr>
+        <th>current value</th>
+        <td colspan="2"><tt>0.0003846</tt></td>
+    </tr>
+</table></div>
+</div>
+<p>This is not very helpful, since we can only look into a single observable at a single kinematic point at a time. To better illustrate the differential branching ratio, we use EOS’s plot functions:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">figure_args</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">plot:</span>
+<span class="s2">  legend: { position: &#39;upper center&#39; }</span>
+<span class="s2">  xaxis: { label: &#39;$q^2$&#39;,                range: [0.0, 11.6]   }</span>
+<span class="s2">  yaxis: { label: &#39;$d</span><span class="se">\\</span><span class="s2">mathcal</span><span class="si">{B}</span><span class="s2">/dq^2$&#39;, range: [0.0, 5.0e-3] }</span>
+<span class="s2">  items:</span>
+<span class="s2">  - { type: &#39;observable&#39;, observable: &#39;B-&gt;Dlnu::dBR/dq2&#39;, options: { &#39;l&#39;: &#39;mu&#39; },  label: &#39;$</span><span class="se">\\</span><span class="s2">ell = </span><span class="se">\\</span><span class="s2">mu$&#39;,</span>
+<span class="s2">      variable: &#39;q2&#39;, range: [0.02, 11.6], resolution: 5800</span>
+<span class="s2">    }</span>
+<span class="s2">  - { type: &#39;observable&#39;, observable: &#39;B-&gt;Dlnu::dBR/dq2&#39;, options: { &#39;l&#39;: &#39;tau&#39; }, label: &#39;$</span><span class="se">\\</span><span class="s2">ell = </span><span class="se">\\</span><span class="s2">tau$&#39;,</span>
+<span class="s2">      variable: &#39;q2&#39;, range: [3.17, 11.6], resolution: 421</span>
+<span class="s2">    }</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">figure</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">FigureFactory</span><span class="o">.</span><span class="n">from_yaml</span><span class="p">(</span><span class="n">figure_args</span><span class="p">)</span>
+<span class="n">figure</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Handling item to plot B-&gt;Dlnu::dBR/dq2
+Handling item to plot B-&gt;Dlnu::dBR/dq2
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/user-guide_predictions_23_1.png" src="../_images/user-guide_predictions_23_1.png" />
+</div>
+</div>
+<p>The above shows two differential branching ratios: one for <span class="math notranslate nohighlight">\(\ell = \mu\)</span> and one for <span class="math notranslate nohighlight">\(\ell=\tau\)</span>. The two are distinguished by specifying the <code class="docutils literal notranslate"><span class="pre">'l'</span></code> option which is provided via the <code class="docutils literal notranslate"><span class="pre">options</span></code> entry in each plot item. It could also be provided as part of each observable’s qualified name (i.e., by appending <code class="docutils literal notranslate"><span class="pre">;l=mu</span></code> or <code class="docutils literal notranslate"><span class="pre">;l=tau</span></code> to the values in <code class="docutils literal notranslate"><span class="pre">observable</span></code>).</p>
+</section>
+<section id="Estimating-Theory-Uncertainties">
+<h2>Estimating Theory Uncertainties<a class="headerlink" href="#Estimating-Theory-Uncertainties" title="Link to this heading"></a></h2>
+<p>To estimate theoretical uncertainties of an observable <span class="math notranslate nohighlight">\(O\)</span>, EOS uses Bayesian statistics. Bayesian Statistics interprets the theory parameters as random variables <span class="math notranslate nohighlight">\(\vec\vartheta\)</span> and assigns <em>a priori</em> probability density functions (prior PDFs) for each parameter, <span class="math notranslate nohighlight">\(P_0(\vec\vartheta)\)</span>. Random variates of the observables should then be distributed <span class="math notranslate nohighlight">\(O \sim P_{0,O}\)</span>, where</p>
+<div class="math notranslate nohighlight">
+\[P_{0,O}(o) = \int d^N\vartheta \delta(O(\vec\vartheta) - o) \, P_0(\vec\vartheta)\]</div>
+<p>with <span class="math notranslate nohighlight">\(N=\dim \vec\vartheta\)</span>. We call <span class="math notranslate nohighlight">\(P_{0,O}(o)\)</span> the prior-predictive distribution.</p>
+<p>In many cases, the prior PDF <span class="math notranslate nohighlight">\(P_0(\vec\vartheta)\)</span> is not readily available. Instead, only theoretical likelihoods <span class="math notranslate nohighlight">\(P(\text{data}|\vec\vartheta)\)</span> are available. In those case, we can use Bayes theorem to obtain the <em>a posteriori</em> PDF via</p>
+<div class="math notranslate nohighlight">
+\[P(\vec\vartheta|\text{data}) = \frac{P(\text{data}|\vec\vartheta) P_0(\vec\vartheta)}{P(\text{data})}\,.\]</div>
+<p>The definition of a posterior-predictive distribution then reads</p>
+<div class="math notranslate nohighlight">
+\[P_{O}(o) = \int d^N\vartheta \delta(O(\vec\vartheta) - o) \, P(\vec\vartheta|\text{data})\]</div>
+<p>EOS provides the means to draw and store Monte Carlo samples for a prior PDF <span class="math notranslate nohighlight">\(P_0(\vec\vartheta)\)</span>, a posterior PDF <span class="math notranslate nohighlight">\(P(\vec\vartheta|\text{data})\)</span>, and predictive distributions. We store this data within a hierarchy of directories below a “base directory”. For the purpose of the following examples, we set this base directory to <code class="docutils literal notranslate"><span class="pre">./predictions-data</span></code>, stored in a convenient global variable.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">EOS_BASE_DIRECTORY</span><span class="o">=</span><span class="s1">&#39;./predictions-base&#39;</span>
+</pre></div>
+</div>
+</div>
+<p>We continue with the first example from earlier: the branching ratio of <span class="math notranslate nohighlight">\(\bar{B}_c^- \to \ell^-\bar\nu\)</span> decays. To leading order in <span class="math notranslate nohighlight">\(\alpha_e\)</span>, the decay amplitude is parametrized in terms of a single hadronic matrix element. The latter is known as the <span class="math notranslate nohighlight">\(B_c\)</span> decay constant <span class="math notranslate nohighlight">\(f_{B_c}\)</span>, which is available within EOS as the parameter with qualified name <code class="docutils literal notranslate"><span class="pre">decay-constant::B_c</span></code>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">Parameters</span><span class="p">()[</span><span class="s1">&#39;decay-constant::B_c&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<table>
+    <tr>
+        <th>$$f_{B_c^\pm}$$</th>
+        <td>(eos.Parameter)</td>
+    </tr>
+    <tr>
+        <th>current value</th>
+        <td><tt>0.434</tt></td>
+    </tr>
+    <tr>
+        <th>default value</th>
+        <td><tt>0.434</tt></td>
+    </tr>
+</table></div>
+</div>
+<p>We assume Gaussian prior distributions for the decay constants of the <span class="math notranslate nohighlight">\(B_c\)</span> meson with central value <span class="math notranslate nohighlight">\(0.434\,\text{GeV}\)</span> and standard deviation <span class="math notranslate nohighlight">\(0.043\,\text{GeV}\)</span>. We specify the prior through the following contents of an analysis file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">priors</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DecayConstant</span>
+<span class="w">    </span><span class="nt">descriptions</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> parameter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;decay-constant::B_c&#39;</span><span class="p p-Indicator">,</span><span class="nt">      min</span><span class="p">:</span><span class="w">  </span><span class="nv">0.219</span><span class="p p-Indicator">,</span><span class="nt"> max</span><span class="p">:</span><span class="w"> </span><span class="nv">0.649</span><span class="p p-Indicator">,</span><span class="nt"> type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;gaussian&#39;</span><span class="p p-Indicator">,</span><span class="nt"> central</span><span class="p">:</span><span class="w"> </span><span class="nv">0.434</span><span class="p p-Indicator">,</span><span class="nt"> sigma</span><span class="p">:</span><span class="w"> </span><span class="nv">0.043</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="c1"># ...</span>
+
+<span class="nt">posteriors</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DecayConstant</span>
+<span class="w">    </span><span class="nt">prior</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DecayConstant</span>
+<span class="w">    </span><span class="nt">likelihood</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
+<span class="w">  </span><span class="c1"># ...</span>
+
+<span class="nt">predictions</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Bc-to-tau-nu</span>
+<span class="w">    </span><span class="nt">observables</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B_c-&gt;lnu::BR;l=tau</span>
+<span class="w">  </span><span class="c1"># ...</span>
+</pre></div>
+</div>
+<p>The range <code class="docutils literal notranslate"><span class="pre">min</span></code> to <code class="docutils literal notranslate"><span class="pre">max</span></code> is chosen to contain +/-5 standard deviations of the Gaussian bell curve. The above is a snippet of the accompanying file <code class="docutils literal notranslate"><span class="pre">predictions.yaml</span></code>.</p>
+<p>To draw samples from the (fake) posterior <code class="docutils literal notranslate"><span class="pre">DecayConstant</span></code>, we use EOS <code class="docutils literal notranslate"><span class="pre">tasks</span></code> framework. A task is a repeatedly used piece of code that can rely on the output of previous tasks and store its results for following tasks or further processing with custom Python code.</p>
+<p>The task to draw random samples from a (fake) posterior that contains only prior information and no likelihood is called <code class="docutils literal notranslate"><span class="pre">sample_prior</span></code>. It is called as follows within Python:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">tasks</span><span class="o">.</span><span class="n">sample_prior</span><span class="p">(</span><span class="s1">&#39;./predictions.yaml&#39;</span><span class="p">,</span> <span class="s1">&#39;DecayConstant&#39;</span><span class="p">,</span> <span class="n">base_directory</span><span class="o">=</span><span class="n">EOS_BASE_DIRECTORY</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "7d935dfb9e67429ab332eecb28fda867"}</script></div>
+</div>
+<p>As a result of running this task, the contents of our base directory now looks as follows:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>tree<span class="w"> </span>./predictions-base
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-blue-intense-fg ansi-bold">./predictions-base</span>
+└── <span class="ansi-blue-intense-fg ansi-bold">data</span>
+    └── <span class="ansi-blue-intense-fg ansi-bold">DecayConstant</span>
+        └── <span class="ansi-blue-intense-fg ansi-bold">samples</span>
+            ├── description.yaml
+            ├── log
+            ├── samples.npy
+            └── weights.npy
+
+4 directories, 4 files
+</pre></div></div>
+</div>
+<p>If needed, we can inspect these samples by loading them from disk. This is achieved through the <code class="docutils literal notranslate"><span class="pre">eos.data.ImportanceSamples</span></code> class. For example, we can use it to confirm that indeed 2000 samples have been produced:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">ImportanceSamples</span><span class="p">(</span><span class="n">EOS_BASE_DIRECTORY</span> <span class="o">+</span> <span class="s1">&#39;/data/DecayConstant/samples&#39;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">samples</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(2000, 1)
+</pre></div></div>
+</div>
+<p>We can now pass the previously-obtained prior samples to the <code class="docutils literal notranslate"><span class="pre">predict-observables</span></code> task, thereby producing samples of the prior-predictive PDF for the observable at hand:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">tasks</span><span class="o">.</span><span class="n">predict_observables</span><span class="p">(</span><span class="s1">&#39;./predictions.yaml&#39;</span><span class="p">,</span> <span class="s1">&#39;DecayConstant&#39;</span><span class="p">,</span> <span class="s1">&#39;Bc-to-tau-nu&#39;</span><span class="p">,</span> <span class="n">base_directory</span><span class="o">=</span><span class="n">EOS_BASE_DIRECTORY</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "7a0eafdd383b4d1e80951724a4a78a39"}</script></div>
+</div>
+<p>The resulting prior-samples are stored in a directory named for the prediction set (<code class="docutils literal notranslate"><span class="pre">pred-Bc-to-tau-nu</span></code>) within the posterior directory (<code class="docutils literal notranslate"><span class="pre">DecayConstant</span></code>):</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>tree<span class="w"> </span>./predictions-base
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-blue-intense-fg ansi-bold">./predictions-base</span>
+└── <span class="ansi-blue-intense-fg ansi-bold">data</span>
+    └── <span class="ansi-blue-intense-fg ansi-bold">DecayConstant</span>
+        ├── <span class="ansi-blue-intense-fg ansi-bold">pred-Bc-to-tau-nu</span>
+        │   ├── description.yaml
+        │   ├── log
+        │   ├── samples.npy
+        │   └── weights.npy
+        └── <span class="ansi-blue-intense-fg ansi-bold">samples</span>
+            ├── description.yaml
+            ├── log
+            ├── samples.npy
+            └── weights.npy
+
+5 directories, 8 files
+</pre></div></div>
+</div>
+<p>We can inspect the so-obtained predictive samples using the <code class="docutils literal notranslate"><span class="pre">eos.data.Prediction</span></code> class. The following code loads the samples from disk and compute the (weighted) average and standard deviation:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="n">prediction</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Prediction</span><span class="p">(</span><span class="n">EOS_BASE_DIRECTORY</span> <span class="o">+</span> <span class="s1">&#39;/data/DecayConstant/pred-Bc-to-tau-nu&#39;</span><span class="p">)</span>
+<span class="n">avg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">prediction</span><span class="o">.</span><span class="n">samples</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">weights</span><span class="o">=</span><span class="n">prediction</span><span class="o">.</span><span class="n">weights</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">((</span><span class="n">prediction</span><span class="o">.</span><span class="n">samples</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">avg</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">prediction</span><span class="o">.</span><span class="n">weights</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;BR(B_c-&gt;tau nu) = </span><span class="si">{</span><span class="mi">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">avg</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> +/- </span><span class="si">{</span><span class="mi">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">std</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> %&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+BR(B_c-&gt;tau nu) = 2.39 +/- 0.47 %
+</pre></div></div>
+</div>
+<p>We carry on using the previously shown second example: the integrated branching ratios of <span class="math notranslate nohighlight">\(\bar{B}^-\to D^0\left\lbrace\mu^-, \tau^-\right\rbrace\bar\nu\)</span> decays. The largest source of theoretical uncertainty in these decays arises from the hadronic matrix elements, i.e., from the form factors <span class="math notranslate nohighlight">\(f^{B\to \bar{D}}_+(q^2)\)</span> and <span class="math notranslate nohighlight">\(f^{B\to \bar{D}}_0(q^2)\)</span>. Both form factors have been obtained independently using lattice QCD simulations by the HPQCD and Fermilab/MILC (FNAL+MILC)
+collaborations. No prior PDF <span class="math notranslate nohighlight">\(P_0\)</span> is available; hence, we have to construct a suitable likelihood. We construct a joint likelihood for both form factors at different <span class="math notranslate nohighlight">\(q^2\)</span> values. To do so, we use both of these predictions, which are available in EOS as <code class="docutils literal notranslate"><span class="pre">Constraint</span></code> objects under the names <code class="docutils literal notranslate"><span class="pre">B-&gt;D::f_++f_0&#64;HPQCD2015A</span></code> and <code class="docutils literal notranslate"><span class="pre">B-&gt;D::f_++f_0&#64;FNAL+MILC2015B</span></code>.</p>
+<p>To use these constraints, we must first decide how to parametrize the form factors. For what follows we will use a simplified series expansion (abbreviated SSE) up to order <span class="math notranslate nohighlight">\(N = 2\)</span>. The form factors are written as ([BFW:2010A], [BSZ:2015A]):</p>
+<div class="math notranslate nohighlight">
+\[f_i(z) = \frac{1}{1 - q^2/m_{R_i}^2} \sum_{k=0}^N \alpha^{f_i}_k z^k \, , \qquad \text{with } z(q^2, t_0) = \frac{\sqrt{t_+ - q^2} - \sqrt{t_+ - t_0}}{\sqrt{t_+ - q^2} + \sqrt{t_+ - t_0}}.\]</div>
+<p>We specify the posterior with this combined likelihood through the following contents of an analysis file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">priors</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># other prior components</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FF-SSE</span>
+<span class="w">    </span><span class="nt">descriptions</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">{</span><span class="nt"> parameter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;B-&gt;D::alpha^f+_0@BSZ2015&#39;</span><span class="p p-Indicator">,</span><span class="nt"> min</span><span class="p">:</span><span class="w">  </span><span class="nv">0.0</span><span class="p p-Indicator">,</span><span class="nt"> max</span><span class="p">:</span><span class="w">  </span><span class="nv">1.0</span><span class="p p-Indicator">,</span><span class="nt"> type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">        </span><span class="p p-Indicator">{</span><span class="nt"> parameter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;B-&gt;D::alpha^f+_1@BSZ2015&#39;</span><span class="p p-Indicator">,</span><span class="nt"> min</span><span class="p">:</span><span class="w"> </span><span class="nv">-5.0</span><span class="p p-Indicator">,</span><span class="nt"> max</span><span class="p">:</span><span class="w"> </span><span class="nv">+5.0</span><span class="p p-Indicator">,</span><span class="nt"> type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">        </span><span class="p p-Indicator">{</span><span class="nt"> parameter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;B-&gt;D::alpha^f+_2@BSZ2015&#39;</span><span class="p p-Indicator">,</span><span class="nt"> min</span><span class="p">:</span><span class="w"> </span><span class="nv">-5.0</span><span class="p p-Indicator">,</span><span class="nt"> max</span><span class="p">:</span><span class="w"> </span><span class="nv">+5.0</span><span class="p p-Indicator">,</span><span class="nt"> type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">        </span><span class="p p-Indicator">{</span><span class="nt"> parameter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;B-&gt;D::alpha^f0_1@BSZ2015&#39;</span><span class="p p-Indicator">,</span><span class="nt"> min</span><span class="p">:</span><span class="w"> </span><span class="nv">-5.0</span><span class="p p-Indicator">,</span><span class="nt"> max</span><span class="p">:</span><span class="w"> </span><span class="nv">+5.0</span><span class="p p-Indicator">,</span><span class="nt"> type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">        </span><span class="p p-Indicator">{</span><span class="nt"> parameter</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;B-&gt;D::alpha^f0_2@BSZ2015&#39;</span><span class="p p-Indicator">,</span><span class="nt"> min</span><span class="p">:</span><span class="w"> </span><span class="nv">-5.0</span><span class="p p-Indicator">,</span><span class="nt"> max</span><span class="p">:</span><span class="w"> </span><span class="nv">+5.0</span><span class="p p-Indicator">,</span><span class="nt"> type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;uniform&#39;</span><span class="w"> </span><span class="p p-Indicator">}</span>
+
+<span class="nt">likelihoods</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FF-LQCD</span>
+<span class="w">    </span><span class="nt">constraints</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;B-&gt;D::f_++f_0@HPQCD:2015A&#39;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;B-&gt;D::f_++f_0@FNAL+MILC:2015B&#39;</span>
+
+<span class="nt">posteriors</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># other posteriors</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FF-LQCD-SSE</span>
+<span class="w">    </span><span class="nt">global_options</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">form-factors</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BSZ2015</span>
+<span class="w">    </span><span class="nt">prior</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FF-SSE</span>
+<span class="w">    </span><span class="nt">likelihood</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FF-LQCD</span>
+
+<span class="nt">predictions</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># other predictions</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-to-D-mu-nu</span>
+<span class="w">    </span><span class="nt">observables</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;Dlnu::dBR/dq2;l=mu</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">0.02</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">0.05</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">0.10</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">0.15</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">0.20</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">0.25</span><span class="w"> </span><span class="p p-Indicator">},</span>
+<span class="w">                      </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">0.30</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">0.35</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">0.40</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">0.45</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">0.50</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">0.55</span><span class="w"> </span><span class="p p-Indicator">},</span>
+<span class="w">                      </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">0.60</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">0.65</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">0.70</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">0.75</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">0.80</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">0.85</span><span class="w"> </span><span class="p p-Indicator">},</span>
+<span class="w">                      </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">0.90</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">0.95</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">1.0</span><span class="w">  </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">1.5</span><span class="w">  </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">2.0</span><span class="w">  </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">2.5</span><span class="w">  </span><span class="p p-Indicator">},</span>
+<span class="w">                      </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">3.0</span><span class="w">  </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">4.0</span><span class="w">  </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">5.0</span><span class="w">  </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">6.0</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">7.0</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">8.0</span><span class="w"> </span><span class="p p-Indicator">},</span>
+<span class="w">                      </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">9.0</span><span class="w">  </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w"> </span><span class="nv">10.0</span><span class="w">  </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w"> </span><span class="nv">11.0</span><span class="w">  </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w"> </span><span class="nv">11.6</span><span class="w"> </span><span class="p p-Indicator">}</span><span class="w"> </span><span class="p p-Indicator">]</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-to-D-tau-nu</span>
+<span class="w">    </span><span class="nt">observables</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;Dlnu::dBR/dq2;l=tau</span>
+<span class="w">        </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">3.2</span><span class="w">  </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">4.0</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">5.0</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">6.0</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">7.0</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">8.0</span><span class="w"> </span><span class="p p-Indicator">},</span>
+<span class="w">                      </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w">  </span><span class="nv">9.0</span><span class="w">  </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w"> </span><span class="nv">10.0</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w"> </span><span class="nv">11.0</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> q2</span><span class="p">:</span><span class="w"> </span><span class="nv">11.6</span><span class="w"> </span><span class="p p-Indicator">}</span><span class="w"> </span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+<p>In the above, we made sure to provide the option <code class="docutils literal notranslate"><span class="pre">form-factors=BSZ2015</span></code> to ensure that the right form factor parametrization is used.</p>
+<p>As before, the first step is to sample from the log(posterior). To sample from an intractable posterior PDF, EOS provides the <code class="docutils literal notranslate"><span class="pre">sample-nested</span></code> tasks that interfaces with the <code class="docutils literal notranslate"><span class="pre">dynesty</span></code> software. The latter implements black-box posterior sampling by means of the dynamical nested sampling algorithm. The latter requires as controlling input the number of live points (<code class="docutils literal notranslate"><span class="pre">nlive</span></code>) and a threshold for the estimate of the remaining log evidence (<code class="docutils literal notranslate"><span class="pre">dlogz</span></code>). Increasing the former or decreasing the
+latter will lead to a larger number of importance samples and a longer sampling time. We refer to the <code class="docutils literal notranslate"><span class="pre">dynesty</span></code> documentation for a detailed explanation of both quantities.</p>
+<p>A typical call to <code class="docutils literal notranslate"><span class="pre">sample-nested</span></code> reads:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">tasks</span><span class="o">.</span><span class="n">sample_nested</span><span class="p">(</span><span class="s1">&#39;predictions.yaml&#39;</span><span class="p">,</span> <span class="s1">&#39;FF-LQCD-SSE&#39;</span><span class="p">,</span> <span class="n">base_directory</span><span class="o">=</span><span class="n">EOS_BASE_DIRECTORY</span><span class="p">,</span> <span class="n">nlive</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">dlogz</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "872205331ed14db08e4aec6b4844f21f"}</script></div>
+</div>
+<p>The state of our base directory for storing the associated data now looks as follows:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>tree<span class="w"> </span>-L<span class="w"> </span><span class="m">2</span><span class="w"> </span>./predictions-base
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-blue-intense-fg ansi-bold">./predictions-base</span>
+└── <span class="ansi-blue-intense-fg ansi-bold">data</span>
+    ├── <span class="ansi-blue-intense-fg ansi-bold">DecayConstant</span>
+    └── <span class="ansi-blue-intense-fg ansi-bold">FF-LQCD-SSE</span>
+
+4 directories, 0 files
+</pre></div></div>
+</div>
+<p>The posterior samples at hand, we can then produce the posterior-predictive samples as before, using the <code class="docutils literal notranslate"><span class="pre">predict-observables</span></code> task for our two prediction sets <code class="docutils literal notranslate"><span class="pre">B-to-D-mu-nu</span></code> and <code class="docutils literal notranslate"><span class="pre">B-to-D-tau-nu</span></code>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">tasks</span><span class="o">.</span><span class="n">predict_observables</span><span class="p">(</span><span class="s1">&#39;predictions.yaml&#39;</span><span class="p">,</span> <span class="s1">&#39;FF-LQCD-SSE&#39;</span><span class="p">,</span> <span class="s1">&#39;B-to-D-mu-nu&#39;</span><span class="p">,</span>  <span class="n">base_directory</span><span class="o">=</span><span class="n">EOS_BASE_DIRECTORY</span><span class="p">)</span>
+<span class="n">eos</span><span class="o">.</span><span class="n">tasks</span><span class="o">.</span><span class="n">predict_observables</span><span class="p">(</span><span class="s1">&#39;predictions.yaml&#39;</span><span class="p">,</span> <span class="s1">&#39;FF-LQCD-SSE&#39;</span><span class="p">,</span> <span class="s1">&#39;B-to-D-tau-nu&#39;</span><span class="p">,</span> <span class="n">base_directory</span><span class="o">=</span><span class="n">EOS_BASE_DIRECTORY</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "da3c4daf82f241f38bbc7ac787948a81"}</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "4ae3c8bf2ae74dfabf1b1ea70c0fdfb7"}</script></div>
+</div>
+<p>Using the EOS plotting framework, we readily illustrate the posterior-predictive distributions as functions of the momentum transfer <span class="math notranslate nohighlight">\(q^2\)</span>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">figure_args</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">plot:</span>
+<span class="s2">  xaxis: { label: &#39;$q^2$&#39;, unit: &#39;$</span><span class="se">\\</span><span class="s2">textnormal</span><span class="si">{GeV}</span><span class="s2">^2$&#39;, range: [0.0, 11.63] }</span>
+<span class="s2">  yaxis: { label: &#39;$d</span><span class="se">\\</span><span class="s2">mathcal</span><span class="si">{B}</span><span class="s2">/dq^2$&#39;,                 range: [0.0,  5e-3] }</span>
+<span class="s2">  legend: { position: &#39;upper center&#39; }</span>
+<span class="s2">  items:</span>
+<span class="s2">    - { type: &#39;uncertainty&#39;, label: &#39;$</span><span class="se">\\</span><span class="s2">ell=</span><span class="se">\\</span><span class="s2">mu$&#39;,</span>
+<span class="s2">        variable: &#39;q2&#39;, range: [0.02, 11.63],</span>
+<span class="s2">        datafile: &#39;./predictions-base/data/FF-LQCD-SSE/pred-B-to-D-mu-nu&#39;</span>
+<span class="s2">      }</span>
+<span class="s2">    - { type: &#39;uncertainty&#39;, label: &#39;$</span><span class="se">\\</span><span class="s2">ell=</span><span class="se">\\</span><span class="s2">tau$&#39;,</span>
+<span class="s2">        variable: &#39;q2&#39;, range: [3.17, 11.63], resolution: 1000,</span>
+<span class="s2">        datafile: &#39;./predictions-base/data/FF-LQCD-SSE/pred-B-to-D-tau-nu&#39;</span>
+<span class="s2">      }</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">figure</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">FigureFactory</span><span class="o">.</span><span class="n">from_yaml</span><span class="p">(</span><span class="n">figure_args</span><span class="p">)</span>
+<span class="n">figure</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/user-guide_predictions_56_0.png" src="../_images/user-guide_predictions_56_0.png" />
+</div>
+</div>
+<p>Alternatively, one might be inclined to produce predictions for the <span class="math notranslate nohighlight">\(q^2\)</span>-binned branching ratio:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">tasks</span><span class="o">.</span><span class="n">predict_observables</span><span class="p">(</span><span class="s1">&#39;predictions.yaml&#39;</span><span class="p">,</span> <span class="s1">&#39;FF-LQCD-SSE&#39;</span><span class="p">,</span> <span class="s1">&#39;B-to-D-mu-nu-binned&#39;</span><span class="p">,</span> <span class="n">base_directory</span><span class="o">=</span><span class="n">EOS_BASE_DIRECTORY</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "db2908319f394b7b952ac2ec1d95c21e"}</script></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">figure_args</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">plot:</span>
+<span class="s2">  xaxis: { label: &#39;$q^2$&#39;, unit: &#39;$</span><span class="se">\\</span><span class="s2">textnormal</span><span class="si">{GeV}</span><span class="s2">^2$&#39;, range: [0.0, 11.63] }</span>
+<span class="s2">  yaxis: { label: &#39;$d</span><span class="se">\\</span><span class="s2">mathcal</span><span class="si">{B}</span><span class="s2">/dq^2$&#39;,                 range: [0.0,  5e-3] }</span>
+<span class="s2">  legend: { position: &#39;upper center&#39; }</span>
+<span class="s2">  items:</span>
+<span class="s2">    - { type: &#39;uncertainty-binned&#39;, label: &#39;$</span><span class="se">\\</span><span class="s2">ell=</span><span class="se">\\</span><span class="s2">mu$&#39;,</span>
+<span class="s2">        variable: &#39;q2&#39;, range: [0.00, 11.63],</span>
+<span class="s2">        datafile: &#39;./predictions-base/data/FF-LQCD-SSE/pred-B-to-D-mu-nu-binned&#39;</span>
+<span class="s2">      }</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">figure</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">FigureFactory</span><span class="o">.</span><span class="n">from_yaml</span><span class="p">(</span><span class="n">figure_args</span><span class="p">)</span>
+<span class="n">figure</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/user-guide_predictions_59_0.png" src="../_images/user-guide_predictions_59_0.png" />
+</div>
+</div>
+<p>For details on the plotting framework, including a list of the supported plot types, we refer to the reference part of the documentation.</p>
+<script type="application/vnd.jupyter.widget-state+json">
+{"state": {"b7ba13db755f481fb925ad958782cb8b": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "200px", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": "auto", "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "d16a5d6c86654fc9a8717cfe537548dc": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_b7ba13db755f481fb925ad958782cb8b", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stderr", "text": "Creating analysis with 1 priors, 0 EOS-wide constraints, 0 global options, 0 manually-entered constraints and 0 fixed parameters.\nlikelihood does not depend on parameter 'decay-constant::B_c'; remove from prior or check options!\nBeginning prior sampling...\n...finished!\nGenerated 2000 samples of prior PDF for posterior DecayConstant.\n"}], "tabbable": null, "tooltip": null}}, "c3385d3eb5204e5da7d31051d6acc779": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "7d935dfb9e67429ab332eecb28fda867": {"model_name": "AccordionModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "AccordionModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "AccordionView", "box_style": "", "children": ["IPY_MODEL_d16a5d6c86654fc9a8717cfe537548dc"], "layout": "IPY_MODEL_c3385d3eb5204e5da7d31051d6acc779", "selected_index": null, "tabbable": null, "titles": ["data/DecayConstant/samples"], "tooltip": null}}, "c632640b8ad9442798d449ea0dfc0405": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "200px", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": "auto", "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "0a81a1942c4c410dafa85f84b7e554f3": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_c632640b8ad9442798d449ea0dfc0405", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stderr", "text": "Creating analysis with 1 priors, 0 EOS-wide constraints, 0 global options, 0 manually-entered constraints and 0 fixed parameters.\nlikelihood does not depend on parameter 'decay-constant::B_c'; remove from prior or check options!\nPredicting observables from set 'Bc-to-tau-nu' for 2000 samples\n"}, {"output_type": "display_data", "metadata": {}, "data": {"text/plain": "  0%|          | 0/2000 [00:00<?, ?it/s]", "application/vnd.jupyter.widget-view+json": {"version_major": 2, "version_minor": 0, "model_id": "0bbdead634c1411190cd3ee1f11bfbc6"}}}, {"output_type": "stream", "name": "stderr", "text": "... done\n"}], "tabbable": null, "tooltip": null}}, "41eb460dbfd74052857f0d814c35f1b4": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "7a0eafdd383b4d1e80951724a4a78a39": {"model_name": "AccordionModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "AccordionModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "AccordionView", "box_style": "", "children": ["IPY_MODEL_0a81a1942c4c410dafa85f84b7e554f3"], "layout": "IPY_MODEL_41eb460dbfd74052857f0d814c35f1b4", "selected_index": null, "tabbable": null, "titles": ["data/DecayConstant/pred-Bc-to-tau-nu"], "tooltip": null}}, "f7aefa72f2bf4e56ac8c16892de23d77": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "dd941a97064441b98cd65f364ef75be2": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "82e1f68a7430454d982cfe6b97adfa28": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_f7aefa72f2bf4e56ac8c16892de23d77", "max": 2000.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_dd941a97064441b98cd65f364ef75be2", "tabbable": null, "tooltip": null, "value": 2000.0}}, "d15bf3f93a254fb781fca21e5af2dc4c": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "7a63873661294db4a9dba05532677737": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "17a70fed0cc24c7a87bbf5dbbca9efab": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_d15bf3f93a254fb781fca21e5af2dc4c", "placeholder": "\u200b", "style": "IPY_MODEL_7a63873661294db4a9dba05532677737", "tabbable": null, "tooltip": null, "value": "100%"}}, "5f7de681fd694938aabb02905e19e908": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "1c05f93ae5034d4fa69f86a33937dca5": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "1c8db42a2927447a8bd95da63c6722a7": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_5f7de681fd694938aabb02905e19e908", "placeholder": "\u200b", "style": "IPY_MODEL_1c05f93ae5034d4fa69f86a33937dca5", "tabbable": null, "tooltip": null, "value": "\u20072000/2000\u2007[00:00&lt;00:00,\u200730134.74it/s]"}}, "200d1984cf6d4be1bb70498c6ebd85f7": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "0bbdead634c1411190cd3ee1f11bfbc6": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_17a70fed0cc24c7a87bbf5dbbca9efab", "IPY_MODEL_82e1f68a7430454d982cfe6b97adfa28", "IPY_MODEL_1c8db42a2927447a8bd95da63c6722a7"], "layout": "IPY_MODEL_200d1984cf6d4be1bb70498c6ebd85f7", "tabbable": null, "tooltip": null}}, "3c1a4fc062ab44ebaf48ace122cbacc6": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "200px", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": "auto", "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "87fae3da6c6e4b00b3d2d53edbc113ef": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_3c1a4fc062ab44ebaf48ace122cbacc6", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stderr", "text": "Beginning sampling...\nCreating analysis with 5 priors, 2 EOS-wide constraints, 1 global options, 0 manually-entered constraints and 0 fixed parameters.\nlikelihood probably depends on 3 parameter(s) that do not appear in the prior; check prior?\niteration 12696 | batch: 10 | bound: 11 | nc: 3 | ncall: 43462 | eff(%): 28.660 | loglstar: 42.121 < 47.808 < 48.391 | logz: 34.739 +/-  0.109 | stop:  1.269\n...finished!\nFinished sampling with 14464 samples and evidence estimate 34.67 +/- 0.10\n"}], "tabbable": null, "tooltip": null}}, "f1e207b4b8b342429cf0a5f4435b30aa": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "872205331ed14db08e4aec6b4844f21f": {"model_name": "AccordionModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "AccordionModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "AccordionView", "box_style": "", "children": ["IPY_MODEL_87fae3da6c6e4b00b3d2d53edbc113ef"], "layout": "IPY_MODEL_f1e207b4b8b342429cf0a5f4435b30aa", "selected_index": null, "tabbable": null, "titles": ["data/FF-LQCD-SSE/nested"], "tooltip": null}}, "2086d01f6cae4736aad3ca4f81093bca": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "200px", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": "auto", "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "1f272960396d44689a0a5b9db4dfa582": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_2086d01f6cae4736aad3ca4f81093bca", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stderr", "text": "Creating analysis with 5 priors, 2 EOS-wide constraints, 1 global options, 0 manually-entered constraints and 0 fixed parameters.\nlikelihood probably depends on 3 parameter(s) that do not appear in the prior; check prior?\nPredicting observables from set 'B-to-D-mu-nu' for 14464 samples\n"}, {"output_type": "display_data", "metadata": {}, "data": {"text/plain": "  0%|          | 0/14464 [00:00<?, ?it/s]", "application/vnd.jupyter.widget-view+json": {"version_major": 2, "version_minor": 0, "model_id": "9fa25ab564e4486c8465d6811a3c63f2"}}}, {"output_type": "stream", "name": "stderr", "text": "... done\n"}], "tabbable": null, "tooltip": null}}, "208f45b572a74cefa67ce6743164cb9c": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "da3c4daf82f241f38bbc7ac787948a81": {"model_name": "AccordionModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "AccordionModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "AccordionView", "box_style": "", "children": ["IPY_MODEL_1f272960396d44689a0a5b9db4dfa582"], "layout": "IPY_MODEL_208f45b572a74cefa67ce6743164cb9c", "selected_index": null, "tabbable": null, "titles": ["data/FF-LQCD-SSE/pred-B-to-D-mu-nu"], "tooltip": null}}, "57adde50e80143c984ff0b5d77cdcdf1": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "7ce63803f98548fc97b1604a84fb5b1f": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "27cb3e6921684cef891c0c97ca9b7b77": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_57adde50e80143c984ff0b5d77cdcdf1", "max": 14464.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_7ce63803f98548fc97b1604a84fb5b1f", "tabbable": null, "tooltip": null, "value": 14464.0}}, "15243cdfd9bf4eb7a5279d2576d8a884": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "07a601f8917f49798f18b6c52cb978b4": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "473f4e01851340a8b15a7a5a94b13bf3": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_15243cdfd9bf4eb7a5279d2576d8a884", "placeholder": "\u200b", "style": "IPY_MODEL_07a601f8917f49798f18b6c52cb978b4", "tabbable": null, "tooltip": null, "value": "100%"}}, "419f1c9fd8cf4810945ec36030356e4b": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "817623cb2ec14358a7b94a71bb3980c8": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "9ce44bbc50534bcd8144c3b5432613c7": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_419f1c9fd8cf4810945ec36030356e4b", "placeholder": "\u200b", "style": "IPY_MODEL_817623cb2ec14358a7b94a71bb3980c8", "tabbable": null, "tooltip": null, "value": "\u200714464/14464\u2007[00:03&lt;00:00,\u20073826.85it/s]"}}, "a330ea63b3d04df8bfdea28e7494f746": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "9fa25ab564e4486c8465d6811a3c63f2": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_473f4e01851340a8b15a7a5a94b13bf3", "IPY_MODEL_27cb3e6921684cef891c0c97ca9b7b77", "IPY_MODEL_9ce44bbc50534bcd8144c3b5432613c7"], "layout": "IPY_MODEL_a330ea63b3d04df8bfdea28e7494f746", "tabbable": null, "tooltip": null}}, "ea170eca1e0747a7b2e95b88cf491d26": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "200px", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": "auto", "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "47ed4acca35641f88391ae060d3dce22": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_ea170eca1e0747a7b2e95b88cf491d26", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stderr", "text": "Creating analysis with 5 priors, 2 EOS-wide constraints, 1 global options, 0 manually-entered constraints and 0 fixed parameters.\nlikelihood probably depends on 3 parameter(s) that do not appear in the prior; check prior?\nPredicting observables from set 'B-to-D-tau-nu' for 14464 samples\n"}, {"output_type": "display_data", "metadata": {}, "data": {"text/plain": "  0%|          | 0/14464 [00:00<?, ?it/s]", "application/vnd.jupyter.widget-view+json": {"version_major": 2, "version_minor": 0, "model_id": "86e1f8cc76824d0d86aff553706cdf5b"}}}, {"output_type": "stream", "name": "stderr", "text": "... done\n"}], "tabbable": null, "tooltip": null}}, "d2b3890877ad4cde8729548ceb430dc8": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "4ae3c8bf2ae74dfabf1b1ea70c0fdfb7": {"model_name": "AccordionModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "AccordionModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "AccordionView", "box_style": "", "children": ["IPY_MODEL_47ed4acca35641f88391ae060d3dce22"], "layout": "IPY_MODEL_d2b3890877ad4cde8729548ceb430dc8", "selected_index": null, "tabbable": null, "titles": ["data/FF-LQCD-SSE/pred-B-to-D-tau-nu"], "tooltip": null}}, "a83c370884544e5a8b07032bcf237b41": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "4b8fb2f2c0bd4d0ebdd4ac25fc1af5eb": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "b2a50ed8861b49e982a5eeb5ea486830": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_a83c370884544e5a8b07032bcf237b41", "max": 14464.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_4b8fb2f2c0bd4d0ebdd4ac25fc1af5eb", "tabbable": null, "tooltip": null, "value": 14464.0}}, "6d98ea93aefe4bf58dbd34e4914b5fc5": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "03ef8b6037064f188b32e5de32262eee": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "dd713f3feeef43968428c42bbeb16377": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_6d98ea93aefe4bf58dbd34e4914b5fc5", "placeholder": "\u200b", "style": "IPY_MODEL_03ef8b6037064f188b32e5de32262eee", "tabbable": null, "tooltip": null, "value": "100%"}}, "53c20053faeb49b9b77f719f497b5930": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "e62b1e94d13344a4a04b31aa27f1d6db": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "da3dae2616be456c9304e64c1a2fb4f2": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_53c20053faeb49b9b77f719f497b5930", "placeholder": "\u200b", "style": "IPY_MODEL_e62b1e94d13344a4a04b31aa27f1d6db", "tabbable": null, "tooltip": null, "value": "\u200714464/14464\u2007[00:01&lt;00:00,\u200713020.58it/s]"}}, "47972be9a5aa43db9e0bb58ccf14b3ea": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "86e1f8cc76824d0d86aff553706cdf5b": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_dd713f3feeef43968428c42bbeb16377", "IPY_MODEL_b2a50ed8861b49e982a5eeb5ea486830", "IPY_MODEL_da3dae2616be456c9304e64c1a2fb4f2"], "layout": "IPY_MODEL_47972be9a5aa43db9e0bb58ccf14b3ea", "tabbable": null, "tooltip": null}}, "60cb9e434bf84b3392c55fb935c069c9": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "200px", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": "auto", "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "03e88da599674e57882987cfc1c409f9": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_60cb9e434bf84b3392c55fb935c069c9", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stderr", "text": "Creating analysis with 5 priors, 2 EOS-wide constraints, 1 global options, 0 manually-entered constraints and 0 fixed parameters.\nlikelihood probably depends on 3 parameter(s) that do not appear in the prior; check prior?\nPredicting observables from set 'B-to-D-mu-nu-binned' for 14464 samples\n"}, {"output_type": "display_data", "metadata": {}, "data": {"text/plain": "  0%|          | 0/14464 [00:00<?, ?it/s]", "application/vnd.jupyter.widget-view+json": {"version_major": 2, "version_minor": 0, "model_id": "ef451dedcb8742cebb08af6f3fc0ff28"}}}, {"output_type": "stream", "name": "stderr", "text": "... done\n"}], "tabbable": null, "tooltip": null}}, "5d82fbc76cbd458dad4febef782f6cd6": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "db2908319f394b7b952ac2ec1d95c21e": {"model_name": "AccordionModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "AccordionModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "AccordionView", "box_style": "", "children": ["IPY_MODEL_03e88da599674e57882987cfc1c409f9"], "layout": "IPY_MODEL_5d82fbc76cbd458dad4febef782f6cd6", "selected_index": null, "tabbable": null, "titles": ["data/FF-LQCD-SSE/pred-B-to-D-mu-nu-binned"], "tooltip": null}}, "02aedbc859d040049b38522affbe84a3": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "edef1f0268184d46959f5eee9ee03bcb": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "e3a06cf9152843b5a325851b66bf88bc": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_02aedbc859d040049b38522affbe84a3", "max": 14464.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_edef1f0268184d46959f5eee9ee03bcb", "tabbable": null, "tooltip": null, "value": 14464.0}}, "e2bee9d73fda46ba9436a41ab1112e97": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "98fd47dcbccc4674815cfef9af00565f": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "ef93b247ad574e1ba4105537ee73645d": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_e2bee9d73fda46ba9436a41ab1112e97", "placeholder": "\u200b", "style": "IPY_MODEL_98fd47dcbccc4674815cfef9af00565f", "tabbable": null, "tooltip": null, "value": "100%"}}, "cb847f1e87134dcc97a5ac6a1a1b51ed": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "bab461e0a70e4c50ace4025a2c82a44a": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "3ebae86fa1f74f86811ddc07340eeb46": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_cb847f1e87134dcc97a5ac6a1a1b51ed", "placeholder": "\u200b", "style": "IPY_MODEL_bab461e0a70e4c50ace4025a2c82a44a", "tabbable": null, "tooltip": null, "value": "\u200714464/14464\u2007[00:05&lt;00:00,\u20072631.61it/s]"}}, "a9793028574940cdad9eed5edb42aa65": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "ef451dedcb8742cebb08af6f3fc0ff28": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_ef93b247ad574e1ba4105537ee73645d", "IPY_MODEL_e3a06cf9152843b5a325851b66bf88bc", "IPY_MODEL_3ebae86fa1f74f86811ddc07340eeb46"], "layout": "IPY_MODEL_a9793028574940cdad9eed5edb42aa65", "tabbable": null, "tooltip": null}}}, "version_major": 2, "version_minor": 0}
+</script></section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="basics.html" class="btn btn-neutral float-left" title="Basics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="inference.html" class="btn btn-neutral float-right" title="Parameter Inference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2024, The EOS Authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
