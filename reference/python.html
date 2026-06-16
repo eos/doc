@@ -538,7 +538,7 @@ accepts keyword arguments, e.g.:</p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.Options.declare">
-<span class="sig-name descname"><span class="pre">declare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(Options)arg1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(qnpOptionKey)arg2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(str)arg3</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#eos.Options.declare" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">declare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(Options)arg1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(qnpOptionKey)arg2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(qnpOptionValue)arg3</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#eos.Options.declare" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1779,7 +1779,7 @@ In addition, an ImportanceSamples object is exported to EOS_BASE_DIRECTORY/data/
 <li><p><strong>path</strong> (<em>str</em>) – Path to the storage location, which will be created as a directory.</p></li>
 <li><p><strong>parameters</strong> (<em>list</em><em> or </em><em>iterable</em><em> of </em><a class="reference internal" href="#eos.Parameter" title="eos.Parameter"><em>eos.Parameter</em></a>) – Parameter descriptions as a 1D array of shape (P, ).</p></li>
 <li><p><strong>samples</strong> (<em>2D numpy array</em>) – Samples as a 2D array of shape (N, P).</p></li>
-<li><p><strong>weights</strong> (<em>1D numpy array</em><em>, </em><em>optional</em>) – Weights on a linear scale as a 2D array of shape (N, 1).</p></li>
+<li><p><strong>weights</strong> (<em>1D numpy array</em><em>, </em><em>optional</em>) – Weights on a linear scale as a 1D array of shape (N, ).</p></li>
 </ul>
 </dd>
 </dl>
@@ -1801,7 +1801,7 @@ In addition, an ImportanceSamples object is exported to EOS_BASE_DIRECTORY/data/
 <li><p><strong>parameters</strong> (<em>list</em><em> or </em><em>iterable</em><em> of </em><a class="reference internal" href="#eos.Parameter" title="eos.Parameter"><em>eos.Parameter</em></a>) – Parameter descriptions as a 1D array of shape (N, ).</p></li>
 <li><p><strong>samples</strong> (<em>2D numpy array</em>) – Samples in parameter space as a 2D array of shape (N, P).</p></li>
 <li><p><strong>usamples</strong> (<em>2D numpy array</em>) – Samples in u space as a 2D array of shape (N, P).</p></li>
-<li><p><strong>weights</strong> (<em>2D numpy array</em><em>, </em><em>optional</em>) – Weights on a linear scale as a 2D array of shape (N, 1).</p></li>
+<li><p><strong>weights</strong> (<em>1D numpy array</em><em>, </em><em>optional</em>) – Weights on a linear scale as a 1D array of shape (N, ).</p></li>
 </ul>
 </dd>
 </dl>
@@ -1890,7 +1890,7 @@ in the output density. Only Gaussian mixtures are supported.</p>
 <li><p><strong>parameters</strong> (<em>list</em><em> or </em><em>iterable</em><em> of </em><a class="reference internal" href="#eos.Parameter" title="eos.Parameter"><em>eos.Parameter</em></a>) – Parameter descriptions as a 1D array of shape (P, ).</p></li>
 <li><p><strong>sigma_test_stat</strong> (<em>list</em><em> or </em><em>iterable</em>) – (optional) If provided, the inverse CDF of -2*log(PDF) will be evaluated, using the provided values as the respective significance.</p></li>
 <li><p><strong>samples</strong> (<em>2D numpy array</em><em>, </em><em>optional</em>) – Samples as a 2D array of shape (N, P). Needed to generate the test statistic.</p></li>
-<li><p><strong>weights</strong> (<em>1D numpy array</em><em>, </em><em>optional</em>) – Weights on a linear scale as a 2D array of shape (N, 1). Needed to generate the test statistic.</p></li>
+<li><p><strong>weights</strong> (<em>1D numpy array</em><em>, </em><em>optional</em>) – Weights on a linear scale as a 1D array of shape (N, ). Needed to generate the test statistic.</p></li>
 </ul>
 </dd>
 </dl>
@@ -2999,6 +2999,12 @@ It is not intended to be used directly. To create a a concrete plot, use the <a 
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="eos.figure.Plot.draw_watermark">
+<span class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">draw_watermark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">watermark</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.Plot.draw_watermark" title="Link to this definition"></a></dt>
+<dd><p>Draw the watermark on the axes</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="eos.figure.Plot.prepare">
 <span class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AnalysisFileContext</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.Plot.prepare" title="Link to this definition"></a></dt>
 <dd><p>Prepare the plot for drawing</p>
@@ -3060,6 +3066,12 @@ It is not intended to be used directly. To create a a concrete plot, use the <a 
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="eos.figure.TwoDimensionalPlot.draw_watermark">
+<span class="sig-name descname"><span class="pre">draw_watermark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">watermark</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.TwoDimensionalPlot.draw_watermark" title="Link to this definition"></a></dt>
+<dd><p>Draw the watermark on the axes</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="eos.figure.TwoDimensionalPlot.prepare">
 <span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AnalysisFileContext</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.TwoDimensionalPlot.prepare" title="Link to this definition"></a></dt>
 <dd><p>Prepare the plot for drawing</p>
@@ -3076,6 +3088,12 @@ It is not intended to be used directly. To create a a concrete plot, use the <a 
 <dt class="sig sig-object py" id="eos.figure.EmptyPlot.draw">
 <span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.EmptyPlot.draw" title="Link to this definition"></a></dt>
 <dd><p>Draw the plot on the axes</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.figure.EmptyPlot.draw_watermark">
+<span class="sig-name descname"><span class="pre">draw_watermark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">watermark</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.EmptyPlot.draw_watermark" title="Link to this definition"></a></dt>
+<dd><p>Draw the watermark on the axes</p>
 </dd></dl>
 
 <dl class="py method">
