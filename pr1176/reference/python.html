@@ -1512,8 +1512,8 @@ The output files will be stored in EOS_BASE_DIRECTORY/data/POSTERIOR/plots.</p>
 <dd><p>Creates a sample mask for a named posterior from a mask description in the analysis file.</p>
 <p>The named mask’s description is a logical combination (<code class="docutils literal notranslate"><span class="pre">and</span></code> or <code class="docutils literal notranslate"><span class="pre">or</span></code>) of observables and/or other
 masks. Each observable contributes the subset of samples for which it evaluates positive, and nested
-masks are created recursively. The resulting combined mask is stored as an eos.data.SampleMask object
-in EOS_BASE_DIRECTORY/data/POSTERIOR/mask-MASK_NAME and is also returned.</p>
+masks are created recursively. The combined mask is stored as an <code class="xref py py-class docutils literal notranslate"><span class="pre">eos.data.SampleMask</span></code> in
+EOS_BASE_DIRECTORY/data/POSTERIOR/mask-MASK_NAME, and is also returned as a boolean array.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1522,6 +1522,12 @@ in EOS_BASE_DIRECTORY/data/POSTERIOR/mask-MASK_NAME and is also returned.</p>
 <li><p><strong>mask_name</strong> (<em>str</em>) – The name of the mask to create, as defined in the analysis file.</p></li>
 <li><p><strong>base_directory</strong> (<em>str</em><em>, </em><em>optional</em>) – The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The combined boolean mask, with one entry per posterior sample.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3725,11 +3731,11 @@ It is not intended to be used directly. To create a a concrete plot item, use th
 <dt class="sig sig-object py" id="eos.figure.item.Item.legend">
 <span class="sig-name descname"><span class="pre">legend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.Item.legend" title="Link to this definition"></a></dt>
 <dd><p>Return the item’s legend entry as a list of handle/label pairs.</p>
-<p>The default implementation returns an empty tuple, i.e. the item contributes no
+<p>The default implementation returns an empty list, i.e. the item contributes no
 dedicated legend entry. Subclasses that require a custom legend handle override this.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A sequence of <code class="docutils literal notranslate"><span class="pre">(handle,</span> <span class="pre">label)</span></code> pairs to be added to the plot legend.</p>
+<dd class="field-odd"><p>A list of <code class="docutils literal notranslate"><span class="pre">(handle,</span> <span class="pre">label)</span></code> pairs to be added to the plot legend.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list[tuple[matplotlib.artist.Artist, str]]</p>
@@ -5251,7 +5257,7 @@ default arguments shared by its tasks.</p>
 <p>A named mask, and the entries it comprises, are described by:</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="eos.analysis_file_description.MaskComponent">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.analysis_file_description.</span></span><span class="sig-name descname"><span class="pre">MaskComponent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logical_combination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'and'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.analysis_file_description.MaskComponent" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.analysis_file_description.</span></span><span class="sig-name descname"><span class="pre">MaskComponent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logical_combination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'and'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.analysis_file_description.MaskComponent" title="Link to this definition"></a></dt>
 <dd><p>Describes a single named mask, i.e. one entry of an analysis file’s <code class="docutils literal notranslate"><span class="pre">masks</span></code> list.</p>
 <p>A mask selects a subset of posterior samples by combining one or more (pseudo-)observables and/or
 other masks, keeping samples for which all (<code class="docutils literal notranslate"><span class="pre">and</span></code>) or any (<code class="docutils literal notranslate"><span class="pre">or</span></code>) of them evaluate positive.</p>
