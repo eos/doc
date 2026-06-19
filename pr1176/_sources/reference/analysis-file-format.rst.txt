@@ -69,10 +69,9 @@ The ``priors`` key contains a list of *named* priors. Each prior has two mandato
   - ``name`` (**mandatory**) --- The unique name of this prior.
   - ``descriptions`` (**mandatory**) --- The ordered list of parameters described by this prior.
 
-For a univariate prior, ``descriptions`` contains only a single prior description, which is a key/value map describing the prior.
-For an uncorrelated multivariate prior, ``descriptions`` contains more than one prior description.
-The format for a prior description is the same as used in the :class:`Analysis <eos.Analysis>` constructor.
-For example, the following code create two named priors ``CKM`` (univariate) and ``FF-pi`` (multivariate but uncorrelated).
+Each prior description is a key/value map whose ``type`` key selects the kind of prior; the same format is used in the :class:`Analysis <eos.Analysis>` constructor.
+A univariate prior has a single description, while an uncorrelated multivariate prior has one description per parameter.
+For example, the following code creates two named priors ``CKM`` (univariate) and ``FF-pi`` (multivariate but uncorrelated).
 
 .. code-block:: yaml
 
@@ -97,18 +96,17 @@ For example, the following code create two named priors ``CKM`` (univariate) and
          - { 'parameter':  'B->pi::b_T^3@BCL2008'  , 'min':  -7.39 , 'max':  10.60 , 'type': 'uniform' }
 
 
-For a correlated multivariate prior, ``descriptions`` contains a single element consisting of a key/value pair.
-The mandatory key is ``constraint`` and the value is the qualified name of an EOS constraint.
-The following example illustrates the organisation of a correlated multivariate prior.
+A ``type: constraint`` description instead draws a (possibly correlated, multivariate) prior from a built-in EOS constraint, named by the ``constraint`` key.
+The following example illustrates such a prior.
 
 .. code-block:: yaml
 
    priors:
      - name: FF-rho
        descriptions:
-         - { 'constraint': 'B->rho::FormFactors[parametric,LCSR]@BSZ:2015A' }
+         - { 'type': 'constraint', 'constraint': 'B->rho::FormFactors[parametric,LCSR]@BSZ:2015A' }
 
-Each entry of ``descriptions`` is selected, based on its keys, from the following concrete prior descriptions:
+Each prior description's ``type`` key selects one of the following:
 
 .. list-table::
    :widths: auto
@@ -118,22 +116,22 @@ Each entry of ``descriptions`` is selected, based on its keys, from the followin
      - description
      - Python class
    * - ``constraint``
-     - Describes a prior taken from a built-in EOS constraint (selected by the ``constraint`` key).
+     - Describes a (possibly correlated, multivariate) prior taken from a built-in EOS constraint.
      - :py:class:`~eos.analysis_file_description.ConstraintPriorDescription`
    * - ``uniform``
-     - Describes a uniform (flat) prior on a single parameter (``type: uniform`` or ``flat``).
+     - Describes a uniform (flat) prior on a single parameter.
      - :py:class:`~eos.analysis_file_description.UniformPriorDescription`
    * - ``scale``
-     - Describes a prior on a renormalization scale parameter (selected by ``type: scale``).
+     - Describes a prior on a renormalization scale parameter.
      - :py:class:`~eos.analysis_file_description.ScalePriorDescription`
    * - ``gaussian``
-     - Describes a Gaussian prior on a single parameter (``type: gauss`` without ``min``/``max``).
+     - Describes a Gaussian prior on a single parameter.
      - :py:class:`~eos.analysis_file_description.GaussianPriorDescription`
    * - ``poisson``
-     - Describes a Poisson prior on a single parameter (selected by ``type: poisson``).
+     - Describes a Poisson prior on a single parameter.
      - :py:class:`~eos.analysis_file_description.PoissonPriorDescription`
    * - ``transform``
-     - Describes a prior on a linear transformation of several parameters (selected by ``type: transform``).
+     - Describes a prior on a linear transformation of several parameters.
      - :py:class:`~eos.analysis_file_description.TransformPriorDescription`
 
 .. _analysis-file-likelihoods:
@@ -237,7 +235,7 @@ The following example illustrates the organisation of a posterior.
 
 The ``prior`` and ``likelihood`` keys refer to the named priors and likelihoods by their ``name``; together, the chosen priors must constrain every parameter that the chosen likelihoods depend on.
 The optional ``global_options`` apply to all observables evaluated within the posterior, and can be overridden by options given on an individual observable.
-The optional ``fixed_parameters`` pins individual parameters to fixed values, removing them from the set of varied parameters of the inference.
+The optional ``fixed_parameters`` pins individual parameters to fixed values, removing them from the set of varied parameters in the inference.
 A posterior is described by a :py:class:`~eos.analysis_file_description.PosteriorDescription`.
 
 .. _analysis-file-metadata:
@@ -335,7 +333,7 @@ The recognized ``predictions`` keys are:
 The observables accept two keys:
   - ``name`` (**mandatory**) The qualified name of the observable.
     Options can be specified in the observable name following the syntax of :class:`QualifiedName <eos.QualifiedName>`.
-    A warning will be raised if the observable option override the global options defined above.
+    A warning will be raised if the observable options override the global options defined above.
   - ``kinematics`` (**optional**) The dictionary of kinematics specifications for the observables.
     For brevity, a list of kinematic specifications can be provided. In this case, one observable per specification will be created.
 
@@ -407,7 +405,7 @@ The following example illustrates the description of two nested sampling steps, 
             maxiter: 4000
 
     - title: 'Sample from WET-all posterior'
-      id: 'CKM-all.sample'
+      id: 'WET-all.sample'
       tasks:
         - task: 'sample-nested'
           arguments:
@@ -449,7 +447,7 @@ The ``masks`` key contains a list of *named* masks. Each mask contains two manda
   - ``logical_combination`` (**optional**) --- The logical combination to take of the expressions in the mask. The options are ``and`` and ``or``, defaults to ``and``.
 
 
-The ``descriptions`` block contains a list of either existing EOS observable names, new observable names and valid expressions, or the name of a previously defined mask.
+The ``description`` block contains a list of either existing EOS observable names, new observable names and valid expressions, or the name of a previously defined mask.
 An example is shown below:
 
 .. code-block:: yaml
@@ -498,7 +496,7 @@ A mask is described by a :py:class:`~eos.analysis_file_description.MaskComponent
 Example
 ~~~~~~~
 
-The following example illustrates the analysis file format at the hand of a real-world example.
+The following real-world example illustrates the analysis file format.
 
 .. toggle-header::
    :header: Example `examples/b-to-u-l-nu.yaml <https://github.com/eos/eos/tree/master/examples/b-to-u-l-nu.yaml>`_
