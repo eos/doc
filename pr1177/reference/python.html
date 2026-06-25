@@ -3121,7 +3121,7 @@ one or more output files.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="eos.figure.GridFigure">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.figure.</span></span><span class="sig-name descname"><span class="pre">GridFigure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">*,</span> <span class="pre">name:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">plots:</span> <span class="pre">list[~eos.figure.plot.Plot],</span> <span class="pre">padding:</span> <span class="pre">tuple[float,</span> <span class="pre">float]</span> <span class="pre">=</span> <span class="pre">(0.2,</span> <span class="pre">0.2),</span> <span class="pre">shape:</span> <span class="pre">tuple[int,</span> <span class="pre">int],</span> <span class="pre">watermark:</span> <span class="pre">~eos.figure.common.Watermark</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.GridFigure" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.figure.</span></span><span class="sig-name descname"><span class="pre">GridFigure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">*,</span> <span class="pre">name:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">plots:</span> <span class="pre">list[~eos.figure.plot.Plot],</span> <span class="pre">padding:</span> <span class="pre">tuple[float,</span> <span class="pre">float]</span> <span class="pre">=</span> <span class="pre">(0.2,</span> <span class="pre">0.2),</span> <span class="pre">shape:</span> <span class="pre">tuple[int,</span> <span class="pre">int],</span> <span class="pre">size:</span> <span class="pre">tuple[float,</span> <span class="pre">float]</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">watermark:</span> <span class="pre">~eos.figure.common.Watermark</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;,</span> <span class="pre">watermark_plot:</span> <span class="pre">int</span> <span class="pre">|</span> <span class="pre">tuple[int,</span> <span class="pre">int]</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">tight_layout:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True,</span> <span class="pre">shared_axes:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.GridFigure" title="Link to this definition"></a></dt>
 <dd><p>Produces a figure with a configurable number of plots, arranged in a grid.</p>
 <p>The list of plots are assigned to the grid positions in row-major order, i.e. the first plot is assigned to the first row
 and first column, the second plot to the first row and second column, and so on.</p>
@@ -3131,6 +3131,10 @@ and first column, the second plot to the first row and second column, and so on.
 <li><p><strong>padding</strong> (<em>tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>]</em>) – The tuple of horizontal and vertical padding between the plots in the grid, specified as a tuple of fractions of the average plot size. Defaults to (0.2, 0.2).</p></li>
 <li><p><strong>plots</strong> (list[<a class="reference internal" href="#eos.figure.Plot" title="eos.figure.Plot"><code class="xref py py-class docutils literal notranslate"><span class="pre">Plot</span></code></a>]) – The list of <a class="reference internal" href="#eos.figure.Plot" title="eos.figure.Plot"><code class="xref py py-class docutils literal notranslate"><span class="pre">Plot</span></code></a> objects to be drawn in the figure.</p></li>
 <li><p><strong>shape</strong> (<em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em>) – The tuple specifying the shape of the figure’s grid, specifying the number of rows and columns in that order.</p></li>
+<li><p><strong>size</strong> (<em>tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>]</em>) – The size of the figure in inches. Defaults to (3.0 * ncol, 3.0 * nrow).</p></li>
+<li><p><strong>watermark_plot</strong> (<em>int</em><em> | </em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>] </em><em>| </em><em>None</em>) – The plot that carries the watermark, as a flattened (row-major) index or a 2D <code class="docutils literal notranslate"><span class="pre">(row,</span> <span class="pre">col)</span></code> address. If None, every plot is stamped.</p></li>
+<li><p><strong>tight_layout</strong> (<em>bool</em>) – If True (default), the grid spec is laid out with <code class="docutils literal notranslate"><span class="pre">tight_layout</span></code>. Set to False to keep an explicit <code class="docutils literal notranslate"><span class="pre">padding</span></code>, e.g. <code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">0)</span></code> for abutting panels.</p></li>
+<li><p><strong>shared_axes</strong> (<em>str</em><em> | </em><em>None</em>) – Which axes the panels share, one of <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">'x'</span></code>, <code class="docutils literal notranslate"><span class="pre">'y'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'both'</span></code>. <code class="docutils literal notranslate"><span class="pre">'x'</span></code> shares the x-axis per column (<code class="docutils literal notranslate"><span class="pre">sharex='col'</span></code>), <code class="docutils literal notranslate"><span class="pre">'y'</span></code> shares the y-axis per row (<code class="docutils literal notranslate"><span class="pre">sharey='row'</span></code>), and <code class="docutils literal notranslate"><span class="pre">'both'</span></code> shares both; a shared axis gives one common range per group and tick labels only on the outer edge. Defaults to None (independent axes).</p></li>
 </ul>
 </dd>
 </dl>
@@ -3634,7 +3638,7 @@ If <code class="docutils literal notranslate"><span class="pre">None</span></cod
 
 <dl class="py class">
 <dt class="sig sig-object py" id="eos.figure.XTicks">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.figure.</span></span><span class="sig-name descname"><span class="pre">XTicks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'bottom'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.XTicks" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.figure.</span></span><span class="sig-name descname"><span class="pre">XTicks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'bottom'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.XTicks" title="Link to this definition"></a></dt>
 <dd><p>Represents the x axis ticks properties in a plot.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -3642,6 +3646,7 @@ If <code class="docutils literal notranslate"><span class="pre">None</span></cod
 <li><p><strong>minor</strong> (<em>bool</em>) – Whether to show minor ticks. Defaults to True.</p></li>
 <li><p><strong>position</strong> (<em>str</em>) – The position of the ticks. Can be ‘bottom’, ‘top’, or ‘both’. Defaults to ‘bottom’.</p></li>
 <li><p><strong>visible</strong> (<em>bool</em>) – Whether the ticks are visible. Defaults to True.</p></li>
+<li><p><strong>format</strong> (<em>str</em><em> | </em><em>None</em>) – A printf-style format string for the major tick labels, e.g. ‘%.2f’. Defaults to None (matplotlib’s default formatter).</p></li>
 </ul>
 </dd>
 </dl>
@@ -3709,7 +3714,7 @@ x axis ticks, accounting for linear and logarithmic scales.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="eos.figure.YTicks">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.figure.</span></span><span class="sig-name descname"><span class="pre">YTicks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'left'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.YTicks" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.figure.</span></span><span class="sig-name descname"><span class="pre">YTicks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'left'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.YTicks" title="Link to this definition"></a></dt>
 <dd><p>Represents the y axis ticks properties in a plot.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -3717,6 +3722,7 @@ x axis ticks, accounting for linear and logarithmic scales.</p>
 <li><p><strong>minor</strong> (<em>bool</em>) – Whether to show minor ticks. Defaults to True.</p></li>
 <li><p><strong>position</strong> (<em>str</em>) – The position of the ticks. Can be ‘left’, ‘right’, or ‘both’. Defaults to ‘left’.</p></li>
 <li><p><strong>visible</strong> (<em>bool</em>) – Whether the ticks are visible. Defaults to True.</p></li>
+<li><p><strong>format</strong> (<em>str</em><em> | </em><em>None</em>) – A printf-style format string for the major tick labels, e.g. ‘%.2f’. Defaults to None (matplotlib’s default formatter).</p></li>
 </ul>
 </dd>
 </dl>
@@ -3751,7 +3757,7 @@ It is not intended to be used directly. To create a a concrete plot item, use th
 <span class="sig-name descname"><span class="pre">legend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.Item.legend" title="Link to this definition"></a></dt>
 <dd><p>Return the item’s legend entry as a list of handle/label pairs.</p>
 <p>The default implementation returns an empty list, i.e. the item contributes no
-dedicated legend entry. Subclasses that require a custom legend handle override this.</p>
+dedicated legend entry. Subclasses that require a custom legend handle override this</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A list of <code class="docutils literal notranslate"><span class="pre">(handle,</span> <span class="pre">label)</span></code> pairs to be added to the plot legend.</p>
@@ -3834,15 +3840,19 @@ its corresponding <a class="reference internal" href="#eos.figure.item.Item" tit
 <td><p><a class="reference internal" href="#eos.figure.item.BandItem" title="eos.figure.item.BandItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">BandItem</span></code></a></p></td>
 <td><p>Plots a shaded band.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">signal-pdf</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">vertical</span></code></p></td>
+<td><p><a class="reference internal" href="#eos.figure.item.VerticalLineItem" title="eos.figure.item.VerticalLineItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">VerticalLineItem</span></code></a></p></td>
+<td><p>Plots a vertical line at a fixed position on the x axis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">signal-pdf</span></code></p></td>
 <td><p><a class="reference internal" href="#eos.figure.item.SignalPDFItem" title="eos.figure.item.SignalPDFItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">SignalPDFItem</span></code></a></p></td>
 <td><p>Plots a single EOS signal PDF w/o uncertainties as a function of one kinematic variable</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">complex-plane</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">complex-plane</span></code></p></td>
 <td><p><a class="reference internal" href="#eos.figure.item.ComplexPlaneItem" title="eos.figure.item.ComplexPlaneItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">ComplexPlaneItem</span></code></a></p></td>
 <td><p>Plots a single observable as a function on the complex plan</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">errorbars</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">errorbars</span></code></p></td>
 <td><p><a class="reference internal" href="#eos.figure.item.ErrorBarsItem" title="eos.figure.item.ErrorBarsItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">ErrorBarsItem</span></code></a></p></td>
 <td><p>Plots one or more error bars at specified position(s).</p></td>
 </tr>
@@ -3945,6 +3955,12 @@ the remaining keyword arguments are forwarded to that subclass.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="eos.figure.item.ObservableItem.legend">
+<span class="sig-name descname"><span class="pre">legend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.ObservableItem.legend" title="Link to this definition"></a></dt>
+<dd><p>Return the item’s legend entry in form of its handle(s) and label(s).</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="eos.figure.item.ObservableItem.prepare">
 <span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AnalysisFileContext</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.ObservableItem.prepare" title="Link to this definition"></a></dt>
 <dd><p>Prepare the drawing by evaluating the observable at the sample points.</p>
@@ -4015,6 +4031,12 @@ draws the outer lines, and/or draws the median line.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="eos.figure.item.UncertaintyBandItem.legend">
+<span class="sig-name descname"><span class="pre">legend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.UncertaintyBandItem.legend" title="Link to this definition"></a></dt>
+<dd><p>Return the item’s legend entry in form of its handle(s) and label(s).</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="eos.figure.item.UncertaintyBandItem.prepare">
 <span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AnalysisFileContext</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.UncertaintyBandItem.prepare" title="Link to this definition"></a></dt>
 <dd><p>Prepare the uncertainty band for drawing.</p>
@@ -4073,6 +4095,12 @@ outer and median lines, optionally rescaled by the inverse of the bin width.</p>
 <dd class="field-odd"><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em>) – The matplotlib axes onto which the band is drawn.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.figure.item.BinnedUncertaintyItem.legend">
+<span class="sig-name descname"><span class="pre">legend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.BinnedUncertaintyItem.legend" title="Link to this definition"></a></dt>
+<dd><p>Return the item’s legend entry in form of its handle(s) and label(s).</p>
 </dd></dl>
 
 <dl class="py method">
@@ -4141,6 +4169,12 @@ width of binned constraints.</p>
 <dd class="field-odd"><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em>) – The matplotlib axes onto which the constraint is drawn.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.figure.item.ConstraintItem.legend">
+<span class="sig-name descname"><span class="pre">legend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.ConstraintItem.legend" title="Link to this definition"></a></dt>
+<dd><p>Return the item’s legend entry in form of its handle(s) and label(s).</p>
 </dd></dl>
 
 <dl class="py method">
@@ -4215,6 +4249,12 @@ width of binned constraints.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="eos.figure.item.ConstraintResidueItem.legend">
+<span class="sig-name descname"><span class="pre">legend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.ConstraintResidueItem.legend" title="Link to this definition"></a></dt>
+<dd><p>Return the item’s legend entry in form of its handle(s) and label(s).</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="eos.figure.item.ConstraintResidueItem.prepare">
 <span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AnalysisFileContext</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.ConstraintResidueItem.prepare" title="Link to this definition"></a></dt>
 <dd><p>Prepare the constraint residues for drawing.</p>
@@ -4270,6 +4310,12 @@ does not read any data files. If <code class="docutils literal notranslate"><spa
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="eos.figure.item.OneDimensionalHistogramItem.legend">
+<span class="sig-name descname"><span class="pre">legend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.OneDimensionalHistogramItem.legend" title="Link to this definition"></a></dt>
+<dd><p>Return the item’s legend entry in form of its handle(s) and label(s).</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="eos.figure.item.OneDimensionalHistogramItem.prepare">
 <span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AnalysisFileContext</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.OneDimensionalHistogramItem.prepare" title="Link to this definition"></a></dt>
 <dd><p>Prepare the histogram for drawing.</p>
@@ -4308,6 +4354,22 @@ If <code class="docutils literal notranslate"><span class="pre">None</span></cod
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em>) – The matplotlib axes onto which the histogram is drawn.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.figure.item.TwoDimensionalHistogramItem.legend">
+<span class="sig-name descname"><span class="pre">legend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.TwoDimensionalHistogramItem.legend" title="Link to this definition"></a></dt>
+<dd><p>Return the item’s legend entry as a list of handle/label pairs.</p>
+<p>The default implementation returns an empty list, i.e. the item contributes no
+dedicated legend entry. Subclasses that require a custom legend handle override this</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of <code class="docutils literal notranslate"><span class="pre">(handle,</span> <span class="pre">label)</span></code> pairs to be added to the plot legend.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[tuple[matplotlib.artist.Artist, str]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -4371,6 +4433,12 @@ region containing the requested credibility level.</p>
 <dd class="field-odd"><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em>) – The matplotlib axes onto which the KDE is drawn.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.figure.item.OneDimensionalKernelDensityEstimateItem.legend">
+<span class="sig-name descname"><span class="pre">legend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.OneDimensionalKernelDensityEstimateItem.legend" title="Link to this definition"></a></dt>
+<dd><p>Return the item’s legend entry in form of its handle(s) and label(s).</p>
 </dd></dl>
 
 <dl class="py method">
@@ -4540,6 +4608,46 @@ left unspecified spans the full corresponding axis range, yielding a vertical or
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="eos.figure.item.VerticalLineItem">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.figure.item.</span></span><span class="sig-name descname"><span class="pre">VerticalLineItem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linestyle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'solid'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linewidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.VerticalLineItem" title="Link to this definition"></a></dt>
+<dd><p>Plots a vertical line at a fixed position on the x axis.</p>
+<p>This item type is used to mark a particular value on the x axis, e.g. a
+kinematic threshold. The line’s appearance is controlled by the inherited
+<code class="docutils literal notranslate"><span class="pre">color</span></code>, <code class="docutils literal notranslate"><span class="pre">linestyle</span></code>, <code class="docutils literal notranslate"><span class="pre">linewidth</span></code>, and <code class="docutils literal notranslate"><span class="pre">alpha</span></code> fields.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>float</em>) – The x-axis position of the vertical line.</p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span><span class="p">:</span>
+  <span class="n">xaxis</span><span class="p">:</span> <span class="p">{</span> <span class="n">label</span><span class="p">:</span> <span class="s1">&#39;$\sqrt</span><span class="si">{s}</span><span class="s1">$ [GeV]&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">:</span> <span class="p">[</span><span class="mf">3.73</span><span class="p">,</span> <span class="mf">4.085</span><span class="p">]</span> <span class="p">}</span>
+  <span class="n">yaxis</span><span class="p">:</span> <span class="p">{</span> <span class="n">label</span><span class="p">:</span> <span class="s1">&#39;$\sigma$ [nb]&#39;</span> <span class="p">}</span>
+  <span class="n">items</span><span class="p">:</span>
+    <span class="o">-</span> <span class="p">{</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;vertical&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="mf">3.875</span><span class="p">,</span> <span class="n">color</span><span class="p">:</span> <span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="p">:</span> <span class="s1">&#39;dashed&#39;</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$D\bar</span><span class="si">{D}</span><span class="s1">^*$ threshold&#39;</span> <span class="p">}</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.figure.item.VerticalLineItem.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.VerticalLineItem.draw" title="Link to this definition"></a></dt>
+<dd><p>Draw the vertical line on the axes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.figure.item.VerticalLineItem.legend">
+<span class="sig-name descname"><span class="pre">legend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.VerticalLineItem.legend" title="Link to this definition"></a></dt>
+<dd><p>Return the item’s legend entry in form of its handle(s) and label(s).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.figure.item.VerticalLineItem.prepare">
+<span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AnalysisFileContext</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.VerticalLineItem.prepare" title="Link to this definition"></a></dt>
+<dd><p>Prepare the vertical line for drawing.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="eos.figure.item.SignalPDFItem">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.figure.item.</span></span><span class="sig-name descname"><span class="pre">SignalPDFItem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linestyle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'solid'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linewidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kinematics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#eos.QualifiedName" title="_eos.QualifiedName"><span class="pre">QualifiedName</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#eos.QualifiedName" title="_eos.QualifiedName"><span class="pre">QualifiedName</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters_from_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.SignalPDFItem" title="Link to this definition"></a></dt>
 <dd><p>Plots a single EOS signal PDF w/o uncertainties as a function of one kinematic variable</p>
@@ -4582,6 +4690,12 @@ the chosen kinematic <code class="docutils literal notranslate"><span class="pre
 <dd class="field-odd"><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em>) – The matplotlib axes onto which the signal PDF is drawn.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.figure.item.SignalPDFItem.legend">
+<span class="sig-name descname"><span class="pre">legend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.SignalPDFItem.legend" title="Link to this definition"></a></dt>
+<dd><p>Return the item’s legend entry in form of its handle(s) and label(s).</p>
 </dd></dl>
 
 <dl class="py method">
@@ -4650,6 +4764,22 @@ directory is used.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="eos.figure.item.ComplexPlaneItem.legend">
+<span class="sig-name descname"><span class="pre">legend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.ComplexPlaneItem.legend" title="Link to this definition"></a></dt>
+<dd><p>Return the item’s legend entry as a list of handle/label pairs.</p>
+<p>The default implementation returns an empty list, i.e. the item contributes no
+dedicated legend entry. Subclasses that require a custom legend handle override this</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of <code class="docutils literal notranslate"><span class="pre">(handle,</span> <span class="pre">label)</span></code> pairs to be added to the plot legend.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[tuple[matplotlib.artist.Artist, str]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="eos.figure.item.ComplexPlaneItem.prepare">
 <span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AnalysisFileContext</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.ComplexPlaneItem.prepare" title="Link to this definition"></a></dt>
 <dd><p>Prepare the observable for plotting in the complex plane.</p>
@@ -4702,6 +4832,12 @@ spanning the two ranges given by <code class="docutils literal notranslate"><spa
 <dd class="field-odd"><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em>) – The matplotlib axes onto which the error bars are drawn.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.figure.item.ErrorBarsItem.legend">
+<span class="sig-name descname"><span class="pre">legend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.ErrorBarsItem.legend" title="Link to this definition"></a></dt>
+<dd><p>Return the item’s legend entry in form of its handle(s) and label(s).</p>
 </dd></dl>
 
 <dl class="py method">
@@ -4821,7 +4957,7 @@ a default context rooted at the current working directory is used.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="eos.figure.Watermark">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.figure.</span></span><span class="sig-name descname"><span class="pre">Watermark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'upper</span> <span class="pre">right'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preliminary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.Watermark" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.figure.</span></span><span class="sig-name descname"><span class="pre">Watermark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'upper</span> <span class="pre">right'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preliminary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.Watermark" title="Link to this definition"></a></dt>
 <dd><p>Inserts an EOS watermark into a figure.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -4830,6 +4966,12 @@ a default context rooted at the current working directory is used.</p>
 The vertical position can be any of <code class="docutils literal notranslate"><span class="pre">'right'</span></code>, <code class="docutils literal notranslate"><span class="pre">'left'</span></code> and <code class="docutils literal notranslate"><span class="pre">'center'</span></code>.
 The horizontal position can be any of <code class="docutils literal notranslate"><span class="pre">'upper'</span></code>, <code class="docutils literal notranslate"><span class="pre">'lower'</span></code>, and <code class="docutils literal notranslate"><span class="pre">'center'</span></code>.</p></li>
 <li><p><strong>preliminary</strong> (<em>bool</em>) – If true, marks the figure as a preliminary version.</p></li>
+<li><p><strong>xy</strong> (<em>tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>] </em><em>| </em><em>None</em>) – An explicit anchor point in axes fraction. If given, it overrides the
+coordinates derived from <code class="docutils literal notranslate"><span class="pre">position</span></code>, while the text alignment is still taken
+from <code class="docutils literal notranslate"><span class="pre">position</span></code>. Defaults to None (use the <code class="docutils literal notranslate"><span class="pre">position</span></code> preset).</p></li>
+<li><p><strong>offset</strong> (<em>float</em><em> | </em><em>tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>] </em><em>| </em><em>None</em>) – The offset from the edges for the <code class="docutils literal notranslate"><span class="pre">position</span></code> presets, given as a
+single fraction (used for both axes) or as a <code class="docutils literal notranslate"><span class="pre">(xdelta,</span> <span class="pre">ydelta)</span></code> pair.
+Defaults to None (i.e. 0.04 on both axes).</p></li>
 </ul>
 </dd>
 </dl>
