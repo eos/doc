@@ -2996,15 +2996,18 @@ in the output density. Only Gaussian mixtures are supported.</p>
 <dd><p>Represents a (local) mode of a posterior density stored on disk.</p>
 <p>Stores the location of the mode in parameter space together with goodness-of-fit information.
 Instances are created either by reading an existing mode from disk (passing its <code class="docutils literal notranslate"><span class="pre">path</span></code> to the
-constructor) or by writing a new mode with <a class="reference internal" href="#eos.data.Mode.create" title="eos.data.Mode.create"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create()</span></code></a>.</p>
+constructor) or by writing a new mode with <a class="reference internal" href="#eos.data.Mode.create" title="eos.data.Mode.create"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create()</span></code></a> (low-level) or <a class="reference internal" href="#eos.data.Mode.from_bfp_and_gof" title="eos.data.Mode.from_bfp_and_gof"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_bfp_and_gof()</span></code></a>
+(from an optimization result).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>type</strong> – The type identifier of the data object, always <code class="docutils literal notranslate"><span class="pre">'Mode'</span></code>.</p></li>
+<li><p><strong>format_version</strong> – The on-disk format version the mode was read from (1 for legacy files).</p></li>
 <li><p><strong>varied_parameters</strong> – The descriptions (name, min, max) of the varied parameters.</p></li>
 <li><p><strong>mode</strong> – The location of the mode in parameter space.</p></li>
 <li><p><strong>pvalue</strong> – The global p-value at the mode.</p></li>
-<li><p><strong>local_pvalues</strong> – The local p-values at the mode.</p></li>
+<li><p><strong>test_statistics</strong> – The per-element test statistics at the mode (name, type, value, local p-value).</p></li>
+<li><p><strong>local_pvalues</strong> – A mapping from each element’s name to its local p-value, derived from <code class="xref py py-attr docutils literal notranslate"><span class="pre">test_statistics</span></code>.</p></li>
 <li><p><strong>global_chi2</strong> – The global <span class="math notranslate nohighlight">\(\chi^2\)</span> value at the mode, or <code class="docutils literal notranslate"><span class="pre">None</span></code> if not stored.</p></li>
 <li><p><strong>dof</strong> – The number of degrees of freedom, or <code class="docutils literal notranslate"><span class="pre">None</span></code> if not stored.</p></li>
 </ul>
@@ -3012,18 +3015,40 @@ constructor) or by writing a new mode with <a class="reference internal" href="#
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.data.Mode.create">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pvalue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_pvalues</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_chi2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dof</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.Mode.create" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pvalue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_statistics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_chi2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dof</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.Mode.create" title="Link to this definition"></a></dt>
 <dd><p>Write a new Mode object to disk.</p>
+<p>This is the low-level serializer. To record a mode obtained from an optimization, prefer
+<a class="reference internal" href="#eos.data.Mode.from_bfp_and_gof" title="eos.data.Mode.from_bfp_and_gof"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_bfp_and_gof()</span></code></a>, which derives the arguments below from the best-fit point and the
+goodness-of-fit object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>path</strong> (<em>str</em>) – Path to the storage location, which will be created as a directory.</p></li>
 <li><p><strong>parameters</strong> (<em>list</em><em> or </em><em>iterable</em><em> of </em><a class="reference internal" href="#eos.Parameter" title="eos.Parameter"><em>eos.Parameter</em></a>) – Parameter descriptions as a 1D array of shape (N, ).</p></li>
 <li><p><strong>mode</strong> (<em>numpy.ndarray</em>) – The mode to be stored.</p></li>
-<li><p><strong>pvalue</strong> (<em>float</em>) – The p-value of the mode.</p></li>
-<li><p><strong>local_pvalues</strong> (<em>dict</em>) – The local p-values of the mode.</p></li>
+<li><p><strong>pvalue</strong> (<em>float</em>) – The global p-value of the mode.</p></li>
+<li><p><strong>test_statistics</strong> (<em>list</em><em> of </em><em>dict</em>) – The per-element test statistics, each a mapping with the keys
+<code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">local_pvalue</span></code> and, optionally, <code class="docutils literal notranslate"><span class="pre">type</span></code> (default <code class="docutils literal notranslate"><span class="pre">'chi^2'</span></code>) and <code class="docutils literal notranslate"><span class="pre">value</span></code>.</p></li>
 <li><p><strong>global_chi2</strong> (<em>float</em>) – The global chi2 value of the mode.</p></li>
 <li><p><strong>dof</strong> (<em>float</em>) – The degrees of freedom of the mode.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.data.Mode.from_bfp_and_gof">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">from_bfp_and_gof</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bfp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gof</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.Mode.from_bfp_and_gof" title="Link to this definition"></a></dt>
+<dd><p>Write a new Mode object to disk from an optimization result.</p>
+<p>Derives the varied parameters and the mode from the best-fit point <code class="docutils literal notranslate"><span class="pre">bfp</span></code> and the global and
+per-element test statistics (chi^2 values, degrees of freedom, and p-values) from the
+goodness-of-fit object <code class="docutils literal notranslate"><span class="pre">gof</span></code>, then delegates to <a class="reference internal" href="#eos.data.Mode.create" title="eos.data.Mode.create"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – Path to the storage location, which will be created as a directory.</p></li>
+<li><p><strong>bfp</strong> (<a class="reference internal" href="#eos.BestFitPoint" title="eos.BestFitPoint"><em>eos.BestFitPoint</em></a>) – The best-fit point, as returned by <a class="reference internal" href="#eos.Analysis.optimize" title="eos.Analysis.optimize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">eos.Analysis.optimize()</span></code></a>.</p></li>
+<li><p><strong>gof</strong> (<a class="reference internal" href="#eos.GoodnessOfFit" title="eos.GoodnessOfFit"><em>eos.GoodnessOfFit</em></a>) – The goodness-of-fit at the best-fit point.</p></li>
 </ul>
 </dd>
 </dl>
@@ -3048,6 +3073,7 @@ requires the optional PyPMC module.</p>
 <li><p><strong>lookup_table</strong> – A mapping from each parameter name to its index in <code class="xref py py-attr docutils literal notranslate"><span class="pre">varied_parameters</span></code>.</p></li>
 <li><p><strong>components</strong> – The Gaussian components of the proposal mixture.</p></li>
 <li><p><strong>component_weights</strong> – The weights of the proposal mixture components.</p></li>
+<li><p><strong>test_statistics</strong> – The precomputed test statistics.</p></li>
 </ul>
 </dd>
 </dl>
@@ -3094,12 +3120,15 @@ requires the optional PyPMC module.</p>
 <p>Bundles the predictive samples of a set of observables with their importance weights. Instances are
 created either by reading an existing data set from disk (passing its <code class="docutils literal notranslate"><span class="pre">path</span></code> to the constructor) or
 by writing a new data set with <a class="reference internal" href="#eos.data.Prediction.create" title="eos.data.Prediction.create"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create()</span></code></a>.</p>
+<p>Each column is either a genuine observable or a parameter clothed as an observable; the two are
+distinguished by the <code class="docutils literal notranslate"><span class="pre">kind</span></code> key of the corresponding entry in <code class="xref py py-attr docutils literal notranslate"><span class="pre">varied_parameters</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>type</strong> – The type identifier of the data object, always <code class="docutils literal notranslate"><span class="pre">'Prediction'</span></code>.</p></li>
-<li><p><strong>varied_parameters</strong> – The descriptions (name, kinematics, options) of the predicted observables.</p></li>
-<li><p><strong>lookup_table</strong> – A mapping from each observable’s qualified name (including options and kinematics) to its column index in <code class="xref py py-attr docutils literal notranslate"><span class="pre">samples</span></code>.</p></li>
+<li><p><strong>format</strong> – The on-disk format version the prediction was read from (1 for legacy files).</p></li>
+<li><p><strong>varied_parameters</strong> – The descriptions (name, kind, kinematics, options) of the predicted columns.</p></li>
+<li><p><strong>lookup_table</strong> – A mapping from each column’s qualified name (including options and kinematics) to its column index in <code class="xref py py-attr docutils literal notranslate"><span class="pre">samples</span></code>.</p></li>
 <li><p><strong>samples</strong> – The predictive samples as a 2D array of shape (N, O).</p></li>
 <li><p><strong>weights</strong> – The importance weights on a linear scale as a 1D array of shape (N, ).</p></li>
 </ul>
