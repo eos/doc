@@ -116,7 +116,7 @@ A figure description can be stored as a standalone YAML file and rendered intera
 <blockquote>
 <div><ul class="simple">
 <li><p>a <strong>figure</strong> is the top-level object; it manages the underlying <a class="reference external" href="https://matplotlib.org/">matplotlib</a> figure and arranges one or more plots;</p></li>
-<li><p>a <strong>plot</strong> is a single set of axes — a ‘canvas’ — onto which content is drawn, together with its axes, grid, and legend;</p></li>
+<li><p>a <strong>plot</strong> is a single set of axes (a ‘canvas’) onto which content is drawn, together with its axes, grid, and legend;</p></li>
 <li><p>an <strong>item</strong> is a single piece of content drawn onto a plot, such as an observable as a function of a kinematic variable, a data point with error bars, or a kernel density estimate of a set of samples.</p></li>
 </ul>
 </div></blockquote>
@@ -124,8 +124,9 @@ A figure description can be stored as a standalone YAML file and rendered intera
 The classes that back every key, and that document the meaning of each key in detail, are listed among the <code class="xref py py-mod docutils literal notranslate"><span class="pre">eos.figure</span></code> classes in the <a class="reference external" href="./python.html#module-eos.figure">Python API reference</a>.</p>
 <p>Every figure description recognizes the following two top-level keys:</p>
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">name</span></code></dt><dd><p>The name of the figure. It must be a valid file name, since it determines the file name under which the rendered figure is stored.
-This key is <strong>mandatory</strong> when the figure is used within an analysis file, and is otherwise ignored.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">name</span></code></dt><dd><p>The name of the figure.
+This key is <strong>mandatory</strong> when the figure is used within an analysis file, and is otherwise ignored.
+If required, it must be a valid file name, since it determines the file name under which the rendered figure is stored.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">type</span></code></dt><dd><p>The type of figure to be produced. For the list of supported figure types, see the <a class="reference internal" href="#figure-format-figures"><span class="std std-ref">Figures</span></a> section below.
 This key is <strong>optional</strong> and defaults to <code class="docutils literal notranslate"><span class="pre">single</span></code>.</p>
@@ -185,7 +186,7 @@ It accepts a mandatory <code class="docutils literal notranslate"><span class="p
 </section>
 <section id="inset-figure">
 <h3>Inset figure<a class="headerlink" href="#inset-figure" title="Link to this heading"></a></h3>
-<p>A figure of type <code class="docutils literal notranslate"><span class="pre">inset</span></code> contains a main plot that covers the full area of the figure, and a smaller inset plot placed in one corner — typically to magnify a region of interest.
+<p>A figure of type <code class="docutils literal notranslate"><span class="pre">inset</span></code> contains a main plot that covers the full area of the figure, and a smaller inset plot placed in one corner, typically to magnify a region of interest.
 It accepts a mandatory <code class="docutils literal notranslate"><span class="pre">plot</span></code> key (the main plot) and a mandatory <code class="docutils literal notranslate"><span class="pre">inset</span></code> key.
 The <code class="docutils literal notranslate"><span class="pre">inset</span></code> key holds an <a class="reference internal" href="python.html#eos.figure.Inset" title="eos.figure.Inset"><code class="xref py py-class docutils literal notranslate"><span class="pre">Inset</span></code></a>, whose <code class="docutils literal notranslate"><span class="pre">plot</span></code> key describes the inset’s plot and whose <code class="docutils literal notranslate"><span class="pre">position</span></code> and <code class="docutils literal notranslate"><span class="pre">size</span></code> keys give the bottom-left corner and the extent of the inset in normalized figure coordinates (from 0 to 1).
 The optional <code class="docutils literal notranslate"><span class="pre">size</span></code> and <code class="docutils literal notranslate"><span class="pre">watermark</span></code> keys are also accepted.</p>
@@ -211,7 +212,7 @@ The optional <code class="docutils literal notranslate"><span class="pre">size</
 <h3>Grid figure<a class="headerlink" href="#grid-figure" title="Link to this heading"></a></h3>
 <p>A figure of type <code class="docutils literal notranslate"><span class="pre">grid</span></code> contains a rectangular grid of individual plots.
 The shape of the grid is given as a <code class="docutils literal notranslate"><span class="pre">(rows,</span> <span class="pre">columns)</span></code> tuple in the mandatory <code class="docutils literal notranslate"><span class="pre">shape</span></code> key.
-The individual plots are described by the elements of the mandatory <code class="docutils literal notranslate"><span class="pre">plots</span></code> list, in row-major order — i.e. the first plot occupies the first row and first column, the second plot the first row and second column, and so on.</p>
+The individual plots are described by the elements of the mandatory <code class="docutils literal notranslate"><span class="pre">plots</span></code> list, in row-major order, i.e., the first plot occupies the first row and first column, the second plot the first row and second column, and so on.</p>
 <p>The optional keys are <code class="docutils literal notranslate"><span class="pre">size</span></code> (the figure size in inches), <code class="docutils literal notranslate"><span class="pre">watermark</span></code> and <code class="docutils literal notranslate"><span class="pre">watermark_plot</span></code> (which plot carries the watermark, as a flattened index or a <code class="docutils literal notranslate"><span class="pre">(row,</span> <span class="pre">col)</span></code> address; by default every plot is stamped), <code class="docutils literal notranslate"><span class="pre">tight_layout</span></code> and <code class="docutils literal notranslate"><span class="pre">padding</span></code> (the layout of the grid), and <code class="docutils literal notranslate"><span class="pre">shared_axes</span></code> (which axes the panels share, one of <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code>, or <code class="docutils literal notranslate"><span class="pre">both</span></code>).</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">grid</span>
 <span class="nt">shape</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">2</span><span class="p p-Indicator">]</span>
@@ -293,7 +294,6 @@ It is useful as a placeholder in a <a class="reference internal" href="python.ht
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;observable&#39;</span><span class="p p-Indicator">,</span><span class="nt"> observable</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;B-&gt;Dlnu::dBR/dq2&#39;</span><span class="p p-Indicator">,</span><span class="nt"> options</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">&#39;l&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&#39;mu&#39;</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="nt"> variable</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;q2&#39;</span><span class="p p-Indicator">,</span><span class="nt"> range</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">11.6</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="p p-Indicator">}</span>
 </pre></div>
 </div>
-<p>A two-dimensional plot is described by a <a class="reference internal" href="python.html#eos.figure.TwoDimensionalPlot" title="eos.figure.TwoDimensionalPlot"><code class="xref py py-class docutils literal notranslate"><span class="pre">TwoDimensionalPlot</span></code></a>, and an empty plot by an <a class="reference internal" href="python.html#eos.figure.EmptyPlot" title="eos.figure.EmptyPlot"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmptyPlot</span></code></a>.</p>
 </section>
 <section id="items">
 <span id="figure-format-items"></span><h2>Items<a class="headerlink" href="#items" title="Link to this heading"></a></h2>
@@ -454,7 +454,7 @@ The <a class="reference internal" href="python.html#eos.figure.FigureFactory.fro
 <span class="n">figure</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="s1">&#39;dBR.pdf&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>When a figure is instead listed among the <a class="reference internal" href="analysis-file-format.html#analysis-file-figures"><span class="std std-ref">figures</span></a> of an analysis file, it is rendered by the plotting tasks, and its <code class="docutils literal notranslate"><span class="pre">name</span></code> determines the file name under which the rendered figure is stored.</p>
+<p>When a figure is instead listed among the <a class="reference internal" href="analysis-file-format.html#analysis-file-figures"><span class="std std-ref">figures</span></a> of an analysis file, it is rendered by the <code class="docutils literal notranslate"><span class="pre">draw-figure</span></code> task, and its <code class="docutils literal notranslate"><span class="pre">name</span></code> determines the file name under which the rendered figure is stored.</p>
 </section>
 </section>
 

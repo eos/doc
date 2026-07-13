@@ -8,7 +8,7 @@ A figure description can be stored as a standalone YAML file and rendered intera
 The format is organised as a three-level hierarchy:
 
  - a **figure** is the top-level object; it manages the underlying `matplotlib <https://matplotlib.org/>`_ figure and arranges one or more plots;
- - a **plot** is a single set of axes --- a 'canvas' --- onto which content is drawn, together with its axes, grid, and legend;
+ - a **plot** is a single set of axes (a 'canvas') onto which content is drawn, together with its axes, grid, and legend;
  - an **item** is a single piece of content drawn onto a plot, such as an observable as a function of a kinematic variable, a data point with error bars, or a kernel density estimate of a set of samples.
 
 A figure description is deserialized by the :py:class:`FigureFactory <eos.figure.FigureFactory>`, which selects the concrete figure class from the ``type`` key; each nested plot and item is likewise selected by its own ``type`` key.
@@ -17,8 +17,9 @@ The classes that back every key, and that document the meaning of each key in de
 Every figure description recognizes the following two top-level keys:
 
 ``name``
-   The name of the figure. It must be a valid file name, since it determines the file name under which the rendered figure is stored.
+   The name of the figure.
    This key is **mandatory** when the figure is used within an analysis file, and is otherwise ignored.
+   If required, it must be a valid file name, since it determines the file name under which the rendered figure is stored.
 
 ``type``
    The type of figure to be produced. For the list of supported figure types, see the :ref:`Figures <figure-format-figures>` section below.
@@ -82,7 +83,7 @@ A single-plot figure is described by a :py:class:`~eos.figure.SingleFigure`.
 Inset figure
 ~~~~~~~~~~~~
 
-A figure of type ``inset`` contains a main plot that covers the full area of the figure, and a smaller inset plot placed in one corner --- typically to magnify a region of interest.
+A figure of type ``inset`` contains a main plot that covers the full area of the figure, and a smaller inset plot placed in one corner, typically to magnify a region of interest.
 It accepts a mandatory ``plot`` key (the main plot) and a mandatory ``inset`` key.
 The ``inset`` key holds an :py:class:`~eos.figure.Inset`, whose ``plot`` key describes the inset's plot and whose ``position`` and ``size`` keys give the bottom-left corner and the extent of the inset in normalized figure coordinates (from 0 to 1).
 The optional ``size`` and ``watermark`` keys are also accepted.
@@ -111,7 +112,7 @@ Grid figure
 
 A figure of type ``grid`` contains a rectangular grid of individual plots.
 The shape of the grid is given as a ``(rows, columns)`` tuple in the mandatory ``shape`` key.
-The individual plots are described by the elements of the mandatory ``plots`` list, in row-major order --- i.e. the first plot occupies the first row and first column, the second plot the first row and second column, and so on.
+The individual plots are described by the elements of the mandatory ``plots`` list, in row-major order, i.e., the first plot occupies the first row and first column, the second plot the first row and second column, and so on.
 
 The optional keys are ``size`` (the figure size in inches), ``watermark`` and ``watermark_plot`` (which plot carries the watermark, as a flattened index or a ``(row, col)`` address; by default every plot is stamped), ``tight_layout`` and ``padding`` (the layout of the grid), and ``shared_axes`` (which axes the panels share, one of ``x``, ``y``, or ``both``).
 
@@ -199,8 +200,6 @@ It is useful as a placeholder in a :py:class:`~eos.figure.GridFigure`, where a g
    yaxis:  { label: '$d\mathcal{B}/dq^2$', scale: 'log' }
    items:
      - { type: 'observable', observable: 'B->Dlnu::dBR/dq2', options: { 'l': 'mu' }, variable: 'q2', range: [0.1, 11.6] }
-
-A two-dimensional plot is described by a :py:class:`~eos.figure.TwoDimensionalPlot`, and an empty plot by an :py:class:`~eos.figure.EmptyPlot`.
 
 
 .. _figure-format-items:
@@ -358,4 +357,4 @@ The :py:meth:`from_yaml <eos.figure.FigureFactory.from_yaml>` method turns a YAM
    figure = eos.figure.FigureFactory.from_yaml(description)
    figure.draw(output='dBR.pdf')
 
-When a figure is instead listed among the :ref:`figures <analysis-file-figures>` of an analysis file, it is rendered by the plotting tasks, and its ``name`` determines the file name under which the rendered figure is stored.
+When a figure is instead listed among the :ref:`figures <analysis-file-figures>` of an analysis file, it is rendered by the ``draw-figure`` task, and its ``name`` determines the file name under which the rendered figure is stored.
