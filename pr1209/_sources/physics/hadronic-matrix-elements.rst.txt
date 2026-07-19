@@ -1,0 +1,160 @@
+===========================================
+Hadronic Matrix Elements of Local Operators
+===========================================
+
+EOS uses the following conventions for the hadronic matrix elements of local operators,
+i.e. the decay constants and the semileptonic form factors.
+
+Definition of Decay Constants
+-----------------------------
+
+EOS uses meson to vacuum elements for the decay of both pseudoscalar (:math:`P`) and vector (:math:`V`) mesons.
+The decay constants are defined as:
+
+.. math::
+   :nowrap:
+
+   \begin{align*}
+    \braket{0 | \bar{q}_1 \gamma^\mu \gamma_5 q_2 | P(p)} & = i f_P p^\mu, \\
+    \braket{0 | \bar{q}_1 \gamma^\mu q_2 | V(p, \epsilon)} & = f_V m_V \epsilon^\mu, &
+    \braket{0 | \bar{q}_1 \sigma^{\mu\nu} q_2 | V(p, \epsilon)} & = i f_V^T \left( \epsilon^\mu p^\nu - \epsilon^\nu p^\mu \right),
+   \end{align*}
+
+Here :math:`q_1` and :math:`q_2` are the quark fields, :math:`p` is the momentum of the initial-state meson,
+and :math:`\epsilon` is the polarization vector of the vector meson.
+
+The parameters describing these decay constants use the prefix ``decay-constant``.
+
+Definition of Semileptonic Form Factors
+---------------------------------------
+
+EOS uses the following definitions for semileptonic form factors.
+
+In the case of the decay of a pseudoscalar meson (:math:`P_1`) to another pseudoscalar meson (:math:`P_2`), the form factors are defined as:
+
+.. math::
+   :nowrap:
+
+   \begin{align*}
+      \braket{P_2(k) | \bar{q}_1 \gamma^\mu q_2 | P_1(p)}
+         & = f_+^{P_1 \to P_2}(q^2) \left[ \left(p + k\right)^\mu - \frac{M_{P_1}^2 - M_{P_2}^2}{q^2} q^\mu\right]
+           + f_0^{P_1 \to P_2}(q^2) \frac{M_{P_1}^2 - M_{P_2}^2}{q^2} q^\mu\,, \\
+      \braket{P_2(k) | \bar{q}_1 \sigma^{\mu\nu} q_2 | P_1(p)}
+         & = \frac{i f_T^{P_1 \to P_2}(q^2)}{M_{P_1} + M_{P_2}} \left[ (p + k)^\mu q^\nu - q^\mu (p + k)^\nu\right]\,.
+   \end{align*}
+
+Here, :math:`q = p - k` is the momentum transfer.
+
+In the case of the decay of a pseudoscalar meson (:math:`P`) to a vector meson (:math:`V`), the form factors are defined as:
+
+.. math::
+   :nowrap:
+
+   \begin{align*}
+      \braket{V(k, \eta) | \bar{q}_1 \gamma^\mu q_2 | P(p)}
+         & = \frac{2 V^{P \to V}(q^2)}{M_P + M_V} \varepsilon^{\mu\nu\alpha\beta} \eta^*_\nu p_\alpha k_\beta\,, \\
+      \braket{V(k, \eta) | \bar{q}_1 \gamma^\mu \gamma_5 q_2 | P(p)}
+         & = i \eta_\nu^* \left[ A_1^{P \to V}(q^2) (M_P + M_V) g^{\mu\nu} - A_2^{P \to V}(q^2) \frac{(p + k)^\mu q_\nu}{M_P + M_V} - (A_3 - A_0) \frac{2 M_V q^\mu q^\nu}{q^2}\right]\,, \\
+      \braket{V(k, \eta) | \bar{q}_1 \sigma^{\mu\nu} q_2 | P(p)}
+         & = 2 T_1^{P \to V} \varepsilon^{\mu\nu\alpha\beta} \eta^*_\nu p_\alpha k_\beta\,, \\
+      \braket{V(k, \eta) | \bar{q}_1 \sigma^{\mu\nu} \gamma_5 q_2 | P(p)}
+         & = i T_2^{P \to V} \left[ \eta^{\mu*} (p + k)^\nu - \eta^{\nu*} (p + k)^\mu \right] + \frac{i T_3^{P \to V}}{M_P^2 - M_V^2} (\eta^* \cdot q) \left[q^\mu (p+k)^\nu - q^\nu (p+k)^\mu\right]\,,
+   \end{align*}
+
+where we abbreviate:
+
+.. math::
+   :nowrap:
+
+   \begin{equation*}
+      A_3^{P \to V}(q^2) = A_1^{P \to V}(q^2) \frac{M_P + M_V}{2 M_V} - A_2^{P \to V}(q^2) \frac{M_P - M_V}{2 M_V}\,.
+   \end{equation*}
+
+Here, :math:`\eta` is the polarization vector of the vector meson, and again :math:`q = p - k` is the momentum transfer.
+
+In the case of the decay of a spin-parity :math:`J^P = 1/2^+` baryon (:math:`\mathcal{B}_1`) to another :math:`1/2^+` baryon (:math:`\mathcal{B}_2`),
+EOS uses the following helicity-based definitions.
+Abbreviating :math:`s_\pm \equiv (M_{\mathcal{B}_1} \pm M_{\mathcal{B}_2})^2 - q^2`,
+the vector and axialvector matrix elements are defined as:
+
+.. math::
+   :nowrap:
+
+   \begin{align*}
+      \braket{\mathcal{B}_2(k, s') | \bar{q}_1 \gamma^\mu q_2 | \mathcal{B}_1(p, s)}
+         & = \bar{u}(k, s') \bigg[
+              f_t^V(q^2)\, (M_{\mathcal{B}_1} - M_{\mathcal{B}_2}) \frac{q^\mu}{q^2}
+            + f_0^V(q^2)\, \frac{M_{\mathcal{B}_1} + M_{\mathcal{B}_2}}{s_+} \left( (p + k)^\mu - \frac{M_{\mathcal{B}_1}^2 - M_{\mathcal{B}_2}^2}{q^2} q^\mu \right) \\
+         & \qquad\qquad + f_\perp^V(q^2) \left( \gamma^\mu - \frac{2 M_{\mathcal{B}_2}}{s_+} p^\mu - \frac{2 M_{\mathcal{B}_1}}{s_+} k^\mu \right)
+              \bigg] u(p, s)\,, \\
+      \braket{\mathcal{B}_2(k, s') | \bar{q}_1 \gamma^\mu \gamma_5 q_2 | \mathcal{B}_1(p, s)}
+         & = -\bar{u}(k, s')\, \gamma_5 \bigg[
+              f_t^A(q^2)\, (M_{\mathcal{B}_1} + M_{\mathcal{B}_2}) \frac{q^\mu}{q^2}
+            + f_0^A(q^2)\, \frac{M_{\mathcal{B}_1} - M_{\mathcal{B}_2}}{s_-} \left( (p + k)^\mu - \frac{M_{\mathcal{B}_1}^2 - M_{\mathcal{B}_2}^2}{q^2} q^\mu \right) \\
+         & \qquad\qquad + f_\perp^A(q^2) \left( \gamma^\mu + \frac{2 M_{\mathcal{B}_2}}{s_-} p^\mu - \frac{2 M_{\mathcal{B}_1}}{s_-} k^\mu \right)
+              \bigg] u(p, s)\,,
+   \end{align*}
+
+while the tensor and axialtensor matrix elements are defined as:
+
+.. math::
+   :nowrap:
+
+   \begin{align*}
+      \braket{\mathcal{B}_2(k, s') | \bar{q}_1\, i \sigma^{\mu\nu} q_\nu q_2 | \mathcal{B}_1(p, s)}
+         & = -\bar{u}(k, s') \bigg[
+              f_0^T(q^2)\, \frac{q^2}{s_+} \left( (p + k)^\mu - \frac{M_{\mathcal{B}_1}^2 - M_{\mathcal{B}_2}^2}{q^2} q^\mu \right) \\
+         & \qquad\qquad + f_\perp^T(q^2)\, (M_{\mathcal{B}_1} + M_{\mathcal{B}_2}) \left( \gamma^\mu - \frac{2 M_{\mathcal{B}_2}}{s_+} p^\mu - \frac{2 M_{\mathcal{B}_1}}{s_+} k^\mu \right)
+              \bigg] u(p, s)\,, \\
+      \braket{\mathcal{B}_2(k, s') | \bar{q}_1\, i \sigma^{\mu\nu} q_\nu \gamma_5 q_2 | \mathcal{B}_1(p, s)}
+         & = -\bar{u}(k, s')\, \gamma_5 \bigg[
+              f_0^{T5}(q^2)\, \frac{q^2}{s_-} \left( (p + k)^\mu - \frac{M_{\mathcal{B}_1}^2 - M_{\mathcal{B}_2}^2}{q^2} q^\mu \right) \\
+         & \qquad\qquad + f_\perp^{T5}(q^2)\, (M_{\mathcal{B}_1} - M_{\mathcal{B}_2}) \left( \gamma^\mu + \frac{2 M_{\mathcal{B}_2}}{s_-} p^\mu - \frac{2 M_{\mathcal{B}_1}}{s_-} k^\mu \right)
+              \bigg] u(p, s)\,.
+   \end{align*}
+
+Here, :math:`u(p, s)` and :math:`u(k, s')` are the Dirac spinors of the initial- and final-state baryon,
+and again :math:`q = p - k` is the momentum transfer.
+The ten form factors are labelled by the current (:math:`V`, :math:`A`, :math:`T`, :math:`T5`) and by their helicity:
+:math:`t` (timelike), :math:`0` (longitudinal), and :math:`\perp` (transverse); the tensor currents have no timelike component.
+Within EOS the corresponding parameters carry the labels ``time``, ``long``, and ``perp``.
+
+
+Parametrisation of Semileptonic Form Factors
+--------------------------------------------
+
+EOS provides one general-purpose parametrisation of all semileptonic form factors. It is referred to as the ``BSZ2015`` parametrisation.
+For a generic form factor :math:`F(q^2)`, it reads:
+
+.. math::
+   :nowrap:
+
+   \begin{equation*}
+      F(q^2) = \frac{1}{1 - q^2 / M_R^2} \left[\sum_{i=0}^N \alpha^{(F)}_{i} \left(z(q^2) - z(0)\right)^i \right]\,.
+   \end{equation*}
+
+Here :math:`M_R` correspond to the mass of the first resonance seen by that form factor and :math:`\alpha_i^{(F)}` are free parameters.
+The coefficients :math:`\alpha_i^{(F)}` are treated as unconstrained free parameters:
+there is no expectation for the magnitude of any individual coefficient, nor is there an expectation that the series of coefficients converges.
+We use the conformal mapping :math:`q^2 \mapsto z(q^2) = z(q^2; t_+, t_0)`, which reads
+
+.. math::
+   :nowrap:
+
+   \begin{equation*}
+      z(q^2; t_+, t_0) = \frac{\sqrt{t_+ - q^2} - \sqrt{t_+ - t_0}}{\sqrt{t_+ - q^2} + \sqrt{t_+ - t_0}}\,.
+   \end{equation*}
+
+In the above, :math:`t_+ \equiv (M_1 + M_2)^2` represents the two-body threshold for the respective form factor for a reaction with hadron masses :math:`M_{1,2}`,
+and :math:`t_0 < (M_1 - M_2)^2` is a free parameter.
+Examples for accessing the parameters :math:`\alpha_i^{(F)}` are:
+
++-------------------+--------------+------------------------------+
+| Transition        | Form Factor  | Parameter                    |
++-------------------+--------------+------------------------------+
+| :math:`B\to K`    | :math:`f_+`  | ``B->K::alpha^f+_0@BSZ2015`` |
++-------------------+--------------+------------------------------+
+| :math:`D\to K`    | :math:`f_0`  | ``D->K::alpha^f0_2@BSZ2015`` |
++-------------------+--------------+------------------------------+
+| :math:`B\to K^*`  | :math:`V`    | ``B->K^*::alpha^V_1@BSZ2015``|
++-------------------+--------------+------------------------------+
