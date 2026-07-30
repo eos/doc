@@ -145,8 +145,15 @@ The coefficients :math:`\alpha_i^{(F)}` are treated as unconstrained free parame
 there is no expectation for the magnitude of any individual coefficient, nor is there an expectation that the series of coefficients converges.
 In contrast to some other parametrisations, the series is expanded directly in :math:`z(q^2)`, and *not* in the shifted variable :math:`z(q^2) - z(0)`.
 As a consequence, the kinematic constraints and equations of motion relating individual form factors
-(for example :math:`f_0(0) = f_+(0)` for :math:`P\to P` transitions, or :math:`T_2(0) = T_1(0)` and :math:`A_{12}(0) = R\, A_0(0)` for :math:`P\to V` transitions)
+(for example :math:`f_0(0) = f_+(0)` for :math:`P\to P` transitions, or :math:`T_2(0) = T_1(0)` and :math:`A_{12}(0) = R\, A_0(0)` for :math:`P\to V` transitions,
+with :math:`R \equiv (M_P^2 - M_V^2) / (8 M_P M_V)`)
 fix the leading coefficient :math:`\alpha_0^{(F)}` of the constrained form factors. This coefficient is therefore removed from the set of free parameters.
+Further relations hold at the kinematic endpoint :math:`t_- = (M_1 - M_2)^2`, where they ensure that the form factors obtained by dividing
+by the Källén function :math:`\lambda(M_1^2, M_2^2, q^2)`, which vanishes at :math:`q^2 = t_-`, remain finite. For :math:`P\to V` transitions these are
+:math:`A_{12}(t_-) = R\, A_1(t_-)`, which renders :math:`A_2` finite and fixes :math:`\alpha_0^{(A_1)}`, and
+:math:`T_{23}(t_-) = K\, T_2(t_-)` with :math:`K \equiv (M_P + M_V)^2 / (4 M_P M_V)`, which renders :math:`T_3` finite and fixes :math:`\alpha_0^{(T_{23})}`.
+For :math:`1/2^+ \to 1/2^+` transitions, the analogous relations are :math:`f_\perp^A(t_-) = f_\text{long}^A(t_-)` and
+:math:`f_\text{long}^{T5}(t_-) = f_\perp^{T5}(t_-)`.
 
 We use the conformal mapping :math:`q^2 \mapsto z(q^2) = z(q^2; t_+, t_0)`, which reads
 
@@ -189,8 +196,8 @@ Examples for accessing the parameters :math:`\alpha_i^{(F)}` and the thresholds 
 +-----------------------------+-------------------+---------------------------------------------+
 | :math:`B\to K^*`            | :math:`t_+^V`     | ``B->K^*::tp_v@SSE``                        |
 +-----------------------------+-------------------+---------------------------------------------+
-| :math:`B\to K^*`            | :math:`A_1`       | ``B->K^*::alpha^A1_0@SSE``,                 |
-|                             |                   | ``B->K^*::alpha^A1_1@SSE``,                 |
+| :math:`B\to K^*`            | :math:`A_1`       | ``B->K^*::alpha^A1_1@SSE``,                 |
+|                             |                   | ``B->K^*::alpha^A1_2@SSE``,                 |
 |                             |                   | ...                                         |
 +-----------------------------+-------------------+---------------------------------------------+
 | :math:`B\to K^*`            | :math:`t_+^A`     | ``B->K^*::tp_a@SSE``                        |
@@ -234,14 +241,25 @@ The outer functions are constructed such that the dispersive bound assumes the d
    :nowrap:
 
    \begin{equation*}
-      \sum_F \sum_{k} \left(a^{(F)}_{k}\right)^2 \leq 1\,.
+      \sum_{F \in J^P} \sum_{k} \left(a^{(F)}_{k}\right)^2 \leq 1\,.
    \end{equation*}
+
+This bound holds channel by channel: for each set of quantum numbers :math:`J^P` of the interpolating current, the first sum runs only over those form factors
+:math:`F` that contribute to the corresponding two-point correlator. EOS therefore provides one saturation observable per channel and current, for example
+``B->K::Saturation[1^-_V]`` and ``B->K::Saturation[0^+_V]``, rather than a single number for the entire transition.
 
 The left-hand side is referred to as the *saturation* of the bound. It is obtained by integrating the squared, outer-function-weighted form factors
 over the arc of the unit circle in the complex :math:`z` plane onto which the pair-production branch cut is mapped.
 Choosing the :math:`p_k` to be orthonormal with respect to (the measure supported on) this arc is precisely what renders the bound diagonal.
 
+Note that EOS absorbs the isospin-degeneracy factor :math:`n_I` of the transition into the normalisation of the outer functions, :math:`\phi_F \propto \sqrt{n_I}`.
+Here :math:`n_I` counts the isospin-related exclusive channels that contribute to the same correlator; for example :math:`n_I = 2` for :math:`B\to K` (accounting for
+both :math:`B^-\to K^-` and :math:`\bar{B}^0 \to \bar{K}^0`) and for :math:`B\to K^*`, while :math:`n_I = 1` for :math:`B_s\to \phi`, :math:`B_s\to K`, and all
+baryonic transitions presently implemented.
+As a consequence, the right-hand side of the bound above equals :math:`1` rather than :math:`1/n_I`, and the coefficients :math:`a^{(F)}_k` are larger by a factor
+of :math:`\sqrt{n_I}` than in conventions that keep :math:`n_I` explicit on the right-hand side.
+
 The concrete implementation in the traditional basis of mesonic form factors used within EOS follows [BFW:2010A].
 For the baryonic :math:`1/2^+ \to 1/2^+` transitions, the dispersive bound, the integration over the arc of the unit circle, and the associated orthonormal polynomials :math:`p_k` follow [BMRvD:2022A].
-The extension to :math:`1/2^+ \to 3/2^+` baryonic transitions follows [ABR:2022A].
+The extension to :math:`1/2^+ \to 3/2^-` baryonic transitions follows [ABR:2022A].
 Within EOS the corresponding coefficients carry the label ``SE``, for example ``B->K^*::a^V_0@SE`` or ``Lambda_b->Lambda::a^(0,V)_0@SE``.

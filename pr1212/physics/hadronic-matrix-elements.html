@@ -197,8 +197,15 @@ The coefficients <span class="math notranslate nohighlight">\(\alpha_i^{(F)}\)</
 there is no expectation for the magnitude of any individual coefficient, nor is there an expectation that the series of coefficients converges.
 In contrast to some other parametrisations, the series is expanded directly in <span class="math notranslate nohighlight">\(z(q^2)\)</span>, and <em>not</em> in the shifted variable <span class="math notranslate nohighlight">\(z(q^2) - z(0)\)</span>.
 As a consequence, the kinematic constraints and equations of motion relating individual form factors
-(for example <span class="math notranslate nohighlight">\(f_0(0) = f_+(0)\)</span> for <span class="math notranslate nohighlight">\(P\to P\)</span> transitions, or <span class="math notranslate nohighlight">\(T_2(0) = T_1(0)\)</span> and <span class="math notranslate nohighlight">\(A_{12}(0) = R\, A_0(0)\)</span> for <span class="math notranslate nohighlight">\(P\to V\)</span> transitions)
-fix the leading coefficient <span class="math notranslate nohighlight">\(\alpha_0^{(F)}\)</span> of the constrained form factors. This coefficient is therefore removed from the set of free parameters.</p>
+(for example <span class="math notranslate nohighlight">\(f_0(0) = f_+(0)\)</span> for <span class="math notranslate nohighlight">\(P\to P\)</span> transitions, or <span class="math notranslate nohighlight">\(T_2(0) = T_1(0)\)</span> and <span class="math notranslate nohighlight">\(A_{12}(0) = R\, A_0(0)\)</span> for <span class="math notranslate nohighlight">\(P\to V\)</span> transitions,
+with <span class="math notranslate nohighlight">\(R \equiv (M_P^2 - M_V^2) / (8 M_P M_V)\)</span>)
+fix the leading coefficient <span class="math notranslate nohighlight">\(\alpha_0^{(F)}\)</span> of the constrained form factors. This coefficient is therefore removed from the set of free parameters.
+Further relations hold at the kinematic endpoint <span class="math notranslate nohighlight">\(t_- = (M_1 - M_2)^2\)</span>, where they ensure that the form factors obtained by dividing
+by the Källén function <span class="math notranslate nohighlight">\(\lambda(M_1^2, M_2^2, q^2)\)</span>, which vanishes at <span class="math notranslate nohighlight">\(q^2 = t_-\)</span>, remain finite. For <span class="math notranslate nohighlight">\(P\to V\)</span> transitions these are
+<span class="math notranslate nohighlight">\(A_{12}(t_-) = R\, A_1(t_-)\)</span>, which renders <span class="math notranslate nohighlight">\(A_2\)</span> finite and fixes <span class="math notranslate nohighlight">\(\alpha_0^{(A_1)}\)</span>, and
+<span class="math notranslate nohighlight">\(T_{23}(t_-) = K\, T_2(t_-)\)</span> with <span class="math notranslate nohighlight">\(K \equiv (M_P + M_V)^2 / (4 M_P M_V)\)</span>, which renders <span class="math notranslate nohighlight">\(T_3\)</span> finite and fixes <span class="math notranslate nohighlight">\(\alpha_0^{(T_{23})}\)</span>.
+For <span class="math notranslate nohighlight">\(1/2^+ \to 1/2^+\)</span> transitions, the analogous relations are <span class="math notranslate nohighlight">\(f_\perp^A(t_-) = f_\text{long}^A(t_-)\)</span> and
+<span class="math notranslate nohighlight">\(f_\text{long}^{T5}(t_-) = f_\perp^{T5}(t_-)\)</span>.</p>
 <p>We use the conformal mapping <span class="math notranslate nohighlight">\(q^2 \mapsto z(q^2) = z(q^2; t_+, t_0)\)</span>, which reads</p>
 <div class="math notranslate nohighlight">
 \begin{equation*}
@@ -250,8 +257,8 @@ Examples for accessing the parameters <span class="math notranslate nohighlight"
 </tr>
 <tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(B\to K^*\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(A_1\)</span></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">B-&gt;K^*::alpha^A1_0&#64;SSE</span></code>,
-<code class="docutils literal notranslate"><span class="pre">B-&gt;K^*::alpha^A1_1&#64;SSE</span></code>,
+<td><p><code class="docutils literal notranslate"><span class="pre">B-&gt;K^*::alpha^A1_1&#64;SSE</span></code>,
+<code class="docutils literal notranslate"><span class="pre">B-&gt;K^*::alpha^A1_2&#64;SSE</span></code>,
 …</p></td>
 </tr>
 <tr class="row-even"><td><p><span class="math notranslate nohighlight">\(B\to K^*\)</span></p></td>
@@ -296,13 +303,22 @@ and the <span class="math notranslate nohighlight">\(p_k\)</span> are polynomial
 The outer functions are constructed such that the dispersive bound assumes the diagonal form</p>
 <div class="math notranslate nohighlight">
 \begin{equation*}
-   \sum_F \sum_{k} \left(a^{(F)}_{k}\right)^2 \leq 1\,.
-\end{equation*}</div><p>The left-hand side is referred to as the <em>saturation</em> of the bound. It is obtained by integrating the squared, outer-function-weighted form factors
+   \sum_{F \in J^P} \sum_{k} \left(a^{(F)}_{k}\right)^2 \leq 1\,.
+\end{equation*}</div><p>This bound holds channel by channel: for each set of quantum numbers <span class="math notranslate nohighlight">\(J^P\)</span> of the interpolating current, the first sum runs only over those form factors
+<span class="math notranslate nohighlight">\(F\)</span> that contribute to the corresponding two-point correlator. EOS therefore provides one saturation observable per channel and current, for example
+<code class="docutils literal notranslate"><span class="pre">B-&gt;K::Saturation[1^-_V]</span></code> and <code class="docutils literal notranslate"><span class="pre">B-&gt;K::Saturation[0^+_V]</span></code>, rather than a single number for the entire transition.</p>
+<p>The left-hand side is referred to as the <em>saturation</em> of the bound. It is obtained by integrating the squared, outer-function-weighted form factors
 over the arc of the unit circle in the complex <span class="math notranslate nohighlight">\(z\)</span> plane onto which the pair-production branch cut is mapped.
 Choosing the <span class="math notranslate nohighlight">\(p_k\)</span> to be orthonormal with respect to (the measure supported on) this arc is precisely what renders the bound diagonal.</p>
+<p>Note that EOS absorbs the isospin-degeneracy factor <span class="math notranslate nohighlight">\(n_I\)</span> of the transition into the normalisation of the outer functions, <span class="math notranslate nohighlight">\(\phi_F \propto \sqrt{n_I}\)</span>.
+Here <span class="math notranslate nohighlight">\(n_I\)</span> counts the isospin-related exclusive channels that contribute to the same correlator; for example <span class="math notranslate nohighlight">\(n_I = 2\)</span> for <span class="math notranslate nohighlight">\(B\to K\)</span> (accounting for
+both <span class="math notranslate nohighlight">\(B^-\to K^-\)</span> and <span class="math notranslate nohighlight">\(\bar{B}^0 \to \bar{K}^0\)</span>) and for <span class="math notranslate nohighlight">\(B\to K^*\)</span>, while <span class="math notranslate nohighlight">\(n_I = 1\)</span> for <span class="math notranslate nohighlight">\(B_s\to \phi\)</span>, <span class="math notranslate nohighlight">\(B_s\to K\)</span>, and all
+baryonic transitions presently implemented.
+As a consequence, the right-hand side of the bound above equals <span class="math notranslate nohighlight">\(1\)</span> rather than <span class="math notranslate nohighlight">\(1/n_I\)</span>, and the coefficients <span class="math notranslate nohighlight">\(a^{(F)}_k\)</span> are larger by a factor
+of <span class="math notranslate nohighlight">\(\sqrt{n_I}\)</span> than in conventions that keep <span class="math notranslate nohighlight">\(n_I\)</span> explicit on the right-hand side.</p>
 <p>The concrete implementation in the traditional basis of mesonic form factors used within EOS follows [BFW:2010A].
 For the baryonic <span class="math notranslate nohighlight">\(1/2^+ \to 1/2^+\)</span> transitions, the dispersive bound, the integration over the arc of the unit circle, and the associated orthonormal polynomials <span class="math notranslate nohighlight">\(p_k\)</span> follow [BMRvD:2022A].
-The extension to <span class="math notranslate nohighlight">\(1/2^+ \to 3/2^+\)</span> baryonic transitions follows [ABR:2022A].
+The extension to <span class="math notranslate nohighlight">\(1/2^+ \to 3/2^-\)</span> baryonic transitions follows [ABR:2022A].
 Within EOS the corresponding coefficients carry the label <code class="docutils literal notranslate"><span class="pre">SE</span></code>, for example <code class="docutils literal notranslate"><span class="pre">B-&gt;K^*::a^V_0&#64;SE</span></code> or <code class="docutils literal notranslate"><span class="pre">Lambda_b-&gt;Lambda::a^(0,V)_0&#64;SE</span></code>.</p>
 </section>
 </section>
