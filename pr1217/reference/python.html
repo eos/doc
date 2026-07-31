@@ -2421,8 +2421,22 @@ A possible (incomplete) example could look as follows:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.AnalysisFile.validate">
-<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.AnalysisFile.validate" title="Link to this definition"></a></dt>
-<dd><p>Validates the analysis file.</p>
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">deep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.AnalysisFile.validate" title="Link to this definition"></a></dt>
+<dd><p>Validates the analysis file semantically and, by default, deeply.</p>
+<p>The deep phase instantiates every posterior and every prediction set, which catches errors
+that the semantic phase cannot see: invalid options, malformed manual-constraint bodies,
+inconsistent prior ranges, and unreadable pyhf workspaces. It is enabled by default.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>deep</strong> (<em>bool</em>) – If True, additionally instantiate all posteriors and prediction sets. Defaults to True.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The diagnostics found, most-structural first.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[eos.diagnostic.Diagnostic]</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -2862,16 +2876,16 @@ In addition, an ImportanceSamples object is exported to EOS_BASE_DIRECTORY/data/
 
 <dl class="py function">
 <dt class="sig sig-object py" id="eos.validate">
-<span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_deep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.validate" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.validate" title="Link to this definition"></a></dt>
 <dd><p>Validates the analysis file structurally and semantically, then by default checks that all
-posteriors and prediction sets can be created. The default deep phase inserts declarations into
-the process-wide EOS registries; once it has run, those registries are contaminated for the
-remainder of the process. Use <code class="docutils literal notranslate"><span class="pre">no_deep=True</span></code> for idempotent, side-effect-free validation.</p>
+posteriors and prediction sets can be created. The deep phase inserts declarations into the
+process-wide EOS registries; once it has run, those registries are contaminated for the
+remainder of the process. Use <code class="docutils literal notranslate"><span class="pre">deep=False</span></code> for idempotent, side-effect-free validation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>analysis_file</strong> (<em>str</em>) – The name of the analysis file to validate.</p></li>
-<li><p><strong>no_deep</strong> (<em>bool</em>) – If True, stop after pure structural and semantic validation. Defaults to False.</p></li>
+<li><p><strong>deep</strong> (<em>bool</em>) – If True, additionally check that all posteriors and prediction sets can be created. Defaults to True.</p></li>
 </ul>
 </dd>
 </dl>
@@ -6574,7 +6588,7 @@ of EOS; use <code class="docutils literal notranslate"><span class="pre">type:</
 <p>A named likelihood, and the constraints it comprises, are described by:</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="eos.analysis_file_description.LikelihoodComponent">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.analysis_file_description.</span></span><span class="sig-name descname"><span class="pre">LikelihoodComponent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constraints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">manual_constraints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pyhf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.analysis_file_description.LikelihoodComponent" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.analysis_file_description.</span></span><span class="sig-name descname"><span class="pre">LikelihoodComponent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constraints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">manual_constraints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pyhf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#eos.analysis_file_description.PyHFConstraintDescription" title="eos.analysis_file_description.PyHFConstraintDescription"><span class="pre">PyHFConstraintDescription</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.analysis_file_description.LikelihoodComponent" title="Link to this definition"></a></dt>
 <dd><p>Describes a single named likelihood, i.e. one entry of an analysis file’s <code class="docutils literal notranslate"><span class="pre">likelihoods</span></code> list.</p>
 <p>A named likelihood may combine any number of built-in constraints, inline (manual) constraints, and
 pyhf-based contributions; at least one of the three must be present.</p>
@@ -6584,7 +6598,7 @@ pyhf-based contributions; at least one of the three must be present.</p>
 <li><p><strong>name</strong> (<em>str</em>) – The unique name of the likelihood, by which posteriors refer to it.</p></li>
 <li><p><strong>constraints</strong> (<em>list</em><em>[</em><a class="reference internal" href="#eos.analysis_file_description.ConstraintLikelihoodDescription" title="eos.analysis_file_description.ConstraintLikelihoodDescription"><em>ConstraintLikelihoodDescription</em></a><em>]</em>) – The built-in EOS constraints contributing to the likelihood. Optional.</p></li>
 <li><p><strong>manual_constraints</strong> (<em>list</em><em>[</em><a class="reference internal" href="#eos.analysis_file_description.ManualConstraintDescription" title="eos.analysis_file_description.ManualConstraintDescription"><em>ManualConstraintDescription</em></a><em>]</em>) – The inline constraint definitions contributing to the likelihood. Optional.</p></li>
-<li><p><strong>pyhf</strong> (<a class="reference internal" href="#eos.analysis_file_description.PyHFConstraintDescription" title="eos.analysis_file_description.PyHFConstraintDescription"><em>PyHFConstraintDescription</em></a>) – The pyhf-based contribution to the likelihood. Optional.</p></li>
+<li><p><strong>pyhf</strong> (<a class="reference internal" href="#eos.analysis_file_description.PyHFConstraintDescription" title="eos.analysis_file_description.PyHFConstraintDescription"><em>PyHFConstraintDescription</em></a><em> | </em><em>None</em>) – The pyhf-based contribution to the likelihood, or None if there is none. Optional.</p></li>
 </ul>
 </dd>
 </dl>
