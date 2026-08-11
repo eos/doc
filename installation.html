@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Installation &mdash; EOS 1.0.20 documentation</title>
+  <title>Installation &mdash; EOS 1.0.21 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/contentui.css" />
@@ -16,7 +16,7 @@
     <link rel="canonical" href="https://eos.github.io/doc/installation.html" />
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=9a2e067c"></script>
+      <script src="_static/documentation_options.js?v=3e568265"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/contentui.js"></script>
@@ -66,6 +66,12 @@
 <li class="toctree-l3"><a class="reference internal" href="#installing-the-dependencies-on-linux">Installing the dependencies on Linux</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#installing-the-dependencies-on-macos-with-homebrew-and-pypi">Installing the dependencies on macOS with Homebrew and PyPi</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#installing-eos">Installing EOS</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#building-a-wheel-manually">Building a Wheel Manually</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#building">Building</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installing-and-testing-the-result">Installing and testing the result</a></li>
 </ul>
 </li>
 </ul>
@@ -395,6 +401,64 @@ You can determine the correct value by running the following command:</p>
 </pre></div>
 </div>
 <p>You can test and debug the installation of the python module as described <a class="reference internal" href="faq.html#faq-check-installation"><span class="std std-ref">here</span></a>.</p>
+</section>
+</section>
+<section id="building-a-wheel-manually">
+<span id="installation-building-a-wheel"></span><h2>Building a Wheel Manually<a class="headerlink" href="#building-a-wheel-manually" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">eoshep</span></code> wheels published to PyPI are built by
+<code class="docutils literal notranslate"><span class="pre">.github/workflows/pypi-build+check+deploy.yaml</span></code> using <a class="reference external" href="https://cibuildwheel.pypa.io/">cibuildwheel</a>. You do not need to read or replicate that
+workflow by hand: the repository ships <code class="docutils literal notranslate"><span class="pre">build-wheel.bash</span></code>, a single script
+at the repository root that drives <code class="docutils literal notranslate"><span class="pre">cibuildwheel</span></code> with exactly the settings
+CI uses (matrix row, <code class="docutils literal notranslate"><span class="pre">CIBW_*</span></code> environment, before-build/repair/test
+commands), read directly out of the workflow file at run time so the two
+cannot silently drift apart.</p>
+<section id="prerequisites">
+<h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>Linux</dt><dd><p>Docker or Podman. <code class="docutils literal notranslate"><span class="pre">cibuildwheel</span></code> builds inside the <code class="docutils literal notranslate"><span class="pre">manylinux</span></code> container
+the workflow references, so no host C++ toolchain, BOOST, GSL, yaml-cpp, or
+FFTW3 installation is needed.</p>
+</dd>
+<dt>macOS (arm64 only)</dt><dd><p>Native arm64 hardware (Apple Silicon) and <a class="reference external" href="https://brew.sh/">Homebrew</a>.
+The script fetches the same pre-built dependency bundle (BOOST, GSL,
+yaml-cpp, FFTW3) the CI macOS leg uses, via <code class="docutils literal notranslate"><span class="pre">oras</span></code>.</p>
+</dd>
+<dt>Both platforms</dt><dd><p>A Python 3 interpreter with <a class="reference external" href="https://pyyaml.org/">PyYAML</a> installed, used
+to run the workflow-parsing helper and <code class="docutils literal notranslate"><span class="pre">cibuildwheel</span></code> itself;
+<code class="docutils literal notranslate"><span class="pre">cibuildwheel</span></code> is installed automatically if missing. Set
+<code class="docutils literal notranslate"><span class="pre">EOS_BUILD_WHEEL_PYTHON</span></code> to point the script at a specific interpreter;
+otherwise it looks for one at a fixed development-venv path.</p>
+</dd>
+</dl>
+</section>
+<section id="building">
+<h3>Building<a class="headerlink" href="#building" title="Link to this heading"></a></h3>
+<p>From a clean checkout, configured in place (do not copy or relocate the
+source tree before or during the build – <code class="docutils literal notranslate"><span class="pre">AM_CXXFLAGS</span></code> freezes an absolute
+include path at <code class="docutils literal notranslate"><span class="pre">configure</span></code> time):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">build</span><span class="o">-</span><span class="n">wheel</span><span class="o">.</span><span class="n">bash</span>
+</pre></div>
+</div>
+<p>This builds every Python version the workflow currently ships (<code class="docutils literal notranslate"><span class="pre">cp312</span></code>,
+<code class="docutils literal notranslate"><span class="pre">cp313</span></code>, <code class="docutils literal notranslate"><span class="pre">cp314</span></code>) for the host architecture, and writes the wheel(s) to
+<code class="docutils literal notranslate"><span class="pre">./wheelhouse</span></code>. Useful options:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">build</span><span class="o">-</span><span class="n">wheel</span><span class="o">.</span><span class="n">bash</span> <span class="o">--</span><span class="n">python</span> <span class="n">cp312</span>          <span class="c1"># only one interpreter</span>
+<span class="o">./</span><span class="n">build</span><span class="o">-</span><span class="n">wheel</span><span class="o">.</span><span class="n">bash</span> <span class="o">--</span><span class="n">quick</span>                 <span class="c1"># skip &#39;make check&#39; for faster iteration</span>
+<span class="o">./</span><span class="n">build</span><span class="o">-</span><span class="n">wheel</span><span class="o">.</span><span class="n">bash</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="nb">dir</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">out</span>   <span class="c1"># choose where wheels land</span>
+<span class="o">./</span><span class="n">build</span><span class="o">-</span><span class="n">wheel</span><span class="o">.</span><span class="n">bash</span> <span class="o">--</span><span class="nb">print</span><span class="o">-</span><span class="n">env</span>             <span class="c1"># show the resolved CIBW_* settings without building</span>
+<span class="o">./</span><span class="n">build</span><span class="o">-</span><span class="n">wheel</span><span class="o">.</span><span class="n">bash</span> <span class="o">--</span><span class="n">help</span>                  <span class="c1"># full option list</span>
+</pre></div>
+</div>
+</section>
+<section id="installing-and-testing-the-result">
+<h3>Installing and testing the result<a class="headerlink" href="#installing-and-testing-the-result" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">force</span><span class="o">-</span><span class="n">reinstall</span> <span class="o">./</span><span class="n">wheelhouse</span><span class="o">/</span><span class="n">eoshep</span><span class="o">-*.</span><span class="n">whl</span>
+<span class="n">python3</span> <span class="o">-</span><span class="n">c</span> <span class="s1">&#39;import eos; print(eos.__version__)&#39;</span>
+<span class="n">eos</span><span class="o">-</span><span class="nb">list</span><span class="o">-</span><span class="n">references</span> <span class="o">&gt;</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">null</span>
+</pre></div>
+</div>
+<p>This mirrors the <code class="docutils literal notranslate"><span class="pre">CIBW_TEST_COMMAND</span></code> the workflow itself runs against every
+wheel it builds.</p>
 </section>
 </section>
 </section>
