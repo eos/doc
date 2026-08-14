@@ -2598,14 +2598,16 @@ EOS_BASE_DIRECTORY/data/POSTERIOR/mask-MASK_NAME, and is also returned as a bool
 <dt class="sig sig-object py" id="eos.draw_figure">
 <span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">draw_figure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figure_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'pdf'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.draw_figure" title="Link to this definition"></a></dt>
 <dd><p>Draws figures from the analysis file.</p>
-<p>The output files will be stored in EOS_BASE_DIRECTORY/figures/.</p>
+<p>The output files will be stored in EOS_BASE_DIRECTORY/figures/. If more than one format is
+requested, the figure is drawn once and stored once per format, since drawing the same figure
+repeatedly would stack its elements on top of each other.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>analysis_file</strong> (str or <cite>eos.AnalysisFile</cite>) – The name of the analysis file that describes the named posterior, or an object of class <cite>eos.AnalysisFile</cite>.</p></li>
 <li><p><strong>figure_name</strong> (<em>str</em>) – The name of the figure to draw.</p></li>
 <li><p><strong>base_directory</strong> (<em>str</em><em>, </em><em>optional</em>) – The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p></li>
-<li><p><strong>format</strong> (<em>str</em><em> or </em><em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – The file extension of the data files. Can also be a list of file extensions.</p></li>
+<li><p><strong>format</strong> (<em>str</em><em> or </em><em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – The file extension of the figure files. Can also be a list of file extensions.</p></li>
 </ul>
 </dd>
 </dl>
@@ -3995,6 +3997,10 @@ the <code class="xref py py-class docutils literal notranslate"><span class="pre
 <code class="xref py py-class docutils literal notranslate"><span class="pre">eos.figure.items.Item</span></code>. The item is responsible for creating the actual
 plot item, such as the curve of an EOS observable, a scatter plot of parameters, a histogram
 or a kernel density estimate, to name some of the options.</p>
+<p>A figure is rendered by its <a class="reference internal" href="#eos.figure.Figure.draw" title="eos.figure.Figure.draw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">draw</span></code></a> method, and the rendered figure
+is stored to one or more output files by its <a class="reference internal" href="#eos.figure.Figure.save" title="eos.figure.Figure.save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">save</span></code></a> method. A figure
+must only be drawn once; drawing it repeatedly stacks its elements on top of each other, which distorts
+the colors of elements with an opacity &lt; 1.</p>
 <section id="figure-and-related-classes">
 <h3><cite>Figure</cite> and Related Classes<a class="headerlink" href="#figure-and-related-classes" title="Link to this heading"></a></h3>
 <dl class="py class">
@@ -4008,14 +4014,27 @@ It is not intended to be used directly. To create a a concrete plot, use the <a 
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.figure.Figure.draw">
-<span class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AnalysisFileContext</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.Figure.draw" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AnalysisFileContext</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.Figure.draw" title="Link to this definition"></a></dt>
 <dd><p>Draw the figure.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>context</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnalysisFileContext</span></code>) – The analysis file context, which contains the paths to the data files and other relevant information.</p></li>
-<li><p><strong>output</strong> (<em>str</em><em> | </em><em>list</em><em>[</em><em>str</em><em>] </em><em>| </em><em>None</em>) – The path(s) to the output file(s) where the figure should be saved. If None, the figure is not saved.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>context</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnalysisFileContext</span></code>) – The analysis file context, which contains the paths to the data files and other relevant information.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.figure.Figure.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.Figure.save" title="Link to this definition"></a></dt>
+<dd><p>Save the figure to one or more output files.</p>
+<p>The figure must have been drawn by a call to <a class="reference internal" href="#eos.figure.Figure.draw" title="eos.figure.Figure.draw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">draw</span></code></a> beforehand;
+saving an undrawn figure yields an empty figure. Drawing the same figure more than once stacks
+its elements on top of each other, which distorts the colors of elements with opacity &lt; 1;
+draw once and pass all output files to a single call to this method instead.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>output</strong> (<em>str</em><em> | </em><em>list</em><em>[</em><em>str</em><em>]</em>) – The path(s) to the output file(s) where the figure is saved. The file format of each
+output file is determined by its file name extension.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -4118,16 +4137,13 @@ and forwards it to the <a class="reference internal" href="#eos.figure.FigureFac
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.figure.SingleFigure.draw">
-<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AnalysisFileContext</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.SingleFigure.draw" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AnalysisFileContext</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.SingleFigure.draw" title="Link to this definition"></a></dt>
 <dd><p>Draw the single-plot figure.</p>
-<p>Prepares and draws the figure’s plot, adds the watermark, and optionally saves the figure to
-one or more output files.</p>
+<p>Prepares and draws the figure’s plot and adds the watermark. Use
+<a class="reference internal" href="#eos.figure.Figure.save" title="eos.figure.Figure.save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">save</span></code></a> to store the drawn figure to one or more output files.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>context</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnalysisFileContext</span></code>) – The analysis file context, which contains the paths to the data files and other relevant information.</p></li>
-<li><p><strong>output</strong> (<em>str</em><em> | </em><em>list</em><em>[</em><em>str</em><em>] </em><em>| </em><em>None</em>) – The path(s) to the output file(s) where the figure should be saved. If None, the figure is not saved.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>context</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnalysisFileContext</span></code>) – The analysis file context, which contains the paths to the data files and other relevant information.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -4169,14 +4185,12 @@ one or more output files.</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.figure.InsetFigure.draw">
-<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AnalysisFileContext</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.InsetFigure.draw" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AnalysisFileContext</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.InsetFigure.draw" title="Link to this definition"></a></dt>
 <dd><p>Draw the inset figure.</p>
+<p>Use <a class="reference internal" href="#eos.figure.Figure.save" title="eos.figure.Figure.save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">save</span></code></a> to store the drawn figure to one or more output files.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>context</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnalysisFileContext</span></code>) – The analysis file context, which contains the paths to the data files and other relevant information.</p></li>
-<li><p><strong>output</strong> (<em>str</em><em> | </em><em>list</em><em>[</em><em>str</em><em>] </em><em>| </em><em>None</em>) – The path(s) to the output file(s) where the figure should be saved. If None, the figure is not saved.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>context</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnalysisFileContext</span></code>) – The analysis file context, which contains the paths to the data files and other relevant information.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -4223,14 +4237,12 @@ and first column, the second plot to the first row and second column, and so on.
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.figure.GridFigure.draw">
-<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AnalysisFileContext</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.GridFigure.draw" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AnalysisFileContext</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.GridFigure.draw" title="Link to this definition"></a></dt>
 <dd><p>Draw the grid figure.</p>
+<p>Use <a class="reference internal" href="#eos.figure.Figure.save" title="eos.figure.Figure.save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">save</span></code></a> to store the drawn figure to one or more output files.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>context</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnalysisFileContext</span></code>) – The analysis file context, which contains the paths to the data files and other relevant information.</p></li>
-<li><p><strong>output</strong> (<em>str</em><em> | </em><em>list</em><em>[</em><em>str</em><em>] </em><em>| </em><em>None</em>) – The path(s) to the output file(s) where the figure should be saved. If None, the figure is not saved.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>context</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnalysisFileContext</span></code>) – The analysis file context, which contains the paths to the data files and other relevant information.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -4271,14 +4283,12 @@ and first column, the second plot to the first row and second column, and so on.
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.figure.CornerFigure.draw">
-<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AnalysisFileContext</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.CornerFigure.draw" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AnalysisFileContext</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.CornerFigure.draw" title="Link to this definition"></a></dt>
 <dd><p>Draw the corner figure.</p>
+<p>Use <a class="reference internal" href="#eos.figure.CornerFigure.save" title="eos.figure.CornerFigure.save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">save</span></code></a> to store the drawn figure to one or more output files.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>context</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnalysisFileContext</span></code>) – The analysis file context, which contains the paths to the data files and other relevant information.</p></li>
-<li><p><strong>output</strong> (<em>str</em><em> | </em><em>list</em><em>[</em><em>str</em><em>] </em><em>| </em><em>None</em>) – The path(s) to the output file(s) where the figure should be saved. If None, the figure is not saved.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>context</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnalysisFileContext</span></code>) – The analysis file context, which contains the paths to the data files and other relevant information.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -4304,14 +4314,25 @@ and first column, the second plot to the first row and second column, and so on.
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.figure.CornerFigure.prepare">
-<span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AnalysisFileContext</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.CornerFigure.prepare" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AnalysisFileContext</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.CornerFigure.prepare" title="Link to this definition"></a></dt>
 <dd><p>Prepare the corner figure for drawing.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>context</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnalysisFileContext</span></code>) – The analysis file context, which contains the paths to the data files and other relevant information.</p></li>
-<li><p><strong>output</strong> (<em>str</em><em> | </em><em>None</em>) – The path to the output file where the figure should be saved. If None, the figure is not saved.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>context</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnalysisFileContext</span></code>) – The analysis file context, which contains the paths to the data files and other relevant information.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.figure.CornerFigure.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.CornerFigure.save" title="Link to this definition"></a></dt>
+<dd><p>Save the corner figure to one or more output files.</p>
+<p>This figure’s contents are drawn by an underlying <a class="reference internal" href="#eos.figure.GridFigure" title="eos.figure.GridFigure"><code class="xref py py-class docutils literal notranslate"><span class="pre">GridFigure</span></code></a>,
+to which saving is delegated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>output</strong> (<em>str</em><em> | </em><em>list</em><em>[</em><em>str</em><em>]</em>) – The path(s) to the output file(s) where the figure is saved. The file format of each
+output file is determined by its file name extension.</p>
 </dd>
 </dl>
 </dd></dl>
