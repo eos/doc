@@ -60,7 +60,11 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Hadronic Matrix Elements of Local Operators</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#definition-of-decay-constants">Definition of Decay Constants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#definition-of-semileptonic-form-factors">Definition of Semileptonic Form Factors</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#parametrisation-of-semileptonic-form-factors">Parametrisation of Semileptonic Form Factors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#parametrisation-of-semileptonic-form-factors">Parametrisation of Semileptonic Form Factors</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#general-parametrisation-sse">General Parametrisation: <code class="docutils literal notranslate"><span class="pre">SSE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dispersively-bounded-parametrisation-se">Dispersively Bounded Parametrisation: <code class="docutils literal notranslate"><span class="pre">SE</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="semileptonic-observables.html">Observables in Semileptonic Decays</a></li>
@@ -178,41 +182,145 @@ Within EOS the corresponding parameters carry the labels <code class="docutils l
 </section>
 <section id="parametrisation-of-semileptonic-form-factors">
 <h2>Parametrisation of Semileptonic Form Factors<a class="headerlink" href="#parametrisation-of-semileptonic-form-factors" title="Link to this heading"></a></h2>
-<p>EOS provides one general-purpose parametrisation of all semileptonic form factors. It is referred to as the <code class="docutils literal notranslate"><span class="pre">BSZ2015</span></code> parametrisation.
+<p>By default, EOS uses the general-purpose <code class="docutils literal notranslate"><span class="pre">SSE</span></code> (Simplified Series Expansion) parametrisation for all semileptonic form factors, which is described in the subsection below.
+The remaining parametrisations require domain-specific knowledge and are discussed in their respective subsections.</p>
+<section id="general-parametrisation-sse">
+<h3>General Parametrisation: <code class="docutils literal notranslate"><span class="pre">SSE</span></code><a class="headerlink" href="#general-parametrisation-sse" title="Link to this heading"></a></h3>
+<p>EOS provides one general-purpose parametrisation of all semileptonic form factors. It is referred to as the <code class="docutils literal notranslate"><span class="pre">SSE</span></code> parametrisation.
 For a generic form factor <span class="math notranslate nohighlight">\(F(q^2)\)</span>, it reads:</p>
 <div class="math notranslate nohighlight">
 \begin{equation*}
-   F(q^2) = \frac{1}{1 - q^2 / M_R^2} \left[\sum_{i=0}^N \alpha^{(F)}_{i} \left(z(q^2) - z(0)\right)^i \right]\,.
-\end{equation*}</div><p>Here <span class="math notranslate nohighlight">\(M_R\)</span> correspond to the mass of the first resonance seen by that form factor and <span class="math notranslate nohighlight">\(\alpha_i^{(F)}\)</span> are free parameters.
-The coefficients <span class="math notranslate nohighlight">\(\alpha_i^{(F)}\)</span> are treated as unconstrained free parameters:
-there is no expectation for the magnitude of any individual coefficient, nor is there an expectation that the series of coefficients converges.
-We use the conformal mapping <span class="math notranslate nohighlight">\(q^2 \mapsto z(q^2) = z(q^2; t_+, t_0)\)</span>, which reads</p>
+   F(q^2) = \frac{1}{1 - q^2 / M_R^2} \left[\sum_{i=0}^N \alpha^{(F)}_{i}\, z(q^2)^i \right]\,,
+\end{equation*}</div><p>with <span class="math notranslate nohighlight">\(N = 2\)</span> in the current implementation.
+Here <span class="math notranslate nohighlight">\(M_R\)</span> corresponds to the mass of the first resonance seen by that form factor and <span class="math notranslate nohighlight">\(\alpha_i^{(F)}\)</span> are free parameters.</p>
+<p>This parametrisation uses the conformal mapping <span class="math notranslate nohighlight">\(q^2 \mapsto z(q^2) = z(q^2; t_+, t_0)\)</span>, which reads</p>
 <div class="math notranslate nohighlight">
 \begin{equation*}
    z(q^2; t_+, t_0) = \frac{\sqrt{t_+ - q^2} - \sqrt{t_+ - t_0}}{\sqrt{t_+ - q^2} + \sqrt{t_+ - t_0}}\,.
-\end{equation*}</div><p>In the above, <span class="math notranslate nohighlight">\(t_+ \equiv (M_1 + M_2)^2\)</span> represents the two-body threshold for the respective form factor for a reaction with hadron masses <span class="math notranslate nohighlight">\(M_{1,2}\)</span>,
-and <span class="math notranslate nohighlight">\(t_0 &lt; (M_1 - M_2)^2\)</span> is a free parameter.
-Examples for accessing the parameters <span class="math notranslate nohighlight">\(\alpha_i^{(F)}\)</span> are:</p>
+\end{equation*}</div><p>In the above, <span class="math notranslate nohighlight">\(t_+\)</span> is the pair-production threshold of the respective form factor, chosen as the <em>lowest-lying</em> two- or three-particle
+threshold accessible in the isospin-symmetry limit. The expansion point <span class="math notranslate nohighlight">\(t_0\)</span> is fixed to its optimised value
+<span class="math notranslate nohighlight">\(t_0 = t_+ \left(1 - \sqrt{1 - t_- / t_+}\right)\)</span>, where <span class="math notranslate nohighlight">\(t_- \equiv (M_1 - M_2)^2\)</span> for hadron masses <span class="math notranslate nohighlight">\(M_{1,2}\)</span>.</p>
+<p>Since the vector and scalar currents couple to a lower-lying threshold than the axial and pseudoscalar currents, EOS distinguishes two thresholds:
+<span class="math notranslate nohighlight">\(t_+^V\)</span> for the vector/scalar-current form factors (e.g. <span class="math notranslate nohighlight">\(V\)</span>, <span class="math notranslate nohighlight">\(T_1\)</span>, and all <span class="math notranslate nohighlight">\(P\to P\)</span> form factors),
+and <span class="math notranslate nohighlight">\(t_+^A\)</span> for the (pseudo)scalar/axial-current form factors (e.g. <span class="math notranslate nohighlight">\(A_0\)</span>, <span class="math notranslate nohighlight">\(A_1\)</span>, <span class="math notranslate nohighlight">\(A_{12}\)</span>, <span class="math notranslate nohighlight">\(T_2\)</span>, <span class="math notranslate nohighlight">\(T_{23}\)</span>).
+For a <span class="math notranslate nohighlight">\(b\to s\)</span> transition, for instance, <span class="math notranslate nohighlight">\(t_+^V = (M_B + M_K)^2\)</span> is the <span class="math notranslate nohighlight">\(B K\)</span> threshold,
+while <span class="math notranslate nohighlight">\(t_+^A = (M_{B_s} + 2 M_\pi)^2\)</span> is the lowest isospin-allowed three-particle threshold.
+Both thresholds are themselves accessible as parameters and are set to sensible default values.</p>
+<p>The coefficients <span class="math notranslate nohighlight">\(\alpha_i^{(F)}\)</span> are treated as unconstrained free parameters:
+there is no expectation for the magnitude of any individual coefficient, nor is there an expectation that the series of coefficients converges.
+In contrast to some other parametrisations, the series is expanded directly in <span class="math notranslate nohighlight">\(z(q^2)\)</span>, and <em>not</em> in the shifted variable <span class="math notranslate nohighlight">\(z(q^2) - z(0)\)</span>.</p>
+<p>As a consequence, the kinematic constraints and equations of motion relating individual form factors
+(for example <span class="math notranslate nohighlight">\(f_0(0) = f_+(0)\)</span> for <span class="math notranslate nohighlight">\(P\to P\)</span> transitions, or <span class="math notranslate nohighlight">\(T_2(0) = T_1(0)\)</span> and <span class="math notranslate nohighlight">\(A_{12}(0) = R\, A_0(0)\)</span> for <span class="math notranslate nohighlight">\(P\to V\)</span> transitions,
+with <span class="math notranslate nohighlight">\(R \equiv (M_P^2 - M_V^2) / (8 M_P M_V)\)</span>)
+fix the leading coefficient <span class="math notranslate nohighlight">\(\alpha_0^{(F)}\)</span> of the constrained form factors. This coefficient is therefore removed from the set of free parameters.</p>
+<p>Further relations hold at the kinematic endpoint <span class="math notranslate nohighlight">\(t_- = (M_1 - M_2)^2\)</span>, where they ensure that the form factors obtained by dividing
+by the Källén function <span class="math notranslate nohighlight">\(\lambda(M_1^2, M_2^2, q^2)\)</span>, which vanishes at <span class="math notranslate nohighlight">\(q^2 = t_-\)</span>, remain finite. For <span class="math notranslate nohighlight">\(P\to V\)</span> transitions these are
+<span class="math notranslate nohighlight">\(A_{12}(t_-) = R\, A_1(t_-)\)</span>, which renders <span class="math notranslate nohighlight">\(A_2\)</span> finite and fixes <span class="math notranslate nohighlight">\(\alpha_0^{(A_1)}\)</span>, and
+<span class="math notranslate nohighlight">\(T_{23}(t_-) = K\, T_2(t_-)\)</span> with <span class="math notranslate nohighlight">\(K \equiv (M_P + M_V)^2 / (4 M_P M_V)\)</span>, which renders <span class="math notranslate nohighlight">\(T_3\)</span> finite and fixes <span class="math notranslate nohighlight">\(\alpha_0^{(T_{23})}\)</span>.
+For <span class="math notranslate nohighlight">\(1/2^+ \to 1/2^+\)</span> transitions, the analogous relations are <span class="math notranslate nohighlight">\(f_\perp^A(t_-) = f_\text{long}^A(t_-)\)</span> and
+<span class="math notranslate nohighlight">\(f_\text{long}^{T5}(t_-) = f_\perp^{T5}(t_-)\)</span>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">SSE</span></code> parametrisation covers <span class="math notranslate nohighlight">\(P\to P\)</span> and <span class="math notranslate nohighlight">\(P\to V\)</span> mesonic transitions as well as <span class="math notranslate nohighlight">\(1/2^+ \to 1/2^+\)</span> baryonic transitions.
+Examples for accessing the parameters <span class="math notranslate nohighlight">\(\alpha_i^{(F)}\)</span> and the thresholds are:</p>
 <table class="docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p>Transition</p></td>
-<td><p>Form Factor</p></td>
-<td><p>Parameter</p></td>
+<thead>
+<tr class="row-odd"><th class="head"><p>Transition</p></th>
+<th class="head"><p>Quantity</p></th>
+<th class="head"><p>Parameter(s)</p></th>
 </tr>
+</thead>
+<tbody>
 <tr class="row-even"><td><p><span class="math notranslate nohighlight">\(B\to K\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(f_+\)</span></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">B-&gt;K::alpha^f+_0&#64;BSZ2015</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">B-&gt;K::alpha^f+_0&#64;SSE</span></code>,
+<code class="docutils literal notranslate"><span class="pre">B-&gt;K::alpha^f+_1&#64;SSE</span></code>,
+…</p></td>
 </tr>
-<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(D\to K\)</span></p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(B\to K\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(t_+\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">B-&gt;K::tp&#64;SSE</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(B\to K\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(f_0\)</span></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">D-&gt;K::alpha^f0_2&#64;BSZ2015</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">B-&gt;K::alpha^f0_1&#64;SSE</span></code>,
+<code class="docutils literal notranslate"><span class="pre">B-&gt;K::alpha^f0_2&#64;SSE</span></code>,
+…</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(B\to K^*\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(V\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">B-&gt;K^*::alpha^V_0&#64;SSE</span></code>,
+<code class="docutils literal notranslate"><span class="pre">B-&gt;K^*::alpha^V_1&#64;SSE</span></code>,
+…</p></td>
 </tr>
 <tr class="row-even"><td><p><span class="math notranslate nohighlight">\(B\to K^*\)</span></p></td>
-<td><p><span class="math notranslate nohighlight">\(V\)</span></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">B-&gt;K^*::alpha^V_1&#64;BSZ2015</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(t_+^V\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">B-&gt;K^*::tp_v&#64;SSE</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(B\to K^*\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(A_1\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">B-&gt;K^*::alpha^A1_1&#64;SSE</span></code>,
+<code class="docutils literal notranslate"><span class="pre">B-&gt;K^*::alpha^A1_2&#64;SSE</span></code>,
+…</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(B\to K^*\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(t_+^A\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">B-&gt;K^*::tp_a&#64;SSE</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\Lambda_b\to\Lambda\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(f_\perp^V\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Lambda_b-&gt;Lambda::alpha^(perp,V)_0&#64;SSE</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Lambda_b-&gt;Lambda::alpha^(perp,V)_1&#64;SSE</span></code>,
+…</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\Lambda_b\to\Lambda\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(t_+^V\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Lambda_b-&gt;Lambda::tp_v&#64;SSE</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\Lambda_b\to\Lambda\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(f_0^A\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Lambda_b-&gt;Lambda::alpha^(0,A)_0&#64;SSE</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Lambda_b-&gt;Lambda::alpha^(0,A)_1&#64;SSE</span></code>,
+…</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\Lambda_b\to\Lambda\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(t_+^A\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Lambda_b-&gt;Lambda::tp_a&#64;SSE</span></code></p></td>
 </tr>
 </tbody>
 </table>
+</section>
+<section id="dispersively-bounded-parametrisation-se">
+<h3>Dispersively Bounded Parametrisation: <code class="docutils literal notranslate"><span class="pre">SE</span></code><a class="headerlink" href="#dispersively-bounded-parametrisation-se" title="Link to this heading"></a></h3>
+<p>EOS further provides a <code class="docutils literal notranslate"><span class="pre">Series</span> <span class="pre">Expansion</span></code> (<code class="docutils literal notranslate"><span class="pre">SE</span></code>) parametrisation, in which the expansion coefficients are subject to a dispersive bound.
+Using this parametrisation requires domain-specific knowledge and is intended for dedicated form-factor analyses.</p>
+<p>The underlying idea goes back to [BGL:1997A]: the analyticity and unitarity of a suitable two-point correlator of the relevant quark current
+imply an upper bound on a weighted integral of the form factors, and thereby on a sum of squared expansion coefficients.
+A generic form factor is written as</p>
+<div class="math notranslate nohighlight">
+\begin{equation*}
+   F(q^2) = \frac{1}{P(q^2)\, \phi_F(q^2)} \sum_{k=0}^{K} a^{(F)}_{k}\, p_k\big(z(q^2)\big)\,,
+\end{equation*}</div><p>where <span class="math notranslate nohighlight">\(P(q^2)\)</span> is a Blaschke product that removes all sub-threshold resonance poles, <span class="math notranslate nohighlight">\(\phi_F\)</span> is a process- and form-factor-specific <em>outer function</em>,
+and the <span class="math notranslate nohighlight">\(p_k\)</span> are polynomials in the conformal variable <span class="math notranslate nohighlight">\(z(q^2)\)</span>.
+The outer functions are constructed such that the dispersive bound assumes the diagonal form</p>
+<div class="math notranslate nohighlight">
+\begin{equation*}
+   \sum_{F \in J^P} \sum_{k} \left(a^{(F)}_{k}\right)^2 \leq 1\,.
+\end{equation*}</div><p>This bound holds channel by channel: for each set of quantum numbers <span class="math notranslate nohighlight">\(J^P\)</span> of the interpolating current, the first sum runs only over those form factors
+<span class="math notranslate nohighlight">\(F\)</span> that contribute to the corresponding two-point correlator. EOS therefore provides one saturation observable per channel and current, for example
+<code class="docutils literal notranslate"><span class="pre">B-&gt;K::Saturation[1^-_V]</span></code> and <code class="docutils literal notranslate"><span class="pre">B-&gt;K::Saturation[0^+_V]</span></code>, rather than a single number for the entire transition.</p>
+<p>The left-hand side is referred to as the <em>saturation</em> of the bound. It is obtained by integrating the squared, outer-function-weighted form factors
+over the arc of the unit circle in the complex <span class="math notranslate nohighlight">\(z\)</span> plane onto which the pair-production branch cut is mapped.
+Choosing the <span class="math notranslate nohighlight">\(p_k\)</span> to be orthonormal with respect to (the measure supported on) this arc is precisely what renders the bound diagonal.</p>
+<p>Note that EOS absorbs the isospin-degeneracy factor <span class="math notranslate nohighlight">\(n_I\)</span> of the transition into the normalisation of the outer functions, <span class="math notranslate nohighlight">\(\phi_F \propto \sqrt{n_I}\)</span>.
+Here <span class="math notranslate nohighlight">\(n_I\)</span> counts the isospin-related exclusive channels that contribute to the same correlator; for example <span class="math notranslate nohighlight">\(n_I = 2\)</span> for <span class="math notranslate nohighlight">\(B\to K\)</span> (accounting for
+both <span class="math notranslate nohighlight">\(B^-\to K^-\)</span> and <span class="math notranslate nohighlight">\(\bar{B}^0 \to \bar{K}^0\)</span>) and for <span class="math notranslate nohighlight">\(B\to K^*\)</span>, while <span class="math notranslate nohighlight">\(n_I = 1\)</span> for <span class="math notranslate nohighlight">\(B_s\to \phi\)</span>, <span class="math notranslate nohighlight">\(B_s\to K\)</span>, and all
+baryonic transitions presently implemented.
+As a consequence, the right-hand side of the bound above equals <span class="math notranslate nohighlight">\(1\)</span> rather than <span class="math notranslate nohighlight">\(1/n_I\)</span>, and the coefficients <span class="math notranslate nohighlight">\(a^{(F)}_k\)</span> are larger by a factor
+of <span class="math notranslate nohighlight">\(\sqrt{n_I}\)</span> than in conventions that keep <span class="math notranslate nohighlight">\(n_I\)</span> explicit on the right-hand side.</p>
+<p>The concrete implementation in the traditional basis of mesonic form factors used within EOS follows [BFW:2010A].
+For the baryonic <span class="math notranslate nohighlight">\(1/2^+ \to 1/2^+\)</span> transitions, the dispersive bound, the integration over the arc of the unit circle, and the associated orthonormal polynomials <span class="math notranslate nohighlight">\(p_k\)</span> follow [BMRvD:2022A].
+The extension to <span class="math notranslate nohighlight">\(1/2^+ \to 3/2^-\)</span> baryonic transitions follows [ABR:2022A].
+Within EOS the corresponding coefficients carry the label <code class="docutils literal notranslate"><span class="pre">SE</span></code>, for example <code class="docutils literal notranslate"><span class="pre">B-&gt;K^*::a^V_0&#64;SE</span></code> or <code class="docutils literal notranslate"><span class="pre">Lambda_b-&gt;Lambda::a^(0,V)_0&#64;SE</span></code>.</p>
+</section>
 </section>
 </section>
 
