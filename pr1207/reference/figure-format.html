@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Figure Description Format &mdash; EOS 1.0.20 documentation</title>
+  <title>Figure Description Format &mdash; EOS 1.0.21 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/contentui.css" />
@@ -16,7 +16,7 @@
     <link rel="canonical" href="https://eos.github.io/doc/reference/figure-format.html" />
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=9a2e067c"></script>
+      <script src="../_static/documentation_options.js?v=3e568265"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/contentui.js"></script>
@@ -316,7 +316,7 @@ Every item has a mandatory <code class="docutils literal notranslate"><span clas
 <td><p><a class="reference internal" href="python.html#eos.figure.item.ExpressionItem" title="eos.figure.item.ExpressionItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExpressionItem</span></code></a></p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">uncertainty</span></code></p></td>
-<td><p>Plots the 68% uncertainty band as a function of one kinematic variable or one parameter.</p></td>
+<td><p>Plots the 68.27% (default) uncertainty band as a function of one kinematic variable or one parameter.</p></td>
 <td><p><a class="reference internal" href="python.html#eos.figure.item.UncertaintyBandItem" title="eos.figure.item.UncertaintyBandItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">UncertaintyBandItem</span></code></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">uncertainty-binned</span></code></p></td>
@@ -438,7 +438,9 @@ The watermark is described by a <a class="reference internal" href="python.html#
 <section id="rendering-a-figure">
 <span id="figure-format-rendering"></span><h2>Rendering a figure<a class="headerlink" href="#rendering-a-figure" title="Link to this heading"></a></h2>
 <p>A standalone figure description can be rendered interactively through the <a class="reference internal" href="python.html#eos.figure.FigureFactory" title="eos.figure.FigureFactory"><code class="xref py py-class docutils literal notranslate"><span class="pre">FigureFactory</span></code></a>.
-The <a class="reference internal" href="python.html#eos.figure.FigureFactory.from_yaml" title="eos.figure.FigureFactory.from_yaml"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_yaml</span></code></a> method turns a YAML description into a figure object, whose <a class="reference internal" href="python.html#eos.figure.Figure.draw" title="eos.figure.Figure.draw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">draw</span></code></a> method renders it and, optionally, saves it to one or more output files:</p>
+The <a class="reference internal" href="python.html#eos.figure.FigureFactory.from_yaml" title="eos.figure.FigureFactory.from_yaml"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_yaml</span></code></a> method turns a YAML description into a figure object, whose
+<a class="reference internal" href="python.html#eos.figure.Figure.draw" title="eos.figure.Figure.draw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">draw</span></code></a> method renders it. The rendered figure can then be stored to one or more output files
+with its <a class="reference internal" href="python.html#eos.figure.Figure.save" title="eos.figure.Figure.save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">save</span></code></a> method:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">eos.figure</span>
 
 <span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
@@ -451,9 +453,13 @@ The <a class="reference internal" href="python.html#eos.figure.FigureFactory.fro
 <span class="s1">        variable: &#39;q2&#39;, range: [0.1, 11.6] }</span>
 <span class="s1">&#39;&#39;&#39;</span>
 <span class="n">figure</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">FigureFactory</span><span class="o">.</span><span class="n">from_yaml</span><span class="p">(</span><span class="n">description</span><span class="p">)</span>
-<span class="n">figure</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="s1">&#39;dBR.pdf&#39;</span><span class="p">)</span>
+<span class="n">figure</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+<span class="n">figure</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;dBR.pdf&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>A figure must only be drawn once; drawing it repeatedly stacks its elements on top of each other, which distorts the colors of
+elements with an opacity &lt; 1. To store the same figure in several file formats, pass all output files to a single call to
+<a class="reference internal" href="python.html#eos.figure.Figure.save" title="eos.figure.Figure.save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">save</span></code></a>, e.g. <code class="docutils literal notranslate"><span class="pre">figure.save(['dBR.pdf',</span> <span class="pre">'dBR.png'])</span></code>.</p>
 <p>When a figure is instead listed among the <a class="reference internal" href="analysis-file-format.html#analysis-file-figures"><span class="std std-ref">figures</span></a> of an analysis file, it is rendered by the <code class="docutils literal notranslate"><span class="pre">draw-figure</span></code> task, and its <code class="docutils literal notranslate"><span class="pre">name</span></code> determines the file name under which the rendered figure is stored.</p>
 </section>
 </section>
@@ -469,7 +475,7 @@ The <a class="reference internal" href="python.html#eos.figure.FigureFactory.fro
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2019-2024, The EOS Authors.</p>
+    <p>&#169; Copyright 2019-2026, The EOS Authors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
