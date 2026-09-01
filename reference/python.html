@@ -660,7 +660,7 @@ the standard deviation by the parameter <code class="docutils literal notranslat
 <span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">Scale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(_Parameters)parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(str)name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(float)min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(float)max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(float)mu_0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(float)scale</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">LogPrior</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.LogPrior.Scale" title="Link to this definition"></a></dt>
 <dd><p>Returns a new Scale prior as a LogPrior.</p>
 <p>The prior’s support is provided by the pair of <code class="docutils literal notranslate"><span class="pre">min</span></code> and <code class="docutils literal notranslate"><span class="pre">max</span></code> parameters,
-which should coincide with [<code class="docutils literal notranslate"><span class="pre">mu_0</span> <span class="pre">/</span> <span class="pre">lambda</span></code>, <code class="docutils literal notranslate"><span class="pre">mu_0</span> <span class="pre">*</span> <span class="pre">lambda</span></code>]. The PDF is
+which should coincide with [<code class="docutils literal notranslate"><span class="pre">mu_0</span> <span class="pre">/</span> <span class="pre">scale</span></code>, <code class="docutils literal notranslate"><span class="pre">mu_0</span> <span class="pre">*</span> <span class="pre">scale</span></code>]. The PDF is
 chosen such that a renormalization scale is varied in this range and with
 central value <cite>mu_0</cite> such that <span class="math notranslate nohighlight">\(\ln x / \mu_0\)</span> is uniformly
 distributed in the interval <span class="math notranslate nohighlight">\([-\ln \lambda, +\ln \lambda]\)</span>.</p>
@@ -672,7 +672,7 @@ distributed in the interval <span class="math notranslate nohighlight">\([-\ln \
 <li><p><strong>min</strong> (<em>float</em>) – The minimum value that the parameter is allowed to take.</p></li>
 <li><p><strong>max</strong> (<em>float</em>) – The maximum value that the parameter is allowed to take.</p></li>
 <li><p><strong>mu_0</strong> (<em>float</em><em>, </em><em>strictly positive</em>) – The central value of the parameter.</p></li>
-<li><p><strong>lambda</strong> (<em>float</em><em>, </em><em>strictly positive</em>) – The scale factor.</p></li>
+<li><p><strong>scale</strong> (<em>float</em><em>, </em><em>strictly positive</em>) – The scale factor.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1661,7 +1661,7 @@ composition is approximately:</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.QualifiedName.name_part">
 <span class="sig-name descname"><span class="pre">name_part</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(QualifiedName)self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qnpName</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.QualifiedName.name_part" title="Link to this definition"></a></dt>
-<dd><p>Returns the name part of the name, i.e., the part following the ‘::’ and preceeding any
+<dd><p>Returns the name part of the name, i.e., the part following the ‘::’ and preceding any
 optional ‘&#64;’.</p>
 </dd></dl>
 
@@ -1674,7 +1674,7 @@ optional ‘&#64;’.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.QualifiedName.prefix_part">
 <span class="sig-name descname"><span class="pre">prefix_part</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(QualifiedName)self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">qnpPrefix</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.QualifiedName.prefix_part" title="Link to this definition"></a></dt>
-<dd><p>Returns the prefix part of the name, i.e., the part preceeding the ‘::’.</p>
+<dd><p>Returns the prefix part of the name, i.e., the part preceding the ‘::’.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -2009,68 +2009,146 @@ overview. Filters can be applied through keyword arguments to the initialization
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.Unit.Femtometer2">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">Femtometer2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.Unit" title="eos.Unit"><span class="pre">Unit</span></a></span></span><a class="headerlink" href="#eos.Unit.Femtometer2" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">Femtometer2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Unit</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Unit.Femtometer2" title="Link to this definition"></a></dt>
+<dd><p>Returns the unit <span class="math notranslate nohighlight">\(\textrm{fm}^2\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#eos.Unit" title="eos.Unit">eos.Unit</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.Unit.GeV">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">GeV</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.Unit" title="eos.Unit"><span class="pre">Unit</span></a></span></span><a class="headerlink" href="#eos.Unit.GeV" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">GeV</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Unit</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Unit.GeV" title="Link to this definition"></a></dt>
+<dd><p>Returns the unit <span class="math notranslate nohighlight">\(\textrm{GeV}\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#eos.Unit" title="eos.Unit">eos.Unit</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.Unit.GeV2">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">GeV2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.Unit" title="eos.Unit"><span class="pre">Unit</span></a></span></span><a class="headerlink" href="#eos.Unit.GeV2" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">GeV2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Unit</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Unit.GeV2" title="Link to this definition"></a></dt>
+<dd><p>Returns the unit <span class="math notranslate nohighlight">\(\textrm{GeV}^2\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#eos.Unit" title="eos.Unit">eos.Unit</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.Unit.GeV3">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">GeV3</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.Unit" title="eos.Unit"><span class="pre">Unit</span></a></span></span><a class="headerlink" href="#eos.Unit.GeV3" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">GeV3</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Unit</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Unit.GeV3" title="Link to this definition"></a></dt>
+<dd><p>Returns the unit <span class="math notranslate nohighlight">\(\textrm{GeV}^3\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#eos.Unit" title="eos.Unit">eos.Unit</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.Unit.GeVSecond">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">GeVSecond</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.Unit" title="eos.Unit"><span class="pre">Unit</span></a></span></span><a class="headerlink" href="#eos.Unit.GeVSecond" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">GeVSecond</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Unit</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Unit.GeVSecond" title="Link to this definition"></a></dt>
+<dd><p>Returns the unit <span class="math notranslate nohighlight">\(\textrm{GeV}\,\textrm{s}\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#eos.Unit" title="eos.Unit">eos.Unit</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.Unit.InverseGeV">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">InverseGeV</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.Unit" title="eos.Unit"><span class="pre">Unit</span></a></span></span><a class="headerlink" href="#eos.Unit.InverseGeV" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">InverseGeV</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Unit</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Unit.InverseGeV" title="Link to this definition"></a></dt>
+<dd><p>Returns the unit <span class="math notranslate nohighlight">\(\textrm{GeV}^{-1}\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#eos.Unit" title="eos.Unit">eos.Unit</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.Unit.InverseGeV2">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">InverseGeV2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.Unit" title="eos.Unit"><span class="pre">Unit</span></a></span></span><a class="headerlink" href="#eos.Unit.InverseGeV2" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">InverseGeV2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Unit</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Unit.InverseGeV2" title="Link to this definition"></a></dt>
+<dd><p>Returns the unit <span class="math notranslate nohighlight">\(\textrm{GeV}^{-2}\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#eos.Unit" title="eos.Unit">eos.Unit</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.Unit.InverseGeV4">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">InverseGeV4</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.Unit" title="eos.Unit"><span class="pre">Unit</span></a></span></span><a class="headerlink" href="#eos.Unit.InverseGeV4" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">InverseGeV4</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Unit</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Unit.InverseGeV4" title="Link to this definition"></a></dt>
+<dd><p>Returns the unit <span class="math notranslate nohighlight">\(\textrm{GeV}^{-4}\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#eos.Unit" title="eos.Unit">eos.Unit</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.Unit.InversePicoSecond">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">InversePicoSecond</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.Unit" title="eos.Unit"><span class="pre">Unit</span></a></span></span><a class="headerlink" href="#eos.Unit.InversePicoSecond" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">InversePicoSecond</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Unit</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Unit.InversePicoSecond" title="Link to this definition"></a></dt>
+<dd><p>Returns the unit <span class="math notranslate nohighlight">\(\textrm{ps}^{-1}\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#eos.Unit" title="eos.Unit">eos.Unit</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.Unit.InverseSecond">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">InverseSecond</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.Unit" title="eos.Unit"><span class="pre">Unit</span></a></span></span><a class="headerlink" href="#eos.Unit.InverseSecond" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">InverseSecond</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Unit</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Unit.InverseSecond" title="Link to this definition"></a></dt>
+<dd><p>Returns the unit <span class="math notranslate nohighlight">\(\textrm{s}^{-1}\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#eos.Unit" title="eos.Unit">eos.Unit</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.Unit.Second">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">Second</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.Unit" title="eos.Unit"><span class="pre">Unit</span></a></span></span><a class="headerlink" href="#eos.Unit.Second" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">Second</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Unit</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Unit.Second" title="Link to this definition"></a></dt>
+<dd><p>Returns the unit <span class="math notranslate nohighlight">\(\textrm{s}\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#eos.Unit" title="eos.Unit">eos.Unit</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.Unit.Undefined">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">Undefined</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.Unit" title="eos.Unit"><span class="pre">Unit</span></a></span></span><a class="headerlink" href="#eos.Unit.Undefined" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">Undefined</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Unit</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Unit.Undefined" title="Link to this definition"></a></dt>
+<dd><p>Returns the undefined unit, which is used wherever no unit has been assigned. It is printed as <code class="docutils literal notranslate"><span class="pre">undefined</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#eos.Unit" title="eos.Unit">eos.Unit</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.Unit.Unity">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">Unity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.Unit" title="eos.Unit"><span class="pre">Unit</span></a></span></span><a class="headerlink" href="#eos.Unit.Unity" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">Unity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Unit</span> <span class="pre">:</span></span></span><a class="headerlink" href="#eos.Unit.Unity" title="Link to this definition"></a></dt>
+<dd><p>Returns the unit of a dimensionless quantity, which is printed as <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#eos.Unit" title="eos.Unit">eos.Unit</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.Unit.latex">
@@ -2509,7 +2587,7 @@ likelihoods are considered for this result.</p>
 <dd class="field-even"><p>An internal handle to the cached observable. The observable’s value can be retrieved using <code class="docutils literal notranslate"><span class="pre">cache[handle]</span></code>.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
+<dd class="field-odd"><p>eos.ObservableId</p>
 </dd>
 </dl>
 </dd></dl>
