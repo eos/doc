@@ -94,6 +94,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#common-tasks">Common Tasks</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#eos.corner_plot"><code class="docutils literal notranslate"><span class="pre">corner_plot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.create_constraint"><code class="docutils literal notranslate"><span class="pre">create_constraint()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#eos.create_mask"><code class="docutils literal notranslate"><span class="pre">create_mask()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#eos.draw_figure"><code class="docutils literal notranslate"><span class="pre">draw_figure()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#eos.find_clusters"><code class="docutils literal notranslate"><span class="pre">find_clusters()</span></code></a></li>
@@ -2445,8 +2446,15 @@ A possible (incomplete) example could look as follows:</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.AnalysisFile.analysis">
-<span class="sig-name descname"><span class="pre">analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_posterior</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.AnalysisFile.analysis" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_posterior</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.AnalysisFile.analysis" title="Link to this definition"></a></dt>
 <dd><p>Create an eos.Analysis object for the named posterior.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>base_directory</strong> (<em>str</em>) – The base directory against which declared constraints’ relative
+filenames (see the ‘constraints’ top-level section) are resolved. Defaults to the
+current working directory.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -2499,14 +2507,18 @@ A possible (incomplete) example could look as follows:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.AnalysisFile.validate">
-<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">deep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.AnalysisFile.validate" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">deep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'./'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.AnalysisFile.validate" title="Link to this definition"></a></dt>
 <dd><p>Validates the analysis file semantically and, by default, deeply.</p>
 <p>The deep phase instantiates every posterior and every prediction set, which catches errors
 that the semantic phase cannot see: invalid options, malformed manual-constraint bodies,
 inconsistent prior ranges, and unreadable pyhf workspaces. It is enabled by default.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>deep</strong> (<em>bool</em>) – If True, additionally instantiate all posteriors and prediction sets. Defaults to True.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>deep</strong> (<em>bool</em>) – If True, additionally instantiate all posteriors and prediction sets. Defaults to True.</p></li>
+<li><p><strong>base_directory</strong> (<em>str</em>) – The base directory against which declared constraints’ relative
+filenames are resolved during the deep phase. Defaults to the current working directory.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The diagnostics found, most-structural first.</p>
@@ -2641,6 +2653,40 @@ The output files will be stored in EOS_BASE_DIRECTORY/data/POSTERIOR/plots.</p>
 <li><p><strong>begin</strong> (<em>int</em><em>, </em><em>optional</em>) – The index of the first parameter to plot. Defaults to 0.</p></li>
 <li><p><strong>end</strong> (<em>int</em><em> or </em><em>NoneType</em><em>, </em><em>optional</em>) – The index beyond the last parameter to plot. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
 <li><p><strong>mask_name</strong> (<em>str</em><em>, </em><em>optional</em>) – The label of the mask to apply to the observables. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="eos.create_constraint">
+<span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">create_constraint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constraint_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'samples'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tests</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">goodness_of_fit_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.03</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.create_constraint" title="Link to this definition"></a></dt>
+<dd><p>Creates a MultivariateGaussian(Covariance) constraint from previously computed samples of a named posterior.</p>
+<p>The fit is the closed-form weighted maximum-likelihood estimate: the weighted sample mean and
+weighted sample covariance of the selected columns. One or more named goodness-of-fit tests
+are then run on the fit; see <cite>tests</cite> and <cite>strict</cite> below for how a failing test is handled.</p>
+<p>The input files are expected in EOS_BASE_DIRECTORY/data/POSTERIOR/SOURCE.
+The output file will be stored in EOS_BASE_DIRECTORY/constraints/CONSTRAINT_NAME/constraint.yaml.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>analysis_file</strong> (str or <cite>eos.AnalysisFile</cite>) – The name of the analysis file that describes the named posterior, or an object of class <cite>eos.AnalysisFile</cite>.</p></li>
+<li><p><strong>posterior</strong> (<em>str</em>) – The name of the posterior PDF from which to draw the samples.</p></li>
+<li><p><strong>constraint_name</strong> (<em>str</em>) – The qualified name under which the constraint is registered; also used verbatim as the output subdirectory name.</p></li>
+<li><p><strong>base_directory</strong> (<em>str</em><em>, </em><em>optional</em>) – The base directory for the storage of data files. Can also be set via the EOS_BASE_DIRECTORY environment variable.</p></li>
+<li><p><strong>source</strong> (<em>str</em><em>, </em><em>optional</em>) – The name of the data file inside the posterior’s data directory to fit. Defaults to ‘samples’
+(the posterior’s own importance samples). A value starting with ‘pred-’ selects the posterior-predictive
+importance samples of that name, previously written by the predict-observables task.</p></li>
+<li><p><strong>parameters</strong> (<em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – The list of column names to constrain, matched against the loaded data’s lookup table
+(bare parameter names for source=’samples’; composite observable identifiers for a ‘pred-’ source).
+If None, every column of the loaded data is used.</p></li>
+<li><p><strong>tests</strong> (<em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – The names of the goodness-of-fit tests that must be run before the constraint is accepted. Defaults to [‘KS-test’].
+Each name must be a key of <cite>goodness_of_fit_tests</cite>; call one of those functions directly (e.g. <cite>eos.ks_test</cite>)
+on your own reloaded samples to diagnose why a test failed.</p></li>
+<li><p><strong>goodness_of_fit_threshold</strong> (<em>float</em><em> or </em><em>dict</em><em>[</em><em>str</em><em>, </em><em>float</em><em>]</em><em>, </em><em>optional</em>) – The p-value threshold below which a test counts as failed. Either a single
+float applied to every test in <cite>tests</cite>, or a dict mapping each test name in <cite>tests</cite> to its own threshold.</p></li>
+<li><p><strong>strict</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True (the default), a failed test logs an error and aborts the task – no constraint file is written.
+If False, a failed test only logs a warning, and the constraint is written regardless.</p></li>
 </ul>
 </dd>
 </dl>
