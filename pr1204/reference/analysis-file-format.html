@@ -60,6 +60,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="python.html">Python API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="command-line-interface.html">Command-Line Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcp-server.html">MCP Server</a></li>
 <li class="toctree-l2"><a class="reference internal" href="defining-observables.html">Defining Observables</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Analysis File Format</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#priors">Priors</a></li>
@@ -374,7 +375,7 @@ The syntax for a new parameter follows:</p>
 <span class="w">      </span><span class="nt">min</span><span class="p">:</span><span class="w">     </span><span class="l l-Scalar l-Scalar-Plain">+0.0</span>
 <span class="w">      </span><span class="nt">max</span><span class="p">:</span><span class="w">     </span><span class="l l-Scalar l-Scalar-Plain">+2.0</span>
 <span class="w">      </span><span class="nt">unit</span><span class="p">:</span><span class="w">     </span><span class="s">&#39;1&#39;</span>
-<span class="w">      </span><span class="nt">latex</span><span class="p">:</span><span class="w">    </span><span class="s">&#39;$p_\mathrm{user}$&#39;</span>
+<span class="w">      </span><span class="nt">latex</span><span class="p">:</span><span class="w">    </span><span class="s">&#39;p_\mathrm{user}&#39;</span>
 </pre></div>
 </div>
 <p>2. New parameters can also be used as aliases for existing parameters. Varying the alias will then vary all the aliased parameters.
@@ -387,7 +388,7 @@ E.g. for a fit to Wilson coefficients under the assumption of lepton flavor univ
 <span class="w">    </span><span class="nt">min</span><span class="p">:</span><span class="w">     </span><span class="l l-Scalar l-Scalar-Plain">+0.0</span>
 <span class="w">    </span><span class="nt">max</span><span class="p">:</span><span class="w">     </span><span class="l l-Scalar l-Scalar-Plain">+2.0</span>
 <span class="w">    </span><span class="nt">unit</span><span class="p">:</span><span class="w">     </span><span class="s">&#39;1&#39;</span>
-<span class="w">    </span><span class="nt">latex</span><span class="p">:</span><span class="w">    </span><span class="s">&#39;$\mathrm{Re}\,</span><span class="nv"> </span><span class="s">\mathcal{C}^{\bar{u}b\bar{\ell}\nu_\ell}_{V_L}$&#39;</span>
+<span class="w">    </span><span class="nt">latex</span><span class="p">:</span><span class="w">    </span><span class="s">&#39;\mathrm{Re}\,</span><span class="nv"> </span><span class="s">\mathcal{C}^{\bar{u}b\bar{\ell}\nu_\ell}_{V_L}&#39;</span>
 </pre></div>
 </div>
 <p>Note that if you define an alias in an analysis file, and then plot some results from that analysis interactively, you need to ensure <code class="docutils literal notranslate"><span class="pre">EOS</span></code> knows about the aliases by loading in the same analysis file through <code class="docutils literal notranslate"><span class="pre">eos.AnalysisFile(&quot;my_analysis.yaml&quot;)</span></code>.</p>
@@ -462,7 +463,7 @@ For brevity, a list of kinematic specifications can be provided. In this case, o
 <li><p><code class="docutils literal notranslate"><span class="pre">tasks</span></code> (<strong>mandatory</strong>) — The list of tasks that are part of this step.</p></li>
 </ul>
 </div></blockquote>
-<p>The following example illustrates the description of two nested sampling steps, followed by plotting of the results.</p>
+<p>The following example illustrates the description of two nested sampling steps, followed by drawing figures of the results.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">steps</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Sample</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">CKM-all</span><span class="nv"> </span><span class="s">posterior&#39;</span>
 <span class="w">    </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;CKM-all.sample&#39;</span>
@@ -486,19 +487,19 @@ For brevity, a list of kinematic specifications can be provided. In this case, o
 <span class="w">          </span><span class="nt">dlogz</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9.0</span>
 <span class="w">          </span><span class="nt">maxiter</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4000</span>
 
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Create</span><span class="nv"> </span><span class="s">corner</span><span class="nv"> </span><span class="s">plot</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">CKM-all</span><span class="nv"> </span><span class="s">posterior&#39;</span>
-<span class="w">    </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;CKM-all.corner-plot&#39;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Draw</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">corner</span><span class="nv"> </span><span class="s">figures&#39;</span>
+<span class="w">    </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;CKM-all,WET-all.draw-figure&#39;</span>
 <span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;CKM-all.sample&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;WET-all.sample&#39;</span><span class="p p-Indicator">]</span>
 <span class="w">    </span><span class="nt">default_arguments</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">corner-plot</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">draw-figure</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">format</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;pdf&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;png&#39;</span><span class="p p-Indicator">]</span>
 <span class="w">    </span><span class="nt">tasks</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;corner-plot&#39;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;draw-figure&#39;</span>
 <span class="w">        </span><span class="nt">arguments</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">posterior</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;CKM-all&#39;</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;corner-plot&#39;</span>
+<span class="w">          </span><span class="nt">figure_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;CKM-all-corner&#39;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;draw-figure&#39;</span>
 <span class="w">        </span><span class="nt">arguments</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">posterior</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;WET-all&#39;</span>
+<span class="w">          </span><span class="nt">figure_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;WET-all-corner&#39;</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">depends_on</span></code> key orders the steps into a dependency graph, so that an analysis can be reproduced by executing its steps in a well-defined order, while <code class="docutils literal notranslate"><span class="pre">default_arguments</span></code> supplies arguments shared by a step’s tasks.
@@ -710,6 +711,20 @@ An example is shown below:</p>
 <span class="w">          </span><span class="nt">q2_tau_min</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.3</span>
 <span class="w">          </span><span class="nt">q2_max</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">25.0</span>
 
+<span class="nt">figures</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CKM-all-corner</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;corner&#39;</span>
+<span class="w">    </span><span class="nt">contents</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;data/CKM-all/samples&#39;</span>
+<span class="w">        </span><span class="nt">label</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;CKM-all&#39;</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WET-all-corner</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;corner&#39;</span>
+<span class="w">    </span><span class="nt">contents</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;data/WET-all/samples&#39;</span>
+<span class="w">        </span><span class="nt">label</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;WET-all&#39;</span>
+<span class="w">    </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="s">&#39;ublnul::Re{cVL}&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;ublnul::Re{cVR}&#39;</span><span class="w"> </span><span class="p p-Indicator">]</span>
+
 <span class="nt">steps</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Sample</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">CKM-all</span><span class="nv"> </span><span class="s">posterior&#39;</span>
 <span class="w">    </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;CKM-all.sample&#39;</span>
@@ -733,19 +748,19 @@ An example is shown below:</p>
 <span class="w">          </span><span class="nt">dlogz</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9.0</span>
 <span class="w">          </span><span class="nt">maxiter</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4000</span>
 
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Create</span><span class="nv"> </span><span class="s">corner</span><span class="nv"> </span><span class="s">plot</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">CKM-all</span><span class="nv"> </span><span class="s">posterior&#39;</span>
-<span class="w">    </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;CKM-all.corner-plot&#39;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Draw</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">corner</span><span class="nv"> </span><span class="s">figures&#39;</span>
+<span class="w">    </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;CKM-all,WET-all.draw-figure&#39;</span>
 <span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;CKM-all.sample&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;WET-all.sample&#39;</span><span class="p p-Indicator">]</span>
 <span class="w">    </span><span class="nt">default_arguments</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">corner-plot</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">draw-figure</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">format</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;pdf&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;png&#39;</span><span class="p p-Indicator">]</span>
 <span class="w">    </span><span class="nt">tasks</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;corner-plot&#39;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;draw-figure&#39;</span>
 <span class="w">        </span><span class="nt">arguments</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">posterior</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;CKM-all&#39;</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;corner-plot&#39;</span>
+<span class="w">          </span><span class="nt">figure_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;CKM-all-corner&#39;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">task</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;draw-figure&#39;</span>
 <span class="w">        </span><span class="nt">arguments</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">posterior</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;WET-all&#39;</span>
+<span class="w">          </span><span class="nt">figure_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;WET-all-corner&#39;</span>
 
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Find</span><span class="nv"> </span><span class="s">mode</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">CKM-all</span><span class="nv"> </span><span class="s">posterior&#39;</span>
 <span class="w">    </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;CKM-all.find-mode&#39;</span>
@@ -773,7 +788,7 @@ An example is shown below:</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2019-2024, The EOS Authors.</p>
+    <p>&#169; Copyright 2019-2026, The EOS Authors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
