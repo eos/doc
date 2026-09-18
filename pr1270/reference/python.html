@@ -3102,18 +3102,20 @@ chain with <a class="reference internal" href="#eos.data.MarkovChain.create" tit
 <dt class="sig sig-object py" id="eos.data.MixtureDensity">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.data.</span></span><span class="sig-name descname"><span class="pre">MixtureDensity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.MixtureDensity" title="Link to this definition"></a></dt>
 <dd><p>Represents a mixture density (e.g. a PMC proposal or a fit to a posterior) stored on disk.</p>
-<p>Stores the components and weights of a mixture of (Gaussian) densities, optionally together with the
-qualified names of the varied parameters and precomputed test statistics. Instances are created
-either by reading an existing density from disk (passing its <code class="docutils literal notranslate"><span class="pre">path</span></code> to the constructor) or by
-writing a new density with <a class="reference internal" href="#eos.data.MixtureDensity.create" title="eos.data.MixtureDensity.create"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create()</span></code></a>. Use <a class="reference internal" href="#eos.data.MixtureDensity.density" title="eos.data.MixtureDensity.density"><code class="xref py py-meth docutils literal notranslate"><span class="pre">density()</span></code></a> to obtain the corresponding
+<p>Stores the components and weights of a mixture of (Gaussian) densities together with the descriptions
+of the varied parameters and, optionally, precomputed test statistics. Instances are created either
+by reading an existing density from disk (passing its <code class="docutils literal notranslate"><span class="pre">path</span></code> to the constructor) or by writing a
+new density with <a class="reference internal" href="#eos.data.MixtureDensity.create" title="eos.data.MixtureDensity.create"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create()</span></code></a>. Use <a class="reference internal" href="#eos.data.MixtureDensity.density" title="eos.data.MixtureDensity.density"><code class="xref py py-meth docutils literal notranslate"><span class="pre">density()</span></code></a> to obtain the corresponding
 <code class="xref py py-class docutils literal notranslate"><span class="pre">pypmc.density.mixture.MixtureDensity</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>type</strong> – The type identifier of the data object, always <code class="docutils literal notranslate"><span class="pre">'MixtureDensity'</span></code>.</p></li>
+<li><p><strong>format_version</strong> – The on-disk format version the density was read from (1 for legacy files).</p></li>
 <li><p><strong>components</strong> – The descriptions of the mixture components.</p></li>
 <li><p><strong>weights</strong> – The component weights of the mixture.</p></li>
-<li><p><strong>varied_parameters</strong> – The qualified names of the varied parameters, or <code class="docutils literal notranslate"><span class="pre">None</span></code> if not stored.</p></li>
+<li><p><strong>varied_parameters</strong> – The descriptions (name, min, max) of the varied parameters, or <code class="docutils literal notranslate"><span class="pre">None</span></code> for a legacy file that does not record them.</p></li>
+<li><p><strong>lookup_table</strong> – A mapping from each parameter name to its index in <code class="xref py py-attr docutils literal notranslate"><span class="pre">varied_parameters</span></code>.</p></li>
 <li><p><strong>test_statistics</strong> – The precomputed test statistics, or <code class="docutils literal notranslate"><span class="pre">None</span></code> if not stored.</p></li>
 </ul>
 </dd>
@@ -3134,14 +3136,14 @@ in the output density. Only Gaussian mixtures are supported.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.data.MixtureDensity.create">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">density</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">varied_parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_test_stat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.MixtureDensity.create" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">density</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_test_stat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.MixtureDensity.create" title="Link to this definition"></a></dt>
 <dd><p>Write a new MixtureDensity object to disk.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>path</strong> (<em>str</em>) – Path to the storage location, which will be created as a directory.</p></li>
 <li><p><strong>density</strong> (<em>pypmc.density.MixtureDensity</em>) – Mixture density.</p></li>
-<li><p><strong>varied_parameters</strong> (<code class="docutils literal notranslate"><span class="pre">numpy.array</span></code> of str, optional) – List of the qualified names of varied parameters.</p></li>
+<li><p><strong>parameters</strong> (<em>list</em><em> or </em><em>iterable</em><em> of </em><a class="reference internal" href="#eos.Parameter" title="eos.Parameter"><em>eos.Parameter</em></a><em> or </em><em>of parameter descriptions</em>) – Parameter descriptions as a 1D array of shape (P, ).</p></li>
 <li><p><strong>sigma_test_stat</strong> (<em>list</em><em> or </em><em>iterable</em>) – (optional) If provided, the inverse CDF of -2*log(PDF) will be evaluated, using the provided values as the respective significance.</p></li>
 <li><p><strong>samples</strong> (<em>2D numpy array</em><em>, </em><em>optional</em>) – Samples as a 2D array of shape (N, P). Needed to generate the test statistic.</p></li>
 <li><p><strong>weights</strong> (<em>1D numpy array</em><em>, </em><em>optional</em>) – Weights on a linear scale as a 2D array of shape (N, 1). Needed to generate the test statistic.</p></li>
