@@ -81,38 +81,6 @@ You might need to install the ``curl`` program first, if not already installed. 
   pip3 install --user --upgrade dynesty matplotlib numpy pypandoc pypmc pyyaml scipy
 
 
-Installation of Docker image
-============================
-
-EOS is available through Docker Hub as ``eoshep/eos``. This image has EOS already installed
-and can be used as the base for a devcontainer in e.g.
-`VS Code <https://code.visualstudio.com/docs/devcontainers/containers>`_ by using the following
-as the contents of a `.devcontainer.json` file:
-
-::
-
-  {
-    "image": "eoshep/eos:latest",
-    "remoteUser": "ubuntu",
-    "customizations": {
-      "vscode": {
-        "extensions": [
-          "ms-python.python",
-          "ms-vscode-remote.remote-ssh",
-          "ms-toolsai.jupyter",
-          "ms-toolsai.jupyter-renderers",
-          "ms-toolsai.vscode-jupyter-cell-tags",
-          "ms-toolsai.vscode-jupyter-slideshow",
-          "shardulm94.trailing-spaces"
-        ]
-      }
-    }
-  }
-
-
-
-
-
 *******
 Windows
 *******
@@ -150,6 +118,39 @@ To optionally use the Population Monte Carlo code for MCMC-based and PMC-based t
   pip3 install --user --upgrade pypmc
 
 
+******
+Docker
+******
+
+EOS is available through Docker Hub as ``eoshep/eos``. This image has EOS already installed
+and can be used as the base for a devcontainer in e.g.
+`VS Code <https://code.visualstudio.com/docs/devcontainers/containers>`_ by using the following
+as the contents of a ``.devcontainer.json`` file:
+
+::
+
+  {
+    "image": "eoshep/eos:latest",
+    "remoteUser": "ubuntu",
+    "customizations": {
+      "vscode": {
+        "extensions": [
+          "ms-python.python",
+          "ms-vscode-remote.remote-ssh",
+          "ms-toolsai.jupyter",
+          "ms-toolsai.jupyter-renderers",
+          "ms-toolsai.vscode-jupyter-cell-tags",
+          "ms-toolsai.vscode-jupyter-slideshow",
+          "shardulm94.trailing-spaces"
+        ]
+      }
+    }
+  }
+
+A specific version can also be obtained, e.g. ``eoshep/eos:1.0.21`` has version 1.0.21 preinstalled.
+
+
+
 .. _installation-from-source:
 
 *****************************
@@ -172,30 +173,30 @@ Installing the dependencies on Linux
    published on Docker Hub as ``eoshep/ubuntu-resolute``. This image has all of EOS's build
    dependencies pre-installed and can be used as the base for a devcontainer in e.g.
    `VS Code <https://code.visualstudio.com/docs/devcontainers/containers>`_ by using the following
-   as the contents of a `.devcontainer.json` file:
+   as the contents of a ``.devcontainer.json`` file:
 
-   ::
+  ::
 
-     {
-        "image": "eoshep/ubuntu-resolute:latest",
-        "remoteUser": "ubuntu",
-        "customizations": {
-          "vscode": {
-            "extensions": [
-              "ms-python.python",
-              "ms-vscode-remote.remote-ssh",
-              "ms-toolsai.jupyter",
-              "ms-toolsai.jupyter-renderers",
-              "ms-toolsai.vscode-jupyter-cell-tags",
-              "ms-toolsai.vscode-jupyter-slideshow",
-              "shardulm94.trailing-spaces"
-            ]
-          }
+    {
+      "image": "eoshep/ubuntu-resolute:latest",
+      "remoteUser": "ubuntu",
+      "customizations": {
+        "vscode": {
+          "extensions": [
+            "ms-python.python",
+            "ms-vscode-remote.remote-ssh",
+            "ms-toolsai.jupyter",
+            "ms-toolsai.jupyter-renderers",
+            "ms-toolsai.vscode-jupyter-cell-tags",
+            "ms-toolsai.vscode-jupyter-slideshow",
+            "shardulm94.trailing-spaces"
+          ]
         }
       }
+    }
 
 
-   Inside the container you can skip ahead to `Installing EOS`_.
+  Inside the container you can skip ahead to `Installing EOS`_.
 
 The dependencies can be roughly categorized as either system software, Python-related software, or scientific software.
 
@@ -295,13 +296,13 @@ by running the following commands:
   sudo apt-get install libgsl0-dev libfftw3-dev
 
 We strongly recommend the use of a python virtual environment (see :ref:`this FAQ answer <faq-virtualenv>` for more information about virtual environments) to install
-the ``argcomplete``, ``dynesty``, ``gitlint``, ``ipykernel``, ``ipywidgets``, ``matplotlib``,  ``scipy``, ``pre-commit``, ``pyyaml``, ``pyhf``, ``tqdm``, and ``wilson`` packages:
+the ``argcomplete``, ``dynesty``, ``gitlint``, ``ipykernel``, ``ipywidgets``, ``matplotlib``,  ``scipy``, ``pre-commit``, ``pypandoc``, ``pyyaml``, ``pyhf``, ``tqdm``, and ``wilson`` packages:
 
 
 ::
 
   # Make sure to activate your virtual environment first
-  pip install argcomplete dynesty gitlint ipykernel ipywidgets matplotlib scipy pre-commit pyyaml pyhf tqdm wilson
+  pip install argcomplete dynesty gitlint ipykernel ipywidgets matplotlib scipy pre-commit pypandoc pyyaml pyhf tqdm wilson
 
 Optionally, to use the Population Monte Carlo code for MCMC-based and PMC-based sampling tasks (such as ``sample-mcmc``, ``sample-pmc``, ``find-clusters``, ``mixture-product``),
 also install the ``pypmc`` package:
@@ -318,10 +319,12 @@ If you intend to build the EOS documentation, you will also need the following s
   # for the 'Documentation Software'
   sudo apt-get install python3-sphinx python3-sphinx-rtd-theme python3-sphinx-argparse python3-sphinxcontrib-contentui python3-nbsphinx pandoc
   # or using pip
-  pip install sphinx sphinx_rtd_theme sphinx-argparse sphinxcontrib-contentui nbsphinx pandoc
+  pip install sphinx sphinx_rtd_theme sphinx-argparse sphinxcontrib-contentui nbsphinx
 
 
-Be advised that the ``pandoc`` python package requires a system installation of ``pandoc``.
+Be advised that the ``pypandoc`` python package requires a system installation of ``pandoc``.
+Some functionality -- the PDF output of the ``report`` task and the labels drawn by ``eos.figure`` --
+further requires a working (Xe)LaTeX installation.
 
 Installing the dependencies on macOS with Homebrew and PyPi
 ===========================================================

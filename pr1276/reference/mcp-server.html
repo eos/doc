@@ -10,7 +10,7 @@
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/contentui.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=a9995f78" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=ae43863c" />
 
   
     <link rel="canonical" href="https://eos.github.io/doc/reference/mcp-server.html" />
@@ -22,11 +22,19 @@
       <script src="../_static/contentui.js"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script src="../_static/js/version-banner.js?v=cfe90da2"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Defining Observables" href="defining-observables.html" />
-    <link rel="prev" title="Command-Line Interface" href="command-line-interface.html" /> 
+    <link rel="prev" title="Command-Line Interface" href="command-line-interface.html" />
+  <script>
+    window.EOS_DOC = {
+        release: "",
+        root:    "../"
+    };
+  </script>
+
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -34,6 +42,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
+  
 
           
           
@@ -48,6 +57,8 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
+  <div id="eos-version-selector" class="eos-version-selector" hidden></div>
+
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
@@ -55,7 +66,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../user-guide/index.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../physics/index.html">Physics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference Manual</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="python.html">Python API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="command-line-interface.html">Command-Line Interface</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">MCP Server</a><ul>
@@ -67,6 +78,7 @@
 <li class="toctree-l2"><a class="reference internal" href="defining-observables.html">Defining Observables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="analysis-file-format.html">Analysis File Format</a></li>
 <li class="toctree-l2"><a class="reference internal" href="figure-format.html">Figure Description Format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="constraint-format.html">Constraint Format</a></li>
 <li class="toctree-l2"><a class="reference internal" href="constraints.html">List of Constraints</a></li>
 <li class="toctree-l2"><a class="reference internal" href="observables.html">List of Observables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="parameters.html">List of Parameters</a></li>
@@ -90,7 +102,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="index.html">Reference</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Reference Manual</a></li>
       <li class="breadcrumb-item active">MCP Server</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -98,6 +110,7 @@
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+  
            <div itemprop="articleBody">
              
   <section id="mcp-server">
@@ -125,16 +138,16 @@ EOS state.</p>
 <p>Point the client at <code class="docutils literal notranslate"><span class="pre">&lt;venv&gt;/bin/eos-mcp-server</span></code>, with <code class="docutils literal notranslate"><span class="pre">EOS_SOURCE_DIR</span></code> set to your checkout
 root (needed only to serve the two doc resources below; the lookup tools work without it).</p>
 <p>Claude Code (project <code class="docutils literal notranslate"><span class="pre">.mcp.json</span></code>, or <code class="docutils literal notranslate"><span class="pre">claude</span> <span class="pre">mcp</span> <span class="pre">add</span></code>):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span> <span class="s2">&quot;mcpServers&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;eos&quot;</span><span class="p">:</span> <span class="p">{</span>
-  <span class="s2">&quot;command&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;venv&gt;/bin/eos-mcp-server&quot;</span><span class="p">,</span>
-  <span class="s2">&quot;env&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s2">&quot;EOS_SOURCE_DIR&quot;</span><span class="p">:</span> <span class="s2">&quot;/path/to/eos&quot;</span> <span class="p">}</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span> <span class="s2">"mcpServers"</span><span class="p">:</span> <span class="p">{</span> <span class="s2">"eos"</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s2">"command"</span><span class="p">:</span> <span class="s2">"&lt;venv&gt;/bin/eos-mcp-server"</span><span class="p">,</span>
+  <span class="s2">"env"</span><span class="p">:</span> <span class="p">{</span> <span class="s2">"EOS_SOURCE_DIR"</span><span class="p">:</span> <span class="s2">"/path/to/eos"</span> <span class="p">}</span>
 <span class="p">}</span> <span class="p">}</span> <span class="p">}</span>
 </pre></div>
 </div>
 <p>Codex CLI (<code class="docutils literal notranslate"><span class="pre">~/.codex/config.toml</span></code>, or <code class="docutils literal notranslate"><span class="pre">codex</span> <span class="pre">mcp</span> <span class="pre">add</span></code>):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">mcp_servers</span><span class="o">.</span><span class="n">eos</span><span class="p">]</span>
-<span class="n">command</span> <span class="o">=</span> <span class="s2">&quot;&lt;venv&gt;/bin/eos-mcp-server&quot;</span>
-<span class="n">env</span> <span class="o">=</span> <span class="p">{</span> <span class="n">EOS_SOURCE_DIR</span> <span class="o">=</span> <span class="s2">&quot;/path/to/eos&quot;</span> <span class="p">}</span>
+<span class="n">command</span> <span class="o">=</span> <span class="s2">"&lt;venv&gt;/bin/eos-mcp-server"</span>
+<span class="n">env</span> <span class="o">=</span> <span class="p">{</span> <span class="n">EOS_SOURCE_DIR</span> <span class="o">=</span> <span class="s2">"/path/to/eos"</span> <span class="p">}</span>
 </pre></div>
 </div>
 </section>
@@ -154,6 +167,7 @@ filter, or describe a single one given its <code class="docutils literal notrans
 
            </div>
           </div>
+
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="command-line-interface.html" class="btn btn-neutral float-left" title="Command-Line Interface" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="defining-observables.html" class="btn btn-neutral float-right" title="Defining Observables" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>

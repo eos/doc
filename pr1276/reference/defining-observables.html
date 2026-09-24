@@ -10,7 +10,7 @@
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/contentui.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=a9995f78" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=ae43863c" />
 
   
     <link rel="canonical" href="https://eos.github.io/doc/reference/defining-observables.html" />
@@ -24,11 +24,19 @@
       <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
       <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
       <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+      <script src="../_static/js/version-banner.js?v=cfe90da2"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Analysis File Format" href="analysis-file-format.html" />
-    <link rel="prev" title="MCP Server" href="mcp-server.html" /> 
+    <link rel="prev" title="MCP Server" href="mcp-server.html" />
+  <script>
+    window.EOS_DOC = {
+        release: "",
+        root:    "../"
+    };
+  </script>
+
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -36,6 +44,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
+  
 
           
           
@@ -50,6 +59,8 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
+  <div id="eos-version-selector" class="eos-version-selector" hidden></div>
+
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
@@ -57,7 +68,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../user-guide/index.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../physics/index.html">Physics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference Manual</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="python.html">Python API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="command-line-interface.html">Command-Line Interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mcp-server.html">MCP Server</a></li>
@@ -72,6 +83,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="analysis-file-format.html">Analysis File Format</a></li>
 <li class="toctree-l2"><a class="reference internal" href="figure-format.html">Figure Description Format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="constraint-format.html">Constraint Format</a></li>
 <li class="toctree-l2"><a class="reference internal" href="constraints.html">List of Constraints</a></li>
 <li class="toctree-l2"><a class="reference internal" href="observables.html">List of Observables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="parameters.html">List of Parameters</a></li>
@@ -95,7 +107,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="index.html">Reference</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Reference Manual</a></li>
       <li class="breadcrumb-item active">Defining Observables</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -103,6 +115,7 @@
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+  
            <div itemprop="articleBody">
              
   <section id="defining-observables">
@@ -200,10 +213,10 @@ For the list of valid units, see <a class="reference external" href="../physics/
 for the newly defined observable.
 The argument <code class="docutils literal notranslate"><span class="pre">expression</span></code> is Python string that is parsed as described above.</p>
 <p>We conclude with a concrete example for the definition of the lepton-flavour universality observable <span class="math notranslate nohighlight">\(R_K\)</span>:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">Observables</span><span class="p">()</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">&#39;B-&gt;Kll::R_K_example&#39;</span><span class="p">,</span> <span class="sa">R</span><span class="s1">&#39;(R_K)&#39;</span><span class="p">,</span> <span class="n">eos</span><span class="o">.</span><span class="n">Unit</span><span class="o">.</span><span class="n">Unity</span><span class="p">(),</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(),</span>
-                         <span class="s1">&#39;( &lt;&lt;B-&gt;Kll::BR;l=mu&gt;&gt;[q2_max=6, q2_min=&gt;q2_mu_min] / &lt;&lt;B-&gt;Kll::BR;l=e&gt;&gt;[q2_max=6,q2_min=&gt;q2_e_min] )&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">Observables</span><span class="p">()</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">'B-&gt;Kll::R_K_example'</span><span class="p">,</span> <span class="sa">R</span><span class="s1">'(R_K)'</span><span class="p">,</span> <span class="n">eos</span><span class="o">.</span><span class="n">Unit</span><span class="o">.</span><span class="n">Unity</span><span class="p">(),</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(),</span>
+                         <span class="s1">'( &lt;&lt;B-&gt;Kll::BR;l=mu&gt;&gt;[q2_max=6, q2_min=&gt;q2_mu_min] / &lt;&lt;B-&gt;Kll::BR;l=e&gt;&gt;[q2_max=6,q2_min=&gt;q2_e_min] )'</span><span class="p">)</span>
 
-<span class="n">R_K</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">&#39;B-&gt;Kll::R_K_example&#39;</span><span class="p">,</span> <span class="n">eos</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">Defaults</span><span class="p">(),</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2_e_min</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">q2_mu_min</span><span class="o">=</span><span class="mf">1.1</span><span class="p">),</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;tag&#39;</span><span class="p">:</span><span class="s1">&#39;BFS2004&#39;</span><span class="p">}))</span>
+<span class="n">R_K</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Observable</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">'B-&gt;Kll::R_K_example'</span><span class="p">,</span> <span class="n">eos</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">Defaults</span><span class="p">(),</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">(</span><span class="n">q2_e_min</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">q2_mu_min</span><span class="o">=</span><span class="mf">1.1</span><span class="p">),</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">'tag'</span><span class="p">:</span><span class="s1">'BFS2004'</span><span class="p">}))</span>
 
 <span class="n">R_K</span><span class="o">.</span><span class="n">evaluate</span><span class="p">()</span>   <span class="c1"># should yield ~1</span>
 </pre></div>
@@ -214,6 +227,7 @@ The argument <code class="docutils literal notranslate"><span class="pre">expres
 
            </div>
           </div>
+
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="mcp-server.html" class="btn btn-neutral float-left" title="MCP Server" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="analysis-file-format.html" class="btn btn-neutral float-right" title="Analysis File Format" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
