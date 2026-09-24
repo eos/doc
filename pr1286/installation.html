@@ -10,7 +10,7 @@
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/contentui.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=a9995f78" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=ae43863c" />
 
   
     <link rel="canonical" href="https://eos.github.io/doc/installation.html" />
@@ -22,11 +22,19 @@
       <script src="_static/contentui.js"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script src="_static/js/version-banner.js?v=cfe90da2"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="User Guide" href="user-guide/index.html" />
-    <link rel="prev" title="EOS: A software for Flavor Physics Phenomenology" href="index.html" /> 
+    <link rel="prev" title="EOS: A software for Flavor Physics Phenomenology" href="index.html" />
+  <script>
+    window.EOS_DOC = {
+        release: "",
+        root:    "./"
+    };
+  </script>
+
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -34,6 +42,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
+  
 
           
           
@@ -48,6 +57,8 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
+  <div id="eos-version-selector" class="eos-version-selector" hidden></div>
+
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
@@ -79,7 +90,7 @@
 <li class="toctree-l1"><a class="reference internal" href="user-guide/index.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics/index.html">Physics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reference/index.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/index.html">Reference Manual</a></li>
 </ul>
 
         </div>
@@ -103,6 +114,7 @@
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+  
            <div itemprop="articleBody">
              
   <section id="installation">
@@ -161,7 +173,7 @@ echo deb https://packagecloud.io/eos/eos/ubuntu/ $DIST main \
 <ol class="arabic simple" start="2">
 <li><p>Add the official EOS repository’s GPG key to your package manager’s keychain by running:</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">L</span> <span class="s2">&quot;https://packagecloud.io/eos/eos/gpgkey&quot;</span> <span class="mi">2</span><span class="o">&gt;</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">null</span> <span class="o">|</span> <span class="n">apt</span><span class="o">-</span><span class="n">key</span> <span class="n">add</span> <span class="o">-</span> <span class="o">&amp;&gt;/</span><span class="n">dev</span><span class="o">/</span><span class="n">null</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">L</span> <span class="s2">"https://packagecloud.io/eos/eos/gpgkey"</span> <span class="mi">2</span><span class="o">&gt;</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">null</span> <span class="o">|</span> <span class="n">apt</span><span class="o">-</span><span class="n">key</span> <span class="n">add</span> <span class="o">-</span> <span class="o">&amp;&gt;/</span><span class="n">dev</span><span class="o">/</span><span class="n">null</span>
 </pre></div>
 </div>
 <p>You might need to install the <code class="docutils literal notranslate"><span class="pre">curl</span></code> program first, if not already installed. This can be done by running the following command:</p>
@@ -280,18 +292,18 @@ software dependencies.</p>
 we recommend you install the above packages via your system’s software management system.</p>
 <p>On a Debian/Ubuntu-based operating system you can install the prerequisite software with the <code class="docutils literal notranslate"><span class="pre">apt</span></code> package management system,
 by running the following commands:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># for the &#39;System Software&#39;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># for the 'System Software'</span>
 <span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">g</span><span class="o">++</span> <span class="n">autoconf</span> <span class="n">automake</span> <span class="n">libtool</span> <span class="n">pkg</span><span class="o">-</span><span class="n">config</span> <span class="n">libboost</span><span class="o">-</span><span class="n">filesystem</span><span class="o">-</span><span class="n">dev</span> <span class="n">libboost</span><span class="o">-</span><span class="n">system</span><span class="o">-</span><span class="n">dev</span> <span class="n">libboost</span><span class="o">-</span><span class="n">math</span><span class="o">-</span><span class="n">dev</span> <span class="n">libyaml</span><span class="o">-</span><span class="n">cpp</span><span class="o">-</span><span class="n">dev</span>
-<span class="c1"># for the &#39;Python Software&#39;</span>
+<span class="c1"># for the 'Python Software'</span>
 <span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">python3</span><span class="o">-</span><span class="n">dev</span> <span class="n">libboost</span><span class="o">-</span><span class="n">python</span><span class="o">-</span><span class="n">dev</span> <span class="n">python3</span><span class="o">-</span><span class="n">argcomplete</span> <span class="n">python3</span><span class="o">-</span><span class="n">matplotlib</span> <span class="n">python3</span><span class="o">-</span><span class="n">pypandoc</span> <span class="n">python3</span><span class="o">-</span><span class="n">scipy</span> <span class="n">python3</span><span class="o">-</span><span class="n">yaml</span> <span class="n">python3</span><span class="o">-</span><span class="n">pip</span>
-<span class="c1"># for the &#39;Scientific Software&#39;</span>
+<span class="c1"># for the 'Scientific Software'</span>
 <span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">libgsl0</span><span class="o">-</span><span class="n">dev</span> <span class="n">libfftw3</span><span class="o">-</span><span class="n">dev</span>
 </pre></div>
 </div>
 <p>We strongly recommend the use of a python virtual environment (see <a class="reference internal" href="faq.html#faq-virtualenv"><span class="std std-ref">this FAQ answer</span></a> for more information about virtual environments) to install
-the <code class="docutils literal notranslate"><span class="pre">argcomplete</span></code>, <code class="docutils literal notranslate"><span class="pre">dynesty</span></code>, <code class="docutils literal notranslate"><span class="pre">gitlint</span></code>, <code class="docutils literal notranslate"><span class="pre">ipykernel</span></code>, <code class="docutils literal notranslate"><span class="pre">ipywidgets</span></code>, <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>,  <code class="docutils literal notranslate"><span class="pre">scipy</span></code>, <code class="docutils literal notranslate"><span class="pre">pre-commit</span></code>, <code class="docutils literal notranslate"><span class="pre">pyyaml</span></code>, <code class="docutils literal notranslate"><span class="pre">pyhf</span></code>, <code class="docutils literal notranslate"><span class="pre">tqdm</span></code>, and <code class="docutils literal notranslate"><span class="pre">wilson</span></code> packages:</p>
+the <code class="docutils literal notranslate"><span class="pre">argcomplete</span></code>, <code class="docutils literal notranslate"><span class="pre">dynesty</span></code>, <code class="docutils literal notranslate"><span class="pre">gitlint</span></code>, <code class="docutils literal notranslate"><span class="pre">ipykernel</span></code>, <code class="docutils literal notranslate"><span class="pre">ipywidgets</span></code>, <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>,  <code class="docutils literal notranslate"><span class="pre">scipy</span></code>, <code class="docutils literal notranslate"><span class="pre">pre-commit</span></code>, <code class="docutils literal notranslate"><span class="pre">pypandoc</span></code>, <code class="docutils literal notranslate"><span class="pre">pyyaml</span></code>, <code class="docutils literal notranslate"><span class="pre">pyhf</span></code>, <code class="docutils literal notranslate"><span class="pre">tqdm</span></code>, and <code class="docutils literal notranslate"><span class="pre">wilson</span></code> packages:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make sure to activate your virtual environment first</span>
-<span class="n">pip</span> <span class="n">install</span> <span class="n">argcomplete</span> <span class="n">dynesty</span> <span class="n">gitlint</span> <span class="n">ipykernel</span> <span class="n">ipywidgets</span> <span class="n">matplotlib</span> <span class="n">scipy</span> <span class="n">pre</span><span class="o">-</span><span class="n">commit</span> <span class="n">pyyaml</span> <span class="n">pyhf</span> <span class="n">tqdm</span> <span class="n">wilson</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">argcomplete</span> <span class="n">dynesty</span> <span class="n">gitlint</span> <span class="n">ipykernel</span> <span class="n">ipywidgets</span> <span class="n">matplotlib</span> <span class="n">scipy</span> <span class="n">pre</span><span class="o">-</span><span class="n">commit</span> <span class="n">pypandoc</span> <span class="n">pyyaml</span> <span class="n">pyhf</span> <span class="n">tqdm</span> <span class="n">wilson</span>
 </pre></div>
 </div>
 <p>Optionally, to use the Population Monte Carlo code for MCMC-based and PMC-based sampling tasks (such as <code class="docutils literal notranslate"><span class="pre">sample-mcmc</span></code>, <code class="docutils literal notranslate"><span class="pre">sample-pmc</span></code>, <code class="docutils literal notranslate"><span class="pre">find-clusters</span></code>, <code class="docutils literal notranslate"><span class="pre">mixture-product</span></code>),
@@ -300,13 +312,15 @@ also install the <code class="docutils literal notranslate"><span class="pre">py
 </pre></div>
 </div>
 <p>If you intend to build the EOS documentation, you will also need the following software:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># for the &#39;Documentation Software&#39;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># for the 'Documentation Software'</span>
 <span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">python3</span><span class="o">-</span><span class="n">sphinx</span> <span class="n">python3</span><span class="o">-</span><span class="n">sphinx</span><span class="o">-</span><span class="n">rtd</span><span class="o">-</span><span class="n">theme</span> <span class="n">python3</span><span class="o">-</span><span class="n">sphinx</span><span class="o">-</span><span class="n">argparse</span> <span class="n">python3</span><span class="o">-</span><span class="n">sphinxcontrib</span><span class="o">-</span><span class="n">contentui</span> <span class="n">python3</span><span class="o">-</span><span class="n">nbsphinx</span> <span class="n">pandoc</span>
 <span class="c1"># or using pip</span>
-<span class="n">pip</span> <span class="n">install</span> <span class="n">sphinx</span> <span class="n">sphinx_rtd_theme</span> <span class="n">sphinx</span><span class="o">-</span><span class="n">argparse</span> <span class="n">sphinxcontrib</span><span class="o">-</span><span class="n">contentui</span> <span class="n">nbsphinx</span> <span class="n">pandoc</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">sphinx</span> <span class="n">sphinx_rtd_theme</span> <span class="n">sphinx</span><span class="o">-</span><span class="n">argparse</span> <span class="n">sphinxcontrib</span><span class="o">-</span><span class="n">contentui</span> <span class="n">nbsphinx</span>
 </pre></div>
 </div>
-<p>Be advised that the <code class="docutils literal notranslate"><span class="pre">pandoc</span></code> python package requires a system installation of <code class="docutils literal notranslate"><span class="pre">pandoc</span></code>.</p>
+<p>Be advised that the <code class="docutils literal notranslate"><span class="pre">pypandoc</span></code> python package requires a system installation of <code class="docutils literal notranslate"><span class="pre">pandoc</span></code>.
+Some functionality – the PDF output of the <code class="docutils literal notranslate"><span class="pre">report</span></code> task and the labels drawn by <code class="docutils literal notranslate"><span class="pre">eos.figure</span></code> –
+further requires a working (Xe)LaTeX installation.</p>
 </section>
 <section id="installing-the-dependencies-on-macos-with-homebrew-and-pypi">
 <h3>Installing the dependencies on macOS with Homebrew and PyPi<a class="headerlink" href="#installing-the-dependencies-on-macos-with-homebrew-and-pypi" title="Link to this heading"></a></h3>
@@ -316,11 +330,11 @@ You will need to make <code class="docutils literal notranslate"><span class="pr
 </pre></div>
 </div>
 <p>To install the packages, run the following commands in a shell:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># for the &#39;System Software&#39;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># for the 'System Software'</span>
 <span class="n">brew</span> <span class="n">install</span> <span class="n">autoconf</span> <span class="n">automake</span> <span class="n">libtool</span> <span class="n">pkg</span><span class="o">-</span><span class="n">config</span> <span class="n">boost</span> <span class="n">yaml</span><span class="o">-</span><span class="n">cpp</span>
-<span class="c1"># for the &#39;Python Software&#39;</span>
+<span class="c1"># for the 'Python Software'</span>
 <span class="n">brew</span> <span class="n">install</span> <span class="n">python3</span> <span class="n">boost</span><span class="o">-</span><span class="n">python3</span>
-<span class="c1"># for the &#39;Scientific Software&#39;</span>
+<span class="c1"># for the 'Scientific Software'</span>
 <span class="n">brew</span> <span class="n">install</span> <span class="n">gsl</span> <span class="n">fftw</span>
 </pre></div>
 </div>
@@ -353,7 +367,7 @@ To download it for the first time, clone the repository by running the following
 To proceed we require you to set the environment variable <code class="docutils literal notranslate"><span class="pre">PREFIX</span></code>.
 We recommend installing to the standard directory of your python virtual environment, which is typically given by the $VIRTUAL_ENV environment variable.
 To do this, run the following command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">PREFIX</span><span class="o">=</span><span class="s2">&quot;$VIRTUAL_ENV&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">PREFIX</span><span class="o">=</span><span class="s2">"$VIRTUAL_ENV"</span>
 </pre></div>
 </div>
 <p>Next, you must configure the EOS build using the <code class="docutils literal notranslate"><span class="pre">configure</span></code> script.
@@ -392,20 +406,20 @@ exhaust the available memory. Always pass a number, and choose it such that your
 <p>within the build directory.
 Please contact the authors if any test fails by opening an issue in the official <a class="reference external" href="https://github.com/eos/eos">EOS Github repository</a>.
 If all tests pass, install EOS by running the command</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">install</span> <span class="c1"># Use &#39;sudo make install&#39; if you install e.g. to &#39;PREFIX=/usr/local&#39;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">install</span> <span class="c1"># Use 'sudo make install' if you install e.g. to 'PREFIX=/usr/local'</span>
              <span class="c1"># or a similarly privileged directory</span>
 </pre></div>
 </div>
 <p>If you installed EOS to a non-standard location (i.e. not <code class="docutils literal notranslate"><span class="pre">$VIRTUAL_ENV</span></code>),
 to use it from the command line you must set up some environment variable.
 For <code class="docutils literal notranslate"><span class="pre">BASH</span></code>, which is the default Debian/Ubuntu shell, add the following lines to <code class="docutils literal notranslate"><span class="pre">\$HOME/.bash_profile</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">PATH</span><span class="o">+=</span><span class="s2">&quot;:$PREFIX/bin&quot;</span>
-<span class="n">export</span> <span class="n">PYTHONPATH</span><span class="o">+=</span><span class="s2">&quot;:$PREFIX/lib/python3.12/site-packages&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">PATH</span><span class="o">+=</span><span class="s2">":$PREFIX/bin"</span>
+<span class="n">export</span> <span class="n">PYTHONPATH</span><span class="o">+=</span><span class="s2">":$PREFIX/lib/python3.12/site-packages"</span>
 </pre></div>
 </div>
 <p>Note that in the above the <code class="docutils literal notranslate"><span class="pre">python3.12</span></code> piece must be replaced by the appropriate Python version with which EOS was built.
 You can determine the correct value by running the following command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">-</span><span class="n">c</span> <span class="s2">&quot;import sys; print(&#39;python</span><span class="si">{0}</span><span class="s2">.</span><span class="si">{1}</span><span class="s2">&#39;.format(sys.version_info[0], sys.version_info[1]))&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">-</span><span class="n">c</span> <span class="s2">"import sys; print('python</span><span class="si">{0}</span><span class="s2">.</span><span class="si">{1}</span><span class="s2">'.format(sys.version_info[0], sys.version_info[1]))"</span>
 </pre></div>
 </div>
 <p>You can test and debug the installation of the python module as described <a class="reference internal" href="faq.html#faq-check-installation"><span class="std std-ref">here</span></a>.</p>
@@ -451,7 +465,7 @@ include path at <code class="docutils literal notranslate"><span class="pre">con
 <code class="docutils literal notranslate"><span class="pre">cp313</span></code>, <code class="docutils literal notranslate"><span class="pre">cp314</span></code>) for the host architecture, and writes the wheel(s) to
 <code class="docutils literal notranslate"><span class="pre">./wheelhouse</span></code>. Useful options:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">build</span><span class="o">-</span><span class="n">wheel</span><span class="o">.</span><span class="n">bash</span> <span class="o">--</span><span class="n">python</span> <span class="n">cp312</span>          <span class="c1"># only one interpreter</span>
-<span class="o">./</span><span class="n">build</span><span class="o">-</span><span class="n">wheel</span><span class="o">.</span><span class="n">bash</span> <span class="o">--</span><span class="n">quick</span>                 <span class="c1"># skip &#39;make check&#39; for faster iteration</span>
+<span class="o">./</span><span class="n">build</span><span class="o">-</span><span class="n">wheel</span><span class="o">.</span><span class="n">bash</span> <span class="o">--</span><span class="n">quick</span>                 <span class="c1"># skip 'make check' for faster iteration</span>
 <span class="o">./</span><span class="n">build</span><span class="o">-</span><span class="n">wheel</span><span class="o">.</span><span class="n">bash</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="nb">dir</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">out</span>   <span class="c1"># choose where wheels land</span>
 <span class="o">./</span><span class="n">build</span><span class="o">-</span><span class="n">wheel</span><span class="o">.</span><span class="n">bash</span> <span class="o">--</span><span class="nb">print</span><span class="o">-</span><span class="n">env</span>             <span class="c1"># show the resolved CIBW_* settings without building</span>
 <span class="o">./</span><span class="n">build</span><span class="o">-</span><span class="n">wheel</span><span class="o">.</span><span class="n">bash</span> <span class="o">--</span><span class="n">help</span>                  <span class="c1"># full option list</span>
@@ -461,7 +475,7 @@ include path at <code class="docutils literal notranslate"><span class="pre">con
 <section id="installing-and-testing-the-result">
 <h3>Installing and testing the result<a class="headerlink" href="#installing-and-testing-the-result" title="Link to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">force</span><span class="o">-</span><span class="n">reinstall</span> <span class="o">./</span><span class="n">wheelhouse</span><span class="o">/</span><span class="n">eoshep</span><span class="o">-*.</span><span class="n">whl</span>
-<span class="n">python3</span> <span class="o">-</span><span class="n">c</span> <span class="s1">&#39;import eos; print(eos.__version__)&#39;</span>
+<span class="n">python3</span> <span class="o">-</span><span class="n">c</span> <span class="s1">'import eos; print(eos.__version__)'</span>
 <span class="n">eos</span><span class="o">-</span><span class="nb">list</span><span class="o">-</span><span class="n">references</span> <span class="o">&gt;</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">null</span>
 </pre></div>
 </div>
@@ -474,6 +488,7 @@ wheel it builds.</p>
 
            </div>
           </div>
+
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="EOS: A software for Flavor Physics Phenomenology" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="user-guide/index.html" class="btn btn-neutral float-right" title="User Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>

@@ -10,7 +10,7 @@
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/contentui.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=a9995f78" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=ae43863c" />
 
   
     <link rel="canonical" href="https://eos.github.io/doc/user-guide/reproducible-analyses.html" />
@@ -22,11 +22,19 @@
       <script src="../_static/contentui.js"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script src="../_static/js/version-banner.js?v=cfe90da2"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Physics" href="../physics/index.html" />
-    <link rel="prev" title="Common Tasks in Phenomenological Analyses" href="tasks.html" /> 
+    <link rel="prev" title="Common Tasks in Phenomenological Analyses" href="tasks.html" />
+  <script>
+    window.EOS_DOC = {
+        release: "",
+        root:    "../"
+    };
+  </script>
+
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -34,6 +42,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
+  
 
           
           
@@ -48,6 +57,8 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
+  <div id="eos-version-selector" class="eos-version-selector" hidden></div>
+
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
@@ -64,7 +75,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../physics/index.html">Physics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Reference Manual</a></li>
 </ul>
 
         </div>
@@ -89,6 +100,7 @@
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+  
            <div itemprop="articleBody">
              
   <section id="setting-up-a-fully-reproducible-analysis">
@@ -97,29 +109,29 @@
 This means that the analysis file describes fully all the steps needed, including the relative dependencies, and can be easily reproduced by anyone with that analysis file and the same EOS version.</p>
 <p>Below is a Snakefile that can be used with minimal modifications - the only change you need to make is to set the base directory for all the EOS output, via the <code class="docutils literal notranslate"><span class="pre">basedir</span></code> variable.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">snakemake.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">min_version</span>
-<span class="n">min_version</span><span class="p">(</span><span class="s2">&quot;7&quot;</span><span class="p">)</span>
+<span class="n">min_version</span><span class="p">(</span><span class="s2">"7"</span><span class="p">)</span>
 
 <span class="n">rule</span> <span class="nb">all</span><span class="p">:</span>
     <span class="nb">input</span><span class="p">:</span>
-        <span class="s2">&quot;analysis.yaml&quot;</span><span class="p">,</span>
-        <span class="n">expand</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;steps/</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">shell</span><span class="p">(</span><span class="s2">&quot;eos-analysis list-steps -f analysis.yaml&quot;</span><span class="p">,</span> <span class="n">iterable</span><span class="o">=</span><span class="kc">True</span><span class="p">)])</span>
+        <span class="s2">"analysis.yaml"</span><span class="p">,</span>
+        <span class="n">expand</span><span class="p">([</span><span class="sa">f</span><span class="s2">"steps/</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">shell</span><span class="p">(</span><span class="s2">"eos-analysis list-steps -f analysis.yaml"</span><span class="p">,</span> <span class="n">iterable</span><span class="o">=</span><span class="kc">True</span><span class="p">)])</span>
     <span class="n">output</span><span class="p">:</span>
-        <span class="n">touch</span><span class="p">(</span><span class="s2">&quot;steps/all&quot;</span><span class="p">)</span>
+        <span class="n">touch</span><span class="p">(</span><span class="s2">"steps/all"</span><span class="p">)</span>
 
-<span class="n">STEPS</span><span class="o">=</span><span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">shell</span><span class="p">(</span><span class="s2">&quot;eos-analysis list-steps -f analysis.yaml&quot;</span><span class="p">,</span> <span class="n">iterable</span><span class="o">=</span><span class="kc">True</span><span class="p">)]</span>
+<span class="n">STEPS</span><span class="o">=</span><span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">shell</span><span class="p">(</span><span class="s2">"eos-analysis list-steps -f analysis.yaml"</span><span class="p">,</span> <span class="n">iterable</span><span class="o">=</span><span class="kc">True</span><span class="p">)]</span>
 <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">STEPS</span><span class="p">:</span>
     <span class="n">rule</span><span class="p">:</span>
-        <span class="n">name</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">name</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">"</span>
         <span class="n">params</span><span class="p">:</span>
             <span class="n">step</span><span class="o">=</span><span class="n">s</span><span class="p">,</span>
-            <span class="n">basedir</span><span class="o">=</span><span class="s1">&#39;YOUR_BASEDIR_HERE&#39;</span>
+            <span class="n">basedir</span><span class="o">=</span><span class="s1">'YOUR_BASEDIR_HERE'</span>
         <span class="nb">input</span><span class="p">:</span>
-            <span class="s2">&quot;analysis.yaml&quot;</span><span class="p">,</span>
-            <span class="n">expand</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;steps/</span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">shell</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;eos-analysis list-step-dependencies -f analysis.yaml </span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">iterable</span><span class="o">=</span><span class="kc">True</span><span class="p">)])</span>
+            <span class="s2">"analysis.yaml"</span><span class="p">,</span>
+            <span class="n">expand</span><span class="p">([</span><span class="sa">f</span><span class="s2">"steps/</span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">shell</span><span class="p">(</span><span class="sa">f</span><span class="s2">"eos-analysis list-step-dependencies -f analysis.yaml </span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">iterable</span><span class="o">=</span><span class="kc">True</span><span class="p">)])</span>
         <span class="n">output</span><span class="p">:</span>
-            <span class="sa">f</span><span class="s2">&quot;steps/</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">"steps/</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">"</span>
         <span class="n">shell</span><span class="p">:</span>
-            <span class="s2">&quot;eos-analysis run -f analysis.yaml -b </span><span class="si">{params.basedir}</span><span class="s2"> </span><span class="si">{params.step}</span><span class="s2"> &gt; </span><span class="si">{output[0]}</span><span class="s2"> 2&gt; /dev/null&quot;</span>
+            <span class="s2">"eos-analysis run -f analysis.yaml -b </span><span class="si">{params.basedir}</span><span class="s2"> </span><span class="si">{params.step}</span><span class="s2"> &gt; </span><span class="si">{output[0]}</span><span class="s2"> 2&gt; /dev/null"</span>
 </pre></div>
 </div>
 <p>If you have snakemake installed, you can run this Snakefile by running the <code class="docutils literal notranslate"><span class="pre">snakemake</span></code> command in the same directory as the Snakefile and your analysis file, which should be named <code class="docutils literal notranslate"><span class="pre">analysis.yaml</span></code>.
@@ -129,6 +141,7 @@ See the <a class="reference external" href="https://snakemake.readthedocs.io/en/
 
            </div>
           </div>
+
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="tasks.html" class="btn btn-neutral float-left" title="Common Tasks in Phenomenological Analyses" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="../physics/index.html" class="btn btn-neutral float-right" title="Physics" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
