@@ -1,0 +1,730 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Constraint Format &mdash; EOS 1.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/contentui.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=ae43863c" />
+
+  
+    <link rel="canonical" href="https://eos.github.io/doc/reference/constraint-format.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=56dcb7b8"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/contentui.js"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script src="../_static/js/version-banner.js?v=cfe90da2"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="List of Constraints" href="constraints.html" />
+    <link rel="prev" title="Figure Description Format" href="figure-format.html" />
+  <script>
+    window.EOS_DOC = {
+        release: "v1.1",
+        root:    "../../../"
+    };
+  </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+  
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            EOS
+              <img src="../_static/github-eos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+  <div id="eos-version-selector" class="eos-version-selector" hidden></div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/index.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../physics/index.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference Manual</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="python.html">Python API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command-line-interface.html">Command-Line Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcp-server.html">MCP Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="defining-observables.html">Defining Observables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis-file-format.html">Analysis File Format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="figure-format.html">Figure Description Format</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Constraint Format</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#amoroso"><code class="docutils literal notranslate"><span class="pre">Amoroso</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gaussian"><code class="docutils literal notranslate"><span class="pre">Gaussian</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#loggamma"><code class="docutils literal notranslate"><span class="pre">LogGamma</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mixture"><code class="docutils literal notranslate"><span class="pre">Mixture</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multivariategaussian"><code class="docutils literal notranslate"><span class="pre">MultivariateGaussian</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multivariategaussian-covariance"><code class="docutils literal notranslate"><span class="pre">MultivariateGaussian(Covariance)</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#uniformbound"><code class="docutils literal notranslate"><span class="pre">UniformBound</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="constraints.html">List of Constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="observables.html">List of Observables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parameters.html">List of Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="signal-pdfs.html">List of Signal PDFs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">EOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Reference Manual</a></li>
+      <li class="breadcrumb-item active">Constraint Format</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+  <div id="eos-version-banner" class="admonition warning">
+    <p class="admonition-title">v1.1</p>
+    <p>
+      <span class="eos-version-banner-text">You are reading the documentation for EOS v1.1, which is not necessarily the latest release.</span>
+      <a href="../../../index.html">Go to the documentation for the latest release.</a>
+    </p>
+  </div>
+  
+           <div itemprop="articleBody">
+             
+  <section id="constraint-format">
+<h1>Constraint Format<a class="headerlink" href="#constraint-format" title="Link to this heading"></a></h1>
+<p>Every entry of <a class="reference internal" href="python.html#eos.Constraints" title="eos.Constraints"><code class="xref py py-class docutils literal notranslate"><span class="pre">eos.Constraints</span></code></a> is described on disk by a YAML map whose <code class="docutils literal notranslate"><span class="pre">type</span></code> key selects one of the concrete field schemas below.
+The full list of constraints currently shipped with EOS is documented separately on the <a class="reference internal" href="constraints.html"><span class="doc">List of Constraints</span></a> page.</p>
+<section id="amoroso">
+<h2><code class="docutils literal notranslate"><span class="pre">Amoroso</span></code><a class="headerlink" href="#amoroso" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>key</p></th>
+<th class="head"><p>kind</p></th>
+<th class="head"><p>required</p></th>
+<th class="head"><p>description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">observable</span></code></p></td>
+<td><p>scalar</p></td>
+<td><p>yes</p></td>
+<td><p>The qualified name of the observable this constraint applies to.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">kinematics</span></code></p></td>
+<td><p>map</p></td>
+<td><p>yes</p></td>
+<td><p>The kinematic variables at which the observable is evaluated.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">options</span></code></p></td>
+<td><p>map</p></td>
+<td><p>yes</p></td>
+<td><p>The options with which the observable is evaluated.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">physical-limit</span></code></p></td>
+<td><p>scalar</p></td>
+<td><p>yes</p></td>
+<td><p>The distribution’s physical limit.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">theta</span></code></p></td>
+<td><p>scalar</p></td>
+<td><p>yes</p></td>
+<td><p>The distribution’s scale parameter theta.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">alpha</span></code></p></td>
+<td><p>scalar</p></td>
+<td><p>yes</p></td>
+<td><p>The distribution’s shape parameter alpha.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">beta</span></code></p></td>
+<td><p>scalar</p></td>
+<td><p>yes</p></td>
+<td><p>The distribution’s shape parameter beta.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">references</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>no</p></td>
+<td><p>The list of reference names this constraint originates from.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">B^0_s-&gt;mu^+mu^-::BR@CMS:2013B</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Amoroso</span>
+<span class="w">  </span><span class="nt">observable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B_q-&gt;ll::BR@Untagged</span>
+<span class="w">  </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">  </span><span class="nt">options</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">l</span><span class="p">:</span><span class="w"> </span><span class="nv">mu</span><span class="p p-Indicator">,</span><span class="nt"> q</span><span class="p">:</span><span class="w"> </span><span class="nv">s</span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="nt">physical-limit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="w">  </span><span class="nt">theta</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.98596335e-09</span>
+<span class="w">  </span><span class="nt">alpha</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.7971996</span>
+<span class="w">  </span><span class="nt">beta</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.02188458</span>
+<span class="w">  </span><span class="nt">references</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">[]</span>
+</pre></div>
+</div>
+</section>
+<section id="gaussian">
+<h2><code class="docutils literal notranslate"><span class="pre">Gaussian</span></code><a class="headerlink" href="#gaussian" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>key</p></th>
+<th class="head"><p>kind</p></th>
+<th class="head"><p>required</p></th>
+<th class="head"><p>description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">observable</span></code></p></td>
+<td><p>scalar</p></td>
+<td><p>yes</p></td>
+<td><p>The qualified name of the observable this constraint applies to.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">kinematics</span></code></p></td>
+<td><p>map</p></td>
+<td><p>yes</p></td>
+<td><p>The kinematic variables at which the observable is evaluated.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">options</span></code></p></td>
+<td><p>map</p></td>
+<td><p>yes</p></td>
+<td><p>The options with which the observable is evaluated.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mean</span></code></p></td>
+<td><p>scalar</p></td>
+<td><p>yes</p></td>
+<td><p>The measurement’s central value.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sigma-stat</span></code></p></td>
+<td><p>map</p></td>
+<td><p>yes</p></td>
+<td><p>The measurement’s statistical uncertainty, as ‘hi’/’lo’ one-sigma values.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sigma-sys</span></code></p></td>
+<td><p>map</p></td>
+<td><p>yes</p></td>
+<td><p>The measurement’s systematic uncertainty, as ‘hi’/’lo’ one-sigma values.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">references</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>no</p></td>
+<td><p>The list of reference names this constraint originates from.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">B^0_s-&gt;mu^+mu^-::BR@CMS:2016A</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Gaussian</span>
+<span class="w">  </span><span class="nt">observable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B_q-&gt;ll::BR@Untagged</span>
+<span class="w">  </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">  </span><span class="nt">options</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">l</span><span class="p">:</span><span class="w"> </span><span class="nv">mu</span><span class="p p-Indicator">,</span><span class="nt"> q</span><span class="p">:</span><span class="w"> </span><span class="nv">s</span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="nt">mean</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3e-09</span>
+<span class="w">  </span><span class="nt">sigma-stat</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">hi</span><span class="p">:</span><span class="w"> </span><span class="nv">1e-09</span><span class="p p-Indicator">,</span><span class="nt"> lo</span><span class="p">:</span><span class="w"> </span><span class="nv">9e-10</span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="nt">sigma-sys</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">hi</span><span class="p">:</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="nt"> lo</span><span class="p">:</span><span class="w"> </span><span class="nv">0</span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="nt">references</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">[]</span>
+</pre></div>
+</div>
+</section>
+<section id="loggamma">
+<h2><code class="docutils literal notranslate"><span class="pre">LogGamma</span></code><a class="headerlink" href="#loggamma" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>key</p></th>
+<th class="head"><p>kind</p></th>
+<th class="head"><p>required</p></th>
+<th class="head"><p>description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">observable</span></code></p></td>
+<td><p>scalar</p></td>
+<td><p>yes</p></td>
+<td><p>The qualified name of the observable this constraint applies to.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">kinematics</span></code></p></td>
+<td><p>map</p></td>
+<td><p>yes</p></td>
+<td><p>The kinematic variables at which the observable is evaluated.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">options</span></code></p></td>
+<td><p>map</p></td>
+<td><p>yes</p></td>
+<td><p>The options with which the observable is evaluated.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mode</span></code></p></td>
+<td><p>scalar</p></td>
+<td><p>yes</p></td>
+<td><p>The distribution’s mode.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sigma</span></code></p></td>
+<td><p>map</p></td>
+<td><p>yes</p></td>
+<td><p>The distribution’s width, as ‘hi’/’lo’ one-sigma values.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">alpha</span></code></p></td>
+<td><p>scalar</p></td>
+<td><p>yes</p></td>
+<td><p>The distribution’s shape parameter alpha.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">lambda</span></code></p></td>
+<td><p>scalar</p></td>
+<td><p>yes</p></td>
+<td><p>The distribution’s shape parameter lambda.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">references</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>no</p></td>
+<td><p>The list of reference names this constraint originates from.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># No constraint of type LogGamma currently ships with EOS; the following illustrates the format.</span>
+<span class="nt">Example::Constraint@LogGamma:2026A</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LogGamma</span>
+<span class="w">    </span><span class="nt">observable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mass::b(MSbar)</span>
+<span class="w">    </span><span class="nt">kinematics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">    </span><span class="nt">options</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">    </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.53</span>
+<span class="w">    </span><span class="nt">sigma</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> hi</span><span class="p">:</span><span class="w"> </span><span class="nv">0.1</span><span class="p p-Indicator">,</span><span class="nt"> lo</span><span class="p">:</span><span class="w"> </span><span class="nv">0.19</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="nt">alpha</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.383056</span>
+<span class="w">    </span><span class="nt">lambda</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0687907</span>
+</pre></div>
+</div>
+</section>
+<section id="mixture">
+<h2><code class="docutils literal notranslate"><span class="pre">Mixture</span></code><a class="headerlink" href="#mixture" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>key</p></th>
+<th class="head"><p>kind</p></th>
+<th class="head"><p>required</p></th>
+<th class="head"><p>description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">observables</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>yes</p></td>
+<td><p>The qualified names of the observables this constraint applies to.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">kinematics</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>yes</p></td>
+<td><p>One kinematics map per observable, in the same order as ‘observables’.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">options</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>yes</p></td>
+<td><p>One options map per observable, in the same order as ‘observables’.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">components</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>yes</p></td>
+<td><p>The mixture’s components, each a map with keys ‘means’ and ‘covariance’.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">weights</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>yes</p></td>
+<td><p>The mixture weight of each component, in the same order as ‘components’.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">test</span> <span class="pre">statistics</span></code></p></td>
+<td><p>map</p></td>
+<td><p>yes</p></td>
+<td><p>The test-statistic map, with keys ‘sigma’ and ‘densities’.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dof</span></code></p></td>
+<td><p>scalar</p></td>
+<td><p>no</p></td>
+<td><p>The number of degrees of freedom; defaults to the dimension of the first component.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">references</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>no</p></td>
+<td><p>The list of reference names this constraint originates from.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">ublnu::P(WET)@LMNRvD:2023A</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Mixture</span>
+<span class="w">  </span><span class="nt">observables</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubenue::Re{cVL}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubenue::Re{cVR}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubenue::Re{cSL}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubenue::Re{cSR}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubenue::Re{cT}</span>
+<span class="w">  </span><span class="nt">kinematics</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">  </span><span class="nt">options</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">  </span><span class="nt">components</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">means</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.239210427</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.745753385</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0134320629</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00712165087</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.07476569</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">covariance</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.00413002622</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.00332498388</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.000848109332</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.000406691892</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00149330229</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-0.00332498388</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00423865185</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000609995065</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000447884848</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.00198342431</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-0.000848109332</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000609995065</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0179180233</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.0139526675</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.000419354195</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-0.000406691892</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000447884848</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.0139526675</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0176090923</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.000427770435</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.00149330229</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.00198342431</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.000419354195</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.000427770435</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00201519131</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">means</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.757398556</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.228773992</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00110913152</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.000873656294</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0677685293</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">covariance</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.00372855018</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.00283559277</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">7.81683737e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-5.53574956e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.00175599948</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-0.00283559277</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00370910325</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.00013336092</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00012761393</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00128510668</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">7.81683737e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.00013336092</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0177483896</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.0130322168</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">6.4885982e-05</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-5.53574956e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00012761393</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.0130322168</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0169730206</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-4.18798439e-05</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-0.00175599948</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00128510668</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">6.4885982e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-4.18798439e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00195438375</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">means</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.198516518</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.792744105</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.0472557982</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.0333198714</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.00746000472</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">covariance</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.00233305594</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.00112909094</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000503448472</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000338975635</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.000152968596</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-0.00112909094</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00192412867</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000601037901</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1.78341407e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000272259322</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.000503448472</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000601037901</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0148029835</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.0123754828</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000114676622</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.000338975635</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1.78341407e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.0123754828</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0141841404</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-9.50121964e-05</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-0.000152968596</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000272259322</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000114676622</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-9.50121964e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00307078657</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">means</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.55162879</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.421223066</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.00326568492</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0073358451</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.136095987</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">covariance</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.0136726272</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.0124196149</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-6.77457689e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.000186221927</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00113994882</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-0.0124196149</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0131990105</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.0001525186</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000187918672</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.00072572775</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-6.77457689e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.0001525186</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0231210904</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.0194229642</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.000140483516</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-0.000186221927</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000187918672</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.0194229642</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0217373176</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">7.90708268e-05</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.00113994882</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.00072572775</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.000140483516</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">7.90708268e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000671170943</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">means</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.5034653</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.46872954</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00419595692</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.00736434769</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.138663722</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">covariance</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.0143097582</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.0131789312</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">5.84795881e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.000179578405</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.000449735291</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-0.0131789312</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0141062439</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000283478865</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00014711228</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">5.31608868e-05</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">5.84795881e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000283478865</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0235784881</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.0198343226</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.0001527965</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-0.000179578405</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00014711228</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.0198343226</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0220192126</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000118910175</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-0.000449735291</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">5.31608868e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.0001527965</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000118910175</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00060768473</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">means</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.767568627</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.220278888</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.00097655811</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000878976359</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.057475313</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">covariance</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.00317257454</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.00234444581</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-6.06395131e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3.61794251e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00156711916</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-0.00234444581</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00326005989</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00010849244</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-9.86664846e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.00111646512</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-6.06395131e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00010849244</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0174746435</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.012628733</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">7.86544453e-05</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">3.61794251e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-9.86664846e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.012628733</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0166955983</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-5.66194913e-05</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.00156711916</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.00111646512</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">7.86544453e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-5.66194913e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00210933949</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">means</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.250297463</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.733580913</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0125323274</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0115232794</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.0826979928</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">covariance</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.0048791311</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.00412718468</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.0007456679</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.000709134398</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.00172573604</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-0.00412718468</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00513665626</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000498154877</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000598726604</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00223295979</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-0.0007456679</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000498154877</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0183029766</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.0144801713</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000482037239</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-0.000709134398</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000598726604</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.0144801713</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0178354501</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000332905413</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-0.00172573604</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00223295979</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000482037239</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000332905413</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00193181161</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">weights</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.171118343</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.190789926</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0943923462</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0940510903</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0906591629</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.194029573</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.16490176</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">test statistics</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">sigma</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
+<span class="w">    </span><span class="nt">densities</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
+<span class="w">  </span><span class="nt">references</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">[]</span>
+<span class="w">  </span><span class="nt">dof</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+</pre></div>
+</div>
+</section>
+<section id="multivariategaussian">
+<h2><code class="docutils literal notranslate"><span class="pre">MultivariateGaussian</span></code><a class="headerlink" href="#multivariategaussian" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>key</p></th>
+<th class="head"><p>kind</p></th>
+<th class="head"><p>required</p></th>
+<th class="head"><p>description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">observables</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>yes</p></td>
+<td><p>The qualified names of the observables this constraint applies to.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">kinematics</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>yes</p></td>
+<td><p>One kinematics map per observable, in the same order as ‘observables’.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">options</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>yes</p></td>
+<td><p>One options map per observable, in the same order as ‘observables’.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">means</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>yes</p></td>
+<td><p>The measurements’ central values, in the same order as ‘observables’.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sigma-stat-hi</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>yes</p></td>
+<td><p>The measurements’ upper statistical one-sigma uncertainties.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sigma-stat-lo</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>yes</p></td>
+<td><p>The measurements’ lower statistical one-sigma uncertainties.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sigma-sys</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>yes</p></td>
+<td><p>The measurements’ (symmetric) systematic one-sigma uncertainties.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">correlations</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>yes</p></td>
+<td><p>The measurements’ correlation matrix, as a sequence of rows.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dof</span></code></p></td>
+<td><p>scalar</p></td>
+<td><p>no</p></td>
+<td><p>The number of degrees of freedom; defaults to the number of measurements.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">references</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>no</p></td>
+<td><p>The list of reference names this constraint originates from.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">B^0-&gt;K^*0gamma::S_K+C_K@BaBar:2008A</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MultivariateGaussian</span>
+<span class="w">  </span><span class="nt">observables</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;K^*gamma::S_K^*gamma</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;K^*gamma::C_K^*gamma</span>
+<span class="w">  </span><span class="nt">kinematics</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">  </span><span class="nt">options</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">q</span><span class="p">:</span><span class="w"> </span><span class="nv">d</span><span class="p p-Indicator">,</span><span class="nt"> tag</span><span class="p">:</span><span class="w"> </span><span class="nv">BFS2004</span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">q</span><span class="p">:</span><span class="w"> </span><span class="nv">d</span><span class="p p-Indicator">,</span><span class="nt"> tag</span><span class="p">:</span><span class="w"> </span><span class="nv">BFS2004</span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="nt">means</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-0.03</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-0.14</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">sigma-stat-hi</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.29</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.16</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">sigma-stat-lo</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.29</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.16</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">sigma-sys</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.03</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.03</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">correlations</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.05</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">references</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">[]</span>
+<span class="w">  </span><span class="nt">dof</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+</pre></div>
+</div>
+</section>
+<section id="multivariategaussian-covariance">
+<h2><code class="docutils literal notranslate"><span class="pre">MultivariateGaussian(Covariance)</span></code><a class="headerlink" href="#multivariategaussian-covariance" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>key</p></th>
+<th class="head"><p>kind</p></th>
+<th class="head"><p>required</p></th>
+<th class="head"><p>description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">observables</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>yes</p></td>
+<td><p>The qualified names of the observables (predictions) this constraint applies to.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">kinematics</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>yes</p></td>
+<td><p>One kinematics map per observable, in the same order as ‘observables’.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">options</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>yes</p></td>
+<td><p>One options map per observable, in the same order as ‘observables’.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">means</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>yes</p></td>
+<td><p>The measurements’ central values.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">covariance</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>yes</p></td>
+<td><p>The measurements’ covariance matrix, as a sequence of rows.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">response</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>no</p></td>
+<td><p>The response matrix mapping predictions to measurements, if they are not in 1:1 correspondence.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dof</span></code></p></td>
+<td><p>scalar</p></td>
+<td><p>no</p></td>
+<td><p>The number of degrees of freedom; defaults to the number of measurements.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">references</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>no</p></td>
+<td><p>The list of reference names this constraint originates from.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">B-&gt;pi::f_0+f_+@FLAG:2024A</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MultivariateGaussian(Covariance)</span>
+<span class="w">  </span><span class="nt">observables</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pi::f_+(q2)</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pi::f_+(q2)</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pi::f_+(q2)</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pi::f_0(q2)</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pi::f_0(q2)</span>
+<span class="w">  </span><span class="nt">kinematics</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">q2</span><span class="p">:</span><span class="w"> </span><span class="nv">18</span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">q2</span><span class="p">:</span><span class="w"> </span><span class="nv">22</span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">q2</span><span class="p">:</span><span class="w"> </span><span class="nv">26</span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">q2</span><span class="p">:</span><span class="w"> </span><span class="nv">18</span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">q2</span><span class="p">:</span><span class="w"> </span><span class="nv">26</span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="nt">options</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">form-factors</span><span class="p">:</span><span class="w"> </span><span class="nv">G2026</span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">form-factors</span><span class="p">:</span><span class="w"> </span><span class="nv">G2026</span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">form-factors</span><span class="p">:</span><span class="w"> </span><span class="nv">G2026</span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">form-factors</span><span class="p">:</span><span class="w"> </span><span class="nv">G2026</span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">form-factors</span><span class="p">:</span><span class="w"> </span><span class="nv">G2026</span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="nt">means</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1.07854</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">2.0037</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">6.11813</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.48709</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.95403</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">covariance</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.0034726032</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00499931193</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0114332044</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-6.23611537e-06</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-1.11172232e-05</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.00499931193</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00911756815</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0263339334</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-1.1469038e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-2.1550285e-05</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0.0114332044</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.0263339334</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.118033742</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-1.94665745e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-3.47890026e-05</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-6.23611537e-06</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-1.1469038e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-1.94665745e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000460187487</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000709222282</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">-1.11172232e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-2.1550285e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">-3.47890026e-05</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.000709222282</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">0.00146191433</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">references</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">[]</span>
+<span class="w">  </span><span class="nt">dof</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+</pre></div>
+</div>
+</section>
+<section id="uniformbound">
+<h2><code class="docutils literal notranslate"><span class="pre">UniformBound</span></code><a class="headerlink" href="#uniformbound" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>key</p></th>
+<th class="head"><p>kind</p></th>
+<th class="head"><p>required</p></th>
+<th class="head"><p>description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">observables</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>yes</p></td>
+<td><p>The qualified names of the observables this constraint applies to.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">kinematics</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>yes</p></td>
+<td><p>One kinematics map per observable, in the same order as ‘observables’.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">options</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>yes</p></td>
+<td><p>One options map per observable, in the same order as ‘observables’.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">bound</span></code></p></td>
+<td><p>scalar</p></td>
+<td><p>yes</p></td>
+<td><p>The shared upper bound on all observables.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">uncertainty</span></code></p></td>
+<td><p>scalar</p></td>
+<td><p>yes</p></td>
+<td><p>The (relative) uncertainty on the bound.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">references</span></code></p></td>
+<td><p>sequence</p></td>
+<td><p>no</p></td>
+<td><p>The list of reference names this constraint originates from.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">b-&gt;u::MesonicBound[1^+_A]</span><span class="p p-Indicator">:</span>
+<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">UniformBound</span>
+<span class="w">  </span><span class="nt">observables</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">B-&gt;pipi::Saturation[1^+_A]</span>
+<span class="w">  </span><span class="nt">kinematics</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">  </span><span class="nt">options</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">C</span><span class="p">:</span><span class="w"> </span><span class="nv">+-</span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="nt">bound</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="nt">uncertainty</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.05</span>
+<span class="w">  </span><span class="nt">references</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">[]</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="figure-format.html" class="btn btn-neutral float-left" title="Figure Description Format" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="constraints.html" class="btn btn-neutral float-right" title="List of Constraints" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2026, The EOS Authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
