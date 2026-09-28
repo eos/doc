@@ -244,11 +244,19 @@ to yield sensible results only for <span class="math notranslate nohighlight">\(
 For the CLI, verbosity is set using the EOS_VERBOSITY environment variable and ranges from 0 (show only errors) to 5 (show all messages).
 Similarly, verbosity can be set for an individual command using the <code class="docutils literal notranslate"><span class="pre">-v</span></code> or <code class="docutils literal notranslate"><span class="pre">--verbose</span></code> argument.
 The same can be achieved in a python notebook with:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">set_log_level</span><span class="p">(</span><span class="s1">'DEBUG'</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">eos</span>
+
+<span class="n">eos</span><span class="o">.</span><span class="n">set_log_level</span><span class="p">(</span><span class="s1">'DEBUG'</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Above, <code class="docutils literal notranslate"><span class="pre">'DEBUG'</span></code> can be replaced by the name of any logging level, which are listed <a class="reference external" href="https://docs.python.org/3/library/logging.html#levels">here</a>.
-By default, EOS logs to <code class="docutils literal notranslate"><span class="pre">sys.stderr</span></code>. To log to <code class="docutils literal notranslate"><span class="pre">sys.stdout</span></code> instead, use <code class="docutils literal notranslate"><span class="pre">eos.default_log_handler.setStream(sys.stdout)</span></code>.</p>
+<p>Above, <code class="docutils literal notranslate"><span class="pre">'DEBUG'</span></code> can be replaced by the name of any of the log levels that EOS uses, in order of decreasing verbosity:
+<code class="docutils literal notranslate"><span class="pre">'DEBUG'</span></code>, <code class="docutils literal notranslate"><span class="pre">'INFO'</span></code>, <code class="docutils literal notranslate"><span class="pre">'INPROGRESS'</span></code>, <code class="docutils literal notranslate"><span class="pre">'COMPLETED'</span></code>, <code class="docutils literal notranslate"><span class="pre">'SUCCESS'</span></code>, <code class="docutils literal notranslate"><span class="pre">'WARNING'</span></code>, and <code class="docutils literal notranslate"><span class="pre">'ERROR'</span></code>.
+By default, EOS logs to <code class="docutils literal notranslate"><span class="pre">sys.stderr</span></code>. To log to <code class="docutils literal notranslate"><span class="pre">sys.stdout</span></code> instead, use:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+<span class="n">eos</span><span class="o">.</span><span class="n">default_log_handler</span><span class="o">.</span><span class="n">setStream</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 </section>
 </section>
