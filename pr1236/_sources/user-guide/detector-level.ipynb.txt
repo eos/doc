@@ -26,7 +26,7 @@
     "   and fit the two leading $\\bar{B}\\to D$ form factor shape parameters to them, driving the fit\n",
     "   through an [eos.AnalysisFile](../reference/python.rst#eos.AnalysisFile) as in the other user-guide\n",
     "   notebooks;\n",
-    "5. we close the loop by comparing the recovered parameters against the values used to generate the\n",
+    "5. we validate the fit by comparing the recovered parameters against the values used to generate the\n",
     "   samples in step 1.\n",
     "\n",
     "The convolution that a detector-level PDF performs is *circular*: every axis of its grid must be\n",
@@ -58,9 +58,10 @@
     "We use the decay $\\bar{B}^0\\to D^+\\mu^-\\bar\\nu$, described by the two kinematic variables $q^2$\n",
     "and $\\cos\\theta_\\ell$. We work in the $\\mathcal{O}_\\text{WET}$ effective theory (`model: WET`),\n",
     "with every Wilson coefficient set to zero except for $c_{VL}$, which is kept at its Standard-Model\n",
-    "value. We also set the muon mass to (approximately) zero, so that the scalar form factor $f_0$ does\n",
-    "not contribute; EOS represents an exactly vanishing lepton mass by a division by zero internally, so\n",
-    "we use a numerically negligible but finite value instead."
+    "value. The muon keeps its physical mass. A massless lepton would make the density drop discontinuously\n",
+    "to zero at $q^2 = 0$, a step that the sampling grid cannot represent; at finite $m_\\mu$ the density\n",
+    "instead vanishes smoothly at the threshold $q^2 = m_\\mu^2$. In exchange, the scalar form factor $f_0$\n",
+    "now contributes, and its parameters are held fixed in the fit in section 4."
    ]
   },
   {
@@ -71,11 +72,6 @@
    "outputs": [],
    "source": [
     "params = eos.Parameters()\n",
-    "\n",
-    "# The muon keeps its physical mass. A massless lepton would make the density drop\n",
-    "# discontinuously to zero at q2 = 0, a step the sampling grid cannot represent; at finite m_mu the\n",
-    "# density instead vanishes smoothly at threshold q2 = m_mu^2. The price is that the scalar form\n",
-    "# factor f_0 now contributes, so its parameters have to be held fixed in the fit below.\n",
     "\n",
     "# WET, with only the Standard-Model value of c_VL switched on\n",
     "params.set('cbmunumu::Re{cVL}', 1.0)\n",
@@ -89,8 +85,8 @@
     "params.set('cbmunumu::Re{cT}',  0.0)\n",
     "params.set('cbmunumu::Im{cT}',  0.0)\n",
     "\n",
-    "# 'form-factors' selects the parametrization: without it B->Dlnu defaults to BSZ2015 and the\n",
-    "# @SSE parameters fitted below would have no effect at all\n",
+    "# 'SSE' is the default parametrization of B->Dlnu; it is named explicitly, since the fit below\n",
+    "# varies the @SSE parameters\n",
     "OPTIONS = eos.Options(**{ 'l': 'mu', 'q': 'd', 'model': 'WET', 'form-factors': 'SSE' })\n",
     "\n",
     "# the true values of the form factor shape parameters, used below to generate samples and, in the\n",
@@ -128,7 +124,7 @@
    "metadata": {},
    "source": [
     "We compare the $q^2$ marginal of the 2D samples against the built-in 1D PDF\n",
-    "[B->Dlnu::P(q2)](../reference/signal-pdfs.html)."
+    "[B->Dlnu::P(q2)](../reference/signal-pdfs.rst)."
    ]
   },
   {
@@ -167,8 +163,8 @@
     "vanishing width in the $\\cos\\theta_\\ell$ offset, which realises \"no smearing\" as a numerical\n",
     "Kronecker delta once sampled on the grid below. The grammar used by\n",
     "[eos.Observables.insert](../reference/python.rst#eos.Observables.insert) has no `erf`, so the\n",
-    "resolution's own normalization -- never used by the convolution, which renormalises the kernel to\n",
-    "unit sum -- is computed by hand and registered as a second, constant-valued expression observable."
+    "resolution's own normalization (never used by the convolution, which renormalises the kernel to\n",
+    "unit sum) is computed by hand and registered as a second, constant-valued expression observable."
    ]
   },
   {
@@ -209,7 +205,7 @@
    "metadata": {},
    "source": [
     "The convolution is circular, so the grid must extend well beyond the physical $q^2$ range on both\n",
-    "sides -- by about $6\\,\\sigma_{q^2} \\approx 1.8\\,\\mathrm{GeV}^2$ -- so that both the truth PDF and\n",
+    "sides. Here we choose to pad by about $6\\,\\sigma_{q^2} \\approx 1.8\\,\\mathrm{GeV}^2$ so that both the truth PDF and\n",
     "the resolution are negligible at the wrap-around boundary. A reader adapting this example to a\n",
     "different resolution width or a different decay should re-check this padding first: it is the most\n",
     "common source of a silently wrong result. No such padding is needed for $\\cos\\theta_\\ell$, since it\n",
@@ -284,7 +280,7 @@
     "\n",
     "detector_curve = detector_marginal_q2(detector_pdf, hist_centers)\n",
     "\n",
-    "# The histogram is a finite sample, so the right yardstick is its own Poisson uncertainty, not a\n",
+    "# The histogram is a finite sample, so the right figure of merit is its own Poisson uncertainty, not a\n",
     "# relative deviation: in the sparse tails a large relative deviation is expected and says nothing\n",
     "# about the convolution. Restricting to bins with enough entries for the Poisson error to be\n",
     "# meaningful, the pulls should be O(1).\n",
@@ -320,8 +316,8 @@
     "truth-level samples, write them to an\n",
     "[eos.data.UnbinnedLikelihood](../reference/python.rst#eos.data.UnbinnedLikelihood) data object\n",
     "together with the (unnormalized) resolution kernel expression, and fit the form factor shape\n",
-    "parameters $\\alpha^{f_+}_1$ and $\\alpha^{f_+}_2$ in the \"SSE\" parametrization to them --\n",
-    "$\\alpha^{f_+}_0$, $V_{cb}$, and every other parameter are kept fixed. The fit is driven through\n",
+    "parameters $\\alpha^{f_+}_1$ and $\\alpha^{f_+}_2$ in the \"SSE\" parametrization to them; we keep\n",
+    "$\\alpha^{f_+}_0$, $V_{cb}$, and every other parameter fixed. The fit is driven through\n",
     "[eos.AnalysisFile](../reference/python.rst#eos.AnalysisFile), reading `detector-level.yaml`, which\n",
     "declares the `unbinned-B-to-D` likelihood component as `type: unbinned`."
    ]
@@ -345,9 +341,11 @@
     "cos_obs = truth_samples[:, 1]\n",
     "observations = np.column_stack([q2_obs, cos_obs])\n",
     "\n",
-    "EOS_DATA_DIRECTORY = './detector-level-data'\n",
+    "# the analysis file's relative 'data' path is resolved against the base directory passed to the\n",
+    "# tasks, so the data object must be written beneath it\n",
+    "EOS_BASE_DIRECTORY = './detector-level-base'\n",
     "eos.data.UnbinnedLikelihood.create(\n",
-    "    os.path.join(EOS_DATA_DIRECTORY, 'observed-events'),\n",
+    "    os.path.join(EOS_BASE_DIRECTORY, 'detector-level-data', 'observed-events'),\n",
     "    axes=AXES,\n",
     "    resolution=UnbinnedExpressionResolutionDescription(expression=kernel_expr),\n",
     "    observations=observations,\n",
@@ -361,7 +359,6 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "EOS_BASE_DIRECTORY = './detector-level-base'\n",
     "eos.tasks.sample_mcmc('detector-level.yaml', 'FF-fit', chain=0, base_directory=EOS_BASE_DIRECTORY,\n",
     "                       pre_N=250, preruns=2, N=400, stride=3)\n"
    ]
