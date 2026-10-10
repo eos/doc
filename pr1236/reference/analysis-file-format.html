@@ -80,6 +80,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#metadata">Metadata</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#observables">Observables</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#parameters">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#signal-pdfs">Signal PDFs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#predictions">Predictions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#figures">Figures</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#steps">Steps</a></li>
@@ -155,6 +156,8 @@ At the top level, the format recognizes the following YAML keys / sections.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">observables</span></code></dt><dd><p>A list of <a class="reference internal" href="#analysis-file-observables"><span class="std std-ref">custom observables</span></a> defined for the scope of the analysis. Each entry introduces a new named observable from an expression, following the syntax for <a class="reference internal" href="defining-observables.html#id1"><span class="std std-ref">defining new observables</span></a>, which can then be used like any built-in observable elsewhere in the file.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">parameters</span></code></dt><dd><p>A list of <a class="reference internal" href="#analysis-file-parameters"><span class="std std-ref">new parameters</span></a> defined for the scope of the analysis. Each entry either introduces a genuinely new parameter or defines an alias for one or more existing parameters; the latter is useful to impose symmetries (e.g. lepton-flavour universality) by varying several parameters together.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">signal_pdfs</span></code></dt><dd><p>A list of <a class="reference internal" href="#analysis-file-signal-pdfs"><span class="std std-ref">custom signal PDFs</span></a>. Each entry introduces a new truth-level signal PDF from two observables, its unnormalized density and its normalization, which can then be fitted in an unbinned likelihood.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">predictions</span></code></dt><dd><p>A list of <a class="reference internal" href="#analysis-file-predictions"><span class="std std-ref">theory predictions</span></a>. Each entry specifies a set of observables to be evaluated on the samples of a posterior, optionally at several kinematic configurations, and is used to propagate the inferred uncertainties to derived quantities.</p>
 </dd>
@@ -328,7 +331,7 @@ For example, the following maps the pyhf parameter <code class="docutils literal
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="s">'variable'</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">'cos(theta_l)'</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">'min'</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">-1.0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">'max'</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">1.0</span><span class="w"> </span><span class="p p-Indicator">}</span>
 </pre></div>
 </div>
-<p>Because the underlying convolution uses a real discrete Fourier transform, every axis must end up with an <strong>even</strong> number of points; a crop that yields an odd count is rejected rather than silently adjusted. For a resolution supplied as numerical samples, the optional <code class="docutils literal notranslate"><span class="pre">tolerance</span></code> key (default <code class="docutils literal notranslate"><span class="pre">1.0e-9</span></code>) sets the tolerance used when checking that the samples’ declared offset grid matches the grid the fit requires. A resolution supplied as a signal PDF (<code class="docutils literal notranslate"><span class="pre">kind:</span> <span class="pre">pdf</span></code>) is sampled anew whenever the parameters change, and may therefore depend on them; a resolution supplied as an expression is sampled once, when the analysis is built.</p>
+<p>Because the underlying convolution uses a real discrete Fourier transform, every axis must end up with an <strong>even</strong> number of points; a crop that yields an odd count is rejected rather than silently adjusted. For a resolution supplied as numerical samples, the optional <code class="docutils literal notranslate"><span class="pre">tolerance</span></code> key (default <code class="docutils literal notranslate"><span class="pre">1.0e-9</span></code>) sets the tolerance used when checking that the samples’ declared offset grid matches the grid the fit requires. A resolution supplied as an expression (<code class="docutils literal notranslate"><span class="pre">kind:</span> <span class="pre">expression</span></code>) is sampled anew whenever the parameters change, and may therefore depend on them.</p>
 </li>
 </ul>
 </div></blockquote>
@@ -427,6 +430,22 @@ E.g. for a fit to Wilson coefficients under the assumption of lepton flavor univ
 <p>Each entry is keyed by the qualified name of the new parameter and accepts the keys <code class="docutils literal notranslate"><span class="pre">central</span></code>, <code class="docutils literal notranslate"><span class="pre">min</span></code>, <code class="docutils literal notranslate"><span class="pre">max</span></code>, <code class="docutils literal notranslate"><span class="pre">unit</span></code>, and <code class="docutils literal notranslate"><span class="pre">latex</span></code>.
 An optional <code class="docutils literal notranslate"><span class="pre">alias_of</span></code> key, holding a list of existing qualified names, instead makes the new parameter an alias for those parameters, so that varying it varies all of them together.
 A custom parameter is described by a <a class="reference internal" href="python.html#eos.analysis_file_description.ParameterComponent" title="eos.analysis_file_description.ParameterComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">ParameterComponent</span></code></a>.</p>
+</section>
+<section id="signal-pdfs">
+<span id="analysis-file-signal-pdfs"></span><h2>Signal PDFs<a class="headerlink" href="#signal-pdfs" title="Link to this heading"></a></h2>
+<p>New truth-level signal PDFs can be defined as the ratio of an observable that provides the unnormalized density and an observable that provides its normalization.
+Either can be a custom observable from the <code class="docutils literal notranslate"><span class="pre">observables</span></code> section.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">signal_pdfs</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">'Example::P(x)'</span>
+<span class="w">    </span><span class="nt">numerator</span><span class="p">:</span><span class="w"> </span><span class="s">'Example::dGamma/dx'</span>
+<span class="w">    </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="s">'x'</span><span class="w"> </span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">normalization</span><span class="p">:</span><span class="w"> </span><span class="s">'Example::Gamma'</span>
+</pre></div>
+</div>
+<p>Each entry accepts the keys <code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">numerator</span></code>, <code class="docutils literal notranslate"><span class="pre">variables</span></code> (the kinematic variables of the numerator, which become the sampling variables), and <code class="docutils literal notranslate"><span class="pre">normalization</span></code>.
+The optional <code class="docutils literal notranslate"><span class="pre">normalization_variables</span></code> lists the kinematic variables of the normalization, and defaults to <code class="docutils literal notranslate"><span class="pre">x_min</span></code> and <code class="docutils literal notranslate"><span class="pre">x_max</span></code> for each sampling variable <code class="docutils literal notranslate"><span class="pre">x</span></code>.
+The optional <code class="docutils literal notranslate"><span class="pre">description</span></code> and <code class="docutils literal notranslate"><span class="pre">options</span></code> keys provide a human-readable description and the options applied to both observables.
+A custom signal PDF is described by a <a class="reference internal" href="python.html#eos.analysis_file_description.SignalPDFComponent" title="eos.analysis_file_description.SignalPDFComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">SignalPDFComponent</span></code></a>.</p>
 </section>
 <section id="predictions">
 <span id="analysis-file-predictions"></span><h2>Predictions<a class="headerlink" href="#predictions" title="Link to this heading"></a></h2>
