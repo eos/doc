@@ -129,7 +129,10 @@
    "metadata": {},
    "source": [
     "We compare the $q^2$ marginal of the 2D samples against the built-in 1D PDF\n",
-    "[B->Dlnu::P(q2)](../reference/signal-pdfs.rst)."
+    "[B->Dlnu::P(q2)](../reference/signal-pdfs.rst), using the EOS figure framework. The samples are first\n",
+    "stored as an [eos.data.ImportanceSamples](../reference/python.rst#eos.data.ImportanceSamples) object\n",
+    "with uniform weights, so that a `histogram1D` item can display them; a `signal-pdf` item plots the\n",
+    "1D PDF."
    ]
   },
   {
@@ -139,21 +142,34 @@
    "metadata": {},
    "outputs": [],
    "source": [
+    "# the 1D PDF, also the reference for the convolution in section 3\n",
     "q2_kinematics = eos.Kinematics({'q2': 2.0, 'q2_min': Q2_PHYS_MIN, 'q2_max': Q2_PHYS_MAX})\n",
     "q2_pdf = eos.SignalPDF.make('B->Dlnu::P(q2)', params, q2_kinematics, OPTIONS)\n",
-    "\n",
-    "q2_grid  = np.linspace(Q2_PHYS_MIN, Q2_PHYS_MAX, 200)\n",
     "q2_log_norm = q2_pdf.normalization()\n",
-    "q2_curve    = np.array([np.exp(q2_pdf.log_pdf([q2v]) - q2_log_norm) for q2v in q2_grid])\n",
     "\n",
-    "fig, ax = plt.subplots()\n",
-    "ax.hist(truth_samples[:, 0], bins=60, range=(Q2_PHYS_MIN, Q2_PHYS_MAX), density=True,\n",
-    "        alpha=0.5, label='2D MCMC samples, $q^2$ marginal')\n",
-    "ax.plot(q2_grid, q2_curve, color='C1', label=r'$B\\to D\\ell\\nu$::P($q^2$)')\n",
-    "ax.set_xlabel(r'$q^2\\,[\\mathrm{GeV}^2]$')\n",
-    "ax.set_ylabel(r'density')\n",
-    "ax.legend()\n",
-    "fig.tight_layout()\n"
+    "# MCMC samples carry equal weights\n",
+    "eos.data.ImportanceSamples.create(os.path.join(EOS_BASE_DIRECTORY, 'truth', 'samples'),\n",
+    "                                  [truth_kinematics['q2'], truth_kinematics['cos(theta_l)']],\n",
+    "                                  truth_samples, np.ones(truth_samples.shape[0]))\n",
+    "\n",
+    "figure_args = f'''\n",
+    "plot:\n",
+    "  xaxis: {{ label: '$q^2$', unit: '$\\\\textnormal{{GeV}}^2$', range: [{Q2_PHYS_MIN}, {Q2_PHYS_MAX}] }}\n",
+    "  yaxis: {{ label: 'density' }}\n",
+    "  legend: {{ position: 'center right' }}\n",
+    "  items:\n",
+    "    - {{ type: 'histogram1D', label: '2D MCMC samples, $q^2$ marginal', color: 'C0',\n",
+    "        variable: 'q2', bins: 60, range: [{Q2_PHYS_MIN}, {Q2_PHYS_MAX}],\n",
+    "        datafile: '{EOS_BASE_DIRECTORY}/truth/samples'\n",
+    "      }}\n",
+    "    - {{ type: 'signal-pdf', label: '$B\\\\to D\\\\ell\\\\nu$::P($q^2$)', color: 'C1',\n",
+    "        pdf: 'B->Dlnu::P(q2)', options: {{ l: 'mu', q: 'd', model: 'WET', form-factors: 'SSE' }},\n",
+    "        variable: 'q2', range: [{Q2_PHYS_MIN}, {Q2_PHYS_MAX}], resolution: 200,\n",
+    "        kinematics: {{ q2_min: {Q2_PHYS_MIN}, q2_max: {Q2_PHYS_MAX} }}\n",
+    "      }}\n",
+    "'''\n",
+    "figure = eos.figure.FigureFactory.from_yaml(figure_args)\n",
+    "figure.draw()\n"
    ]
   },
   {
@@ -291,9 +307,7 @@
     "Plot items of type `detector-level-pdf` build an `eos.DetectorLevelPDF` from a truth-level PDF, a grid,\n",
     "and a resolution expression, and plot it as a function of one of its variables, at fixed values of the\n",
     "others. Here we use the 1D truth PDF `B->Dlnu::P(q2)` on the $q^2$ axis of the grid above, which\n",
-    "yields the $q^2$ marginal directly. The samples are first stored as an\n",
-    "[eos.data.ImportanceSamples](../reference/python.rst#eos.data.ImportanceSamples) object, so that a\n",
-    "`histogram1D` item can display them."
+    "yields the $q^2$ marginal directly. As in section 1, a `histogram1D` item displays the samples."
    ]
   },
   {
