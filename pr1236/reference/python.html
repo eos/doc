@@ -3944,9 +3944,10 @@ otherwise.</p></li>
 <dt class="sig sig-object py" id="eos.data.UnbinnedLikelihood.cropped_axes">
 <span class="sig-name descname"><span class="pre">cropped_axes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.UnbinnedLikelihood.cropped_axes" title="Link to this definition"></a></dt>
 <dd><p>Compute the per-axis grid used by a <a class="reference internal" href="#eos.DetectorLevelPDF" title="eos.DetectorLevelPDF"><code class="xref py py-class docutils literal notranslate"><span class="pre">eos.DetectorLevelPDF</span></code></a>, applying an analysis-file crop.</p>
-<p>Each axis is cropped by snapping the requested bounds onto the native grid’s nodes; the node
-spacing itself never changes, only the range and the point count. An axis absent from <code class="docutils literal notranslate"><span class="pre">crop</span></code>
-keeps its full native range.</p>
+<p>Each axis is cropped by snapping the requested bounds outward onto the nearest enclosing nodes of the
+native grid, so that the cropped range contains the requested one; a bound that lies on a node up to
+round-off stays on that node. The node spacing itself never changes, only the range and the point
+count. An axis absent from <code class="docutils literal notranslate"><span class="pre">crop</span></code> keeps its full native range.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>crop</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a><em> | </em><em>None</em>) – A mapping from variable name to a <code class="docutils literal notranslate"><span class="pre">(min,</span> <span class="pre">max)</span></code> pair, or <code class="docutils literal notranslate"><span class="pre">None</span></code> to use the
@@ -3960,8 +3961,8 @@ native range for every axis.</p>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)">list</a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)">dict</a>]</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">crop</span></code> names a variable that matches no axis, if a cropped axis spans
-fewer than two native nodes, or if its point count is odd (the real DFT that the convolution
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">crop</span></code> names a variable that matches no axis, if a requested bound lies
+outside the native range beyond round-off, if a cropped axis spans fewer than two native nodes, or if its point count is odd (the real DFT that the convolution
 relies on requires an even count per axis).</p>
 </dd>
 </dl>
