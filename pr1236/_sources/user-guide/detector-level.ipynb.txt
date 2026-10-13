@@ -46,7 +46,6 @@
    "source": [
     "import eos\n",
     "import numpy as np\n",
-    "import matplotlib.pyplot as plt\n",
     "import os\n",
     "\n",
     "# all data files written by this notebook live beneath this base directory\n",
@@ -61,7 +60,7 @@
     "## 1. Truth-level 2D PDF\n",
     "\n",
     "We use the decay $\\bar{B}^0\\to D^+\\mu^-\\bar\\nu$, described by the two kinematic variables $q^2$\n",
-    "and $\\cos\\theta_\\ell$. We work in the $\\mathcal{O}_\\text{WET}$ effective theory (`model: WET`),\n",
+    "and $\\cos\\theta_\\ell$. We work in the Weak Effective Theory (`model: WET`),\n",
     "with every Wilson coefficient set to zero except for $c_{VL}$, which is kept at its Standard-Model\n",
     "value. The muon keeps its physical mass. A massless lepton would make the density drop discontinuously\n",
     "to zero at $q^2 = 0$, a step that the sampling grid cannot represent; at finite $m_\\mu$ the density\n",
@@ -113,6 +112,9 @@
     "Q2_PHYS_MIN = float(params['mass::mu'])**2\n",
     "Q2_PHYS_MAX = (float(params['mass::B_d']) - float(params['mass::D_d']))**2\n",
     "\n",
+    "# setting the initial kinematics for the truth PDF, which is used to generate samples\n",
+    "# both q2 and cos(theta_l) will be modified by the MCMC sampler; however, the initial\n",
+    "# values must be within the physical support of the PDF\n",
     "truth_kinematics = eos.Kinematics({\n",
     "    'q2':           2.0, 'q2_min':           Q2_PHYS_MIN, 'q2_max':           Q2_PHYS_MAX,\n",
     "    'cos(theta_l)': 0.0, 'cos(theta_l)_min': -1.0,         'cos(theta_l)_max':  1.0,\n",
@@ -120,7 +122,8 @@
     "truth_pdf = eos.SignalPDF.make('B->Dlnu::P(q2,cos(theta_l))', params, truth_kinematics, OPTIONS)\n",
     "\n",
     "rng = np.random.mtrand.RandomState(23480)\n",
-    "truth_samples, truth_density = truth_pdf.sample_mcmc(N=400000, stride=5, pre_N=1000, preruns=3, rng=rng)\n"
+    "# a stride of 10 keeps the samples nearly uncorrelated, since they serve as independent events in section 4\n",
+    "truth_samples, truth_density = truth_pdf.sample_mcmc(N=100000, stride=10, pre_N=1000, preruns=3, rng=rng)\n"
    ]
   },
   {
@@ -356,7 +359,9 @@
     "parameters $\\alpha^{f_+}_1$ and $\\alpha^{f_+}_2$ in the \"SSE\" parametrization to them; we keep\n",
     "$\\alpha^{f_+}_0$, $V_{cb}$, and every other parameter fixed. The fit is driven through\n",
     "[eos.AnalysisFile](../reference/python.rst#eos.AnalysisFile), reading `detector-level.yaml`, which\n",
-    "declares the `unbinned-B-to-D` likelihood component as `type: unbinned`."
+    "declares the `unbinned-B-to-D` likelihood component as `type: unbinned`. We sample the posterior\n",
+    "with dynamic nested sampling, using [eos.tasks.sample_nested](../reference/python.rst#eos.sample_nested),\n",
+    "and stop once the effective sample size reaches 2000."
    ]
   },
   {
@@ -395,8 +400,8 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "eos.tasks.sample_mcmc('detector-level.yaml', 'FF-fit', chain=0, base_directory=EOS_BASE_DIRECTORY,\n",
-    "                       pre_N=250, preruns=2, N=400, stride=3)\n"
+    "eos.tasks.sample_nested('detector-level.yaml', 'FF-fit', base_directory=EOS_BASE_DIRECTORY,\n",
+    "                        nlive=250, dlogz=1.0, min_ess=2000)\n"
    ]
   },
   {
@@ -406,18 +411,17 @@
    "source": [
     "## 5. Closure\n",
     "\n",
-    "We compare the posterior mean and standard deviation of $\\alpha^{f_+}_1$ and $\\alpha^{f_+}_2$\n",
+    "We compare the weighted posterior mean and standard deviation of $\\alpha^{f_+}_1$ and $\\alpha^{f_+}_2$\n",
     "against the values used to generate the samples in step 1, and report the pulls\n",
     "$(\\text{fit} - \\text{true}) / \\sigma_\\text{fit}$.\n",
     "\n",
     "The two parameters are not equally well determined. The unbinned likelihood constrains\n",
-    "$\\alpha^{f_+}_1$ well: its posterior is some five times narrower than the uniform prior it was\n",
-    "given, so the agreement with the input value is a genuine closure test. $\\alpha^{f_+}_2$, by\n",
-    "contrast, comes out essentially prior-limited — its posterior width is very close to the prior's.\n",
-    "That is physics rather than a shortcoming of the method: a $q^2$ spectrum smeared with\n",
-    "$\\sigma_{q^2} = 0.3\\,\\textnormal{GeV}^2$ carries little information about the sub-leading shape\n",
-    "coefficient, and the log-likelihood varies by less than $0.1$ across the whole prior range for\n",
-    "$\\alpha^{f_+}_2$. Read its histogram below as the prior, not as a measurement."
+    "$\\alpha^{f_+}_1$ well, and its pull is a genuine closure test. $\\alpha^{f_+}_2$, by contrast, is\n",
+    "only weakly constrained: a $q^2$ spectrum smeared with $\\sigma_{q^2} = 0.3\\,\\textnormal{GeV}^2$\n",
+    "carries little information about the sub-leading shape coefficient. Its posterior is broad and\n",
+    "strongly anti-correlated with $\\alpha^{f_+}_1$. The prior for $\\alpha^{f_+}_2$ is therefore chosen\n",
+    "wide: a narrow prior would cut off part of this correlated posterior, and shift $\\alpha^{f_+}_1$\n",
+    "along with it."
    ]
   },
   {
@@ -427,10 +431,10 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "chain = eos.data.MarkovChain(os.path.join(EOS_BASE_DIRECTORY, 'data', 'FF-fit', 'mcmc-0000'))\n",
+    "samples = eos.data.ImportanceSamples(os.path.join(EOS_BASE_DIRECTORY, 'data', 'FF-fit', 'samples'))\n",
     "\n",
-    "alpha1_fit, alpha2_fit = np.mean(chain.samples, axis=0)\n",
-    "alpha1_std, alpha2_std = np.std(chain.samples, axis=0)\n",
+    "alpha1_fit, alpha2_fit = np.average(samples.samples, axis=0, weights=samples.weights)\n",
+    "alpha1_std, alpha2_std = np.sqrt(np.average((samples.samples - [alpha1_fit, alpha2_fit])**2, axis=0, weights=samples.weights))\n",
     "\n",
     "pull1 = (alpha1_fit - ALPHA1_TRUE) / alpha1_std\n",
     "pull2 = (alpha2_fit - ALPHA2_TRUE) / alpha2_std\n",
@@ -440,21 +444,29 @@
    ]
   },
   {
+   "cell_type": "markdown",
+   "id": "5c0a7e21",
+   "metadata": {},
+   "source": [
+    "We illustrate the posterior with an [eos.figure.CornerFigure](../reference/python.rst#eos.figure.CornerFigure),\n",
+    "which shows the 1D marginal posteriors on its diagonal and the 2D marginal posterior below it. Kernel\n",
+    "density estimates (`kde: true`) smooth over the finite number of weighted samples."
+   ]
+  },
+  {
    "cell_type": "code",
    "execution_count": null,
    "id": "bcabec12",
    "metadata": {},
    "outputs": [],
    "source": [
-    "fig, axes = plt.subplots(1, 2, figsize=(9.6, 3.6))\n",
-    "for ax, samples, true, name in zip(\n",
-    "    axes, chain.samples.T, (ALPHA1_TRUE, ALPHA2_TRUE), (r'$\\alpha^{f_+}_1$', r'$\\alpha^{f_+}_2$')\n",
-    "):\n",
-    "    ax.hist(samples, bins=30, density=True, alpha=0.5, color='C0')\n",
-    "    ax.axvline(true, color='C1', label='true value')\n",
-    "    ax.set_xlabel(name)\n",
-    "    ax.legend()\n",
-    "fig.tight_layout()\n"
+    "figure_args = f'''\n",
+    "type: 'corner'\n",
+    "contents:\n",
+    "  - {{ path: '{EOS_BASE_DIRECTORY}/data/FF-fit/samples', label: 'posterior', color: 'C0', kde: true }}\n",
+    "'''\n",
+    "figure = eos.figure.FigureFactory.from_yaml(figure_args)\n",
+    "figure.draw()\n"
    ]
   },
   {
