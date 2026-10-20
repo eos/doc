@@ -78,6 +78,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#eos.KinematicVariable"><code class="docutils literal notranslate"><span class="pre">KinematicVariable</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#eos.LogLikelihood"><code class="docutils literal notranslate"><span class="pre">LogLikelihood</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#eos.LogLikelihoodBlock"><code class="docutils literal notranslate"><span class="pre">LogLikelihoodBlock</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.UnbinnedObservations"><code class="docutils literal notranslate"><span class="pre">UnbinnedObservations</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#eos.LogPrior"><code class="docutils literal notranslate"><span class="pre">LogPrior</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#eos.LogPosterior"><code class="docutils literal notranslate"><span class="pre">LogPosterior</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#eos.Model"><code class="docutils literal notranslate"><span class="pre">Model</span></code></a></li>
@@ -101,6 +102,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#eos.rnpYear"><code class="docutils literal notranslate"><span class="pre">rnpYear</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#eos.References"><code class="docutils literal notranslate"><span class="pre">References</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#eos.SignalPDF"><code class="docutils literal notranslate"><span class="pre">SignalPDF</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.DetectorLevelPDF"><code class="docutils literal notranslate"><span class="pre">DetectorLevelPDF</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#eos.SignalPDFEntry"><code class="docutils literal notranslate"><span class="pre">SignalPDFEntry</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#eos.SignalPDFs"><code class="docutils literal notranslate"><span class="pre">SignalPDFs</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#eos.Unit"><code class="docutils literal notranslate"><span class="pre">Unit</span></code></a></li>
@@ -145,6 +147,11 @@
 <li class="toctree-l4"><a class="reference internal" href="#eos.data.PMCSampler"><code class="docutils literal notranslate"><span class="pre">PMCSampler</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#eos.data.Prediction"><code class="docutils literal notranslate"><span class="pre">Prediction</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#eos.data.SampleMask"><code class="docutils literal notranslate"><span class="pre">SampleMask</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.data.UnbinnedLikelihood"><code class="docutils literal notranslate"><span class="pre">UnbinnedLikelihood</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.data.UnbinnedAxisDescription"><code class="docutils literal notranslate"><span class="pre">UnbinnedAxisDescription</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.data.UnbinnedOffsetAxisDescription"><code class="docutils literal notranslate"><span class="pre">UnbinnedOffsetAxisDescription</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.data.UnbinnedSampledResolutionDescription"><code class="docutils literal notranslate"><span class="pre">UnbinnedSampledResolutionDescription</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#eos.data.UnbinnedExpressionResolutionDescription"><code class="docutils literal notranslate"><span class="pre">UnbinnedExpressionResolutionDescription</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-eos.figure">Plotting Classes</a><ul>
@@ -568,25 +575,25 @@ and <a class="reference internal" href="#eos.LogLikelihoodBlock.Unbinned1D" titl
 
 <dl class="py method">
 <dt class="sig sig-object py" id="eos.LogLikelihoodBlock.Unbinned1D">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">Unbinned1D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cache</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdf_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kinematics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observations</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.LogLikelihoodBlock.Unbinned1D" title="Link to this definition"></a></dt>
-<dd><p>Create a new unbinned log-likelihood block with a resolution function.</p>
-<p>The named SignalPDF is evaluated on the supplied grid and convolved with the resolution
-function via a discrete Fourier transform, yielding the resolution-smeared PDF sampled on
-the grid. The log-likelihood is then the sum over the observed events of the logarithm of
-the smeared PDF, evaluated at each observation by linear interpolation from the surrounding
-grid points.</p>
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">Unbinned1D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(ObservableCache)cache</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(_DetectorLevelPDF)pdf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(object)observations</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">(object)windows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="optional">]</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.LogLikelihoodBlock" title="eos.LogLikelihoodBlock"><span class="pre">LogLikelihoodBlock</span></a></span></span><a class="headerlink" href="#eos.LogLikelihoodBlock.Unbinned1D" title="Link to this definition"></a></dt>
+<dd><p>Create a new unbinned log-likelihood block for a rank-1 detector-level PDF.</p>
+<p>The block recomputes the resolution-smeared grid of <code class="docutils literal notranslate"><span class="pre">pdf</span></code> once per evaluation and evaluates
+the log-likelihood as the sum over <code class="docutils literal notranslate"><span class="pre">observations</span></code> of the logarithm of the smeared, normalized
+density, obtained by multilinear interpolation from the grid.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cache</strong> (<a class="reference internal" href="#eos.ObservableCache" title="eos.ObservableCache"><em>eos.ObservableCache</em></a>) – The observable cache used by the total log-likelihood.</p></li>
-<li><p><strong>pdf_name</strong> (<a class="reference internal" href="#eos.QualifiedName" title="eos.QualifiedName"><em>eos.QualifiedName</em></a>) – The name of the SignalPDF to evaluate at each grid point.</p></li>
-<li><p><strong>kinematics</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference internal" href="#eos.Kinematics" title="eos.Kinematics"><em>eos.Kinematics</em></a>) – One Kinematics object per grid point.</p></li>
-<li><p><strong>options</strong> (<a class="reference internal" href="#eos.Options" title="eos.Options"><em>eos.Options</em></a>) – Options forwarded to the SignalPDF constructor.</p></li>
-<li><p><strong>resolution</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Discretised resolution function on the same grid, in natural (centred) order,
-i.e. the zero offset (the peak of a symmetric kernel) sits at the centre of the array.
-The kernel is converted to the wrap-around order expected by the underlying circular
-convolution via <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.fft.ifftshift.html#numpy.fft.ifftshift" title="(in NumPy v2.5)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.fft.ifftshift()</span></code></a> before the block is constructed.</p></li>
-<li><p><strong>observations</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference internal" href="#eos.Kinematics" title="eos.Kinematics"><em>eos.Kinematics</em></a>) – The observed events, expressed as kinematic variables.</p></li>
+<li><p><strong>cache</strong> (<a class="reference internal" href="#eos.ObservableCache" title="eos.ObservableCache"><em>eos.ObservableCache</em></a>) – The observable cache used by the total log-likelihood. Must be the same cache
+that <code class="docutils literal notranslate"><span class="pre">pdf</span></code> is tied to.</p></li>
+<li><p><strong>pdf</strong> (<a class="reference internal" href="#eos.DetectorLevelPDF" title="eos.DetectorLevelPDF"><em>eos.DetectorLevelPDF</em></a>) – The detector-level PDF whose grid is evaluated and interpolated; its rank (the
+number of sampling axes) must be 1.</p></li>
+<li><p><strong>observations</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><em>numpy.ndarray</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a><em> or </em><a class="reference internal" href="#eos.UnbinnedObservations" title="eos.UnbinnedObservations"><em>eos.UnbinnedObservations</em></a>) – The observed events, flat and row-major: one coordinate per axis of
+<code class="docutils literal notranslate"><span class="pre">pdf</span></code>, in axis order. Each event must lie within the PDF’s grid. If given as
+<a class="reference internal" href="#eos.UnbinnedObservations" title="eos.UnbinnedObservations"><code class="xref py py-class docutils literal notranslate"><span class="pre">UnbinnedObservations</span></code></a>, the block and its clones share them, and
+use their current events at every evaluation.</p></li>
+<li><p><strong>windows</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.14)"><em>tuple</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a><em> or </em><em>None</em>) – Non-overlapping boxes within the grid, each given as one <code class="docutils literal notranslate"><span class="pre">(min,</span> <span class="pre">max)</span></code> pair per axis
+of <code class="docutils literal notranslate"><span class="pre">pdf</span></code>, in axis order. If given, each event must lie within one of them, and the density is
+normalized over their union instead of over the range of the truth-level PDF. Optional.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -596,12 +603,78 @@ convolution via <a class="reference external" href="https://numpy.org/doc/stable
 <dd class="field-odd"><p><a class="reference internal" href="#eos.LogLikelihoodBlock" title="eos.LogLikelihoodBlock">eos.LogLikelihoodBlock</a></p>
 </dd>
 </dl>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The convolution underlying the unbinned likelihood is circular. The grid must therefore be
-padded with a sufficiently large region in which both the PDF and the resolution function
-are negligible, so that no appreciable density wraps across the boundary.</p>
-</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.LogLikelihoodBlock.Unbinned2D">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">Unbinned2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(ObservableCache)cache</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(_DetectorLevelPDF)pdf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(object)observations</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">(object)windows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="optional">]</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.LogLikelihoodBlock" title="eos.LogLikelihoodBlock"><span class="pre">LogLikelihoodBlock</span></a></span></span><a class="headerlink" href="#eos.LogLikelihoodBlock.Unbinned2D" title="Link to this definition"></a></dt>
+<dd><p>Create a new unbinned log-likelihood block for a rank-2 detector-level PDF.</p>
+<p>See <a class="reference internal" href="#eos.LogLikelihoodBlock.Unbinned1D" title="eos.LogLikelihoodBlock.Unbinned1D"><code class="xref py py-meth docutils literal notranslate"><span class="pre">eos.LogLikelihoodBlock.Unbinned1D()</span></code></a>; <code class="docutils literal notranslate"><span class="pre">pdf</span></code> must have rank 2.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cache</strong> (<a class="reference internal" href="#eos.ObservableCache" title="eos.ObservableCache"><em>eos.ObservableCache</em></a>) – The observable cache used by the total log-likelihood. Must be the same cache
+that <code class="docutils literal notranslate"><span class="pre">pdf</span></code> is tied to.</p></li>
+<li><p><strong>pdf</strong> (<a class="reference internal" href="#eos.DetectorLevelPDF" title="eos.DetectorLevelPDF"><em>eos.DetectorLevelPDF</em></a>) – The detector-level PDF whose grid is evaluated and interpolated.</p></li>
+<li><p><strong>observations</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><em>numpy.ndarray</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a><em> or </em><a class="reference internal" href="#eos.UnbinnedObservations" title="eos.UnbinnedObservations"><em>eos.UnbinnedObservations</em></a>) – The observed events, flat and row-major in axis order.</p></li>
+<li><p><strong>windows</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.14)"><em>tuple</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a><em> or </em><em>None</em>) – See <a class="reference internal" href="#eos.LogLikelihoodBlock.Unbinned1D" title="eos.LogLikelihoodBlock.Unbinned1D"><code class="xref py py-meth docutils literal notranslate"><span class="pre">eos.LogLikelihoodBlock.Unbinned1D()</span></code></a>. Optional.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new block.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#eos.LogLikelihoodBlock" title="eos.LogLikelihoodBlock">eos.LogLikelihoodBlock</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.LogLikelihoodBlock.Unbinned3D">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">Unbinned3D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(ObservableCache)cache</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(_DetectorLevelPDF)pdf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(object)observations</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">(object)windows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="optional">]</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.LogLikelihoodBlock" title="eos.LogLikelihoodBlock"><span class="pre">LogLikelihoodBlock</span></a></span></span><a class="headerlink" href="#eos.LogLikelihoodBlock.Unbinned3D" title="Link to this definition"></a></dt>
+<dd><p>Create a new unbinned log-likelihood block for a rank-3 detector-level PDF.</p>
+<p>See <a class="reference internal" href="#eos.LogLikelihoodBlock.Unbinned1D" title="eos.LogLikelihoodBlock.Unbinned1D"><code class="xref py py-meth docutils literal notranslate"><span class="pre">eos.LogLikelihoodBlock.Unbinned1D()</span></code></a>; <code class="docutils literal notranslate"><span class="pre">pdf</span></code> must have rank 3.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cache</strong> (<a class="reference internal" href="#eos.ObservableCache" title="eos.ObservableCache"><em>eos.ObservableCache</em></a>) – The observable cache used by the total log-likelihood. Must be the same cache
+that <code class="docutils literal notranslate"><span class="pre">pdf</span></code> is tied to.</p></li>
+<li><p><strong>pdf</strong> (<a class="reference internal" href="#eos.DetectorLevelPDF" title="eos.DetectorLevelPDF"><em>eos.DetectorLevelPDF</em></a>) – The detector-level PDF whose grid is evaluated and interpolated.</p></li>
+<li><p><strong>observations</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><em>numpy.ndarray</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a><em> or </em><a class="reference internal" href="#eos.UnbinnedObservations" title="eos.UnbinnedObservations"><em>eos.UnbinnedObservations</em></a>) – The observed events, flat and row-major in axis order.</p></li>
+<li><p><strong>windows</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.14)"><em>tuple</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a><em> or </em><em>None</em>) – See <a class="reference internal" href="#eos.LogLikelihoodBlock.Unbinned1D" title="eos.LogLikelihoodBlock.Unbinned1D"><code class="xref py py-meth docutils literal notranslate"><span class="pre">eos.LogLikelihoodBlock.Unbinned1D()</span></code></a>. Optional.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new block.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#eos.LogLikelihoodBlock" title="eos.LogLikelihoodBlock">eos.LogLikelihoodBlock</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.LogLikelihoodBlock.Unbinned4D">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">Unbinned4D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(ObservableCache)cache</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(_DetectorLevelPDF)pdf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(object)observations</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">(object)windows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="optional">]</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#eos.LogLikelihoodBlock" title="eos.LogLikelihoodBlock"><span class="pre">LogLikelihoodBlock</span></a></span></span><a class="headerlink" href="#eos.LogLikelihoodBlock.Unbinned4D" title="Link to this definition"></a></dt>
+<dd><p>Create a new unbinned log-likelihood block for a rank-4 detector-level PDF.</p>
+<p>See <a class="reference internal" href="#eos.LogLikelihoodBlock.Unbinned1D" title="eos.LogLikelihoodBlock.Unbinned1D"><code class="xref py py-meth docutils literal notranslate"><span class="pre">eos.LogLikelihoodBlock.Unbinned1D()</span></code></a>; <code class="docutils literal notranslate"><span class="pre">pdf</span></code> must have rank 4.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cache</strong> (<a class="reference internal" href="#eos.ObservableCache" title="eos.ObservableCache"><em>eos.ObservableCache</em></a>) – The observable cache used by the total log-likelihood. Must be the same cache
+that <code class="docutils literal notranslate"><span class="pre">pdf</span></code> is tied to.</p></li>
+<li><p><strong>pdf</strong> (<a class="reference internal" href="#eos.DetectorLevelPDF" title="eos.DetectorLevelPDF"><em>eos.DetectorLevelPDF</em></a>) – The detector-level PDF whose grid is evaluated and interpolated.</p></li>
+<li><p><strong>observations</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><em>numpy.ndarray</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a><em> or </em><a class="reference internal" href="#eos.UnbinnedObservations" title="eos.UnbinnedObservations"><em>eos.UnbinnedObservations</em></a>) – The observed events, flat and row-major in axis order.</p></li>
+<li><p><strong>windows</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.14)"><em>tuple</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a><em> or </em><em>None</em>) – See <a class="reference internal" href="#eos.LogLikelihoodBlock.Unbinned1D" title="eos.LogLikelihoodBlock.Unbinned1D"><code class="xref py py-meth docutils literal notranslate"><span class="pre">eos.LogLikelihoodBlock.Unbinned1D()</span></code></a>. Optional.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new block.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#eos.LogLikelihoodBlock" title="eos.LogLikelihoodBlock">eos.LogLikelihoodBlock</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -622,6 +695,68 @@ are negligible, so that no appreciable density wraps across the boundary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.UnbinnedObservations">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">UnbinnedObservations</span></span><a class="headerlink" href="#eos.UnbinnedObservations" title="Link to this definition"></a></dt>
+<dd><p>Represents the observed events of an unbinned likelihood, flat and row-major with one coordinate per axis.</p>
+<p>Copies share the events: replacing them through <a class="reference internal" href="#eos.UnbinnedObservations.set" title="eos.UnbinnedObservations.set"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set</span></code></a> replaces them
+for every unbinned log-likelihood block built from these observations, including the copies that
+<a class="reference internal" href="#eos.LogLikelihood.add" title="eos.LogLikelihood.add"><code class="xref py py-meth docutils literal notranslate"><span class="pre">LogLikelihood.add</span></code></a> holds. This allows to fit many pseudo-data sets
+without constructing the detector-level PDF anew for each of them.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>values</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><em>numpy.ndarray</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – The observed events, flat and row-major; their number must be a multiple of <code class="docutils literal notranslate"><span class="pre">rank</span></code>.</p></li>
+<li><p><strong>rank</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – The number of coordinates per event.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.UnbinnedObservations.rank">
+<span class="sig-name descname"><span class="pre">rank</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(UnbinnedObservations)self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="headerlink" href="#eos.UnbinnedObservations.rank" title="Link to this definition"></a></dt>
+<dd><p>Return the number of coordinates per event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.UnbinnedObservations.set">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(UnbinnedObservations)self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">(object)values</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#eos.UnbinnedObservations.set" title="Link to this definition"></a></dt>
+<dd><p>Replace the events, which must be a non-empty multiple of the rank, for all blocks that share these observations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>values</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><em>numpy.ndarray</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – The observed events, flat and row-major.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.UnbinnedObservations.size">
+<span class="sig-name descname"><span class="pre">size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(UnbinnedObservations)self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="headerlink" href="#eos.UnbinnedObservations.size" title="Link to this definition"></a></dt>
+<dd><p>Return the number of events.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.UnbinnedObservations.values">
+<span class="sig-name descname"><span class="pre">values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(UnbinnedObservations)self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a></span></span><a class="headerlink" href="#eos.UnbinnedObservations.values" title="Link to this definition"></a></dt>
+<dd><p>Return a copy of the events, flat and row-major.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)">list</a> of <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)">float</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1984,10 +2119,25 @@ overview. Filters can be applied through keyword arguments to the initialization
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="eos.SignalPDF.evaluate">
 <span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(_SignalPDF)self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#eos.SignalPDF.evaluate" title="Link to this definition"></a></dt>
-<dd><p>Evaluates the (unnormalized) PDF for the present values of the sets of parameters and kinematic variables that it is bound to.</p>
+<dd><p>Evaluates the logarithm of the (unnormalized) PDF for the present values of the sets of parameters and kinematic variables that it is bound to.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The value of the PDF.</p>
+<dd class="field-odd"><p>The value of the log of the PDF.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.SignalPDF.evaluate_linear">
+<span class="sig-name descname"><span class="pre">evaluate_linear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(_SignalPDF)self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#eos.SignalPDF.evaluate_linear" title="Link to this definition"></a></dt>
+<dd><p>Evaluates the (unnormalized) PDF on the linear scale for the present values of the sets of parameters and kinematic variables that it is bound to.</p>
+<p>Non-positive values are clamped to zero.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The value of the PDF on the linear scale.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)">float</a></p>
@@ -2112,6 +2262,67 @@ A prerun with adaptations is carried out first and its samples are discarded.</p
 <p class="admonition-title">Note</p>
 <p>This method requires the PyPMC python module, which can be installed from PyPI.</p>
 </div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.DetectorLevelPDF">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.</span></span><span class="sig-name descname"><span class="pre">DetectorLevelPDF</span></span><a class="headerlink" href="#eos.DetectorLevelPDF" title="Link to this definition"></a></dt>
+<dd><p>Factory for detector-level (resolution-convolved) <a class="reference internal" href="#eos.SignalPDF" title="eos.SignalPDF"><code class="xref py py-class docutils literal notranslate"><span class="pre">SignalPDF</span></code></a> objects.</p>
+<p>A detector-level PDF represents a truth-level <a class="reference internal" href="#eos.SignalPDF" title="eos.SignalPDF"><code class="xref py py-class docutils literal notranslate"><span class="pre">SignalPDF</span></code></a> after convolution with a
+detector resolution function. The result is itself a <a class="reference internal" href="#eos.SignalPDF" title="eos.SignalPDF"><code class="xref py py-class docutils literal notranslate"><span class="pre">SignalPDF</span></code></a>, so it can be evaluated
+like any other PDF. The convolution is circular, so each axis must be padded with a region in
+which both the PDF and the resolution are negligible.</p>
+<p>To plot a detector-level PDF, use figure items of type <code class="docutils literal notranslate"><span class="pre">detector-level-pdf</span></code>
+(<a class="reference internal" href="#eos.figure.item.DetectorLevelPDFItem" title="eos.figure.item.DetectorLevelPDFItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">eos.figure.item.DetectorLevelPDFItem</span></code></a>). They take either a grid and a resolution
+expression, or an <a class="reference internal" href="#eos.data.UnbinnedLikelihood" title="eos.data.UnbinnedLikelihood"><code class="xref py py-class docutils literal notranslate"><span class="pre">eos.data.UnbinnedLikelihood</span></code></a> data object whose grid and resolution are
+reused.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.DetectorLevelPDF.make_from_expression">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">make_from_expression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cache</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.DetectorLevelPDF.make_from_expression" title="Link to this definition"></a></dt>
+<dd><p>Make a detector-level PDF whose resolution is supplied as an EOS expression, ranks 1 to 4.</p>
+<p>The expression is evaluated in the per-axis offset variables and resampled whenever the
+cache is updated, so that the resolution may depend on parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cache</strong> (<a class="reference internal" href="#eos.ObservableCache" title="eos.ObservableCache"><em>eos.ObservableCache</em></a>) – The observable cache providing the common set of parameters.</p></li>
+<li><p><strong>signal</strong> (<a class="reference internal" href="#eos.QualifiedName" title="eos.QualifiedName"><em>eos.QualifiedName</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – The qualified name of the truth-level SignalPDF.</p></li>
+<li><p><strong>options</strong> (<a class="reference internal" href="#eos.Options" title="eos.Options"><em>eos.Options</em></a>) – The options forwarded to the signal SignalPDF and to the resolution expression.</p></li>
+<li><p><strong>axes</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – One descriptor per sampling axis; each is a dictionary with the keys <code class="docutils literal notranslate"><span class="pre">variable</span></code>,
+<code class="docutils literal notranslate"><span class="pre">min</span></code>, <code class="docutils literal notranslate"><span class="pre">max</span></code>, <code class="docutils literal notranslate"><span class="pre">points</span></code> and, optionally, <code class="docutils literal notranslate"><span class="pre">offset_variable</span></code> (defaulting to <code class="docutils literal notranslate"><span class="pre">variable</span></code>).</p></li>
+<li><p><strong>resolution</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – The EOS expression for the resolution kernel in the offset variables.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#eos.SignalPDF" title="eos.SignalPDF">eos.SignalPDF</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.DetectorLevelPDF.make_from_grid">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">make_from_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cache</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.DetectorLevelPDF.make_from_grid" title="Link to this definition"></a></dt>
+<dd><p>Make a detector-level PDF from a pre-computed resolution grid, ranks 1 to 4.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cache</strong> (<a class="reference internal" href="#eos.ObservableCache" title="eos.ObservableCache"><em>eos.ObservableCache</em></a>) – The observable cache providing the common set of parameters.</p></li>
+<li><p><strong>signal</strong> (<a class="reference internal" href="#eos.QualifiedName" title="eos.QualifiedName"><em>eos.QualifiedName</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – The qualified name of the truth-level SignalPDF.</p></li>
+<li><p><strong>options</strong> (<a class="reference internal" href="#eos.Options" title="eos.Options"><em>eos.Options</em></a>) – The options forwarded to the signal SignalPDF.</p></li>
+<li><p><strong>axes</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – One descriptor per sampling axis; each is a dictionary with the keys <code class="docutils literal notranslate"><span class="pre">variable</span></code>,
+<code class="docutils literal notranslate"><span class="pre">min</span></code>, <code class="docutils literal notranslate"><span class="pre">max</span></code> and <code class="docutils literal notranslate"><span class="pre">points</span></code>. The rank of the resulting PDF is <code class="docutils literal notranslate"><span class="pre">len(axes)</span></code>.</p></li>
+<li><p><strong>resolution</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><em>numpy.ndarray</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a>) – The resolution kernel sampled on the grid in natural (centred) order, i.e.
+the zero offset sits at the centre of the array along every axis. Its shape must match the
+grid implied by <code class="docutils literal notranslate"><span class="pre">axes</span></code>; it is flattened row-major before being passed to the underlying
+binding.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#eos.SignalPDF" title="eos.SignalPDF">eos.SignalPDF</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -2671,9 +2882,9 @@ A possible (incomplete) example could look as follows:</p>
 <dd><p>Create an eos.Analysis object for the named posterior.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>base_directory</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – The base directory against which declared constraints’ relative
-filenames (see the ‘constraints’ top-level section) are resolved. Defaults to the
-current working directory.</p>
+<dd class="field-odd"><p><strong>base_directory</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – The base directory against which relative data paths are resolved,
+i.e., declared constraints’ filenames (see the ‘constraints’ top-level section) and
+unbinned likelihoods’ data directories. Defaults to the current working directory.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2840,6 +3051,13 @@ likelihoods are considered for this result.</p>
 <dt class="sig sig-object py" id="eos.ObservableCache.update">
 <span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(ObservableCache)self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#eos.ObservableCache.update" title="Link to this definition"></a></dt>
 <dd><p>Update the cache for the current parameter point.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.ObservableCache.used_parameter_ids">
+<span class="sig-name descname"><span class="pre">used_parameter_ids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">(ObservableCache)arg1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><span class="pre">object</span></a></span></span><a class="headerlink" href="#eos.ObservableCache.used_parameter_ids" title="Link to this definition"></a></dt>
+<dd><p>Returns an iterator over the ids of the parameters used by any observable in this cache,
+including those evaluated in batches.</p>
 </dd></dl>
 
 </dd></dl>
@@ -3824,6 +4042,187 @@ to the constructor) or by writing a new mask with <a class="reference internal" 
 
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.data.UnbinnedLikelihood">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.data.</span></span><span class="sig-name descname"><span class="pre">UnbinnedLikelihood</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.UnbinnedLikelihood" title="Link to this definition"></a></dt>
+<dd><p>Represents observed unbinned events and their detector resolution, stored on disk.</p>
+<p>Publishes the native grid granularity that the resolution supports (the axes’ <code class="docutils literal notranslate"><span class="pre">points</span></code>), and
+the resolution itself, in whatever form it was recorded (numerical samples or an EOS expression).
+The signal PDF fitted to the events, and its
+options, are not part of this object: it describes the measured events, not the model fitted to
+them. Instances are created either by reading an existing data object from disk (passing its
+<code class="docutils literal notranslate"><span class="pre">path</span></code> to the constructor) or by writing a new one with <a class="reference internal" href="#eos.data.UnbinnedLikelihood.create" title="eos.data.UnbinnedLikelihood.create"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>type</strong> – The type identifier of the data object, always <code class="docutils literal notranslate"><span class="pre">'UnbinnedLikelihood'</span></code>.</p></li>
+<li><p><strong>axes</strong> – The native sampling axes (<a class="reference internal" href="#eos.data.UnbinnedAxisDescription" title="eos.data.UnbinnedAxisDescription"><code class="xref py py-class docutils literal notranslate"><span class="pre">UnbinnedAxisDescription</span></code></a>), in axis order.</p></li>
+<li><p><strong>resolution</strong> – The resolution description.</p></li>
+<li><p><strong>observations</strong> – The observed events, shape <code class="docutils literal notranslate"><span class="pre">(n_events,</span> <span class="pre">rank)</span></code>, columns in axis order.</p></li>
+<li><p><strong>resolution_values</strong> – The sampled resolution kernel, shape equal to the native grid, or
+<code class="docutils literal notranslate"><span class="pre">None</span></code> unless <code class="docutils literal notranslate"><span class="pre">resolution</span></code> is a sampled (<code class="docutils literal notranslate"><span class="pre">kind:</span> <span class="pre">samples</span></code>) resolution.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.data.UnbinnedLikelihood.create">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.UnbinnedLikelihood.create" title="Link to this definition"></a></dt>
+<dd><p>Write a new UnbinnedLikelihood object to disk.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Path to the storage location, which will be created as a directory.</p></li>
+<li><p><strong>axes</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a>) – The native sampling axes, in axis order; each an <a class="reference internal" href="#eos.data.UnbinnedAxisDescription" title="eos.data.UnbinnedAxisDescription"><code class="xref py py-class docutils literal notranslate"><span class="pre">UnbinnedAxisDescription</span></code></a>
+or an equivalent keyword mapping.</p></li>
+<li><p><strong>resolution</strong> (<a class="reference internal" href="#eos.data.UnbinnedSampledResolutionDescription" title="eos.data.UnbinnedSampledResolutionDescription"><em>UnbinnedSampledResolutionDescription</em></a><em> | </em><a class="reference internal" href="#eos.data.UnbinnedExpressionResolutionDescription" title="eos.data.UnbinnedExpressionResolutionDescription"><em>UnbinnedExpressionResolutionDescription</em></a>) – The resolution description; one of <a class="reference internal" href="#eos.data.UnbinnedSampledResolutionDescription" title="eos.data.UnbinnedSampledResolutionDescription"><code class="xref py py-class docutils literal notranslate"><span class="pre">UnbinnedSampledResolutionDescription</span></code></a> or
+<a class="reference internal" href="#eos.data.UnbinnedExpressionResolutionDescription" title="eos.data.UnbinnedExpressionResolutionDescription"><code class="xref py py-class docutils literal notranslate"><span class="pre">UnbinnedExpressionResolutionDescription</span></code></a>.</p></li>
+<li><p><strong>observations</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><em>numpy.ndarray</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – The observed events, shape <code class="docutils literal notranslate"><span class="pre">(n_events,</span> <span class="pre">rank)</span></code>, columns in axis order.</p></li>
+<li><p><strong>resolution_values</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)"><em>numpy.ndarray</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>, </em><em>optional</em>) – The resolution kernel, in centred order relative to <code class="docutils literal notranslate"><span class="pre">resolution.offsets</span></code>,
+with shape equal to the offsets’ native grid. Mandatory for a sampled resolution, ignored
+otherwise.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.data.UnbinnedLikelihood.cropped_axes">
+<span class="sig-name descname"><span class="pre">cropped_axes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.UnbinnedLikelihood.cropped_axes" title="Link to this definition"></a></dt>
+<dd><p>Compute the per-axis grid used by a <a class="reference internal" href="#eos.DetectorLevelPDF" title="eos.DetectorLevelPDF"><code class="xref py py-class docutils literal notranslate"><span class="pre">eos.DetectorLevelPDF</span></code></a>, applying an analysis-file crop.</p>
+<p>Each axis is cropped by snapping the requested bounds outward onto the nearest enclosing nodes of the
+native grid, so that the cropped range contains the requested one; a bound that lies on a node up to
+round-off stays on that node. The node spacing itself never changes, only the range and the point
+count. An axis absent from <code class="docutils literal notranslate"><span class="pre">crop</span></code> keeps its full native range.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>crop</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a><em> | </em><em>None</em>) – A mapping from variable name to a <code class="docutils literal notranslate"><span class="pre">(min,</span> <span class="pre">max)</span></code> pair, or <code class="docutils literal notranslate"><span class="pre">None</span></code> to use the
+native range for every axis.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>One dictionary per native axis, in axis order, with the keys <code class="docutils literal notranslate"><span class="pre">variable</span></code>, <code class="docutils literal notranslate"><span class="pre">min</span></code>,
+<code class="docutils literal notranslate"><span class="pre">max</span></code>, <code class="docutils literal notranslate"><span class="pre">points</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)">list</a>[<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)">dict</a>]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">crop</span></code> names a variable that matches no axis, if a requested bound lies
+outside the native range beyond round-off, if a cropped axis spans fewer than two native nodes, or if its point count is odd (the real DFT that the convolution
+relies on requires an even count per axis).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="eos.data.UnbinnedLikelihood.rank">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">rank</span></span><a class="headerlink" href="#eos.data.UnbinnedLikelihood.rank" title="Link to this definition"></a></dt>
+<dd><p>The dimensionality of the data object, detected as <code class="docutils literal notranslate"><span class="pre">len(axes)</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.data.UnbinnedLikelihood.resolution_kernel">
+<span class="sig-name descname"><span class="pre">resolution_kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cropped_axes</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-09</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.UnbinnedLikelihood.resolution_kernel" title="Link to this definition"></a></dt>
+<dd><p>Slice the stored sampled-resolution kernel onto the grid required by <code class="docutils literal notranslate"><span class="pre">cropped_axes</span></code>.</p>
+<p>Compares the declared offset spacing against the spacing implied by <code class="docutils literal notranslate"><span class="pre">cropped_axes</span></code> within
+<code class="docutils literal notranslate"><span class="pre">tolerance</span></code>, checks that every required offset lands on a declared node within <code class="docutils literal notranslate"><span class="pre">tolerance</span></code>,
+and slices the stored values onto the required offsets. The required offsets are
+<span class="math notranslate nohighlight">\((i - N/2) \cdot \mathrm{spacing}\)</span> for <span class="math notranslate nohighlight">\(i = 0 \ldots N-1\)</span>, i.e. numpy’s
+<code class="docutils literal notranslate"><span class="pre">fftshift</span></code> convention for even <span class="math notranslate nohighlight">\(N\)</span>. A declared grid wider than required (e.g. a
+symmetric, odd-count sample set) simply leaves its outermost samples unused.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cropped_axes</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a><em>]</em>) – The per-axis grid, as returned by <a class="reference internal" href="#eos.data.UnbinnedLikelihood.cropped_axes" title="eos.data.UnbinnedLikelihood.cropped_axes"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cropped_axes()</span></code></a>.</p></li>
+<li><p><strong>tolerance</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – The absolute tolerance used for the spacing and offset-alignment checks.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The resolution kernel, in centred order, with shape matching <code class="docutils literal notranslate"><span class="pre">cropped_axes</span></code>; a view into
+<code class="docutils literal notranslate"><span class="pre">resolution_values</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.5)">numpy.ndarray</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#RuntimeError" title="(in Python v3.14)"><strong>RuntimeError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">resolution</span></code> is not a sampled resolution, if the declared
+spacing does not match the required spacing, or if a required offset is not among the
+declared samples.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<p>The native sampling axes and the resolution of an <a class="reference internal" href="#eos.data.UnbinnedLikelihood" title="eos.data.UnbinnedLikelihood"><code class="xref py py-class docutils literal notranslate"><span class="pre">eos.data.UnbinnedLikelihood</span></code></a> are described by:</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.data.UnbinnedAxisDescription">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.data.</span></span><span class="sig-name descname"><span class="pre">UnbinnedAxisDescription</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.UnbinnedAxisDescription" title="Link to this definition"></a></dt>
+<dd><p>Describes one native sampling axis of an <a class="reference internal" href="#eos.data.UnbinnedLikelihood" title="eos.data.UnbinnedLikelihood"><code class="xref py py-class docutils literal notranslate"><span class="pre">UnbinnedLikelihood</span></code></a> data object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>variable</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – The kinematic variable sampled along this axis.</p></li>
+<li><p><strong>min</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – The lower bound of the native grid.</p></li>
+<li><p><strong>max</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – The upper bound of the native grid.</p></li>
+<li><p><strong>points</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – The number of native grid points (even, &gt;= 2).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.data.UnbinnedOffsetAxisDescription">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.data.</span></span><span class="sig-name descname"><span class="pre">UnbinnedOffsetAxisDescription</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">spacing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.UnbinnedOffsetAxisDescription" title="Link to this definition"></a></dt>
+<dd><p>Describes one axis of a sampled resolution kernel’s offset grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>variable</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – The offset variable sampled along this axis.</p></li>
+<li><p><strong>min</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – The lower bound of the declared offset grid (the most negative offset sampled).</p></li>
+<li><p><strong>spacing</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – The node spacing of the declared offset grid.</p></li>
+<li><p><strong>points</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – The number of declared offset-grid nodes.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.data.UnbinnedSampledResolutionDescription">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.data.</span></span><span class="sig-name descname"><span class="pre">UnbinnedSampledResolutionDescription</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">offsets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.UnbinnedSampledResolutionDescription" title="Link to this definition"></a></dt>
+<dd><p>Describes a resolution kernel given as numerical samples (<code class="docutils literal notranslate"><span class="pre">kind:</span> <span class="pre">samples</span></code>).</p>
+<p>The samples are stored in <code class="docutils literal notranslate"><span class="pre">resolution.npy</span></code>, in centred order relative to the declared
+<code class="docutils literal notranslate"><span class="pre">offsets</span></code> grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>offsets</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference internal" href="#eos.data.UnbinnedOffsetAxisDescription" title="eos.data.UnbinnedOffsetAxisDescription"><em>UnbinnedOffsetAxisDescription</em></a><em>]</em>) – The axis descriptions of the declared offset grid, in axis order.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.data.UnbinnedSampledResolutionDescription.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.UnbinnedSampledResolutionDescription.to_dict" title="Link to this definition"></a></dt>
+<dd><p>Serialize this description, including its <code class="docutils literal notranslate"><span class="pre">kind</span></code> discriminator; the inverse of <code class="docutils literal notranslate"><span class="pre">from_dict</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.data.UnbinnedExpressionResolutionDescription">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.data.</span></span><span class="sig-name descname"><span class="pre">UnbinnedExpressionResolutionDescription</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">expression</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.UnbinnedExpressionResolutionDescription" title="Link to this definition"></a></dt>
+<dd><p>Describes a resolution kernel given as an EOS expression (<code class="docutils literal notranslate"><span class="pre">kind:</span> <span class="pre">expression</span></code>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>expression</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – The EOS expression that defines the (unnormalized) resolution kernel over the
+per-axis offset variables.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.data.UnbinnedExpressionResolutionDescription.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.data.UnbinnedExpressionResolutionDescription.to_dict" title="Link to this definition"></a></dt>
+<dd><p>Serialize this description, including its <code class="docutils literal notranslate"><span class="pre">kind</span></code> discriminator; the inverse of <code class="docutils literal notranslate"><span class="pre">from_dict</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-eos.figure">
 <span id="plotting-classes"></span><h2>Plotting Classes<a class="headerlink" href="#module-eos.figure" title="Link to this heading"></a></h2>
@@ -4132,7 +4531,7 @@ and first column, the second plot to the first row and second column, and so on.
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.figure.</span></span><span class="sig-name descname"><span class="pre">CornerFigure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">*,</span> <span class="pre">name:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">contents:</span> <span class="pre">list[~eos.figure.data.DataFile],</span> <span class="pre">variables:</span> <span class="pre">list[str]</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">kde:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False,</span> <span class="pre">watermark:</span> <span class="pre">~eos.figure.common.Watermark</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;,</span> <span class="pre">watermark_plot:</span> <span class="pre">int</span> <span class="pre">|</span> <span class="pre">tuple[int,</span> <span class="pre">int]</span> <span class="pre">|</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.CornerFigure" title="Link to this definition"></a></dt>
 <dd><p>Produces a corner figure, i.e., a figure with a triangular arrangement of 1D and 2D marginal PDFs.</p>
 <p>Distributions of the variables are shown on the diagonal, while correlations are plotted on the lower-left corner.
-A content that refers to an <a class="reference internal" href="#eos.data.Mode" title="eos.data.Mode"><code class="xref py py-class docutils literal notranslate"><span class="pre">eos.data.Mode</span></code></a> is shown as a vertical line on the diagonal and as a point elsewhere.</p>
+A data file that refers to an <a class="reference internal" href="#eos.data.Mode" title="eos.data.Mode"><code class="xref py py-class docutils literal notranslate"><span class="pre">eos.data.Mode</span></code></a> is shown as a vertical line on the diagonal and as a point elsewhere.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -4821,15 +5220,19 @@ its corresponding <a class="reference internal" href="#eos.figure.item.Item" tit
 <td><p><a class="reference internal" href="#eos.figure.item.SignalPDFItem" title="eos.figure.item.SignalPDFItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">SignalPDFItem</span></code></a></p></td>
 <td><p>Plots a single EOS signal PDF w/o uncertainties as a function of one kinematic variable</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">complex-plane</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">detector-level-pdf</span></code></p></td>
+<td><p><a class="reference internal" href="#eos.figure.item.DetectorLevelPDFItem" title="eos.figure.item.DetectorLevelPDFItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">DetectorLevelPDFItem</span></code></a></p></td>
+<td><p>Plots a single EOS signal PDF convolved with a detector resolution as a function of one kinematic variable</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">complex-plane</span></code></p></td>
 <td><p><a class="reference internal" href="#eos.figure.item.ComplexPlaneItem" title="eos.figure.item.ComplexPlaneItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">ComplexPlaneItem</span></code></a></p></td>
 <td><p>Plots a single observable as a function on the complex plan</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">errorbars</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">errorbars</span></code></p></td>
 <td><p><a class="reference internal" href="#eos.figure.item.ErrorBarsItem" title="eos.figure.item.ErrorBarsItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">ErrorBarsItem</span></code></a></p></td>
 <td><p>Plots one or more error bars at specified position(s).</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">point</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">point</span></code></p></td>
 <td><p><a class="reference internal" href="#eos.figure.item.PointItem" title="eos.figure.item.PointItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">PointItem</span></code></a></p></td>
 <td><p>Plots a single point at a fixed position.</p></td>
 </tr>
@@ -4876,7 +5279,7 @@ the remaining keyword arguments are forwarded to that subclass.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="eos.figure.item.ItemFactory.registry">
-<span class="sig-name descname"><span class="pre">registry</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'band':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.BandItem'&gt;,</span> <span class="pre">'complex-plane':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.ComplexPlaneItem'&gt;,</span> <span class="pre">'constraint':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.ConstraintItem'&gt;,</span> <span class="pre">'constraint-residue':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.ConstraintResidueItem'&gt;,</span> <span class="pre">'constraint2D':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.TwoDimensionalConstraintItem'&gt;,</span> <span class="pre">'contours2D':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.TwoDimensionalContoursItem'&gt;,</span> <span class="pre">'errorbars':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.ErrorBarsItem'&gt;,</span> <span class="pre">'expression':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.ExpressionItem'&gt;,</span> <span class="pre">'histogram1D':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.OneDimensionalHistogramItem'&gt;,</span> <span class="pre">'histogram2D':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.TwoDimensionalHistogramItem'&gt;,</span> <span class="pre">'kde1D':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.OneDimensionalKernelDensityEstimateItem'&gt;,</span> <span class="pre">'kde2D':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.TwoDimensionalKernelDensityEstimateItem'&gt;,</span> <span class="pre">'observable':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.ObservableItem'&gt;,</span> <span class="pre">'point':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.PointItem'&gt;,</span> <span class="pre">'signal-pdf':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.SignalPDFItem'&gt;,</span> <span class="pre">'uncertainty':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.UncertaintyBandItem'&gt;,</span> <span class="pre">'uncertainty-binned':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.BinnedUncertaintyItem'&gt;,</span> <span class="pre">'vertical':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.VerticalLineItem'&gt;}</span></span><a class="headerlink" href="#eos.figure.item.ItemFactory.registry" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">registry</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'band':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.BandItem'&gt;,</span> <span class="pre">'complex-plane':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.ComplexPlaneItem'&gt;,</span> <span class="pre">'constraint':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.ConstraintItem'&gt;,</span> <span class="pre">'constraint-residue':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.ConstraintResidueItem'&gt;,</span> <span class="pre">'constraint2D':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.TwoDimensionalConstraintItem'&gt;,</span> <span class="pre">'contours2D':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.TwoDimensionalContoursItem'&gt;,</span> <span class="pre">'detector-level-pdf':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.DetectorLevelPDFItem'&gt;,</span> <span class="pre">'errorbars':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.ErrorBarsItem'&gt;,</span> <span class="pre">'expression':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.ExpressionItem'&gt;,</span> <span class="pre">'histogram1D':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.OneDimensionalHistogramItem'&gt;,</span> <span class="pre">'histogram2D':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.TwoDimensionalHistogramItem'&gt;,</span> <span class="pre">'kde1D':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.OneDimensionalKernelDensityEstimateItem'&gt;,</span> <span class="pre">'kde2D':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.TwoDimensionalKernelDensityEstimateItem'&gt;,</span> <span class="pre">'observable':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.ObservableItem'&gt;,</span> <span class="pre">'point':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.PointItem'&gt;,</span> <span class="pre">'signal-pdf':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.SignalPDFItem'&gt;,</span> <span class="pre">'uncertainty':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.UncertaintyBandItem'&gt;,</span> <span class="pre">'uncertainty-binned':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.BinnedUncertaintyItem'&gt;,</span> <span class="pre">'vertical':</span> <span class="pre">&lt;class</span> <span class="pre">'eos.figure.item.VerticalLineItem'&gt;}</span></span><a class="headerlink" href="#eos.figure.item.ItemFactory.registry" title="Link to this definition"></a></dt>
 <dd><p>Maps each supported <code class="docutils literal notranslate"><span class="pre">type</span></code> string to the <a class="reference internal" href="#eos.figure.item.Item" title="eos.figure.item.Item"><code class="xref py py-class docutils literal notranslate"><span class="pre">Item</span></code></a> subclass that implements it.</p>
 </dd></dl>
 
@@ -5949,6 +6352,81 @@ directory is used.</p>
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="eos.figure.item.DetectorLevelPDFItem">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.figure.item.</span></span><span class="sig-name descname"><span class="pre">DetectorLevelPDFItem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linestyle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'solid'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linewidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kinematics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#eos.QualifiedName" title="_eos.QualifiedName"><span class="pre">QualifiedName</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters_from_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#eos.QualifiedName" title="_eos.QualifiedName"><span class="pre">QualifiedName</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.DetectorLevelPDFItem" title="Link to this definition"></a></dt>
+<dd><p>Plots a single EOS signal PDF convolved with a detector resolution as a function of one kinematic variable</p>
+<p>The convolution is carried out by <a class="reference internal" href="#eos.DetectorLevelPDF" title="eos.DetectorLevelPDF"><code class="xref py py-class docutils literal notranslate"><span class="pre">eos.DetectorLevelPDF</span></code></a>. Its grid and resolution are given either
+through <code class="docutils literal notranslate"><span class="pre">axes</span></code> and <code class="docutils literal notranslate"><span class="pre">kernel</span></code>, or through <code class="docutils literal notranslate"><span class="pre">data</span></code>, an <a class="reference internal" href="#eos.data.UnbinnedLikelihood" title="eos.data.UnbinnedLikelihood"><code class="xref py py-class docutils literal notranslate"><span class="pre">eos.data.UnbinnedLikelihood</span></code></a> data object
+whose native grid and resolution are used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>axes</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a><em>] </em><em>| </em><em>None</em>) – The convolution grid, one dictionary per sampling variable with the keys <code class="docutils literal notranslate"><span class="pre">variable</span></code>, <code class="docutils literal notranslate"><span class="pre">min</span></code>, <code class="docutils literal notranslate"><span class="pre">max</span></code>, and <code class="docutils literal notranslate"><span class="pre">points</span></code>. Mandatory unless <code class="docutils literal notranslate"><span class="pre">data</span></code> is given.</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em> | </em><em>None</em>) – The path to an <a class="reference internal" href="#eos.data.UnbinnedLikelihood" title="eos.data.UnbinnedLikelihood"><code class="xref py py-class docutils literal notranslate"><span class="pre">eos.data.UnbinnedLikelihood</span></code></a> data object, relative to the analysis’s base directory. Mandatory unless <code class="docutils literal notranslate"><span class="pre">axes</span></code> and <code class="docutils literal notranslate"><span class="pre">kernel</span></code> are given.</p></li>
+<li><p><strong>kernel</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em> | </em><em>None</em>) – The resolution as an EOS expression in the sampling variables, which serve as the offset variables. Mandatory unless <code class="docutils literal notranslate"><span class="pre">data</span></code> is given.</p></li>
+<li><p><strong>kinematics</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>,</em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a><em>] </em><em>| </em><em>None</em>) – The values of the sampling variables other than <code class="docutils literal notranslate"><span class="pre">variable</span></code>, given as a dictionary mapping variable names to their values.</p></li>
+<li><p><strong>options</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>,</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>] </em><em>| </em><em>None</em>) – The set of optional options for the signal PDF, given as a dictionary mapping option names to their values.</p></li>
+<li><p><strong>parameters</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a><em>[</em><a class="reference internal" href="#eos.QualifiedName" title="eos.QualifiedName"><em>eos.QualifiedName</em></a><em>,</em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a><em>] </em><em>| </em><em>None</em>) – The set of optional parameters, given as a dictionary mapping parameter names to their values.</p></li>
+<li><p><strong>parameters_from_file</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em> | </em><em>None</em>) – The path to a parameter file containing the optional parameters.</p></li>
+<li><p><strong>pdf</strong> (<a class="reference internal" href="#eos.QualifiedName" title="eos.QualifiedName"><em>eos.QualifiedName</em></a>) – The name of the truth-level signal PDF.</p></li>
+<li><p><strong>points</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em> | </em><em>None</em>) – The number of grid points along every axis of the data object’s grid, which overrides its native spacing; must be even. Only used together with <code class="docutils literal notranslate"><span class="pre">data</span></code> whose resolution is an expression.</p></li>
+<li><p><strong>range</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.14)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a><em>,</em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a><em>]</em>) – The range of the variable to be plotted, given as a tuple of two float values (min, max).</p></li>
+<li><p><strong>resolution</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – The number of points to be used for plotting the PDF. Defaults to 100.</p></li>
+<li><p><strong>variable</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – The name of the sampling variable to which the x axis will be mapped.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">figure_args</span> <span class="o">=</span> <span class="s1">'''</span>
+<span class="s1">plot:</span>
+<span class="s1">  xaxis: { label: r'$z$', range: [0.0, 4.0] }</span>
+<span class="s1">  yaxis: { label: r'$P(z)$' }</span>
+<span class="s1">  items:</span>
+<span class="s1">    - { type: 'detector-level-pdf', pdf: 'TestLegendre1D::P(z)', label: 'smeared',</span>
+<span class="s1">        variable: 'z', range: [0.0, 4.0], resolution: 200,</span>
+<span class="s1">        axes: [ { variable: 'z', min: 0.0, max: 4.0, points: 400 } ],</span>
+<span class="s1">        kernel: 'Kernel::Gaussian(</span><span class="si">{z}</span><span class="s1">, 0, 0.1)'</span>
+<span class="s1">      }</span>
+<span class="s1">'''</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.figure.item.DetectorLevelPDFItem.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.DetectorLevelPDFItem.draw" title="Link to this definition"></a></dt>
+<dd><p>Draw the detector-level PDF on the provided axes.</p>
+<p>Evaluates the normalized detector-level PDF on a grid of <code class="docutils literal notranslate"><span class="pre">resolution</span></code> points spanning <code class="docutils literal notranslate"><span class="pre">range</span></code>
+of the chosen sampling <code class="docutils literal notranslate"><span class="pre">variable</span></code> and plots the resulting curve.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ax</strong> (<a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="(in Matplotlib v3.11.2)"><em>matplotlib.axes.Axes</em></a>) – The matplotlib axes onto which the PDF is drawn.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.figure.item.DetectorLevelPDFItem.legend">
+<span class="sig-name descname"><span class="pre">legend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.DetectorLevelPDFItem.legend" title="Link to this definition"></a></dt>
+<dd><p>Return the item’s legend entry in form of its handle(s) and label(s).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.figure.item.DetectorLevelPDFItem.prepare">
+<span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#eos.analysis_file_context.AnalysisFileContext" title="eos.analysis_file_context.AnalysisFileContext"><span class="pre">AnalysisFileContext</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.DetectorLevelPDFItem.prepare" title="Link to this definition"></a></dt>
+<dd><p>Prepare the detector-level PDF for plotting.</p>
+<p>Builds the parameters (optionally overridden from file) and options, instantiates the
+detector-level PDF together with its own observable cache, and caches its normalization for <a class="reference internal" href="#eos.figure.item.DetectorLevelPDFItem.draw" title="eos.figure.item.DetectorLevelPDFItem.draw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">draw()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>context</strong> (<a class="reference internal" href="#eos.analysis_file_context.AnalysisFileContext" title="eos.analysis_file_context.AnalysisFileContext"><em>AnalysisFileContext</em></a><em> | </em><em>None</em>) – The analysis file context used to resolve the relative paths to <code class="docutils literal notranslate"><span class="pre">data</span></code> and
+<code class="docutils literal notranslate"><span class="pre">parameters_from_file</span></code>. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, a default context rooted at the current working
+directory is used.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="eos.figure.item.ComplexPlaneItem">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.figure.item.</span></span><span class="sig-name descname"><span class="pre">ComplexPlaneItem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linestyle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'solid'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linewidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_kinematics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#eos.QualifiedName" title="_eos.QualifiedName"><span class="pre">QualifiedName</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_parameters_from_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#eos.QualifiedName" title="_eos.QualifiedName"><span class="pre">QualifiedName</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ranges</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">((-1.0,</span> <span class="pre">1.0),</span> <span class="pre">(-1.0,</span> <span class="pre">1.0))</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.figure.item.ComplexPlaneItem" title="Link to this definition"></a></dt>
 <dd><p>Plots a single observable as a function on the complex plan</p>
@@ -6562,10 +7040,12 @@ parameters is therefore uniform on the image of that box, with the log density
 <p>A named likelihood, and the constraints it comprises, are described by:</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="eos.analysis_file_description.LikelihoodComponent">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.analysis_file_description.</span></span><span class="sig-name descname"><span class="pre">LikelihoodComponent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">constraints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">manual_constraints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pyhf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#eos.analysis_file_description.PyHFConstraintDescription" title="eos.analysis_file_description.PyHFConstraintDescription"><span class="pre">PyHFConstraintDescription</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.analysis_file_description.LikelihoodComponent" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.analysis_file_description.</span></span><span class="sig-name descname"><span class="pre">LikelihoodComponent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">constraints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">manual_constraints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pyhf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#eos.analysis_file_description.PyHFConstraintDescription" title="eos.analysis_file_description.PyHFConstraintDescription"><span class="pre">PyHFConstraintDescription</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-09</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">windows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.analysis_file_description.LikelihoodComponent" title="Link to this definition"></a></dt>
 <dd><p>Describes a single named likelihood, i.e. one entry of an analysis file’s <code class="docutils literal notranslate"><span class="pre">likelihoods</span></code> list.</p>
-<p>A named likelihood may combine any number of built-in constraints, inline (manual) constraints, and
-pyhf-based contributions; at least one of the three must be present.</p>
+<p>A named likelihood is either a combination of any number of built-in constraints, inline (manual)
+constraints, and pyhf-based contributions (at least one of the three must be present), or, with
+<code class="docutils literal notranslate"><span class="pre">type:</span> <span class="pre">'unbinned'</span></code>, a single unbinned likelihood built from a <a class="reference internal" href="#eos.data.UnbinnedLikelihood" title="eos.data.UnbinnedLikelihood"><code class="xref py py-class docutils literal notranslate"><span class="pre">eos.data.UnbinnedLikelihood</span></code></a>
+data object; the two forms are mutually exclusive.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -6573,6 +7053,23 @@ pyhf-based contributions; at least one of the three must be present.</p>
 <li><p><strong>constraints</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference internal" href="#eos.analysis_file_description.ConstraintLikelihoodDescription" title="eos.analysis_file_description.ConstraintLikelihoodDescription"><em>ConstraintLikelihoodDescription</em></a><em>]</em>) – The built-in EOS constraints contributing to the likelihood. Optional.</p></li>
 <li><p><strong>manual_constraints</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference internal" href="#eos.analysis_file_description.ManualConstraintDescription" title="eos.analysis_file_description.ManualConstraintDescription"><em>ManualConstraintDescription</em></a><em>]</em>) – The inline constraint definitions contributing to the likelihood. Optional.</p></li>
 <li><p><strong>pyhf</strong> (<a class="reference internal" href="#eos.analysis_file_description.PyHFConstraintDescription" title="eos.analysis_file_description.PyHFConstraintDescription"><em>PyHFConstraintDescription</em></a><em> | </em><em>None</em>) – The pyhf-based contribution to the likelihood, or None if there is none. Optional.</p></li>
+<li><p><strong>type</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em> | </em><em>None</em>) – The discriminator selecting the kind of likelihood component. Only <code class="docutils literal notranslate"><span class="pre">'unbinned'</span></code> is
+currently enforced; when absent, the kind is inferred from which of <code class="docutils literal notranslate"><span class="pre">constraints</span></code>,
+<code class="docutils literal notranslate"><span class="pre">manual_constraints</span></code>, or <code class="docutils literal notranslate"><span class="pre">pyhf</span></code> is present. Optional.</p></li>
+<li><p><strong>pdf</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – For <code class="docutils literal notranslate"><span class="pre">type:</span> <span class="pre">'unbinned'</span></code>, the qualified name of the truth-level SignalPDF fitted to the
+data. Mandatory for that type, rejected otherwise.</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – For <code class="docutils literal notranslate"><span class="pre">type:</span> <span class="pre">'unbinned'</span></code>, the path to the <a class="reference internal" href="#eos.data.UnbinnedLikelihood" title="eos.data.UnbinnedLikelihood"><code class="xref py py-class docutils literal notranslate"><span class="pre">eos.data.UnbinnedLikelihood</span></code></a>
+directory holding the observed events and the resolution, relative to the analysis’s base
+directory. Mandatory for that type, rejected otherwise.</p></li>
+<li><p><strong>options</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – For <code class="docutils literal notranslate"><span class="pre">type:</span> <span class="pre">'unbinned'</span></code>, the options forwarded to the signal PDF. Optional; rejected otherwise.</p></li>
+<li><p><strong>axes</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference internal" href="#eos.analysis_file_description.UnbinnedAxisComponent" title="eos.analysis_file_description.UnbinnedAxisComponent"><em>UnbinnedAxisComponent</em></a><em>]</em>) – For <code class="docutils literal notranslate"><span class="pre">type:</span> <span class="pre">'unbinned'</span></code>, the per-axis crop of the data object’s native grid.
+Optional; an axis (or the whole list) omitted uses the native range for that axis. Rejected otherwise.</p></li>
+<li><p><strong>tolerance</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – For <code class="docutils literal notranslate"><span class="pre">type:</span> <span class="pre">'unbinned'</span></code> with a sampled resolution, the tolerance used when
+checking the resolution’s declared offset grid against the grid the fit requires. Rejected otherwise.</p></li>
+<li><p><strong>windows</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference internal" href="#eos.analysis_file_description.UnbinnedAxisComponent" title="eos.analysis_file_description.UnbinnedAxisComponent"><em>UnbinnedAxisComponent</em></a><em>]</em><em>]</em>) – For <code class="docutils literal notranslate"><span class="pre">type:</span> <span class="pre">'unbinned'</span></code>, non-overlapping boxes within the cropped axes, each given as a list
+of per-axis intervals; an axis omitted from a box uses its full cropped range. If given, only the events
+within the union of the boxes enter the likelihood, and the detector-level PDF is normalized over that
+union. Optional; rejected otherwise.</p></li>
 </ul>
 </dd>
 </dl>
@@ -6628,6 +7125,23 @@ respective description types.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – The path to the JSON file specifying the pyhf workspace.</p></li>
 <li><p><strong>parameter_map</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – An optional mapping from pyhf parameter names to EOS observables or parameters; see <a class="reference internal" href="#eos.PyhfLogLikelihood" title="eos.PyhfLogLikelihood"><code class="xref py py-class docutils literal notranslate"><span class="pre">eos.PyhfLogLikelihood</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.analysis_file_description.UnbinnedAxisComponent">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.analysis_file_description.</span></span><span class="sig-name descname"><span class="pre">UnbinnedAxisComponent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.analysis_file_description.UnbinnedAxisComponent" title="Link to this definition"></a></dt>
+<dd><p>Describes the crop applied to one axis of an unbinned likelihood’s native grid.</p>
+<p>This gives the window only, never the spacing: the point count is derived from the data object’s
+native spacing, so the analysis file and the data object cannot disagree.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>variable</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – The kinematic variable cropped by this entry.</p></li>
+<li><p><strong>min</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – The lower bound of the crop window.</p></li>
+<li><p><strong>max</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – The upper bound of the crop window.</p></li>
 </ul>
 </dd>
 </dl>
@@ -6689,6 +7203,35 @@ parameters and setting global options for all of its theory predictions.</p>
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<p>A custom signal PDF is described by:</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="eos.analysis_file_description.SignalPDFComponent">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">eos.analysis_file_description.</span></span><span class="sig-name descname"><span class="pre">SignalPDFComponent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">numerator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">variables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalization</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalization_variables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#eos.analysis_file_description.SignalPDFComponent" title="Link to this definition"></a></dt>
+<dd><p>Describes a custom truth-level signal PDF, i.e. one entry of an analysis file’s <code class="docutils literal notranslate"><span class="pre">signal_pdfs</span></code> list.</p>
+<p>The PDF is the ratio of two observables, either of which may be a custom observable declared in the
+<code class="docutils literal notranslate"><span class="pre">observables</span></code> section; see <a class="reference internal" href="#eos.SignalPDFs.insert" title="eos.SignalPDFs.insert"><code class="xref py py-meth docutils literal notranslate"><span class="pre">eos.SignalPDFs.insert()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – The qualified name under which the new signal PDF is registered.</p></li>
+<li><p><strong>numerator</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – The qualified name of the observable that provides the unnormalized density.</p></li>
+<li><p><strong>variables</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>]</em>) – The kinematic variables of the numerator, which are the PDF’s sampling variables.</p></li>
+<li><p><strong>normalization</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – The qualified name of the observable that provides the normalization.</p></li>
+<li><p><strong>normalization_variables</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>]</em>) – The kinematic variables of the normalization. Optional; defaults to the
+bounds <code class="docutils literal notranslate"><span class="pre">v_min</span></code> and <code class="docutils literal notranslate"><span class="pre">v_max</span></code> of each sampling variable <code class="docutils literal notranslate"><span class="pre">v</span></code>.</p></li>
+<li><p><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – A human-readable description of the signal PDF. Optional.</p></li>
+<li><p><strong>options</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – The options applied to both observables. Optional.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="eos.analysis_file_description.SignalPDFComponent.bounds">
+<span class="sig-name descname"><span class="pre">bounds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#eos.analysis_file_description.SignalPDFComponent.bounds" title="Link to this definition"></a></dt>
+<dd><p>Return the kinematic variables of the normalization, including the default.</p>
+</dd></dl>
+
 </dd></dl>
 
 <p>A prediction, and the observables it comprises, are described by:</p>
