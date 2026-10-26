@@ -86,10 +86,12 @@ Three types of kinematics specification are supported
   * the ``=`` operator followed by an expression substitutes a kinematic variable by a function of other kinematic variables.
     For example, the expression ``<<B->pi::f_+(q2)>>[q2={m}^2]`` expects only one kinematic variable ``m``,
     and evaluates the form factor at ``q2`` equal to the square of ``m``.
-    The expression on the right-hand side may only contain kinematic variables, constants, and functions;
+    The expression on the right-hand side of ``=`` may only contain kinematic variables, constants, and functions;
     parameters and observables are rejected.
-    It refers to the kinematic variables of the enclosing expression, so that ``<<B->pi::f_+(q2)>>[q2=2 * {q2}]``
-    evaluates the form factor at twice the value of ``q2``.
+    The kinematic variables in this expression are those of the newly defined observable, not those of the referenced observable.
+    For example, in ``<<B->pi::f_+(q2)>>[q2=2 * {q2}]``, the ``q2`` on the left-hand side of ``=`` is the kinematic variable of the form factor,
+    while the ``{q2}`` on the right-hand side is the kinematic variable of the newly defined observable.
+    This expression therefore evaluates the form factor at twice the value of the new observable's ``q2``.
 
 Note that all types of specifications can be combined in comma-separated list in an arbitrary order, for example ``[q2_min=1.0,q2_max=>q2_max_mu]``.
 A kinematic specification applies even if the kinematic variables of the newly defined observable include a variable of the same name.

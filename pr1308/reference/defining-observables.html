@@ -202,10 +202,12 @@ fixed to the value <code class="docutils literal notranslate"><span class="pre">
 <li><p>the <code class="docutils literal notranslate"><span class="pre">=</span></code> operator followed by an expression substitutes a kinematic variable by a function of other kinematic variables.
 For example, the expression <code class="docutils literal notranslate"><span class="pre">&lt;&lt;B-&gt;pi::f_+(q2)&gt;&gt;[q2={m}^2]</span></code> expects only one kinematic variable <code class="docutils literal notranslate"><span class="pre">m</span></code>,
 and evaluates the form factor at <code class="docutils literal notranslate"><span class="pre">q2</span></code> equal to the square of <code class="docutils literal notranslate"><span class="pre">m</span></code>.
-The expression on the right-hand side may only contain kinematic variables, constants, and functions;
+The expression on the right-hand side of <code class="docutils literal notranslate"><span class="pre">=</span></code> may only contain kinematic variables, constants, and functions;
 parameters and observables are rejected.
-It refers to the kinematic variables of the enclosing expression, so that <code class="docutils literal notranslate"><span class="pre">&lt;&lt;B-&gt;pi::f_+(q2)&gt;&gt;[q2=2</span> <span class="pre">*</span> <span class="pre">{q2}]</span></code>
-evaluates the form factor at twice the value of <code class="docutils literal notranslate"><span class="pre">q2</span></code>.</p></li>
+The kinematic variables in this expression are those of the newly defined observable, not those of the referenced observable.
+For example, in <code class="docutils literal notranslate"><span class="pre">&lt;&lt;B-&gt;pi::f_+(q2)&gt;&gt;[q2=2</span> <span class="pre">*</span> <span class="pre">{q2}]</span></code>, the <code class="docutils literal notranslate"><span class="pre">q2</span></code> on the left-hand side of <code class="docutils literal notranslate"><span class="pre">=</span></code> is the kinematic variable of the form factor,
+while the <code class="docutils literal notranslate"><span class="pre">{q2}</span></code> on the right-hand side is the kinematic variable of the newly defined observable.
+This expression therefore evaluates the form factor at twice the value of the new observable’s <code class="docutils literal notranslate"><span class="pre">q2</span></code>.</p></li>
 </ul>
 </div></blockquote>
 <p>Note that all types of specifications can be combined in comma-separated list in an arbitrary order, for example <code class="docutils literal notranslate"><span class="pre">[q2_min=1.0,q2_max=&gt;q2_max_mu]</span></code>.
