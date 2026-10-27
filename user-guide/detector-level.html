@@ -1,0 +1,603 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detector-Level PDFs &mdash; EOS 1.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/contentui.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=ae43863c" />
+
+  
+    <link rel="canonical" href="https://eos.github.io/doc/user-guide/detector-level.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=56dcb7b8"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/contentui.js"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+      <script src="../_static/js/version-banner.js?v=cfe90da2"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Analysis Organisation" href="analysis-organisation.html" />
+    <link rel="prev" title="Simulation of Pseudo Events" href="simulation.html" />
+  <script>
+    window.EOS_DOC = {
+        release: "",
+        root:    "../"
+    };
+  </script>
+
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+  
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            EOS
+              <img src="../_static/github-eos-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+  <div id="eos-version-selector" class="eos-version-selector" hidden></div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="basics.html">Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="predictions.html">Theory Predictions and their Uncertainties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inference.html">Parameter Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation.html">Simulation of Pseudo Events</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Detector-Level PDFs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#1.-Truth-level-2D-PDF">1. Truth-level 2D PDF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#2.-A-Gaussian-detector-resolution">2. A Gaussian detector resolution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#3.-Validating-the-convolution">3. Validating the convolution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#4.-An-unbinned-fit">4. An unbinned fit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#5.-Closure">5. Closure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#6.-Plotting-from-the-analysis-file">6. Plotting from the analysis file</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="analysis-organisation.html">Analysis Organisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tasks.html">Common Tasks in Phenomenological Analyses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reproducible-analyses.html">Setting up a fully reproducible analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../physics/index.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Reference Manual</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">EOS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">User Guide</a></li>
+      <li class="breadcrumb-item active">Detector-Level PDFs</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+  
+           <div itemprop="articleBody">
+             
+  <section id="Detector-Level-PDFs">
+<h1>Detector-Level PDFs<a class="headerlink" href="#Detector-Level-PDFs" title="Link to this heading"></a></h1>
+<p>EOS can convolve a truth-level probability density function (PDF) with a detector resolution function to obtain a <em>detector-level</em> PDF, using <a class="reference internal" href="../reference/python.html#eos.DetectorLevelPDF"><span class="std std-ref">eos.DetectorLevelPDF</span></a>. The convolution is carried out numerically, via a multi-dimensional discrete Fourier transform, and its result is itself a <a class="reference internal" href="../reference/python.html#eos.SignalPDF"><span class="std std-ref">SignalPDF</span></a>: it can be evaluated, sampled, and plotted like any other PDF.</p>
+<p>This notebook illustrates the full pipeline for the decay <span class="math notranslate nohighlight">\(\bar{B}^0\to D^+\mu^-\bar\nu\)</span>:</p>
+<ol class="arabic simple">
+<li><p>we build the truth-level 2D PDF in <span class="math notranslate nohighlight">\(q^2\)</span> and <span class="math notranslate nohighlight">\(\cos\theta_\ell\)</span>, sample it, and check that the <span class="math notranslate nohighlight">\(q^2\)</span> marginal of the samples agrees with the built-in 1D PDF;</p></li>
+<li><p>we build a Gaussian detector resolution in <span class="math notranslate nohighlight">\(q^2\)</span> (with no smearing in <span class="math notranslate nohighlight">\(\cos\theta_\ell\)</span>) from EOS expressions, and combine it with the truth-level PDF into a detector-level PDF;</p></li>
+<li><p>we validate the convolution by comparing a histogram of the step-1 samples, smeared by hand, against the 1D <span class="math notranslate nohighlight">\(q^2\)</span> marginal of the detector-level PDF;</p></li>
+<li><p>we write a set of “observed” (smeared) events to an <a class="reference internal" href="../reference/python.html#eos.data.UnbinnedLikelihood"><span class="std std-ref">eos.data.UnbinnedLikelihood</span></a> data object, and fit the two leading <span class="math notranslate nohighlight">\(\bar{B}\to D\)</span> form factor shape parameters to them, driving the fit through an <a class="reference internal" href="../reference/python.html#eos.AnalysisFile"><span class="std std-ref">eos.AnalysisFile</span></a> as in the other user-guide notebooks;</p></li>
+<li><p>we validate the fit by comparing the recovered parameters against the values used to generate the samples in step 1.</p></li>
+<li><p>we declare a figure of the detector-level PDF in the analysis file, and draw it with the <code class="docutils literal notranslate"><span class="pre">draw-figure</span></code> task.</p></li>
+</ol>
+<p>The convolution that a detector-level PDF performs is <em>circular</em>: every axis of its grid must be padded with a region in which both the truth PDF and the resolution are negligible, or probability will wrap around from one edge of the grid to the other. We use this padding throughout the notebook, and return to it explicitly in step 2.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">eos</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="c1"># all data files written by this notebook live beneath this base directory</span>
+<span class="n">EOS_BASE_DIRECTORY</span> <span class="o">=</span> <span class="s1">'./detector-level-base'</span>
+<br/></pre></div>
+</div>
+</div>
+<section id="1.-Truth-level-2D-PDF">
+<h2>1. Truth-level 2D PDF<a class="headerlink" href="#1.-Truth-level-2D-PDF" title="Link to this heading"></a></h2>
+<p>We use the decay <span class="math notranslate nohighlight">\(\bar{B}^0\to D^+\mu^-\bar\nu\)</span>, described by the two kinematic variables <span class="math notranslate nohighlight">\(q^2\)</span> and <span class="math notranslate nohighlight">\(\cos\theta_\ell\)</span>. We work in the Weak Effective Theory (<code class="docutils literal notranslate"><span class="pre">model:</span> <span class="pre">WET</span></code>), with every Wilson coefficient set to zero except for <span class="math notranslate nohighlight">\(c_{VL}\)</span>, which is kept at its Standard-Model value. The muon keeps its physical mass. A massless lepton would make the density drop discontinuously to zero at <span class="math notranslate nohighlight">\(q^2 = 0\)</span>, a step that the sampling grid cannot represent; at finite <span class="math notranslate nohighlight">\(m_\mu\)</span>
+the density instead vanishes smoothly at the threshold <span class="math notranslate nohighlight">\(q^2 = m_\mu^2\)</span>. In exchange, the scalar form factor <span class="math notranslate nohighlight">\(f_0\)</span> now contributes, and its parameters are held fixed in the fit in section 4.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Parameters</span><span class="p">()</span>
+
+<span class="c1"># WET, with only the Standard-Model value of c_VL switched on</span>
+<span class="n">params</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'cbmunumu::Re</span><span class="si">{cVL}</span><span class="s1">'</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">params</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'cbmunumu::Im</span><span class="si">{cVL}</span><span class="s1">'</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">params</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'cbmunumu::Re</span><span class="si">{cVR}</span><span class="s1">'</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">params</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'cbmunumu::Im</span><span class="si">{cVR}</span><span class="s1">'</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">params</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'cbmunumu::Re</span><span class="si">{cSL}</span><span class="s1">'</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">params</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'cbmunumu::Im</span><span class="si">{cSL}</span><span class="s1">'</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">params</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'cbmunumu::Re</span><span class="si">{cSR}</span><span class="s1">'</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">params</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'cbmunumu::Im</span><span class="si">{cSR}</span><span class="s1">'</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">params</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'cbmunumu::Re</span><span class="si">{cT}</span><span class="s1">'</span><span class="p">,</span>  <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">params</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'cbmunumu::Im</span><span class="si">{cT}</span><span class="s1">'</span><span class="p">,</span>  <span class="mf">0.0</span><span class="p">)</span>
+
+<span class="c1"># 'SSE' is the default parametrization of B-&gt;Dlnu; it is named explicitly, since the fit below</span>
+<span class="c1"># varies the @SSE parameters</span>
+<span class="n">OPTIONS</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Options</span><span class="p">(</span><span class="o">**</span><span class="p">{</span> <span class="s1">'l'</span><span class="p">:</span> <span class="s1">'mu'</span><span class="p">,</span> <span class="s1">'q'</span><span class="p">:</span> <span class="s1">'d'</span><span class="p">,</span> <span class="s1">'model'</span><span class="p">:</span> <span class="s1">'WET'</span><span class="p">,</span> <span class="s1">'form-factors'</span><span class="p">:</span> <span class="s1">'SSE'</span> <span class="p">})</span>
+
+<span class="c1"># the true values of the form factor shape parameters, used below to generate samples and, in the</span>
+<span class="c1"># end, to judge the closure of the fit</span>
+<span class="n">ALPHA1_TRUE</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">'B-&gt;D::alpha^f+_1@SSE'</span><span class="p">])</span>
+<span class="n">ALPHA2_TRUE</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">'B-&gt;D::alpha^f+_2@SSE'</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'alpha^f+_1@SSE = </span><span class="si">{</span><span class="n">ALPHA1_TRUE</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'alpha^f+_2@SSE = </span><span class="si">{</span><span class="n">ALPHA2_TRUE</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+alpha^f+_1@SSE = -2.9843
+alpha^f+_2@SSE = 3.8517
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># the physical support of q2 is [m_mu^2, (m_B - m_D)^2]; cos(theta_l) is unconstrained on [-1, +1]</span>
+<span class="n">Q2_PHYS_MIN</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">'mass::mu'</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">Q2_PHYS_MAX</span> <span class="o">=</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">'mass::B_d'</span><span class="p">])</span> <span class="o">-</span> <span class="nb">float</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">'mass::D_d'</span><span class="p">]))</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="c1"># setting the initial kinematics for the truth PDF, which is used to generate samples</span>
+<span class="c1"># both q2 and cos(theta_l) will be modified by the MCMC sampler; however, the initial</span>
+<span class="c1"># values must be within the physical support of the PDF</span>
+<span class="n">truth_kinematics</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">({</span>
+    <span class="s1">'q2'</span><span class="p">:</span>           <span class="mf">2.0</span><span class="p">,</span> <span class="s1">'q2_min'</span><span class="p">:</span>           <span class="n">Q2_PHYS_MIN</span><span class="p">,</span> <span class="s1">'q2_max'</span><span class="p">:</span>           <span class="n">Q2_PHYS_MAX</span><span class="p">,</span>
+    <span class="s1">'cos(theta_l)'</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s1">'cos(theta_l)_min'</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span>         <span class="s1">'cos(theta_l)_max'</span><span class="p">:</span>  <span class="mf">1.0</span><span class="p">,</span>
+<span class="p">})</span>
+<span class="n">truth_pdf</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">SignalPDF</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">'B-&gt;Dlnu::P(q2,cos(theta_l))'</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">truth_kinematics</span><span class="p">,</span> <span class="n">OPTIONS</span><span class="p">)</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">mtrand</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">23480</span><span class="p">)</span>
+<span class="c1"># a stride of 10 keeps the samples nearly uncorrelated, since they serve as independent events in section 4</span>
+<span class="n">truth_samples</span><span class="p">,</span> <span class="n">truth_density</span> <span class="o">=</span> <span class="n">truth_pdf</span><span class="o">.</span><span class="n">sample_mcmc</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pre_N</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">preruns</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "38473f813aab46f28ff61526fc0f1052"}</script></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Prerun 0 out of 3
+Prerun 0: acceptance rate is  81%
+Prerun 1 out of 3
+Prerun 1: acceptance rate is  23%
+Prerun 2 out of 3
+Prerun 2: acceptance rate is  28%
+Main run: started ...
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "a16f8b6737434a38a4acb0f13a223198"}</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Main run: acceptance rate is  27%
+</pre></div></div>
+</div>
+<p>We compare the <span class="math notranslate nohighlight">\(q^2\)</span> marginal of the 2D samples against the built-in 1D PDF <a class="reference internal" href="../reference/signal-pdfs.html"><span class="doc">B-&gt;Dlnu::P(q2)</span></a>, using the EOS figure framework. The samples are first stored as an <a class="reference internal" href="../reference/python.html#eos.data.ImportanceSamples"><span class="std std-ref">eos.data.ImportanceSamples</span></a> object with uniform weights, so that a <code class="docutils literal notranslate"><span class="pre">histogram1D</span></code> item can display them; a <code class="docutils literal notranslate"><span class="pre">signal-pdf</span></code> item plots the 1D PDF.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># the 1D PDF, also the reference for the convolution in section 3</span>
+<span class="n">q2_kinematics</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">Kinematics</span><span class="p">({</span><span class="s1">'q2'</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s1">'q2_min'</span><span class="p">:</span> <span class="n">Q2_PHYS_MIN</span><span class="p">,</span> <span class="s1">'q2_max'</span><span class="p">:</span> <span class="n">Q2_PHYS_MAX</span><span class="p">})</span>
+<span class="n">q2_pdf</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">SignalPDF</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">'B-&gt;Dlnu::P(q2)'</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">q2_kinematics</span><span class="p">,</span> <span class="n">OPTIONS</span><span class="p">)</span>
+<span class="n">q2_log_norm</span> <span class="o">=</span> <span class="n">q2_pdf</span><span class="o">.</span><span class="n">normalization</span><span class="p">()</span>
+
+<span class="c1"># MCMC samples carry equal weights</span>
+<span class="n">eos</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">ImportanceSamples</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">EOS_BASE_DIRECTORY</span><span class="p">,</span> <span class="s1">'truth'</span><span class="p">,</span> <span class="s1">'samples'</span><span class="p">),</span>
+                                  <span class="p">[</span><span class="n">truth_kinematics</span><span class="p">[</span><span class="s1">'q2'</span><span class="p">],</span> <span class="n">truth_kinematics</span><span class="p">[</span><span class="s1">'cos(theta_l)'</span><span class="p">]],</span>
+                                  <span class="n">truth_samples</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">truth_samples</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+<span class="n">figure_args</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'''</span>
+<span class="s1">plot:</span>
+<span class="s1">  xaxis: </span><span class="se">{{</span><span class="s1"> label: '$q^2$', unit: '$</span><span class="se">\\</span><span class="s1">textnormal</span><span class="se">{{</span><span class="s1">GeV</span><span class="se">}}</span><span class="s1">^2$', range: [</span><span class="si">{</span><span class="n">Q2_PHYS_MIN</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">Q2_PHYS_MAX</span><span class="si">}</span><span class="s1">] </span><span class="se">}}</span>
+<span class="s1">  yaxis: </span><span class="se">{{</span><span class="s1"> label: 'density' </span><span class="se">}}</span>
+<span class="s1">  legend: </span><span class="se">{{</span><span class="s1"> position: 'center right' </span><span class="se">}}</span>
+<span class="s1">  items:</span>
+<span class="s1">    - </span><span class="se">{{</span><span class="s1"> type: 'histogram1D', label: '2D MCMC samples, $q^2$ marginal', color: 'C0',</span>
+<span class="s1">        variable: 'q2', bins: 60, range: [</span><span class="si">{</span><span class="n">Q2_PHYS_MIN</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">Q2_PHYS_MAX</span><span class="si">}</span><span class="s1">],</span>
+<span class="s1">        datafile: '</span><span class="si">{</span><span class="n">EOS_BASE_DIRECTORY</span><span class="si">}</span><span class="s1">/truth/samples'</span>
+<span class="s1">      </span><span class="se">}}</span>
+<span class="s1">    - </span><span class="se">{{</span><span class="s1"> type: 'signal-pdf', label: '$B</span><span class="se">\\</span><span class="s1">to D</span><span class="se">\\</span><span class="s1">ell</span><span class="se">\\</span><span class="s1">nu$::P($q^2$)', color: 'C1',</span>
+<span class="s1">        pdf: 'B-&gt;Dlnu::P(q2)', options: </span><span class="se">{{</span><span class="s1"> l: 'mu', q: 'd', model: 'WET', form-factors: 'SSE' </span><span class="se">}}</span><span class="s1">,</span>
+<span class="s1">        variable: 'q2', range: [</span><span class="si">{</span><span class="n">Q2_PHYS_MIN</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">Q2_PHYS_MAX</span><span class="si">}</span><span class="s1">], resolution: 200,</span>
+<span class="s1">        kinematics: </span><span class="se">{{</span><span class="s1"> q2_min: </span><span class="si">{</span><span class="n">Q2_PHYS_MIN</span><span class="si">}</span><span class="s1">, q2_max: </span><span class="si">{</span><span class="n">Q2_PHYS_MAX</span><span class="si">}</span><span class="s1"> </span><span class="se">}}</span>
+<span class="s1">      </span><span class="se">}}</span>
+<span class="s1">'''</span>
+<span class="n">figure</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">FigureFactory</span><span class="o">.</span><span class="n">from_yaml</span><span class="p">(</span><span class="n">figure_args</span><span class="p">)</span>
+<span class="n">figure</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/user-guide_detector-level_6_0.png" src="../_images/user-guide_detector-level_6_0.png" />
+</div>
+</div>
+</section>
+<section id="2.-A-Gaussian-detector-resolution">
+<h2>2. A Gaussian detector resolution<a class="headerlink" href="#2.-A-Gaussian-detector-resolution" title="Link to this heading"></a></h2>
+<p>We build a resolution over the <em>offsets</em> of <span class="math notranslate nohighlight">\(q^2\)</span> and <span class="math notranslate nohighlight">\(\cos\theta_\ell\)</span> as an EOS expression: a Gaussian of width <span class="math notranslate nohighlight">\(\sigma_{q^2} = 0.3\,\mathrm{GeV}^2\)</span> in the <span class="math notranslate nohighlight">\(q^2\)</span> offset, and an effectively vanishing width in the <span class="math notranslate nohighlight">\(\cos\theta_\ell\)</span> offset, which realises “no smearing” as a numerical Kronecker delta once sampled on the grid below. Both factors use the unit-area kernel <code class="docutils literal notranslate"><span class="pre">Kernel::Gaussian(u,</span> <span class="pre">mu,</span> <span class="pre">sigma)</span></code>. The expression is handed directly to
+<a class="reference internal" href="../reference/python.html#eos.DetectorLevelPDF.make_from_expression"><span class="std std-ref">eos.DetectorLevelPDF.make_from_expression</span></a>, which samples it on the grid of offsets.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SIGMA_Q2</span> <span class="o">=</span> <span class="mf">0.3</span>    <span class="c1"># GeV^2</span>
+<span class="n">EPS_COS</span>  <span class="o">=</span> <span class="mf">1.0e-3</span> <span class="c1"># cos(theta_l): a width far below the grid spacing acts as a numerical delta</span>
+
+<span class="n">kernel_expr</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="sa">f</span><span class="s1">'Kernel::Gaussian(</span><span class="se">{{</span><span class="s1">q2</span><span class="se">}}</span><span class="s1">, 0, </span><span class="si">{</span><span class="n">SIGMA_Q2</span><span class="si">}</span><span class="s1">) * '</span>
+    <span class="sa">f</span><span class="s1">'Kernel::Gaussian(</span><span class="se">{{</span><span class="s1">cos(theta_l)</span><span class="se">}}</span><span class="s1">, 0, </span><span class="si">{</span><span class="n">EPS_COS</span><span class="si">}</span><span class="s1">)'</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>The convolution is circular, so the grid must extend well beyond the physical <span class="math notranslate nohighlight">\(q^2\)</span> range on both sides. Here we choose to pad by about <span class="math notranslate nohighlight">\(6\,\sigma_{q^2} \approx 1.8\,\mathrm{GeV}^2\)</span> so that both the truth PDF and the resolution are negligible at the wrap-around boundary. A reader adapting this example to a different resolution width or a different decay should re-check this padding first: it is the most common source of a silently wrong result. No such padding is needed for
+<span class="math notranslate nohighlight">\(\cos\theta_\ell\)</span>, since it is not smeared and already spans its full physical range. The number of points per axis must be even, per the requirements of the real discrete Fourier transform used internally.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">AXES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span> <span class="s1">'variable'</span><span class="p">:</span> <span class="s1">'q2'</span><span class="p">,</span>           <span class="s1">'min'</span><span class="p">:</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="s1">'max'</span><span class="p">:</span> <span class="mf">13.6</span><span class="p">,</span> <span class="s1">'points'</span><span class="p">:</span> <span class="mi">128</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="s1">'variable'</span><span class="p">:</span> <span class="s1">'cos(theta_l)'</span><span class="p">,</span> <span class="s1">'min'</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">'max'</span><span class="p">:</span>  <span class="mf">1.0</span><span class="p">,</span> <span class="s1">'points'</span><span class="p">:</span> <span class="mi">16</span>  <span class="p">},</span>
+<span class="p">]</span>
+
+<span class="c1"># a dedicated cache: this DetectorLevelPDF is only used standalone in this notebook, not as part of</span>
+<span class="c1"># an eos.LogLikelihood</span>
+<span class="n">cache</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">ObservableCache</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+<span class="n">detector_pdf</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">DetectorLevelPDF</span><span class="o">.</span><span class="n">make_from_expression</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span> <span class="s1">'B-&gt;Dlnu::P(q2,cos(theta_l))'</span><span class="p">,</span> <span class="n">OPTIONS</span><span class="p">,</span> <span class="n">AXES</span><span class="p">,</span> <span class="n">kernel_expr</span><span class="p">)</span>
+
+<span class="c1"># DetectorLevelPDF never updates the cache it was given; the owner of the cache does</span>
+<span class="n">cache</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+</section>
+<section id="3.-Validating-the-convolution">
+<h2>3. Validating the convolution<a class="headerlink" href="#3.-Validating-the-convolution" title="Link to this heading"></a></h2>
+<p>We smear the step-1 <span class="math notranslate nohighlight">\(q^2\)</span> samples by hand with the same Gaussian, and compare them against the <span class="math notranslate nohighlight">\(q^2\)</span> marginal of <code class="docutils literal notranslate"><span class="pre">detector_pdf</span></code>. Since the resolution factorises into a <span class="math notranslate nohighlight">\(q^2\)</span> Gaussian and a <span class="math notranslate nohighlight">\(\cos\theta_\ell\)</span> delta, this marginal equals the 1D convolution of the truth PDF’s <span class="math notranslate nohighlight">\(q^2\)</span> marginal with the same Gaussian – exactly what the hand-smeared samples estimate. We first check the marginal numerically, by integrating <code class="docutils literal notranslate"><span class="pre">detector_pdf</span></code> over <span class="math notranslate nohighlight">\(\cos\theta_\ell\)</span> and
+comparing against a quadrature of the 1D convolution.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">detector_marginal_q2</span><span class="p">(</span><span class="n">pdf</span><span class="p">,</span> <span class="n">q2_values</span><span class="p">,</span> <span class="n">n_cos</span><span class="o">=</span><span class="mi">41</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Marginalize a 2D detector-level PDF over cos(theta_l) by numerical integration.</span>
+
+<span class="sd">    log_pdf() is evaluate(), i.e. the unnormalized log density, so the PDF's own log-normalization</span>
+<span class="sd">    is subtracted to obtain a proper density -- exactly as for any other SignalPDF.</span>
+<span class="sd">    """</span>
+    <span class="n">log_norm</span>   <span class="o">=</span> <span class="n">pdf</span><span class="o">.</span><span class="n">normalization</span><span class="p">()</span>
+    <span class="n">cos_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">n_cos</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">q2_values</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">q2v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">q2_values</span><span class="p">):</span>
+        <span class="n">density</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">pdf</span><span class="o">.</span><span class="n">log_pdf</span><span class="p">([</span><span class="n">q2v</span><span class="p">,</span> <span class="n">cv</span><span class="p">])</span> <span class="o">-</span> <span class="n">log_norm</span><span class="p">)</span> <span class="k">for</span> <span class="n">cv</span> <span class="ow">in</span> <span class="n">cos_values</span><span class="p">])</span>
+        <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">trapezoid</span><span class="p">(</span><span class="n">density</span><span class="p">,</span> <span class="n">cos_values</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+
+<span class="n">rng_smear</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">mtrand</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">90210</span><span class="p">)</span>
+<span class="n">q2_smeared</span> <span class="o">=</span> <span class="n">truth_samples</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">rng_smear</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">SIGMA_Q2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">truth_samples</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">hist_edges</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">AXES</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'min'</span><span class="p">],</span> <span class="n">AXES</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'max'</span><span class="p">],</span> <span class="mi">61</span><span class="p">)</span>
+<span class="n">hist_centers</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">hist_edges</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">hist_edges</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+<span class="n">detector_curve</span> <span class="o">=</span> <span class="n">detector_marginal_q2</span><span class="p">(</span><span class="n">detector_pdf</span><span class="p">,</span> <span class="n">hist_centers</span><span class="p">)</span>
+
+<span class="c1"># the 1D convolution of the truth PDF's q2 marginal with the same Gaussian, by quadrature</span>
+<span class="n">q2_fine</span>    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">Q2_PHYS_MIN</span><span class="p">,</span> <span class="n">Q2_PHYS_MAX</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+<span class="n">p1d_fine</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">q2_pdf</span><span class="o">.</span><span class="n">log_pdf</span><span class="p">([</span><span class="n">v</span><span class="p">])</span> <span class="o">-</span> <span class="n">q2_log_norm</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">q2_fine</span><span class="p">])</span>
+<span class="n">reference</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">trapezoid</span><span class="p">(</span><span class="n">p1d_fine</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">((</span><span class="n">c</span> <span class="o">-</span> <span class="n">q2_fine</span><span class="p">)</span> <span class="o">/</span> <span class="n">SIGMA_Q2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="n">SIGMA_Q2</span><span class="p">),</span> <span class="n">q2_fine</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">hist_centers</span>
+<span class="p">])</span>
+
+<span class="n">deviation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">detector_curve</span> <span class="o">-</span> <span class="n">reference</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">/</span> <span class="n">reference</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'max deviation from the quadrature reference: </span><span class="si">{</span><span class="n">deviation</span><span class="si">:</span><span class="s1">.2e</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'sample mean  q2: </span><span class="si">{</span><span class="n">q2_smeared</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">   PDF: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">trapezoid</span><span class="p">(</span><span class="n">hist_centers</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">reference</span><span class="p">,</span><span class="w"> </span><span class="n">hist_centers</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">trapezoid</span><span class="p">(</span><span class="n">reference</span><span class="p">,</span><span class="w"> </span><span class="n">hist_centers</span><span class="p">)</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+max deviation from the quadrature reference: 4.91e-03
+sample mean  q2: 3.7732   PDF: 3.7877
+</pre></div></div>
+</div>
+<p>We now plot the hand-smeared samples against a detector-level PDF using the EOS figure framework. Plot items of type <code class="docutils literal notranslate"><span class="pre">detector-level-pdf</span></code> build an <code class="docutils literal notranslate"><span class="pre">eos.DetectorLevelPDF</span></code> from a truth-level PDF, a grid, and a resolution expression, and plot it as a function of one of its variables, at fixed values of the others. Here we use the 1D truth PDF <code class="docutils literal notranslate"><span class="pre">B-&gt;Dlnu::P(q2)</span></code> on the <span class="math notranslate nohighlight">\(q^2\)</span> axis of the grid above, which yields the <span class="math notranslate nohighlight">\(q^2\)</span> marginal directly. As in section 1, a <code class="docutils literal notranslate"><span class="pre">histogram1D</span></code> item
+displays the samples.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">ImportanceSamples</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">EOS_BASE_DIRECTORY</span><span class="p">,</span> <span class="s1">'smeared'</span><span class="p">,</span> <span class="s1">'samples'</span><span class="p">),</span> <span class="p">[</span><span class="n">truth_kinematics</span><span class="p">[</span><span class="s1">'q2'</span><span class="p">]],</span>
+                                  <span class="n">q2_smeared</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">q2_smeared</span><span class="p">))</span>
+
+<span class="n">Q2_AXIS</span> <span class="o">=</span> <span class="n">AXES</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">figure_args</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'''</span>
+<span class="s1">plot:</span>
+<span class="s1">  xaxis: </span><span class="se">{{</span><span class="s1"> label: '$q^2$', unit: '$</span><span class="se">\\</span><span class="s1">textnormal</span><span class="se">{{</span><span class="s1">GeV</span><span class="se">}}</span><span class="s1">^2$', range: [</span><span class="si">{</span><span class="n">Q2_AXIS</span><span class="p">[</span><span class="s1">'min'</span><span class="p">]</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">Q2_AXIS</span><span class="p">[</span><span class="s1">'max'</span><span class="p">]</span><span class="si">}</span><span class="s1">] </span><span class="se">}}</span>
+<span class="s1">  yaxis: </span><span class="se">{{</span><span class="s1"> label: 'density' </span><span class="se">}}</span>
+<span class="s1">  legend: </span><span class="se">{{</span><span class="s1"> position: 'center right' </span><span class="se">}}</span>
+<span class="s1">  items:</span>
+<span class="s1">    - </span><span class="se">{{</span><span class="s1"> type: 'histogram1D', label: 'step-1 samples, smeared by hand', color: 'C0',</span>
+<span class="s1">        variable: 'q2', bins: 60, range: [</span><span class="si">{</span><span class="n">Q2_AXIS</span><span class="p">[</span><span class="s1">'min'</span><span class="p">]</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">Q2_AXIS</span><span class="p">[</span><span class="s1">'max'</span><span class="p">]</span><span class="si">}</span><span class="s1">],</span>
+<span class="s1">        datafile: '</span><span class="si">{</span><span class="n">EOS_BASE_DIRECTORY</span><span class="si">}</span><span class="s1">/smeared/samples'</span>
+<span class="s1">      </span><span class="se">}}</span>
+<span class="s1">    - </span><span class="se">{{</span><span class="s1"> type: 'detector-level-pdf', label: 'eos.DetectorLevelPDF, $q^2$ marginal', color: 'C1',</span>
+<span class="s1">        pdf: 'B-&gt;Dlnu::P(q2)', options: </span><span class="se">{{</span><span class="s1"> l: 'mu', q: 'd', model: 'WET', form-factors: 'SSE' </span><span class="se">}}</span><span class="s1">,</span>
+<span class="s1">        variable: 'q2', range: [</span><span class="si">{</span><span class="n">Q2_AXIS</span><span class="p">[</span><span class="s1">'min'</span><span class="p">]</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">Q2_AXIS</span><span class="p">[</span><span class="s1">'max'</span><span class="p">]</span><span class="si">}</span><span class="s1">], resolution: 200,</span>
+<span class="s1">        axes: [ </span><span class="se">{{</span><span class="s1"> variable: 'q2', min: </span><span class="si">{</span><span class="n">Q2_AXIS</span><span class="p">[</span><span class="s1">'min'</span><span class="p">]</span><span class="si">}</span><span class="s1">, max: </span><span class="si">{</span><span class="n">Q2_AXIS</span><span class="p">[</span><span class="s1">'max'</span><span class="p">]</span><span class="si">}</span><span class="s1">, points: </span><span class="si">{</span><span class="n">Q2_AXIS</span><span class="p">[</span><span class="s1">'points'</span><span class="p">]</span><span class="si">}</span><span class="s1"> </span><span class="se">}}</span><span class="s1"> ],</span>
+<span class="s1">        kernel: 'Kernel::Gaussian(</span><span class="se">{{</span><span class="s1">q2</span><span class="se">}}</span><span class="s1">, 0, </span><span class="si">{</span><span class="n">SIGMA_Q2</span><span class="si">}</span><span class="s1">)'</span>
+<span class="s1">      </span><span class="se">}}</span>
+<span class="s1">'''</span>
+<span class="n">figure</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">FigureFactory</span><span class="o">.</span><span class="n">from_yaml</span><span class="p">(</span><span class="n">figure_args</span><span class="p">)</span>
+<span class="n">figure</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/user-guide_detector-level_14_0.png" src="../_images/user-guide_detector-level_14_0.png" />
+</div>
+</div>
+</section>
+<section id="4.-An-unbinned-fit">
+<h2>4. An unbinned fit<a class="headerlink" href="#4.-An-unbinned-fit" title="Link to this heading"></a></h2>
+<p>We now generate a set of “observed” events by smearing all of the step-1 truth-level samples, write them to an <a class="reference internal" href="../reference/python.html#eos.data.UnbinnedLikelihood"><span class="std std-ref">eos.data.UnbinnedLikelihood</span></a> data object together with the (unnormalized) resolution kernel expression, and fit the form factor shape parameters <span class="math notranslate nohighlight">\(\alpha^{f_+}_1\)</span> and <span class="math notranslate nohighlight">\(\alpha^{f_+}_2\)</span> in the “SSE” parametrization to them; we keep <span class="math notranslate nohighlight">\(\alpha^{f_+}_0\)</span>, <span class="math notranslate nohighlight">\(V_{cb}\)</span>, and every other parameter fixed. The fit is driven
+through <a class="reference internal" href="../reference/python.html#eos.AnalysisFile"><span class="std std-ref">eos.AnalysisFile</span></a>, reading <code class="docutils literal notranslate"><span class="pre">detector-level.yaml</span></code>, which declares the <code class="docutils literal notranslate"><span class="pre">unbinned-B-to-D</span></code> likelihood component as <code class="docutils literal notranslate"><span class="pre">type:</span> <span class="pre">unbinned</span></code>. We sample the posterior with dynamic nested sampling, using <a class="reference internal" href="../reference/python.html#eos.sample_nested"><span class="std std-ref">eos.tasks.sample_nested</span></a>, and stop once the effective sample size reaches 2000.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># the standalone PDF is no longer needed; free its grid before the fit builds its own</span>
+<span class="k">del</span> <span class="n">detector_pdf</span><span class="p">,</span> <span class="n">cache</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">eos.data.unbinned_likelihood</span><span class="w"> </span><span class="kn">import</span> <span class="n">UnbinnedExpressionResolutionDescription</span>
+
+<span class="n">N_FIT</span> <span class="o">=</span> <span class="n">truth_samples</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">rng_fit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">mtrand</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">271828</span><span class="p">)</span>
+
+<span class="n">q2_obs</span>  <span class="o">=</span> <span class="n">truth_samples</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">rng_fit</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">SIGMA_Q2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">N_FIT</span><span class="p">)</span>
+<span class="n">cos_obs</span> <span class="o">=</span> <span class="n">truth_samples</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">observations</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">q2_obs</span><span class="p">,</span> <span class="n">cos_obs</span><span class="p">])</span>
+
+<span class="c1"># the analysis file's relative 'data' path is resolved against the base directory passed to the</span>
+<span class="c1"># tasks, so the data object must be written beneath it</span>
+<span class="n">eos</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">UnbinnedLikelihood</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">EOS_BASE_DIRECTORY</span><span class="p">,</span> <span class="s1">'detector-level-data'</span><span class="p">,</span> <span class="s1">'observed-events'</span><span class="p">),</span>
+    <span class="n">axes</span><span class="o">=</span><span class="n">AXES</span><span class="p">,</span>
+    <span class="n">resolution</span><span class="o">=</span><span class="n">UnbinnedExpressionResolutionDescription</span><span class="p">(</span><span class="n">expression</span><span class="o">=</span><span class="n">kernel_expr</span><span class="p">),</span>
+    <span class="n">observations</span><span class="o">=</span><span class="n">observations</span><span class="p">,</span>
+<span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">tasks</span><span class="o">.</span><span class="n">sample_nested</span><span class="p">(</span><span class="s1">'detector-level.yaml'</span><span class="p">,</span> <span class="s1">'FF-fit'</span><span class="p">,</span> <span class="n">base_directory</span><span class="o">=</span><span class="n">EOS_BASE_DIRECTORY</span><span class="p">,</span>
+                        <span class="n">nlive</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">dlogz</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">min_ess</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "2f6f675219cf43d4b7ca686c2ece9d0b"}</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/user-guide_detector-level_17_1.png" src="../_images/user-guide_detector-level_17_1.png" />
+</div>
+</div>
+</section>
+<section id="5.-Closure">
+<h2>5. Closure<a class="headerlink" href="#5.-Closure" title="Link to this heading"></a></h2>
+<p>We compare the weighted posterior mean and standard deviation of <span class="math notranslate nohighlight">\(\alpha^{f_+}_1\)</span> and <span class="math notranslate nohighlight">\(\alpha^{f_+}_2\)</span> against the values used to generate the samples in step 1, and report the pulls <span class="math notranslate nohighlight">\((\text{fit} - \text{true}) / \sigma_\text{fit}\)</span>.</p>
+<p>The two parameters are not equally well determined. The unbinned likelihood constrains <span class="math notranslate nohighlight">\(\alpha^{f_+}_1\)</span> well, and its pull is a genuine closure test. <span class="math notranslate nohighlight">\(\alpha^{f_+}_2\)</span>, by contrast, is only weakly constrained: a <span class="math notranslate nohighlight">\(q^2\)</span> spectrum smeared with <span class="math notranslate nohighlight">\(\sigma_{q^2} = 0.3\,\textnormal{GeV}^2\)</span> carries little information about the sub-leading shape coefficient. Its posterior is broad and strongly anti-correlated with <span class="math notranslate nohighlight">\(\alpha^{f_+}_1\)</span>. The prior for <span class="math notranslate nohighlight">\(\alpha^{f_+}_2\)</span> is
+therefore chosen wide: a narrow prior would cut off part of this correlated posterior, and shift <span class="math notranslate nohighlight">\(\alpha^{f_+}_1\)</span> along with it.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">samples</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">ImportanceSamples</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">EOS_BASE_DIRECTORY</span><span class="p">,</span> <span class="s1">'data'</span><span class="p">,</span> <span class="s1">'FF-fit'</span><span class="p">,</span> <span class="s1">'samples'</span><span class="p">))</span>
+
+<span class="n">alpha1_fit</span><span class="p">,</span> <span class="n">alpha2_fit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">samples</span><span class="o">.</span><span class="n">samples</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">samples</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span>
+<span class="n">alpha1_std</span><span class="p">,</span> <span class="n">alpha2_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">((</span><span class="n">samples</span><span class="o">.</span><span class="n">samples</span> <span class="o">-</span> <span class="p">[</span><span class="n">alpha1_fit</span><span class="p">,</span> <span class="n">alpha2_fit</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">samples</span><span class="o">.</span><span class="n">weights</span><span class="p">))</span>
+
+<span class="n">pull1</span> <span class="o">=</span> <span class="p">(</span><span class="n">alpha1_fit</span> <span class="o">-</span> <span class="n">ALPHA1_TRUE</span><span class="p">)</span> <span class="o">/</span> <span class="n">alpha1_std</span>
+<span class="n">pull2</span> <span class="o">=</span> <span class="p">(</span><span class="n">alpha2_fit</span> <span class="o">-</span> <span class="n">ALPHA2_TRUE</span><span class="p">)</span> <span class="o">/</span> <span class="n">alpha2_std</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'alpha^f+_1@SSE: true = </span><span class="si">{</span><span class="n">ALPHA1_TRUE</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, fit = </span><span class="si">{</span><span class="n">alpha1_fit</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"> +/- </span><span class="si">{</span><span class="n">alpha1_std</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, pull = </span><span class="si">{</span><span class="n">pull1</span><span class="si">:</span><span class="s1">+.2f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'alpha^f+_2@SSE: true = </span><span class="si">{</span><span class="n">ALPHA2_TRUE</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, fit = </span><span class="si">{</span><span class="n">alpha2_fit</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"> +/- </span><span class="si">{</span><span class="n">alpha2_std</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, pull = </span><span class="si">{</span><span class="n">pull2</span><span class="si">:</span><span class="s1">+.2f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+alpha^f+_1@SSE: true = -2.9843, fit = -3.0702 +/- 0.1229, pull = -0.70
+alpha^f+_2@SSE: true = 3.8517, fit = 14.1005 +/- 5.0460, pull = +2.03
+</pre></div></div>
+</div>
+<p>We illustrate the posterior with an <a class="reference internal" href="../reference/python.html#eos.figure.CornerFigure"><span class="std std-ref">eos.figure.CornerFigure</span></a>, which shows the 1D marginal posteriors on its diagonal and the 2D marginal posterior below it. Kernel density estimates (<code class="docutils literal notranslate"><span class="pre">kde:</span> <span class="pre">true</span></code>) smooth over the finite number of weighted samples.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">figure_args</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'''</span>
+<span class="s1">type: 'corner'</span>
+<span class="s1">contents:</span>
+<span class="s1">  - </span><span class="se">{{</span><span class="s1"> path: '</span><span class="si">{</span><span class="n">EOS_BASE_DIRECTORY</span><span class="si">}</span><span class="s1">/data/FF-fit/samples', label: 'posterior', color: 'C0', kde: true </span><span class="se">}}</span>
+<span class="s1">'''</span>
+<span class="n">figure</span> <span class="o">=</span> <span class="n">eos</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">FigureFactory</span><span class="o">.</span><span class="n">from_yaml</span><span class="p">(</span><span class="n">figure_args</span><span class="p">)</span>
+<span class="n">figure</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+Computing KDE for samples of variable &#39;B-&gt;D::alpha^f+_1@SSE&#39;
+Computing KDE for samples of variables &#39;B-&gt;D::alpha^f+_1@SSE&#39; and &#39;B-&gt;D::alpha^f+_2@SSE&#39;
+Computing KDE for samples of variable &#39;B-&gt;D::alpha^f+_2@SSE&#39;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/user-guide_detector-level_21_1.png" src="../_images/user-guide_detector-level_21_1.png" />
+</div>
+</div>
+</section>
+<section id="6.-Plotting-from-the-analysis-file">
+<h2>6. Plotting from the analysis file<a class="headerlink" href="#6.-Plotting-from-the-analysis-file" title="Link to this heading"></a></h2>
+<p>Figures can also be declared in the analysis file, and drawn with the <code class="docutils literal notranslate"><span class="pre">draw-figure</span></code> task. <code class="docutils literal notranslate"><span class="pre">detector-level.yaml</span></code> declares the figure <code class="docutils literal notranslate"><span class="pre">B-to-D-detector-level</span></code>. It shows the truth-level PDF and the detector-level PDF at fixed <span class="math notranslate nohighlight">\(\cos\theta_\ell = 0\)</span> as functions of <span class="math notranslate nohighlight">\(q^2\)</span>, at the parameter point used to generate the events. Instead of an explicit grid and resolution, the <code class="docutils literal notranslate"><span class="pre">detector-level-pdf</span></code> item refers to the data object of the fit through its <code class="docutils literal notranslate"><span class="pre">data</span></code> key, and reuses its grid and
+resolution.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eos</span><span class="o">.</span><span class="n">tasks</span><span class="o">.</span><span class="n">draw_figure</span><span class="p">(</span><span class="s1">'detector-level.yaml'</span><span class="p">,</span> <span class="s1">'B-to-D-detector-level'</span><span class="p">,</span> <span class="n">base_directory</span><span class="o">=</span><span class="n">EOS_BASE_DIRECTORY</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "8195554eb91747a3b4507852f8a9141d"}</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/user-guide_detector-level_23_1.png" src="../_images/user-guide_detector-level_23_1.png" />
+</div>
+</div>
+<script type="application/vnd.jupyter.widget-state+json">
+{"state": {"ec01ec00dd2549d3a1a0a75de688ff8c": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "1092c893c6e644a7b8e381198ef859de": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "7d4cb0e68c034e038af1d4d49a7aa8c8": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "ProgressView", "bar_style": "", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_ec01ec00dd2549d3a1a0a75de688ff8c", "max": 3.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_1092c893c6e644a7b8e381198ef859de", "tabbable": null, "tooltip": null, "value": 3.0}}, "856d9f682a19448886efb6c041ef11c6": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "c917196ece264d65bdc1c027f9e41356": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "e45fa5cbf9bf45469b196a347bb7305b": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_856d9f682a19448886efb6c041ef11c6", "placeholder": "\u200b", "style": "IPY_MODEL_c917196ece264d65bdc1c027f9e41356", "tabbable": null, "tooltip": null, "value": "Pre-runs:\u2007\u2007\u20070%"}}, "23b0f446dd78422abf14bcb6a6390b2c": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "6145abfce28f400080de03055bbf53f6": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "4d83047d054047658cb599495d6fb344": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_23b0f446dd78422abf14bcb6a6390b2c", "placeholder": "\u200b", "style": "IPY_MODEL_6145abfce28f400080de03055bbf53f6", "tabbable": null, "tooltip": null, "value": "\u20070/3\u2007[00:00&lt;?,\u2007?it/s]"}}, "51dcaf951cb84fc8be03dfac30251761": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": "hidden", "width": null}}, "38473f813aab46f28ff61526fc0f1052": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_e45fa5cbf9bf45469b196a347bb7305b", "IPY_MODEL_7d4cb0e68c034e038af1d4d49a7aa8c8", "IPY_MODEL_4d83047d054047658cb599495d6fb344"], "layout": "IPY_MODEL_51dcaf951cb84fc8be03dfac30251761", "tabbable": null, "tooltip": null}}, "2a3582bf123c40aaae1d8dcb0cd51deb": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "621fb5004f3b43419bf99eb1c0654496": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "557e3288f13a4955a02fffa346923255": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "ProgressView", "bar_style": "", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_2a3582bf123c40aaae1d8dcb0cd51deb", "max": 100.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_621fb5004f3b43419bf99eb1c0654496", "tabbable": null, "tooltip": null, "value": 100.0}}, "f285552239e14005915220aa0e3fe1f5": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "53b62ce921144124828ae5c1585a3846": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "dfce9757166443ef92a3cd18bd95ccbd": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_f285552239e14005915220aa0e3fe1f5", "placeholder": "\u200b", "style": "IPY_MODEL_53b62ce921144124828ae5c1585a3846", "tabbable": null, "tooltip": null, "value": "Main\u2007run:\u2007100%"}}, "7581abe2912f460793d64997f30568d6": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "c4217590519941188f3ddf756d274768": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "ae11299e1ec344439f3ce8eb087f525d": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_7581abe2912f460793d64997f30568d6", "placeholder": "\u200b", "style": "IPY_MODEL_c4217590519941188f3ddf756d274768", "tabbable": null, "tooltip": null, "value": "\u2007100/100\u2007[00:09&lt;00:00,\u200710.44it/s]"}}, "dfdedeb78c4743deba93dcc62da8cd87": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": "hidden", "width": null}}, "a16f8b6737434a38a4acb0f13a223198": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_dfce9757166443ef92a3cd18bd95ccbd", "IPY_MODEL_557e3288f13a4955a02fffa346923255", "IPY_MODEL_ae11299e1ec344439f3ce8eb087f525d"], "layout": "IPY_MODEL_dfdedeb78c4743deba93dcc62da8cd87", "tabbable": null, "tooltip": null}}, "68e09bacac954393a9fcb2373e46c250": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "200px", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": "auto", "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "5f3acec424fa4698903e01a8430ca2e8": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_68e09bacac954393a9fcb2373e46c250", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stderr", "text": "Beginning sampling...\nLikelihood component 'unbinned-B-to-D' contains 100000 events\nCreating analysis with 2 priors, 0 EOS-wide constraints, 0 global options, 0 manually-entered constraints and 3 fixed parameters.\nlikelihood probably depends on 415 parameter(s) that do not appear in the prior; check prior?\niteration 886 | batch: 1 | bound: 0 | nc: 3 | ncall: 2644 | eff(%): 33.510 | loglstar: -285449.796 < -285449.820 | logz: -285451.842 +/-  0.186 | stop:  3.645\niteration 2607 | batch: 2 | bound: 0 | nc: 52 | ncall: 9347 | eff(%): 25.179 | loglstar: -285451.664 < -285450.388 < -285450.278 | logz: -285451.847 +/-  0.067 | stop:  1.742\n...finished!\nFinished sampling with 3184 samples (effective sample size 2212) and evidence estimate -285451.83 +/- 0.05\n"}], "tabbable": null, "tooltip": null}}, "ae65b316522f4b99babd0480f3f36c38": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "2f6f675219cf43d4b7ca686c2ece9d0b": {"model_name": "AccordionModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "AccordionModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "AccordionView", "box_style": "", "children": ["IPY_MODEL_5f3acec424fa4698903e01a8430ca2e8"], "layout": "IPY_MODEL_ae65b316522f4b99babd0480f3f36c38", "selected_index": null, "tabbable": null, "titles": ["data/FF-fit/nested"], "tooltip": null}}, "15f6b3eb2a2d4362b669ac58b84182b7": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": "200px", "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": "auto", "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "4d514120bad047c9b54bb8827c0cfaec": {"model_name": "OutputModel", "model_module": "@jupyter-widgets/output", "model_module_version": "1.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/output", "_model_module_version": "1.0.0", "_model_name": "OutputModel", "_view_count": null, "_view_module": "@jupyter-widgets/output", "_view_module_version": "1.0.0", "_view_name": "OutputView", "layout": "IPY_MODEL_15f6b3eb2a2d4362b669ac58b84182b7", "msg_id": "", "outputs": [{"output_type": "stream", "name": "stderr", "text": "Drawing figure B-to-D-detector-level\nSaving figure B-to-D-detector-level in 'pdf' format\n... drawing finished\n"}], "tabbable": null, "tooltip": null}}, "44796dd9f81146c08b18eae780da643e": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "8195554eb91747a3b4507852f8a9141d": {"model_name": "AccordionModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "AccordionModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "AccordionView", "box_style": "", "children": ["IPY_MODEL_4d514120bad047c9b54bb8827c0cfaec"], "layout": "IPY_MODEL_44796dd9f81146c08b18eae780da643e", "selected_index": null, "tabbable": null, "titles": ["figures"], "tooltip": null}}}, "version_major": 2, "version_minor": 0}
+</script></section>
+</section>
+
+
+           </div>
+          </div>
+
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="simulation.html" class="btn btn-neutral float-left" title="Simulation of Pseudo Events" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="analysis-organisation.html" class="btn btn-neutral float-right" title="Analysis Organisation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2026, The EOS Authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
